@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class WebServiceTest {
 
 
     @Test
-    public void userAuthTest() {
+    public void userAuthTest()throws IOException {
 
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("username", "eltntawy"));
@@ -43,7 +44,7 @@ public class WebServiceTest {
 
         Response response;
 
-        try {
+
 
             String responseStr = restUtil.get("Auth", params);
 
@@ -63,8 +64,6 @@ public class WebServiceTest {
             UserDto userDto = (UserDto) response.getEntity();
 
 
-        } catch (Exception e) {
-            logger.log(Level.SEVERE,"exception occured",e);
-        }
+
     }
 }
