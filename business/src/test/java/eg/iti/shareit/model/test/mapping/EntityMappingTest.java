@@ -27,8 +27,6 @@ public class EntityMappingTest {
     private MappingUtil mappingUtil;
 
 
-
-
     @Before
     public void init() throws NamingException {
         DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
@@ -49,7 +47,6 @@ public class EntityMappingTest {
 
         String name = "Hamada";
 
-
         userEntity.setName(name);
 
         UserDto UserDto = mapper.map(userEntity, UserDto.class);
@@ -57,7 +54,7 @@ public class EntityMappingTest {
         Assert.assertNotNull(UserDto);
 
         Assert.assertNotNull(UserDto.getName());
-        Assert.assertEquals(userEntity.getName(),UserDto.getName());
+        Assert.assertEquals(userEntity.getName(), UserDto.getName());
 
     }
 
@@ -74,7 +71,7 @@ public class EntityMappingTest {
 
         Assert.assertNotNull(userEntity);
 
-        Assert.assertEquals(userEntity.getName(),UserDto.getName());
+        Assert.assertEquals(userEntity.getName(), UserDto.getName());
 
     }
 
