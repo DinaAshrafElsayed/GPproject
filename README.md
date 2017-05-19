@@ -13,7 +13,7 @@ Description:
 
 ## Milestone (Share_Item)
 
-##### #0.1- Hamada: can register as new user by:
+##### 0.1- Hamada: can register as new user by:
 - name
 - email
 - password
@@ -71,11 +71,20 @@ Description:
 - id (pk, integer)
 - username(nn,varchar(20) 
 - email(unq, varchar(100)
-- Address  (vch(200))
+- Address  (another table)
 - password(byte)
   - gender (in other table or an enum in user class can mapped values from 0/1 to “male/female”)
   - image-url(varchar(200)
   - points(integer).
+
+
+##### 5.T_Address
+- id (integer)
+- user (user)
+- country (other lookup table)
+- city (other lookup table)
+- State (other lookup table)
+
 
 ##### 2.T_Item
 - id
