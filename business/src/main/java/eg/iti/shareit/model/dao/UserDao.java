@@ -11,8 +11,6 @@ import java.util.Set;
  */
 public interface UserDao extends GenericDao<UserEntity> {
 
-    public UserEntity authenticateByUsername(String email, String password) throws  DatabaseRollbackException;
-    public UserEntity authenticateByEmail(String email, String password) throws  DatabaseRollbackException;
     public UserEntity getUserByEmail(String email) throws DatabaseRollbackException;
 
 }

@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface GenericDao<T extends GenericEntity> {
 
-    T get(Integer id);
+    T get(Object id);
     List<T> getAll();
     void save(T object);
+    void update(T object);
     void delete(T object);
-    void merge(T object);
+
 }

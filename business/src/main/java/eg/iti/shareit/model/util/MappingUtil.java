@@ -24,7 +24,6 @@ public class MappingUtil {
 
         beanMapper.setMappingFiles(configFileList);
 
-        beanMapper.setCustomFieldMapper(new FieldMapper());
 
         mapper = (Mapper) beanMapper;
     }

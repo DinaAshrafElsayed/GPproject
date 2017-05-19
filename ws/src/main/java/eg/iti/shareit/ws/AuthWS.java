@@ -9,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.util.logging.Level;
@@ -26,23 +27,25 @@ public class AuthWS {
     private static final Logger logger =  Logger.getLogger(AuthWS.class.getName());
 
     @GET
-    @Produces("application/json")
-    public Response getUser(@QueryParam("username") String username, @QueryParam("password") String password) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUser(@QueryParam("email") String email) {
 
 
         UserDto userDto = null;
         Response response ;
         try {
-            userDto = userService.authenticateByUsername(username, password);
+            userDto = userService.getUserByEmail(email);
 
             response =  Response.ok().entity(userDto).build();
 
-            logger.info("user returned successfully");
+            logger.info("user returned successfully : "+userDto);
 
         } catch (ServiceException e) {
-
+            logger.log(Level.SEVERE,"service exception occurred",e);
+            response = Response.status(Status.INTERNAL_SERVER_ERROR).entity("Service exception occurred please try again later").build();
+        }catch (Exception e) {
             logger.log(Level.SEVERE,"unexpected error",e);
-           response = Response.status(Status.EXPECTATION_FAILED).entity("Unexpected error has been occurred please try again later").build();
+            response = Response.status(Status.INTERNAL_SERVER_ERROR).entity("Unexpected error has been occurred please try again later").build();
         }
 
         return response;

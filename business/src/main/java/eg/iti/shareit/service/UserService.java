@@ -9,6 +9,8 @@ import eg.iti.shareit.model.util.MappingUtil;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Mohamed_2 on 11/14/2015.
@@ -16,44 +18,13 @@ import javax.ejb.Stateless;
 @Stateless
 public class UserService {
 
+    private static final Logger logger =  Logger.getLogger(UserService.class.getName());
+
     @EJB
     private UserDao userDao;
 
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
-
-
-
-    public UserDto authenticateByEmail(String email, String password) throws ServiceException {
-
-        UserEntity userEntity = null;
-        try {
-            userEntity = userDao.authenticateByEmail(email, password);
-
-            UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
-
-            return userDto;
-
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            throw new ServiceException(e.getMessage());
-        }
-    }
-
-    public UserDto authenticateByUsername(String username, String password) throws ServiceException {
-
-        UserEntity userEntity = null;
-        try {
-            userEntity = userDao.authenticateByUsername(username, password);
-
-            UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
-
-            return userDto;
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            throw new ServiceException(e.getMessage());
-        }
-    }
 
     public UserDto getUserByEmail(String email) throws ServiceException {
         try {
@@ -62,7 +33,9 @@ public class UserService {
 
             return userDto;
         }catch (DatabaseException e) {
-            e.printStackTrace();
+
+            logger.log(Level.SEVERE,e.getMessage(),e);
+
             throw new ServiceException(e.getMessage());
         }
     }
