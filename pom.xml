@@ -17,6 +17,7 @@
         <module>business</module>
         <module>ws</module>
         <module>ear</module>
+        <module>angular</module>
     </modules>
 
 
