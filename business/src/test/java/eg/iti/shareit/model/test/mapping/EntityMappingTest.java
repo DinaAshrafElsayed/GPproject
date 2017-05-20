@@ -1,20 +1,21 @@
 package eg.iti.shareit.model.test.mapping;
 
 
+import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
+import eg.iti.shareit.service.UserService;
 import org.junit.Assert;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.naming.NamingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Created by Mohamed_2 on 11/13/2015.
@@ -42,19 +43,31 @@ public class EntityMappingTest {
 
     @Test
     public void UserEntityShouldMappedToUserDto() {
+        try {
+            UserService userService = new UserService();
+            UserDto userDto = userService.getUserByEmail("yousef");
 
+           
+
+        } catch (ServiceException e) {
+          
+           
+        }catch (Exception e) {
+            
+            
+        }
         UserEntity userEntity = new UserEntity();
 
         String name = "Hamada";
 
-        userEntity.setName(name);
+        userEntity.setUsername(name);
 
         UserDto UserDto = mapper.map(userEntity, UserDto.class);
 
         Assert.assertNotNull(UserDto);
 
-        Assert.assertNotNull(UserDto.getName());
-        Assert.assertEquals(userEntity.getName(), UserDto.getName());
+        Assert.assertNotNull(UserDto.getUsername());
+        Assert.assertEquals(userEntity.getUsername(), UserDto.getUsername());
 
     }
 
@@ -65,13 +78,13 @@ public class EntityMappingTest {
 
         String name = "Hamada";
 
-        UserDto.setName(name);
+        UserDto.setUsername(name);
 
         UserEntity userEntity = mapper.map(UserDto, UserEntity.class);
 
         Assert.assertNotNull(userEntity);
 
-        Assert.assertEquals(userEntity.getName(), UserDto.getName());
+        Assert.assertEquals(userEntity.getUsername(), UserDto.getUsername());
 
     }
 
