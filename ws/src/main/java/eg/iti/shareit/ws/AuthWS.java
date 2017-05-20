@@ -28,26 +28,26 @@ public class AuthWS {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@QueryParam("email") String email) {
+    public String getUser(@QueryParam("email") String email) {
 
 
-        UserDto userDto = null;
-        Response response ;
-        try {
-            userDto = userService.getUserByEmail(email);
+//        UserDto userDto = null;
+//        Response response ;
+//        try {
+//            userDto = userService.getUserByEmail(email);
+//
+//            response =  Response.ok().entity(userDto).build();
+//
+//            logger.info("user returned successfully : "+userDto);
+//
+//        } catch (ServiceException e) {
+//            logger.log(Level.SEVERE,"service exception occurred",e);
+//            response = Response.status(Status.INTERNAL_SERVER_ERROR).entity("Service exception occurred please try again later").build();
+//        }catch (Exception e) {
+//            logger.log(Level.SEVERE,"unexpected error",e);
+//            response = Response.status(Status.INTERNAL_SERVER_ERROR).entity("Unexpected error has been occurred please try again later").build();
+//        }
 
-            response =  Response.ok().entity(userDto).build();
-
-            logger.info("user returned successfully : "+userDto);
-
-        } catch (ServiceException e) {
-            logger.log(Level.SEVERE,"service exception occurred",e);
-            response = Response.status(Status.INTERNAL_SERVER_ERROR).entity("Service exception occurred please try again later").build();
-        }catch (Exception e) {
-            logger.log(Level.SEVERE,"unexpected error",e);
-            response = Response.status(Status.INTERNAL_SERVER_ERROR).entity("Unexpected error has been occurred please try again later").build();
-        }
-
-        return response;
+        return "fkldlsjfkl";
     }
 }

@@ -14,35 +14,33 @@ import java.util.List;
 public class UserDto implements java.io.Serializable, GenericDto {
 
     private int id;
-    private String name;
     private String email;
     private String username;
     private String password;
-    private String mobile;
-    private String fbAccessToken;
-    private byte[] img;
+    private String imageUrl;
+    private int points;
+    private GenderDto gender;
 
 
     public UserDto() {
     }
 
-    public UserDto(int id, String name) {
+    public UserDto(int id, String username) {
         this.id = id;
-        this.name = name;
+        this.username = username;
     }
 
-    public UserDto(int id, String name, String email, String username,
-                   String password, String mobile, String fbAccessToken, byte[] img) {
+    public UserDto(int id, String email, String username, String password, String imageUrl, int points, GenderDto gender) {
         this.id = id;
-        this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.mobile = mobile;
-        this.fbAccessToken = fbAccessToken;
-        this.img = img;
-
+        this.imageUrl = imageUrl;
+        this.points = points;
+        this.gender = gender;
     }
+
+    
 
     public int getId() {
         return this.id;
@@ -52,13 +50,31 @@ public class UserDto implements java.io.Serializable, GenericDto {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public GenderDto getGender() {
+        return gender;
+    }
+
+    public void setGender(GenderDto gender) {
+        this.gender = gender;
+    }
+
+   
 
     public String getEmail() {
         return this.email;
@@ -84,30 +100,6 @@ public class UserDto implements java.io.Serializable, GenericDto {
         this.password = password;
     }
 
-    public String getMobile() {
-        return this.mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getFbAccessToken() {
-        return this.fbAccessToken;
-    }
-
-    public void setFbAccessToken(String fbAccessToken) {
-        this.fbAccessToken = fbAccessToken;
-    }
-
-    public byte[] getImg() {
-        return this.img;
-    }
-
-    public void setImg(byte[] img) {
-        this.img = img;
-    }
-
-
+   
 
 }

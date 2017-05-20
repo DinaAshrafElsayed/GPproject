@@ -8,15 +8,12 @@
 
         <jta-data-source>java:/jdbc/shareit/ds</jta-data-source>
 
-
-        <class>eg.iti.shareit.model.entity.UserEntity</class>
-
         <properties>
-            <!--<property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/shareit"/>-->
-            <!--<property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>-->
-            <!--<property name="eclipselink.jdbc.userEntity" value="root" />-->
-            <!--<property name="eclipselink.jdbc.password" value="root"/>-->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+            <property name="javax.persistence.jdbc.user" value="shareit"/>
+            <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+            <property name="javax.persistence.jdbc.password" value="shareit"/>
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
         </properties>
 
     </persistence-unit>
