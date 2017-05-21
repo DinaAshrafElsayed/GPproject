@@ -12,7 +12,7 @@ http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
 
     <mapping>
-        <class-a>eg.iti.shareit.model.entity.UserEntity</class-a>
+        <class-a>eg.iti.shareit.model.entity.TUserEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.UserDto</class-b>
     </mapping>
 </mappings>

@@ -7,13 +7,24 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
         <jta-data-source>java:/jdbc/shareit/ds</jta-data-source>
+        <class>eg.iti.shareit.model.entity.TActivityEntity</class>
+        <class>eg.iti.shareit.model.entity.TAddressEntity</class>
+        <class>eg.iti.shareit.model.entity.TCategoryEntity</class>
+        <class>eg.iti.shareit.model.entity.TCityEntity</class>
+        <class>eg.iti.shareit.model.entity.TCountryEntity</class>
+        <class>eg.iti.shareit.model.entity.TGenderEntity</class>
+        <class>eg.iti.shareit.model.entity.TItemEntity</class>
+        <class>eg.iti.shareit.model.entity.TStateEntity</class>
+        <class>eg.iti.shareit.model.entity.TUserEntity</class>
 
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
-            <property name="javax.persistence.jdbc.user" value="shareit"/>
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>-->
+            <!--<property name="javax.persistence.jdbc.user" value="shareit"/>-->
             <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
-            <property name="javax.persistence.jdbc.password" value="shareit"/>
-            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+            <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+            <property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
+            <!--<property name="javax.persistence.jdbc.password" value="shareit"/>-->
+            <!--<property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>-->
         </properties>
 
     </persistence-unit>
