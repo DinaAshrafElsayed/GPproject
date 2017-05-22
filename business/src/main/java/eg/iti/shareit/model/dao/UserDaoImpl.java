@@ -1,6 +1,5 @@
 package eg.iti.shareit.model.dao;
 
-
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.model.entity.TUserEntity;
 
@@ -14,7 +13,6 @@ import java.util.List;
  */
 @Stateless(mappedName = "UserDaoImpl")
 public class UserDaoImpl extends GenericDaoImpl<TUserEntity> implements UserDao {
-
 
     public UserDaoImpl() {
         super(TUserEntity.class);
@@ -36,6 +34,5 @@ public class UserDaoImpl extends GenericDaoImpl<TUserEntity> implements UserDao 
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
-
 
 }

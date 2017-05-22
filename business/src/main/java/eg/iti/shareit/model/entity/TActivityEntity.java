@@ -1,69 +1,116 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package eg.iti.shareit.model.entity;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
+import eg.iti.shareit.common.dao.GenericDao;
+import eg.iti.shareit.common.entity.GenericEntity;
+import eg.iti.shareit.model.dao.UserDao;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by adelz on 5/21/2017.
+ *
+ * @author Adel Zaid
  */
 @Entity
-@Table(name = "T_ACTIVITY", schema = "SHAREIT", catalog = "")
-public class TActivityEntity {
-    private long id;
-    private long item;
-    private long fromUser;
-    private long toUser;
-    private String meetingPoint;
-    private String status;
-    private Timestamp timeFrom;
-    private Timestamp timeTo;
-    private boolean activityDeleted;
-    private TItemEntity tItemByItem;
-    private TUserEntity tUserByFromUser;
-    private TUserEntity tUserByToUser;
+@Table(name = "T_ACTIVITY")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TActivityEntity.findAll", query = "SELECT t FROM TActivityEntity t"),
+    @NamedQuery(name = "TActivityEntity.findById", query = "SELECT t FROM TActivityEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "TActivityEntity.findByMeetingPoint", query = "SELECT t FROM TActivityEntity t WHERE t.meetingPoint = :meetingPoint"),
+    @NamedQuery(name = "TActivityEntity.findByStatus", query = "SELECT t FROM TActivityEntity t WHERE t.status = :status"),
+    @NamedQuery(name = "TActivityEntity.findByTimeFrom", query = "SELECT t FROM TActivityEntity t WHERE t.timeFrom = :timeFrom"),
+    @NamedQuery(name = "TActivityEntity.findByTimeTo", query = "SELECT t FROM TActivityEntity t WHERE t.timeTo = :timeTo"),
+    @NamedQuery(name = "TActivityEntity.findByActivityDeleted", query = "SELECT t FROM TActivityEntity t WHERE t.activityDeleted = :activityDeleted")})
+public class TActivityEntity implements Serializable,
+        GenericEntity {
 
+    private static final long serialVersionUID = 1L;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID")
-    public long getId() {
-        return id;
+    private BigDecimal id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "MEETING_POINT")
+    private String meetingPoint;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "STATUS")
+    private String status;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "TIME_FROM")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeFrom;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "TIME_TO")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeTo;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ACTIVITY_DELETED")
+    private short activityDeleted;
+    @JoinColumn(name = "ITEM", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TItemEntity item;
+    @JoinColumn(name = "TO_USER", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TUserEntity toUser;
+    @JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TUserEntity fromUser;
+
+    public TActivityEntity() {
     }
 
-    public void setId(long id) {
+    public TActivityEntity(BigDecimal id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "ITEM")
-    public long getItem() {
-        return item;
+    public TActivityEntity(BigDecimal id, String meetingPoint, String status, Date timeFrom, Date timeTo, short activityDeleted) {
+        this.id = id;
+        this.meetingPoint = meetingPoint;
+        this.status = status;
+        this.timeFrom = timeFrom;
+        this.timeTo = timeTo;
+        this.activityDeleted = activityDeleted;
     }
 
-    public void setItem(long item) {
-        this.item = item;
+    public BigDecimal getId() {
+        return id;
     }
 
-    @Basic
-    @Column(name = "FROM_USER")
-    public long getFromUser() {
-        return fromUser;
+    public void setId(BigDecimal id) {
+        this.id = id;
     }
 
-    public void setFromUser(long fromUser) {
-        this.fromUser = fromUser;
-    }
-
-    @Basic
-    @Column(name = "TO_USER")
-    public long getToUser() {
-        return toUser;
-    }
-
-    public void setToUser(long toUser) {
-        this.toUser = toUser;
-    }
-
-    @Basic
-    @Column(name = "MEETING_POINT")
     public String getMeetingPoint() {
         return meetingPoint;
     }
@@ -72,8 +119,6 @@ public class TActivityEntity {
         this.meetingPoint = meetingPoint;
     }
 
-    @Basic
-    @Column(name = "STATUS")
     public String getStatus() {
         return status;
     }
@@ -82,97 +127,77 @@ public class TActivityEntity {
         this.status = status;
     }
 
-    @Basic
-    @Column(name = "TIME_FROM")
-    public Timestamp getTimeFrom() {
+    public Date getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(Timestamp timeFrom) {
+    public void setTimeFrom(Date timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    @Basic
-    @Column(name = "TIME_TO")
-    public Timestamp getTimeTo() {
+    public Date getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(Timestamp timeTo) {
+    public void setTimeTo(Date timeTo) {
         this.timeTo = timeTo;
     }
 
-    @Basic
-    @Column(name = "ACTIVITY_DELETED")
-    public boolean isActivityDeleted() {
+    public short getActivityDeleted() {
         return activityDeleted;
     }
 
-    public void setActivityDeleted(boolean activityDeleted) {
+    public void setActivityDeleted(short activityDeleted) {
         this.activityDeleted = activityDeleted;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public TItemEntity getItem() {
+        return item;
+    }
 
-        TActivityEntity that = (TActivityEntity) o;
+    public void setItem(TItemEntity item) {
+        this.item = item;
+    }
 
-        if (id != that.id) return false;
-        if (item != that.item) return false;
-        if (fromUser != that.fromUser) return false;
-        if (toUser != that.toUser) return false;
-        if (activityDeleted != that.activityDeleted) return false;
-        if (meetingPoint != null ? !meetingPoint.equals(that.meetingPoint) : that.meetingPoint != null) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-        if (timeFrom != null ? !timeFrom.equals(that.timeFrom) : that.timeFrom != null) return false;
-        if (timeTo != null ? !timeTo.equals(that.timeTo) : that.timeTo != null) return false;
+    public TUserEntity getToUser() {
+        return toUser;
+    }
 
-        return true;
+    public void setToUser(TUserEntity toUser) {
+        this.toUser = toUser;
+    }
+
+    public TUserEntity getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(TUserEntity fromUser) {
+        this.fromUser = fromUser;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (item ^ (item >>> 32));
-        result = 31 * result + (int) (fromUser ^ (fromUser >>> 32));
-        result = 31 * result + (int) (toUser ^ (toUser >>> 32));
-        result = 31 * result + (meetingPoint != null ? meetingPoint.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (timeFrom != null ? timeFrom.hashCode() : 0);
-        result = 31 * result + (timeTo != null ? timeTo.hashCode() : 0);
-        result = 31 * result + (activityDeleted ? 1 : 0);
-        return result;
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "ITEM", referencedColumnName = "ID", nullable = false)
-    public TItemEntity gettItemByItem() {
-        return tItemByItem;
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof TActivityEntity)) {
+            return false;
+        }
+        TActivityEntity other = (TActivityEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
-    public void settItemByItem(TItemEntity tItemByItem) {
-        this.tItemByItem = tItemByItem;
+    @Override
+    public String toString() {
+        return "eg.iti.shareit.model.entity.TActivityEntity[ id=" + id + " ]";
     }
 
-    @ManyToOne
-    @JoinColumn(name = "FROM_USER", referencedColumnName = "ID", nullable = false)
-    public TUserEntity gettUserByFromUser() {
-        return tUserByFromUser;
-    }
-
-    public void settUserByFromUser(TUserEntity tUserByFromUser) {
-        this.tUserByFromUser = tUserByFromUser;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "TO_USER", referencedColumnName = "ID", nullable = false)
-    public TUserEntity gettUserByToUser() {
-        return tUserByToUser;
-    }
-
-    public void settUserByToUser(TUserEntity tUserByToUser) {
-        this.tUserByToUser = tUserByToUser;
-    }
 }

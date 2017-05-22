@@ -1,136 +1,127 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package eg.iti.shareit.model.entity;
 
-import javax.persistence.*;
+import eg.iti.shareit.common.entity.GenericEntity;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by adelz on 5/21/2017.
+ *
+ * @author Adel Zaid
  */
 @Entity
-@Table(name = "T_ADDRESS", schema = "SHAREIT", catalog = "")
-public class TAddressEntity {
-    private long id;
-    private long rUser;
-    private long country;
-    private long city;
-    private long state;
-    private TUserEntity tUserByRUser;
-    private TCountryEntity tCountryByCountry;
-    private TCityEntity tCityByCity;
-    private TStateEntity tStateByState;
+@Table(name = "T_ADDRESS")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TAddressEntity.findAll", query = "SELECT t FROM TAddressEntity t"),
+    @NamedQuery(name = "TAddressEntity.findById", query = "SELECT t FROM TAddressEntity t WHERE t.id = :id")})
+public class TAddressEntity implements Serializable, GenericEntity {
 
+    private static final long serialVersionUID = 1L;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID")
-    public long getId() {
-        return id;
+    private BigDecimal id;
+    @JoinColumn(name = "CITY", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TCityEntity city;
+    @JoinColumn(name = "COUNTRY", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TCountryEntity country;
+    @JoinColumn(name = "STATE", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TStateEntity state;
+    @JoinColumn(name = "R_USER", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TUserEntity rUser;
+
+    public TAddressEntity() {
     }
 
-    public void setId(long id) {
+    public TAddressEntity(BigDecimal id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "R_USER")
-    public long getrUser() {
-        return rUser;
+    public BigDecimal getId() {
+        return id;
     }
 
-    public void setrUser(long rUser) {
-        this.rUser = rUser;
+    public void setId(BigDecimal id) {
+        this.id = id;
     }
 
-    @Basic
-    @Column(name = "COUNTRY")
-    public long getCountry() {
-        return country;
-    }
-
-    public void setCountry(long country) {
-        this.country = country;
-    }
-
-    @Basic
-    @Column(name = "CITY")
-    public long getCity() {
+    public TCityEntity getCity() {
         return city;
     }
 
-    public void setCity(long city) {
+    public void setCity(TCityEntity city) {
         this.city = city;
     }
 
-    @Basic
-    @Column(name = "STATE")
-    public long getState() {
+    public TCountryEntity getCountry() {
+        return country;
+    }
+
+    public void setCountry(TCountryEntity country) {
+        this.country = country;
+    }
+
+    public TStateEntity getState() {
         return state;
     }
 
-    public void setState(long state) {
+    public void setState(TStateEntity state) {
         this.state = state;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public TUserEntity getRUser() {
+        return rUser;
+    }
 
-        TAddressEntity that = (TAddressEntity) o;
-
-        if (id != that.id) return false;
-        if (rUser != that.rUser) return false;
-        if (country != that.country) return false;
-        if (city != that.city) return false;
-        if (state != that.state) return false;
-
-        return true;
+    public void setRUser(TUserEntity rUser) {
+        this.rUser = rUser;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (rUser ^ (rUser >>> 32));
-        result = 31 * result + (int) (country ^ (country >>> 32));
-        result = 31 * result + (int) (city ^ (city >>> 32));
-        result = 31 * result + (int) (state ^ (state >>> 32));
-        return result;
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "R_USER", referencedColumnName = "ID", nullable = false)
-    public TUserEntity gettUserByRUser() {
-        return tUserByRUser;
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof TAddressEntity)) {
+            return false;
+        }
+        TAddressEntity other = (TAddressEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
-    public void settUserByRUser(TUserEntity tUserByRUser) {
-        this.tUserByRUser = tUserByRUser;
+    @Override
+    public String toString() {
+        return "eg.iti.shareit.model.entity.TAddressEntity[ id=" + id + " ]";
     }
 
-    @ManyToOne
-    @JoinColumn(name = "COUNTRY", referencedColumnName = "ID", nullable = false)
-    public TCountryEntity gettCountryByCountry() {
-        return tCountryByCountry;
-    }
-
-    public void settCountryByCountry(TCountryEntity tCountryByCountry) {
-        this.tCountryByCountry = tCountryByCountry;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "CITY", referencedColumnName = "ID", nullable = false)
-    public TCityEntity gettCityByCity() {
-        return tCityByCity;
-    }
-
-    public void settCityByCity(TCityEntity tCityByCity) {
-        this.tCityByCity = tCityByCity;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "STATE", referencedColumnName = "ID", nullable = false)
-    public TStateEntity gettStateByState() {
-        return tStateByState;
-    }
-
-    public void settStateByState(TStateEntity tStateByState) {
-        this.tStateByState = tStateByState;
-    }
 }

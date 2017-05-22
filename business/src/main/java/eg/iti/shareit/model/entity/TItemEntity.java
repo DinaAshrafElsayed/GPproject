@@ -1,37 +1,108 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package eg.iti.shareit.model.entity;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import eg.iti.shareit.common.entity.GenericEntity;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Created by adelz on 5/21/2017.
+ *
+ * @author Adel Zaid
  */
 @Entity
-@Table(name = "T_ITEM", schema = "SHAREIT", catalog = "")
-public class TItemEntity {
-    private long id;
-    private String name;
-    private String description;
-    private long category;
-    private boolean isAvailable;
-    private Timestamp publishDate;
-    private long points;
-    private Collection<TActivityEntity> tActivitiesById;
-    private TCategoryEntity tCategoryByCategory;
+@Table(name = "T_ITEM")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TItemEntity.findAll", query = "SELECT t FROM TItemEntity t"),
+    @NamedQuery(name = "TItemEntity.findById", query = "SELECT t FROM TItemEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "TItemEntity.findByName", query = "SELECT t FROM TItemEntity t WHERE t.name = :name"),
+    @NamedQuery(name = "TItemEntity.findByDescription", query = "SELECT t FROM TItemEntity t WHERE t.description = :description"),
+    @NamedQuery(name = "TItemEntity.findByIsAvailable", query = "SELECT t FROM TItemEntity t WHERE t.isAvailable = :isAvailable"),
+    @NamedQuery(name = "TItemEntity.findByPublishDate", query = "SELECT t FROM TItemEntity t WHERE t.publishDate = :publishDate"),
+    @NamedQuery(name = "TItemEntity.findByPoints", query = "SELECT t FROM TItemEntity t WHERE t.points = :points")})
+public class TItemEntity implements Serializable, GenericEntity {
 
+    private static final long serialVersionUID = 1L;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID")
-    public long getId() {
-        return id;
+    private BigDecimal id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "NAME")
+    private String name;
+    @Size(max = 200)
+    @Column(name = "DESCRIPTION")
+    private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "IS_AVAILABLE")
+    private short isAvailable;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "PUBLISH_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date publishDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "POINTS")
+    private BigInteger points;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
+    private Collection<TActivityEntity> tActivityEntityCollection;
+    @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TCategoryEntity category;
+
+    public TItemEntity() {
     }
 
-    public void setId(long id) {
+    public TItemEntity(BigDecimal id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "NAME")
+    public TItemEntity(BigDecimal id, String name, short isAvailable, Date publishDate, BigInteger points) {
+        this.id = id;
+        this.name = name;
+        this.isAvailable = isAvailable;
+        this.publishDate = publishDate;
+        this.points = points;
+    }
+
+    public BigDecimal getId() {
+        return id;
+    }
+
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -40,8 +111,6 @@ public class TItemEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "DESCRIPTION")
     public String getDescription() {
         return description;
     }
@@ -50,92 +119,70 @@ public class TItemEntity {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "CATEGORY")
-    public long getCategory() {
-        return category;
-    }
-
-    public void setCategory(long category) {
-        this.category = category;
-    }
-
-    @Basic
-    @Column(name = "IS_AVAILABLE")
-    public boolean isAvailable() {
+    public short getIsAvailable() {
         return isAvailable;
     }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
+    public void setIsAvailable(short isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
-    @Basic
-    @Column(name = "PUBLISH_DATE")
-    public Timestamp getPublishDate() {
+    public Date getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Timestamp publishDate) {
+    public void setPublishDate(Date publishDate) {
         this.publishDate = publishDate;
     }
 
-    @Basic
-    @Column(name = "POINTS")
-    public long getPoints() {
+    public BigInteger getPoints() {
         return points;
     }
 
-    public void setPoints(long points) {
+    public void setPoints(BigInteger points) {
         this.points = points;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @XmlTransient
+    public Collection<TActivityEntity> getTActivityEntityCollection() {
+        return tActivityEntityCollection;
+    }
 
-        TItemEntity that = (TItemEntity) o;
+    public void setTActivityEntityCollection(Collection<TActivityEntity> tActivityEntityCollection) {
+        this.tActivityEntityCollection = tActivityEntityCollection;
+    }
 
-        if (id != that.id) return false;
-        if (category != that.category) return false;
-        if (isAvailable != that.isAvailable) return false;
-        if (points != that.points) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (publishDate != null ? !publishDate.equals(that.publishDate) : that.publishDate != null) return false;
+    public TCategoryEntity getCategory() {
+        return category;
+    }
 
-        return true;
+    public void setCategory(TCategoryEntity category) {
+        this.category = category;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (int) (category ^ (category >>> 32));
-        result = 31 * result + (isAvailable ? 1 : 0);
-        result = 31 * result + (publishDate != null ? publishDate.hashCode() : 0);
-        result = 31 * result + (int) (points ^ (points >>> 32));
-        return result;
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
     }
 
-    @OneToMany(mappedBy = "tItemByItem")
-    public Collection<TActivityEntity> gettActivitiesById() {
-        return tActivitiesById;
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof TItemEntity)) {
+            return false;
+        }
+        TItemEntity other = (TItemEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
-    public void settActivitiesById(Collection<TActivityEntity> tActivitiesById) {
-        this.tActivitiesById = tActivitiesById;
+    @Override
+    public String toString() {
+        return "eg.iti.shareit.model.entity.TItemEntity[ id=" + id + " ]";
     }
 
-    @ManyToOne
-    @JoinColumn(name = "CATEGORY", referencedColumnName = "ID", nullable = false)
-    public TCategoryEntity gettCategoryByCategory() {
-        return tCategoryByCategory;
-    }
-
-    public void settCategoryByCategory(TCategoryEntity tCategoryByCategory) {
-        this.tCategoryByCategory = tCategoryByCategory;
-    }
 }

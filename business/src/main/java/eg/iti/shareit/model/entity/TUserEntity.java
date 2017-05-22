@@ -1,40 +1,111 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package eg.iti.shareit.model.entity;
 
 import eg.iti.shareit.common.entity.GenericEntity;
-
-import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Created by adelz on 5/21/2017.
+ *
+ * @author Adel Zaid
  */
 @Entity
-@Table(name = "T_USER", schema = "SHAREIT", catalog = "")
-public class TUserEntity implements GenericEntity {
-    private long id;
-    private String username;
-    private String email;
-    private String password;
-    private String imageUrl;
-    private long points;
-    private long gender;
-    private Collection<TActivityEntity> tActivitiesById;
-    private Collection<TActivityEntity> tActivitiesById_0;
-    private Collection<TAddressEntity> tAddressesById;
-    private TGenderEntity tGenderByGender;
+@Table(name = "T_USER")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "TUserEntity.findAll", query = "SELECT t FROM TUserEntity t"),
+    @NamedQuery(name = "TUserEntity.findById", query = "SELECT t FROM TUserEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "TUserEntity.findByUsername", query = "SELECT t FROM TUserEntity t WHERE t.username = :username"),
+    @NamedQuery(name = "TUserEntity.findByEmail", query = "SELECT t FROM TUserEntity t WHERE t.email = :email"),
+    @NamedQuery(name = "TUserEntity.findByPassword", query = "SELECT t FROM TUserEntity t WHERE t.password = :password"),
+    @NamedQuery(name = "TUserEntity.findByImageUrl", query = "SELECT t FROM TUserEntity t WHERE t.imageUrl = :imageUrl"),
+    @NamedQuery(name = "TUserEntity.findByPoints", query = "SELECT t FROM TUserEntity t WHERE t.points = :points")})
+public class TUserEntity implements Serializable, GenericEntity {
 
+    private static final long serialVersionUID = 1L;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID")
-    public long getId() {
-        return id;
+    private BigDecimal id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "USERNAME")
+    private String username;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "EMAIL")
+    private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "PASSWORD")
+    private String password;
+    @Size(max = 200)
+    @Column(name = "IMAGE_URL")
+    private String imageUrl;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "POINTS")
+    private BigInteger points;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser")
+    private Collection<TActivityEntity> tActivityEntityCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser")
+    private Collection<TActivityEntity> tActivityEntityCollection1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rUser")
+    private Collection<TAddressEntity> tAddressEntityCollection;
+    @JoinColumn(name = "GENDER", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private TGenderEntity gender;
+
+    public TUserEntity() {
     }
 
-    public void setId(long id) {
+    public TUserEntity(BigDecimal id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "USERNAME")
+    public TUserEntity(BigDecimal id, String username, String email, String password, BigInteger points) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.points = points;
+    }
+
+    public BigDecimal getId() {
+        return id;
+    }
+
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -43,8 +114,6 @@ public class TUserEntity implements GenericEntity {
         this.username = username;
     }
 
-    @Basic
-    @Column(name = "EMAIL")
     public String getEmail() {
         return email;
     }
@@ -53,8 +122,6 @@ public class TUserEntity implements GenericEntity {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "PASSWORD")
     public String getPassword() {
         return password;
     }
@@ -63,8 +130,6 @@ public class TUserEntity implements GenericEntity {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "IMAGE_URL")
     public String getImageUrl() {
         return imageUrl;
     }
@@ -73,90 +138,72 @@ public class TUserEntity implements GenericEntity {
         this.imageUrl = imageUrl;
     }
 
-    @Basic
-    @Column(name = "POINTS")
-    public long getPoints() {
+    public BigInteger getPoints() {
         return points;
     }
 
-    public void setPoints(long points) {
+    public void setPoints(BigInteger points) {
         this.points = points;
     }
 
-    @Basic
-    @Column(name = "GENDER")
-    public long getGender() {
+    @XmlTransient
+    public Collection<TActivityEntity> getTActivityEntityCollection() {
+        return tActivityEntityCollection;
+    }
+
+    public void setTActivityEntityCollection(Collection<TActivityEntity> tActivityEntityCollection) {
+        this.tActivityEntityCollection = tActivityEntityCollection;
+    }
+
+    @XmlTransient
+    public Collection<TActivityEntity> getTActivityEntityCollection1() {
+        return tActivityEntityCollection1;
+    }
+
+    public void setTActivityEntityCollection1(Collection<TActivityEntity> tActivityEntityCollection1) {
+        this.tActivityEntityCollection1 = tActivityEntityCollection1;
+    }
+
+    @XmlTransient
+    public Collection<TAddressEntity> getTAddressEntityCollection() {
+        return tAddressEntityCollection;
+    }
+
+    public void setTAddressEntityCollection(Collection<TAddressEntity> tAddressEntityCollection) {
+        this.tAddressEntityCollection = tAddressEntityCollection;
+    }
+
+    public TGenderEntity getGender() {
         return gender;
     }
 
-    public void setGender(long gender) {
+    public void setGender(TGenderEntity gender) {
         this.gender = gender;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 
-        TUserEntity that = (TUserEntity) o;
-
-        if (id != that.id) return false;
-        if (points != that.points) return false;
-        if (gender != that.gender) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (imageUrl != null ? !imageUrl.equals(that.imageUrl) : that.imageUrl != null) return false;
-
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof TUserEntity)) {
+            return false;
+        }
+        TUserEntity other = (TUserEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
         return true;
     }
 
     @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
-        result = 31 * result + (int) (points ^ (points >>> 32));
-        result = 31 * result + (int) (gender ^ (gender >>> 32));
-        return result;
+    public String toString() {
+        return "eg.iti.shareit.model.entity.TUserEntity[ id=" + id + " ]";
     }
 
-    @OneToMany(mappedBy = "tUserByFromUser")
-    public Collection<TActivityEntity> gettActivitiesById() {
-        return tActivitiesById;
-    }
-
-    public void settActivitiesById(Collection<TActivityEntity> tActivitiesById) {
-        this.tActivitiesById = tActivitiesById;
-    }
-
-    @OneToMany(mappedBy = "tUserByToUser")
-    public Collection<TActivityEntity> gettActivitiesById_0() {
-        return tActivitiesById_0;
-    }
-
-    public void settActivitiesById_0(Collection<TActivityEntity> tActivitiesById_0) {
-        this.tActivitiesById_0 = tActivitiesById_0;
-    }
-
-    @OneToMany(mappedBy = "tUserByRUser")
-    public Collection<TAddressEntity> gettAddressesById() {
-        return tAddressesById;
-    }
-
-    public void settAddressesById(Collection<TAddressEntity> tAddressesById) {
-        this.tAddressesById = tAddressesById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "GENDER", referencedColumnName = "ID", nullable = false)
-    public TGenderEntity gettGenderByGender() {
-        return tGenderByGender;
-    }
-
-    public void settGenderByGender(TGenderEntity tGenderByGender) {
-        this.tGenderByGender = tGenderByGender;
-    }
 }
