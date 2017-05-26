@@ -50,3 +50,6 @@ nbdist/
 
 /.classpath
 /.project
+ear/nb-configuration.xml
+ear/src/main/application/META-INF/glassfish-application.xml
+ear/src/main/application/META-INF/jboss-app.xml
