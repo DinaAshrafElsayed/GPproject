@@ -5,14 +5,10 @@
  */
 package eg.iti.shareit.model.entity;
 
-import eg.iti.shareit.common.Exception.DatabaseRollbackException;
-import eg.iti.shareit.common.dao.GenericDao;
 import eg.iti.shareit.common.entity.GenericEntity;
-import eg.iti.shareit.model.dao.UserDao;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,8 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TActivityEntity.findByTimeFrom", query = "SELECT t FROM TActivityEntity t WHERE t.timeFrom = :timeFrom"),
     @NamedQuery(name = "TActivityEntity.findByTimeTo", query = "SELECT t FROM TActivityEntity t WHERE t.timeTo = :timeTo"),
     @NamedQuery(name = "TActivityEntity.findByActivityDeleted", query = "SELECT t FROM TActivityEntity t WHERE t.activityDeleted = :activityDeleted")})
-public class TActivityEntity implements Serializable,
-        GenericEntity {
+public class TActivityEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
