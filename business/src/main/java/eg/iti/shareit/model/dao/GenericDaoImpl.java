@@ -51,10 +51,7 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
     public void delete(BigDecimal id) {
 
         T object = get(id);
-
-        if(object != null) {
-            delete(object);
-        }
+        delete(object);
 
     }
 
