@@ -1,10 +1,10 @@
-import { AngularClientPage } from './app.po';
+import { NgappPage } from './app.po';
 
-describe('angular-client App', () => {
-  let page: AngularClientPage;
+describe('ngapp App', function() {
+  let page: NgappPage;
 
   beforeEach(() => {
-    page = new AngularClientPage();
+    page = new NgappPage();
   });
 
   it('should display message saying app works', () => {

@@ -1,7 +1,7 @@
 package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
-import eg.iti.shareit.model.entity.TUserEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
@@ -12,19 +12,19 @@ import java.util.List;
  * Created by Mohamed on 2015/07/04.
  */
 @Stateless(mappedName = "UserDaoImpl")
-public class UserDaoImpl extends GenericDaoImpl<TUserEntity> implements UserDao {
+public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
 
     public UserDaoImpl() {
-        super(TUserEntity.class);
+        super(UserEntity.class);
     }
 
     @Override
-    public TUserEntity getUserByEmail(String email) throws DatabaseRollbackException {
-        Query query = getEntityManager().createQuery("Select u From TUserEntity u where u.email = :email");
+    public UserEntity getUserByEmail(String email) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select u From UserEntity u where u.email = :email");
         query.setParameter("email", email);
 
         try {
-            List<TUserEntity> userList = query.getResultList();
+            List<UserEntity> userList = query.getResultList();
             if (userList != null && userList.size() == 1) {
                 return userList.get(0);
             } else {

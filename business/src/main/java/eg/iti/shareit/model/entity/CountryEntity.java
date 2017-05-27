@@ -8,7 +8,7 @@ package eg.iti.shareit.model.entity;
 import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Adel Zaid
  */
 @Entity
-@Table(name = "T_CITY")
+@Table(name = "T_COUNTRY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TCityEntity.findAll", query = "SELECT t FROM TCityEntity t"),
-    @NamedQuery(name = "TCityEntity.findById", query = "SELECT t FROM TCityEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "TCityEntity.findByCity", query = "SELECT t FROM TCityEntity t WHERE t.city = :city")})
-public class TCityEntity implements Serializable, GenericEntity {
+    @NamedQuery(name = "CountryEntity.findAll", query = "SELECT t FROM CountryEntity t"),
+    @NamedQuery(name = "CountryEntity.findById", query = "SELECT t FROM CountryEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "CountryEntity.findByCountry", query = "SELECT t FROM CountryEntity t WHERE t.country = :country")})
+public class CountryEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -46,21 +46,21 @@ public class TCityEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "CITY")
-    private String city;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
-    private Collection<TAddressEntity> tAddressEntityCollection;
+    @Column(name = "COUNTRY")
+    private String country;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
+    private List<AddressEntity> addressList;
 
-    public TCityEntity() {
+    public CountryEntity() {
     }
 
-    public TCityEntity(BigDecimal id) {
+    public CountryEntity(BigDecimal id) {
         this.id = id;
     }
 
-    public TCityEntity(BigDecimal id, String city) {
+    public CountryEntity(BigDecimal id, String country) {
         this.id = id;
-        this.city = city;
+        this.country = country;
     }
 
     public BigDecimal getId() {
@@ -71,21 +71,21 @@ public class TCityEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public String getCity() {
-        return city;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @XmlTransient
-    public Collection<TAddressEntity> getTAddressEntityCollection() {
-        return tAddressEntityCollection;
+    public List<AddressEntity> getAddressList() {
+        return addressList;
     }
 
-    public void setTAddressEntityCollection(Collection<TAddressEntity> tAddressEntityCollection) {
-        this.tAddressEntityCollection = tAddressEntityCollection;
+    public void setAddressList(List<AddressEntity> addressList) {
+        this.addressList = addressList;
     }
 
     @Override
@@ -98,10 +98,10 @@ public class TCityEntity implements Serializable, GenericEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TCityEntity)) {
+        if (!(object instanceof CountryEntity)) {
             return false;
         }
-        TCityEntity other = (TCityEntity) object;
+        CountryEntity other = (CountryEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +110,7 @@ public class TCityEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.TCityEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.model.entity.CountryEntity[ id=" + id + " ]";
     }
 
 }
