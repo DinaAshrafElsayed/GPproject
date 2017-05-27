@@ -6,7 +6,7 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
