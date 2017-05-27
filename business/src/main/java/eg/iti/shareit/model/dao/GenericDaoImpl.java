@@ -5,8 +5,8 @@ import eg.iti.shareit.common.entity.GenericEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
 import java.util.List;
-import org.hibernate.annotations.Fetch;
 
 /**
  * Created by Mohamed on 2015/07/04.
@@ -22,7 +22,7 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
         this.type = type;
     }
 
-    public T get(Object id) {
+    public T get(BigDecimal id) {
         if (id == null) {
             return null;
         } else {
@@ -32,7 +32,6 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
 
     public List<T> getAll() {
         return em.createQuery("From " + type.getSimpleName() + "").getResultList();
-
     }
 
     public void save(T object) {
@@ -46,6 +45,13 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
         em.remove(object);
     }
 
+    public void delete(BigDecimal id) {
+
+        T object = get(id);
+        delete(object);
+
+    }
+
     public void update(T object) {
         em.merge(object);
     }
@@ -53,5 +59,4 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
     public EntityManager getEntityManager() {
         return em;
     }
-
 }

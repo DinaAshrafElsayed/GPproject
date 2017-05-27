@@ -20,8 +20,6 @@
         <module>angular</module>
         
     </modules>
-
-
     <build>
         <plugins>
             <plugin>

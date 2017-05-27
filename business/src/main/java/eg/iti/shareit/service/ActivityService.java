@@ -42,7 +42,7 @@ public class ActivityService {
 
     public ActivityDto getActivity(int id) throws ServiceException {
         try {
-            TActivityEntity get = activityDao.get(new TActivityEntity(new BigDecimal(id)));
+            TActivityEntity get = activityDao.get(new BigDecimal(id));
             ActivityDto ActivityDto = mappingUtil.getDto(get, ActivityDto.class);
             return ActivityDto;
 
@@ -55,7 +55,7 @@ public class ActivityService {
 
     public void deleteActivity(int id) throws ServiceException {
 
-        activityDao.delete(new TActivityEntity(new BigDecimal(id)));
+        activityDao.delete(new BigDecimal(id));
 
     }
 }

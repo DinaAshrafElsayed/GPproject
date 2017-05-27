@@ -26,8 +26,7 @@ import javax.ws.rs.core.Response;
  *
  * @author Adel Zaid
  */
-@Path("Activity")
-
+@Path("/Activity")
 public class ActivityWS {
 
     @Inject
@@ -74,7 +73,7 @@ public class ActivityWS {
 
     @DELETE
     @Path("/delete")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response deleteActivity(@QueryParam("id") int id) {
         Response response;
         try {
