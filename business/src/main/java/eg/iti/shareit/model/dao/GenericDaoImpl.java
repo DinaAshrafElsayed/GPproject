@@ -1,6 +1,5 @@
 package eg.iti.shareit.model.dao;
 
-
 import eg.iti.shareit.common.dao.GenericDao;
 import eg.iti.shareit.common.entity.GenericEntity;
 
@@ -18,7 +17,6 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
 
     @PersistenceContext(unitName = "shareitPersistenceUnit")
     protected EntityManager em;
-
 
     public GenericDaoImpl(Class<T> type) {
         this.type = type;
@@ -46,7 +44,6 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
         }
         em.remove(object);
     }
-
 
     public void delete(BigDecimal id) {
 

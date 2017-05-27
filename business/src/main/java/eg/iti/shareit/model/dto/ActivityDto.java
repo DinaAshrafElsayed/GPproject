@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,7 +13,8 @@ import java.util.Date;
  *
  * @author Yousef
  */
-public class ActivityDto implements java.io.Serializable, GenericDto{
+public class ActivityDto implements java.io.Serializable, GenericDto {
+
     private int id;
     private ItemDto item;
     private UserDto fromUser;
@@ -97,6 +99,5 @@ public class ActivityDto implements java.io.Serializable, GenericDto{
     public void setActivityDeleted(int activityDeleted) {
         this.activityDeleted = activityDeleted;
     }
-    
-    
+
 }

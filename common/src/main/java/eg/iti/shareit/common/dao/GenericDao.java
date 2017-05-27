@@ -1,10 +1,9 @@
 package eg.iti.shareit.common.dao;
 
 import eg.iti.shareit.common.entity.GenericEntity;
-
 import java.math.BigDecimal;
-import java.util.List;
 
+import java.util.List;
 
 public interface GenericDao<T extends GenericEntity> {
 
@@ -19,6 +18,5 @@ public interface GenericDao<T extends GenericEntity> {
     void delete(T object);
 
     void delete(BigDecimal id);
-
 
 }

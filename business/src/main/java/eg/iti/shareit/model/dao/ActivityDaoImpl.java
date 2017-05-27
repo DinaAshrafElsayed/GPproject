@@ -10,13 +10,13 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author Yousef
+ * @author Adel Zaid
  */
 @Stateless(mappedName = "ActivityDaoImpl")
-public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements ActivityDao{
-    
+public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements ActivityDao {
+
     public ActivityDaoImpl() {
         super(ActivityEntity.class);
     }
-    
+
 }

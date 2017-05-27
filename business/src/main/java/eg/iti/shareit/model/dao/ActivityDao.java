@@ -10,8 +10,8 @@ import eg.iti.shareit.model.entity.ActivityEntity;
 
 /**
  *
- * @author Yousef
+ * @author Adel Zaid
  */
-public interface ActivityDao extends GenericDao<ActivityEntity>{
-    
+public interface ActivityDao extends GenericDao<ActivityEntity> {
+
 }
