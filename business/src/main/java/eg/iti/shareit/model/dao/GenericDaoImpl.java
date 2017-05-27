@@ -6,6 +6,7 @@ import eg.iti.shareit.common.entity.GenericEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
         this.type = type;
     }
 
-    public T get(Object id) {
+    public T get(BigDecimal id) {
         if (id == null) {
             return null;
         } else {
@@ -44,6 +45,17 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
             object = em.merge(object);
         }
         em.remove(object);
+    }
+
+
+    public void delete(BigDecimal id) {
+
+        T object = get(id);
+
+        if(object != null) {
+            delete(object);
+        }
+
     }
 
     public void update(T object) {
