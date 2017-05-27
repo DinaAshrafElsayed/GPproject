@@ -4,7 +4,6 @@ import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.dao.GenericDao;
 import eg.iti.shareit.model.entity.TUserEntity;
 
-import java.util.Set;
 
 /**
  * Created by Mohamed on 2015/07/04.

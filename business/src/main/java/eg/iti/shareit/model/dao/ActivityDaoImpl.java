@@ -7,6 +7,7 @@ package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.model.entity.TActivityEntity;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 
@@ -19,12 +20,6 @@ public class ActivityDaoImpl extends GenericDaoImpl<TActivityEntity> implements 
 
     public ActivityDaoImpl() {
         super(TActivityEntity.class);
-    }
-
-    @Override
-    public List<TActivityEntity> getAllActivities() throws DatabaseRollbackException {
-        GenericDaoImpl<TActivityEntity> genericDaoImpl = new ActivityDaoImpl();
-        return genericDaoImpl.getAll();
     }
 
 }

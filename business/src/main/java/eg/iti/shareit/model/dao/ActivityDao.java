@@ -17,5 +17,4 @@ import java.util.List;
  */
 public interface ActivityDao extends GenericDao<TActivityEntity> {
 
-    public List<TActivityEntity> getAllActivities() throws DatabaseRollbackException;
 }
