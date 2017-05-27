@@ -5,10 +5,18 @@
  */
 package eg.iti.shareit.model.dao;
 
+import eg.iti.shareit.model.entity.CategoryEntity;
+import javax.ejb.Stateless;
+
 /**
  *
  * @author Yousef
  */
-public class CategoryDaoImpl {
+@Stateless(mappedName = "CategoryDaoImpl")
+public class CategoryDaoImpl extends GenericDaoImpl<CategoryEntity> implements CategoryDao{
+    
+    public CategoryDaoImpl() {
+        super(CategoryEntity.class);
+    }
     
 }

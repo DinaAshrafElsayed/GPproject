@@ -5,10 +5,18 @@
  */
 package eg.iti.shareit.model.dao;
 
+import eg.iti.shareit.model.entity.AddressEntity;
+import javax.ejb.Stateless;
+
 /**
  *
  * @author Yousef
  */
-public class AddressDaoImpl {
+@Stateless(mappedName = "AddressDaoImpl")
+public class AddressDaoImpl extends GenericDaoImpl<AddressEntity> implements AddressDao{
+    
+    public AddressDaoImpl() {
+        super(AddressEntity.class);
+    }
     
 }

@@ -5,10 +5,18 @@
  */
 package eg.iti.shareit.model.dao;
 
+import eg.iti.shareit.model.entity.CityEntity;
+import javax.ejb.Stateless;
+
 /**
  *
  * @author Yousef
  */
-public class CityDaoImpl {
+@Stateless(mappedName = "CityDaoImpl")
+public class CityDaoImpl extends GenericDaoImpl<CityEntity> implements CityDao{
+    
+    public CityDaoImpl() {
+        super(CityEntity.class);
+    }
     
 }

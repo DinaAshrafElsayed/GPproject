@@ -5,10 +5,18 @@
  */
 package eg.iti.shareit.model.dao;
 
+import eg.iti.shareit.model.entity.ItemEntity;
+import javax.ejb.Stateless;
+
 /**
  *
  * @author Yousef
  */
-public class ItemDaoImpl {
+@Stateless(mappedName = "ItemDaoImpl")
+public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
+    
+    public ItemDaoImpl() {
+        super(ItemEntity.class);
+    }
     
 }

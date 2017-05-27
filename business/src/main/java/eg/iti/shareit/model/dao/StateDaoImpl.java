@@ -5,10 +5,18 @@
  */
 package eg.iti.shareit.model.dao;
 
+import eg.iti.shareit.model.entity.StateEntity;
+import javax.ejb.Stateless;
+
 /**
  *
  * @author Yousef
  */
-public class StateDaoImpl {
+@Stateless(mappedName = "StateDaoImpl")
+public class StateDaoImpl extends GenericDaoImpl<StateEntity> implements StateDao{
+    
+    public StateDaoImpl() {
+        super(StateEntity.class);
+    }
     
 }
