@@ -5,10 +5,14 @@
  */
 package eg.iti.shareit.model.entity;
 
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
+import eg.iti.shareit.common.dao.GenericDao;
 import eg.iti.shareit.common.entity.GenericEntity;
+import eg.iti.shareit.model.dao.UserDao;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,14 +36,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "T_ACTIVITY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TActivityEntity.findAll", query = "SELECT t FROM TActivityEntity t"),
-    @NamedQuery(name = "TActivityEntity.findById", query = "SELECT t FROM TActivityEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "TActivityEntity.findByMeetingPoint", query = "SELECT t FROM TActivityEntity t WHERE t.meetingPoint = :meetingPoint"),
-    @NamedQuery(name = "TActivityEntity.findByStatus", query = "SELECT t FROM TActivityEntity t WHERE t.status = :status"),
-    @NamedQuery(name = "TActivityEntity.findByTimeFrom", query = "SELECT t FROM TActivityEntity t WHERE t.timeFrom = :timeFrom"),
-    @NamedQuery(name = "TActivityEntity.findByTimeTo", query = "SELECT t FROM TActivityEntity t WHERE t.timeTo = :timeTo"),
-    @NamedQuery(name = "TActivityEntity.findByActivityDeleted", query = "SELECT t FROM TActivityEntity t WHERE t.activityDeleted = :activityDeleted")})
-public class TActivityEntity implements Serializable, GenericEntity {
+    @NamedQuery(name = "ActivityEntity.findAll", query = "SELECT t FROM ActivityEntity t"),
+    @NamedQuery(name = "ActivityEntity.findById", query = "SELECT t FROM ActivityEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "ActivityEntity.findByMeetingPoint", query = "SELECT t FROM ActivityEntity t WHERE t.meetingPoint = :meetingPoint"),
+    @NamedQuery(name = "ActivityEntity.findByStatus", query = "SELECT t FROM ActivityEntity t WHERE t.status = :status"),
+    @NamedQuery(name = "ActivityEntity.findByTimeFrom", query = "SELECT t FROM ActivityEntity t WHERE t.timeFrom = :timeFrom"),
+    @NamedQuery(name = "ActivityEntity.findByTimeTo", query = "SELECT t FROM ActivityEntity t WHERE t.timeTo = :timeTo"),
+    @NamedQuery(name = "ActivityEntity.findByActivityDeleted", query = "SELECT t FROM ActivityEntity t WHERE t.activityDeleted = :activityDeleted")})
+public class ActivityEntity implements Serializable,
+        GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -74,22 +79,22 @@ public class TActivityEntity implements Serializable, GenericEntity {
     private short activityDeleted;
     @JoinColumn(name = "ITEM", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private TItemEntity item;
+    private ItemEntity item;
     @JoinColumn(name = "TO_USER", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private TUserEntity toUser;
+    private UserEntity toUser;
     @JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private TUserEntity fromUser;
+    private UserEntity fromUser;
 
-    public TActivityEntity() {
+    public ActivityEntity() {
     }
 
-    public TActivityEntity(BigDecimal id) {
+    public ActivityEntity(BigDecimal id) {
         this.id = id;
     }
 
-    public TActivityEntity(BigDecimal id, String meetingPoint, String status, Date timeFrom, Date timeTo, short activityDeleted) {
+    public ActivityEntity(BigDecimal id, String meetingPoint, String status, Date timeFrom, Date timeTo, short activityDeleted) {
         this.id = id;
         this.meetingPoint = meetingPoint;
         this.status = status;
@@ -146,27 +151,27 @@ public class TActivityEntity implements Serializable, GenericEntity {
         this.activityDeleted = activityDeleted;
     }
 
-    public TItemEntity getItem() {
+    public ItemEntity getItem() {
         return item;
     }
 
-    public void setItem(TItemEntity item) {
+    public void setItem(ItemEntity item) {
         this.item = item;
     }
 
-    public TUserEntity getToUser() {
+    public UserEntity getToUser() {
         return toUser;
     }
 
-    public void setToUser(TUserEntity toUser) {
+    public void setToUser(UserEntity toUser) {
         this.toUser = toUser;
     }
 
-    public TUserEntity getFromUser() {
+    public UserEntity getFromUser() {
         return fromUser;
     }
 
-    public void setFromUser(TUserEntity fromUser) {
+    public void setFromUser(UserEntity fromUser) {
         this.fromUser = fromUser;
     }
 
@@ -180,10 +185,10 @@ public class TActivityEntity implements Serializable, GenericEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TActivityEntity)) {
+        if (!(object instanceof ActivityEntity)) {
             return false;
         }
-        TActivityEntity other = (TActivityEntity) object;
+        ActivityEntity other = (ActivityEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -192,7 +197,7 @@ public class TActivityEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.TActivityEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.model.entity.ActivityEntity[ id=" + id + " ]";
     }
 
 }

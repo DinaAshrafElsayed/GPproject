@@ -5,16 +5,13 @@
  */
 package eg.iti.shareit.model.dao;
 
-import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.dao.GenericDao;
-import eg.iti.shareit.common.entity.GenericEntity;
-import eg.iti.shareit.model.entity.TActivityEntity;
-import java.util.List;
+import eg.iti.shareit.model.entity.ActivityEntity;
 
 /**
  *
  * @author Adel Zaid
  */
-public interface ActivityDao extends GenericDao<TActivityEntity> {
+public interface ActivityDao extends GenericDao<ActivityEntity> {
 
 }

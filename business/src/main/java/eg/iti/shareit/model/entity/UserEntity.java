@@ -9,7 +9,7 @@ import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,14 +34,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_USER")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TUserEntity.findAll", query = "SELECT t FROM TUserEntity t"),
-    @NamedQuery(name = "TUserEntity.findById", query = "SELECT t FROM TUserEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "TUserEntity.findByUsername", query = "SELECT t FROM TUserEntity t WHERE t.username = :username"),
-    @NamedQuery(name = "TUserEntity.findByEmail", query = "SELECT t FROM TUserEntity t WHERE t.email = :email"),
-    @NamedQuery(name = "TUserEntity.findByPassword", query = "SELECT t FROM TUserEntity t WHERE t.password = :password"),
-    @NamedQuery(name = "TUserEntity.findByImageUrl", query = "SELECT t FROM TUserEntity t WHERE t.imageUrl = :imageUrl"),
-    @NamedQuery(name = "TUserEntity.findByPoints", query = "SELECT t FROM TUserEntity t WHERE t.points = :points")})
-public class TUserEntity implements Serializable, GenericEntity {
+    @NamedQuery(name = "UserEntity.findAll", query = "SELECT t FROM UserEntity t"),
+    @NamedQuery(name = "UserEntity.findById", query = "SELECT t FROM UserEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT t FROM UserEntity t WHERE t.username = :username"),
+    @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT t FROM UserEntity t WHERE t.email = :email"),
+    @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT t FROM UserEntity t WHERE t.password = :password"),
+    @NamedQuery(name = "UserEntity.findByImageUrl", query = "SELECT t FROM UserEntity t WHERE t.imageUrl = :imageUrl"),
+    @NamedQuery(name = "UserEntity.findByPoints", query = "SELECT t FROM UserEntity t WHERE t.points = :points")})
+public class UserEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -74,23 +74,23 @@ public class TUserEntity implements Serializable, GenericEntity {
     @Column(name = "POINTS")
     private BigInteger points;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser")
-    private Collection<TActivityEntity> tActivityEntityCollection;
+    private List<ActivityEntity> toActivityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser")
-    private Collection<TActivityEntity> tActivityEntityCollection1;
+    private List<ActivityEntity> fromActivityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rUser")
-    private Collection<TAddressEntity> tAddressEntityCollection;
+    private List<AddressEntity> addressList;
     @JoinColumn(name = "GENDER", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private TGenderEntity gender;
+    private GenderEntity gender;
 
-    public TUserEntity() {
+    public UserEntity() {
     }
 
-    public TUserEntity(BigDecimal id) {
+    public UserEntity(BigDecimal id) {
         this.id = id;
     }
 
-    public TUserEntity(BigDecimal id, String username, String email, String password, BigInteger points) {
+    public UserEntity(BigDecimal id, String username, String email, String password, BigInteger points) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -147,37 +147,37 @@ public class TUserEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public Collection<TActivityEntity> getTActivityEntityCollection() {
-        return tActivityEntityCollection;
+    public List<ActivityEntity> getToActivityList() {
+        return toActivityList;
     }
 
-    public void setTActivityEntityCollection(Collection<TActivityEntity> tActivityEntityCollection) {
-        this.tActivityEntityCollection = tActivityEntityCollection;
-    }
-
-    @XmlTransient
-    public Collection<TActivityEntity> getTActivityEntityCollection1() {
-        return tActivityEntityCollection1;
-    }
-
-    public void setTActivityEntityCollection1(Collection<TActivityEntity> tActivityEntityCollection1) {
-        this.tActivityEntityCollection1 = tActivityEntityCollection1;
+    public void setToActivityList(List<ActivityEntity> toActivityList) {
+        this.toActivityList = toActivityList;
     }
 
     @XmlTransient
-    public Collection<TAddressEntity> getTAddressEntityCollection() {
-        return tAddressEntityCollection;
+    public List<ActivityEntity> getFromActivityList() {
+        return fromActivityList;
     }
 
-    public void setTAddressEntityCollection(Collection<TAddressEntity> tAddressEntityCollection) {
-        this.tAddressEntityCollection = tAddressEntityCollection;
+    public void setFromActivityList(List<ActivityEntity> fromActivityList) {
+        this.fromActivityList = fromActivityList;
     }
 
-    public TGenderEntity getGender() {
+    @XmlTransient
+    public List<AddressEntity> getAddressList() {
+        return addressList;
+    }
+
+    public void setAddressList(List<AddressEntity> addressList) {
+        this.addressList = addressList;
+    }
+
+    public GenderEntity getGender() {
         return gender;
     }
 
-    public void setGender(TGenderEntity gender) {
+    public void setGender(GenderEntity gender) {
         this.gender = gender;
     }
 
@@ -191,10 +191,10 @@ public class TUserEntity implements Serializable, GenericEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TUserEntity)) {
+        if (!(object instanceof UserEntity)) {
             return false;
         }
-        TUserEntity other = (TUserEntity) object;
+        UserEntity other = (UserEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -203,7 +203,7 @@ public class TUserEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.TUserEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.model.entity.UserEntity[ id=" + id + " ]";
     }
 
 }

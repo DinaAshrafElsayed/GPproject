@@ -8,7 +8,7 @@ package eg.iti.shareit.model.entity;
 import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,10 +31,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_STATE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TStateEntity.findAll", query = "SELECT t FROM TStateEntity t"),
-    @NamedQuery(name = "TStateEntity.findById", query = "SELECT t FROM TStateEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "TStateEntity.findByState", query = "SELECT t FROM TStateEntity t WHERE t.state = :state")})
-public class TStateEntity implements Serializable, GenericEntity {
+    @NamedQuery(name = "StateEntity.findAll", query = "SELECT t FROM StateEntity t"),
+    @NamedQuery(name = "StateEntity.findById", query = "SELECT t FROM StateEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "StateEntity.findByState", query = "SELECT t FROM StateEntity t WHERE t.state = :state")})
+public class StateEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -49,16 +49,16 @@ public class TStateEntity implements Serializable, GenericEntity {
     @Column(name = "STATE")
     private String state;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "state")
-    private Collection<TAddressEntity> tAddressEntityCollection;
+    private List<AddressEntity> addressList;
 
-    public TStateEntity() {
+    public StateEntity() {
     }
 
-    public TStateEntity(BigDecimal id) {
+    public StateEntity(BigDecimal id) {
         this.id = id;
     }
 
-    public TStateEntity(BigDecimal id, String state) {
+    public StateEntity(BigDecimal id, String state) {
         this.id = id;
         this.state = state;
     }
@@ -80,12 +80,12 @@ public class TStateEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public Collection<TAddressEntity> getTAddressEntityCollection() {
-        return tAddressEntityCollection;
+    public List<AddressEntity> getAddressList() {
+        return addressList;
     }
 
-    public void setTAddressEntityCollection(Collection<TAddressEntity> tAddressEntityCollection) {
-        this.tAddressEntityCollection = tAddressEntityCollection;
+    public void setAddressList(List<AddressEntity> addressList) {
+        this.addressList = addressList;
     }
 
     @Override
@@ -98,10 +98,10 @@ public class TStateEntity implements Serializable, GenericEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TStateEntity)) {
+        if (!(object instanceof StateEntity)) {
             return false;
         }
-        TStateEntity other = (TStateEntity) object;
+        StateEntity other = (StateEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +110,7 @@ public class TStateEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.TStateEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.model.entity.StateEntity[ id=" + id + " ]";
     }
 
 }

@@ -8,7 +8,8 @@ package eg.iti.shareit.model.entity;
 import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,13 +29,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Adel Zaid
  */
 @Entity
-@Table(name = "T_COUNTRY")
+@Table(name = "T_CATEGORY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TCountryEntity.findAll", query = "SELECT t FROM TCountryEntity t"),
-    @NamedQuery(name = "TCountryEntity.findById", query = "SELECT t FROM TCountryEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "TCountryEntity.findByCountry", query = "SELECT t FROM TCountryEntity t WHERE t.country = :country")})
-public class TCountryEntity implements Serializable, GenericEntity {
+    @NamedQuery(name = "CategoryEntity.findAll", query = "SELECT t FROM CategoryEntity t"),
+    @NamedQuery(name = "CategoryEntity.findById", query = "SELECT t FROM CategoryEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "CategoryEntity.findByName", query = "SELECT t FROM CategoryEntity t WHERE t.name = :name"),
+    @NamedQuery(name = "CategoryEntity.findByMaxPoints", query = "SELECT t FROM CategoryEntity t WHERE t.maxPoints = :maxPoints")})
+public class CategoryEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -45,22 +47,27 @@ public class TCountryEntity implements Serializable, GenericEntity {
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "COUNTRY")
-    private String country;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
-    private Collection<TAddressEntity> tAddressEntityCollection;
+    @Size(min = 1, max = 200)
+    @Column(name = "NAME")
+    private String name;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "MAX_POINTS")
+    private BigInteger maxPoints;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    private List<ItemEntity> itemList;
 
-    public TCountryEntity() {
+    public CategoryEntity() {
     }
 
-    public TCountryEntity(BigDecimal id) {
+    public CategoryEntity(BigDecimal id) {
         this.id = id;
     }
 
-    public TCountryEntity(BigDecimal id, String country) {
+    public CategoryEntity(BigDecimal id, String name, BigInteger maxPoints) {
         this.id = id;
-        this.country = country;
+        this.name = name;
+        this.maxPoints = maxPoints;
     }
 
     public BigDecimal getId() {
@@ -71,21 +78,29 @@ public class TCountryEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public String getCountry() {
-        return country;
+    public String getName() {
+        return name;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigInteger getMaxPoints() {
+        return maxPoints;
+    }
+
+    public void setMaxPoints(BigInteger maxPoints) {
+        this.maxPoints = maxPoints;
     }
 
     @XmlTransient
-    public Collection<TAddressEntity> getTAddressEntityCollection() {
-        return tAddressEntityCollection;
+    public List<ItemEntity> getItemList() {
+        return itemList;
     }
 
-    public void setTAddressEntityCollection(Collection<TAddressEntity> tAddressEntityCollection) {
-        this.tAddressEntityCollection = tAddressEntityCollection;
+    public void setItemList(List<ItemEntity> itemList) {
+        this.itemList = itemList;
     }
 
     @Override
@@ -98,10 +113,10 @@ public class TCountryEntity implements Serializable, GenericEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TCountryEntity)) {
+        if (!(object instanceof CategoryEntity)) {
             return false;
         }
-        TCountryEntity other = (TCountryEntity) object;
+        CategoryEntity other = (CategoryEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +125,7 @@ public class TCountryEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.TCountryEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.model.entity.CategoryEntity[ id=" + id + " ]";
     }
 
 }

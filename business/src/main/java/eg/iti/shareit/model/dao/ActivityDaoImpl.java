@@ -5,10 +5,7 @@
  */
 package eg.iti.shareit.model.dao;
 
-import eg.iti.shareit.common.Exception.DatabaseRollbackException;
-import eg.iti.shareit.model.entity.TActivityEntity;
-import java.math.BigDecimal;
-import java.util.List;
+import eg.iti.shareit.model.entity.ActivityEntity;
 import javax.ejb.Stateless;
 
 /**
@@ -16,10 +13,10 @@ import javax.ejb.Stateless;
  * @author Adel Zaid
  */
 @Stateless(mappedName = "ActivityDaoImpl")
-public class ActivityDaoImpl extends GenericDaoImpl<TActivityEntity> implements ActivityDao {
+public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements ActivityDao {
 
     public ActivityDaoImpl() {
-        super(TActivityEntity.class);
+        super(ActivityEntity.class);
     }
 
 }

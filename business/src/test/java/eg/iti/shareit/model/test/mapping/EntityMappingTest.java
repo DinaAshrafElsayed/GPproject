@@ -3,7 +3,7 @@ package eg.iti.shareit.model.test.mapping;
 
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.UserDto;
-import eg.iti.shareit.model.entity.TUserEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import eg.iti.shareit.service.UserService;
 import org.junit.Assert;
@@ -56,7 +56,7 @@ public class EntityMappingTest {
             
             
         }
-        TUserEntity userEntity = new TUserEntity();
+        UserEntity userEntity = new UserEntity();
 
         String name = "Hamada";
 
@@ -80,7 +80,7 @@ public class EntityMappingTest {
 
         UserDto.setUsername(name);
 
-        TUserEntity userEntity = mapper.map(UserDto, TUserEntity.class);
+        UserEntity userEntity = mapper.map(UserDto, UserEntity.class);
 
         Assert.assertNotNull(userEntity);
 

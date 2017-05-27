@@ -3,7 +3,6 @@ package eg.iti.shareit.model.util;
 import eg.iti.shareit.common.dto.GenericDto;
 import eg.iti.shareit.common.entity.GenericEntity;
 import eg.iti.shareit.model.dto.ActivityDto;
-import eg.iti.shareit.model.entity.TActivityEntity;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 

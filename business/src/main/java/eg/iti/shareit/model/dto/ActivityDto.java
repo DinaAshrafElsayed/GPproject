@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,33 +7,57 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
-import eg.iti.shareit.model.entity.TItemEntity;
-import eg.iti.shareit.model.entity.TUserEntity;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  *
- * @author Adel Zaid
+ * @author Yousef
  */
-public class ActivityDto implements GenericDto {
+public class ActivityDto implements java.io.Serializable, GenericDto {
 
-    private BigDecimal id;
+    private int id;
+    private ItemDto item;
+    private UserDto fromUser;
+    private UserDto toUser;
     private String meetingPoint;
     private String status;
     private Date timeFrom;
     private Date timeTo;
-    private short activityDeleted;
-    private TItemEntity item;
-    private TUserEntity toUser;
-    private TUserEntity fromUser;
+    private int activityDeleted;
 
-    public BigDecimal getId() {
+    public ActivityDto() {
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public ItemDto getItem() {
+        return item;
+    }
+
+    public void setItem(ItemDto item) {
+        this.item = item;
+    }
+
+    public UserDto getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(UserDto fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public UserDto getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(UserDto toUser) {
+        this.toUser = toUser;
     }
 
     public String getMeetingPoint() {
@@ -67,36 +92,12 @@ public class ActivityDto implements GenericDto {
         this.timeTo = timeTo;
     }
 
-    public short getActivityDeleted() {
+    public int getActivityDeleted() {
         return activityDeleted;
     }
 
-    public void setActivityDeleted(short activityDeleted) {
+    public void setActivityDeleted(int activityDeleted) {
         this.activityDeleted = activityDeleted;
-    }
-
-    public TItemEntity getItem() {
-        return item;
-    }
-
-    public void setItem(TItemEntity item) {
-        this.item = item;
-    }
-
-    public TUserEntity getToUser() {
-        return toUser;
-    }
-
-    public void setToUser(TUserEntity toUser) {
-        this.toUser = toUser;
-    }
-
-    public TUserEntity getFromUser() {
-        return fromUser;
-    }
-
-    public void setFromUser(TUserEntity fromUser) {
-        this.fromUser = fromUser;
     }
 
 }
