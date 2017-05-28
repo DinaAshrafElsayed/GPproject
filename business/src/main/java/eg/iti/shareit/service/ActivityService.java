@@ -5,9 +5,13 @@
  */
 package eg.iti.shareit.service;
 
+import eg.iti.shareit.common.Exception.DatabaseException;
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dao.ActivityDao;
+import eg.iti.shareit.model.dao.ActivityDaoBTM;
 import eg.iti.shareit.model.dto.ActivityDto;
+import eg.iti.shareit.model.dto.NotificationDto;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.math.BigDecimal;
@@ -16,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.management.Notification;
 
 /**
  *
@@ -28,6 +33,8 @@ public class ActivityService {
 
     @EJB
     private ActivityDao activityDao;
+    @EJB
+    private ActivityDaoBTM activityDaoBTM;
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
@@ -50,8 +57,27 @@ public class ActivityService {
     }
 
     public void deleteActivity(int id) throws ServiceException {
-
         activityDao.delete(new BigDecimal(id));
+    }
 
+    public void acceptRequest(ActivityDto activityDto) throws ServiceException {
+        try {
+            activityDaoBTM.acceptRequest(activityDto);
+
+        } catch (DatabaseException ex) {
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+
+    public NotificationDto getNotification(int id) throws ServiceException {
+        try {
+            NotificationDto notificationDto = activityDaoBTM.getNotification(id);
+            return notificationDto;
+        } catch (DatabaseException ex) {
+
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
+            throw new ServiceException(ex.getMessage());
+        }
     }
 }

@@ -7,15 +7,15 @@ package eg.iti.shareit.ws;
 
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.ActivityDto;
+import eg.iti.shareit.model.dto.NotificationDto;
 import eg.iti.shareit.service.ActivityService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -83,6 +83,40 @@ public class ActivityWS {
         } catch (ServiceException e) {
             logger.log(Level.SEVERE, "Service Exception occurred", e);
             response = Response.ok().status(Response.Status.NOT_FOUND).entity("Specified id is not found!").build();
+        }
+        return response;
+    }
+
+    @POST
+    @Path("/acceptRequest")
+    public Response acceptRequest(@QueryParam("id") int id) {
+        Response response;
+        try {
+            ActivityDto activityDto = activityService.getActivity(id);
+            activityService.acceptRequest(activityDto);
+            response = Response.status(Response.Status.OK).entity("Request Accepted").build();
+        } catch (ServiceException ex) {
+            logger.log(Level.SEVERE, "Service Exception occurred", ex);
+            response = Response.ok().status(Response.Status.NOT_FOUND).entity("Specified id is not found!").build();
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Unexpected Error occured", ex);
+            response = Response.ok().status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was a problem saving this transaction in database!").build();
+        }
+        return response;
+    }
+
+    @GET
+    @Path("/getNotification")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getNotification(@QueryParam("id") int id) {
+        Response response;
+        try {
+            NotificationDto notification = activityService.getNotification(id);
+            response = Response.ok().entity(notification).build();
+            logger.info("Notification returned successfully : " + notification);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Unexpected Error occured", e);
+            response = Response.ok().status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was a problem getting this Notification").build();
         }
         return response;
     }
