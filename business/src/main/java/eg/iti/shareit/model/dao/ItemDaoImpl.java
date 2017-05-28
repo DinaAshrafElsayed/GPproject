@@ -6,6 +6,7 @@
 package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
+import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,6 +25,7 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
         super(ItemEntity.class);
     }
 
+    
     @Override
     public List<ItemEntity> searchItem(String name, int categoryId) throws DatabaseRollbackException {
         Query query;
@@ -60,6 +62,26 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
         }
     
 
+    }
+
+    @Override
+    public boolean isItemAvailable(int itemId) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select i From ItemEntity i where i.isAvailable = 1 and i.id = :itemId");
+        query.setParameter("itemId", new BigDecimal(itemId));
+        
+        try{
+            List<ActivityEntity> activityList = query.getResultList();
+            if(activityList != null ){
+                if(activityList.size() == 1)
+                    return true;
+                else
+                    return false;
+            }else{ 
+               throw new DatabaseRollbackException("no such item");
+            }
+        }catch (PersistenceException ex) {
+            throw new DatabaseRollbackException(ex.getMessage());
+        }
     }
 
     

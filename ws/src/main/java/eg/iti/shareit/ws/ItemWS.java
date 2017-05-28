@@ -28,6 +28,7 @@ public class ItemWS {
     
     @EJB
     ItemService itemService;
+    
     private static final Logger logger = Logger.getLogger(ItemWS.class.getName());
     
     @GET
@@ -68,6 +69,25 @@ public class ItemWS {
             System.out.println("itemsss : "+items.size());
             response = Response.ok().entity(items).build();
             logger.info("items returned successfully : "+items);
+        } catch (ServiceException ex) {
+            logger.log(Level.SEVERE,"service exception occurred",ex);
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Service exception occurred please try again later").build();
+        }catch (Exception e) {
+            logger.log(Level.SEVERE,"unexpected error",e);
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unexpected error has been occurred please try again later").build();
+        }
+        return response;
+    }
+    
+    
+    @GET
+    @Path("/isAvailable")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response isAvailable(@QueryParam("id")int itemId){
+        Response response;
+        try {
+            boolean isItemAvailable = itemService.isItemAvailable(itemId);
+             response = Response.ok().entity(isItemAvailable).build();
         } catch (ServiceException ex) {
             logger.log(Level.SEVERE,"service exception occurred",ex);
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Service exception occurred please try again later").build();
