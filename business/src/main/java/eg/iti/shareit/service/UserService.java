@@ -39,6 +39,4 @@ public class UserService {
             throw new ServiceException(e.getMessage());
         }
     }
-
-
 }

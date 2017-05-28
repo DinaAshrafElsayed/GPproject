@@ -17,6 +17,8 @@ public class RestApplication extends Application {
         final Set<Class<?>> classes = new HashSet<>();
         classes.add(AuthWS.class);
         classes.add(ActivityWS.class);
+        classes.add(ItemWS.class);
+        classes.add(RequestWS.class);
         return classes;
     }
 
