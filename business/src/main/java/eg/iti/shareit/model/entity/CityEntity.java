@@ -8,7 +8,7 @@ package eg.iti.shareit.model.entity;
 import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Adel Zaid
  */
 @Entity
-@Table(name = "T_GENDER")
+@Table(name = "T_CITY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TGenderEntity.findAll", query = "SELECT t FROM TGenderEntity t"),
-    @NamedQuery(name = "TGenderEntity.findById", query = "SELECT t FROM TGenderEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "TGenderEntity.findByGender", query = "SELECT t FROM TGenderEntity t WHERE t.gender = :gender")})
-public class TGenderEntity implements Serializable, GenericEntity {
+    @NamedQuery(name = "CityEntity.findAll", query = "SELECT t FROM CityEntity t"),
+    @NamedQuery(name = "CityEntity.findById", query = "SELECT t FROM CityEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "CityEntity.findByCity", query = "SELECT t FROM CityEntity t WHERE t.city = :city")})
+public class CityEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -46,21 +46,21 @@ public class TGenderEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "GENDER")
-    private String gender;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gender")
-    private Collection<TUserEntity> tUserEntityCollection;
+    @Column(name = "CITY")
+    private String city;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    private List<AddressEntity> addressList;
 
-    public TGenderEntity() {
+    public CityEntity() {
     }
 
-    public TGenderEntity(BigDecimal id) {
+    public CityEntity(BigDecimal id) {
         this.id = id;
     }
 
-    public TGenderEntity(BigDecimal id, String gender) {
+    public CityEntity(BigDecimal id, String city) {
         this.id = id;
-        this.gender = gender;
+        this.city = city;
     }
 
     public BigDecimal getId() {
@@ -71,21 +71,21 @@ public class TGenderEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public String getGender() {
-        return gender;
+    public String getCity() {
+        return city;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     @XmlTransient
-    public Collection<TUserEntity> getTUserEntityCollection() {
-        return tUserEntityCollection;
+    public List<AddressEntity> getAddressList() {
+        return addressList;
     }
 
-    public void setTUserEntityCollection(Collection<TUserEntity> tUserEntityCollection) {
-        this.tUserEntityCollection = tUserEntityCollection;
+    public void setAddressList(List<AddressEntity> addressList) {
+        this.addressList = addressList;
     }
 
     @Override
@@ -98,10 +98,10 @@ public class TGenderEntity implements Serializable, GenericEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TGenderEntity)) {
+        if (!(object instanceof CityEntity)) {
             return false;
         }
-        TGenderEntity other = (TGenderEntity) object;
+        CityEntity other = (CityEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +110,7 @@ public class TGenderEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.TGenderEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.model.entity.CityEntity[ id=" + id + " ]";
     }
 
 }

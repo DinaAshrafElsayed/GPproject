@@ -9,7 +9,7 @@ import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -37,14 +37,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_ITEM")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TItemEntity.findAll", query = "SELECT t FROM TItemEntity t"),
-    @NamedQuery(name = "TItemEntity.findById", query = "SELECT t FROM TItemEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "TItemEntity.findByName", query = "SELECT t FROM TItemEntity t WHERE t.name = :name"),
-    @NamedQuery(name = "TItemEntity.findByDescription", query = "SELECT t FROM TItemEntity t WHERE t.description = :description"),
-    @NamedQuery(name = "TItemEntity.findByIsAvailable", query = "SELECT t FROM TItemEntity t WHERE t.isAvailable = :isAvailable"),
-    @NamedQuery(name = "TItemEntity.findByPublishDate", query = "SELECT t FROM TItemEntity t WHERE t.publishDate = :publishDate"),
-    @NamedQuery(name = "TItemEntity.findByPoints", query = "SELECT t FROM TItemEntity t WHERE t.points = :points")})
-public class TItemEntity implements Serializable, GenericEntity {
+    @NamedQuery(name = "ItemEntity.findAll", query = "SELECT t FROM ItemEntity t"),
+    @NamedQuery(name = "ItemEntity.findById", query = "SELECT t FROM ItemEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "ItemEntity.findByName", query = "SELECT t FROM ItemEntity t WHERE t.name = :name"),
+    @NamedQuery(name = "ItemEntity.findByDescription", query = "SELECT t FROM ItemEntity t WHERE t.description = :description"),
+    @NamedQuery(name = "ItemEntity.findByIsAvailable", query = "SELECT t FROM ItemEntity t WHERE t.isAvailable = :isAvailable"),
+    @NamedQuery(name = "ItemEntity.findByPublishDate", query = "SELECT t FROM ItemEntity t WHERE t.publishDate = :publishDate"),
+    @NamedQuery(name = "ItemEntity.findByPoints", query = "SELECT t FROM ItemEntity t WHERE t.points = :points")})
+public class ItemEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -75,19 +75,19 @@ public class TItemEntity implements Serializable, GenericEntity {
     @Column(name = "POINTS")
     private BigInteger points;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private Collection<TActivityEntity> tActivityEntityCollection;
+    private List<ActivityEntity> activityList;
     @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private TCategoryEntity category;
+    private CategoryEntity category;
 
-    public TItemEntity() {
+    public ItemEntity() {
     }
 
-    public TItemEntity(BigDecimal id) {
+    public ItemEntity(BigDecimal id) {
         this.id = id;
     }
 
-    public TItemEntity(BigDecimal id, String name, short isAvailable, Date publishDate, BigInteger points) {
+    public ItemEntity(BigDecimal id, String name, short isAvailable, Date publishDate, BigInteger points) {
         this.id = id;
         this.name = name;
         this.isAvailable = isAvailable;
@@ -144,19 +144,19 @@ public class TItemEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public Collection<TActivityEntity> getTActivityEntityCollection() {
-        return tActivityEntityCollection;
+    public List<ActivityEntity> getActivityList() {
+        return activityList;
     }
 
-    public void setTActivityEntityCollection(Collection<TActivityEntity> tActivityEntityCollection) {
-        this.tActivityEntityCollection = tActivityEntityCollection;
+    public void setActivityList(List<ActivityEntity> activityList) {
+        this.activityList = activityList;
     }
 
-    public TCategoryEntity getCategory() {
+    public CategoryEntity getCategory() {
         return category;
     }
 
-    public void setCategory(TCategoryEntity category) {
+    public void setCategory(CategoryEntity category) {
         this.category = category;
     }
 
@@ -170,10 +170,10 @@ public class TItemEntity implements Serializable, GenericEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TItemEntity)) {
+        if (!(object instanceof ItemEntity)) {
             return false;
         }
-        TItemEntity other = (TItemEntity) object;
+        ItemEntity other = (ItemEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -182,7 +182,7 @@ public class TItemEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.TItemEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.model.entity.ItemEntity[ id=" + id + " ]";
     }
 
 }

@@ -11,9 +11,17 @@ import eg.iti.shareit.common.dto.GenericDto;
  *
  * @author Yousef
  */
-public class GenderDto implements java.io.Serializable, GenericDto {
+public class CityDto implements java.io.Serializable, GenericDto{
     private int id;
-    private String  gender;
+    private String city;
+
+    public CityDto() {
+    }
+
+    public CityDto(int id, String city) {
+        this.id = id;
+        this.city = city;
+    }
 
     public int getId() {
         return id;
@@ -23,12 +31,12 @@ public class GenderDto implements java.io.Serializable, GenericDto {
         this.id = id;
     }
 
-    public String getGender() {
-        return gender;
+    public String getCity() {
+        return city;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setCity(String city) {
+        this.city = city;
     }
     
     

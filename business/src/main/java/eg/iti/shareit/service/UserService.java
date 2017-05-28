@@ -4,7 +4,7 @@ import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dao.UserDao;
 import eg.iti.shareit.model.dto.UserDto;
-import eg.iti.shareit.model.entity.TUserEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 
 import javax.ejb.EJB;
@@ -28,7 +28,7 @@ public class UserService {
 
     public UserDto getUserByEmail(String email) throws ServiceException {
         try {
-            TUserEntity userEntity = userDao.getUserByEmail(email);
+            UserEntity userEntity = userDao.getUserByEmail(email);
             UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
 
             return userDto;

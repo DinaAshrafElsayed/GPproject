@@ -28,9 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "T_ADDRESS")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TAddressEntity.findAll", query = "SELECT t FROM TAddressEntity t"),
-    @NamedQuery(name = "TAddressEntity.findById", query = "SELECT t FROM TAddressEntity t WHERE t.id = :id")})
-public class TAddressEntity implements Serializable, GenericEntity {
+    @NamedQuery(name = "AddressEntity.findAll", query = "SELECT t FROM AddressEntity t"),
+    @NamedQuery(name = "AddressEntity.findById", query = "SELECT t FROM AddressEntity t WHERE t.id = :id")})
+public class AddressEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -41,21 +41,21 @@ public class TAddressEntity implements Serializable, GenericEntity {
     private BigDecimal id;
     @JoinColumn(name = "CITY", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private TCityEntity city;
+    private CityEntity city;
     @JoinColumn(name = "COUNTRY", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private TCountryEntity country;
+    private CountryEntity country;
     @JoinColumn(name = "STATE", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private TStateEntity state;
+    private StateEntity state;
     @JoinColumn(name = "R_USER", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private TUserEntity rUser;
+    private UserEntity rUser;
 
-    public TAddressEntity() {
+    public AddressEntity() {
     }
 
-    public TAddressEntity(BigDecimal id) {
+    public AddressEntity(BigDecimal id) {
         this.id = id;
     }
 
@@ -67,35 +67,35 @@ public class TAddressEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public TCityEntity getCity() {
+    public CityEntity getCity() {
         return city;
     }
 
-    public void setCity(TCityEntity city) {
+    public void setCity(CityEntity city) {
         this.city = city;
     }
 
-    public TCountryEntity getCountry() {
+    public CountryEntity getCountry() {
         return country;
     }
 
-    public void setCountry(TCountryEntity country) {
+    public void setCountry(CountryEntity country) {
         this.country = country;
     }
 
-    public TStateEntity getState() {
+    public StateEntity getState() {
         return state;
     }
 
-    public void setState(TStateEntity state) {
+    public void setState(StateEntity state) {
         this.state = state;
     }
 
-    public TUserEntity getRUser() {
+    public UserEntity getRUser() {
         return rUser;
     }
 
-    public void setRUser(TUserEntity rUser) {
+    public void setRUser(UserEntity rUser) {
         this.rUser = rUser;
     }
 
@@ -109,10 +109,10 @@ public class TAddressEntity implements Serializable, GenericEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TAddressEntity)) {
+        if (!(object instanceof AddressEntity)) {
             return false;
         }
-        TAddressEntity other = (TAddressEntity) object;
+        AddressEntity other = (AddressEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -121,7 +121,7 @@ public class TAddressEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.TAddressEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.model.entity.AddressEntity[ id=" + id + " ]";
     }
 
 }
