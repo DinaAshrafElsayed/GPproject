@@ -5,14 +5,13 @@
  */
 package eg.iti.shareit.service;
 
+import eg.iti.shareit.common.Exception.DatabaseException;
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dao.ItemDao;
-import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.ItemDto;
-import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
 import eg.iti.shareit.model.util.MappingUtil;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,5 +34,15 @@ public class ItemService {
         return mappingUtil.getDtoList(itemEntities, ItemDto.class);
     }
 
+    public List<ItemDto> searchItems(String name,int categoryId) throws ServiceException{
+        try {
+            List<ItemEntity> itemEntities = itemDao.searchItem(name,categoryId);
+            return mappingUtil.getDtoList(itemEntities,ItemDto.class);
+        } catch (DatabaseException ex) {
+            logger.log(Level.SEVERE,ex.getMessage(),ex);
+
+            throw new ServiceException(ex.getMessage());
+        }
+    }
     
 }
