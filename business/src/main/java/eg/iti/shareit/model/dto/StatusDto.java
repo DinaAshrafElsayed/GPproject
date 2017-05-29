@@ -5,28 +5,30 @@
  */
 package eg.iti.shareit.model.dto;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Adel Zaid
  */
 public class StatusDto {
 
-    private int id;
+    private BigDecimal id;
     private String status;
 
     public StatusDto() {
     }
 
-    public StatusDto(int id, String status) {
+    public StatusDto(BigDecimal id, String status) {
         this.id = id;
         this.status = status;
     }
 
-    public int getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 

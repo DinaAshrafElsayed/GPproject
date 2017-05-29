@@ -9,7 +9,6 @@ import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.NotificationDto;
-import eg.iti.shareit.model.dto.StatusDto;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
 import eg.iti.shareit.model.entity.UserEntity;
@@ -30,11 +29,6 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import static jdk.nashorn.internal.runtime.PropertyMap.diff;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.Interval;
-import org.joda.time.Period;
 
 /**
  *

@@ -6,30 +6,31 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
+import java.math.BigDecimal;
 
 /**
  *
  * @author Yousef
  */
 public class CategoryDto implements java.io.Serializable, GenericDto{
-    private int id;
+    private BigDecimal id;
     private String name;
     private int maxPoints;
 
     public CategoryDto() {
     }
 
-    public CategoryDto(int id, String name, int maxPoints) {
+    public CategoryDto(BigDecimal id, String name, int maxPoints) {
         this.id = id;
         this.name = name;
         this.maxPoints = maxPoints;
     }
 
-    public int getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 

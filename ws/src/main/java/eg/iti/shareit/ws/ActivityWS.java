@@ -9,11 +9,13 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.NotificationDto;
 import eg.iti.shareit.service.ActivityService;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -120,4 +122,32 @@ public class ActivityWS {
         }
         return response;
     }
+    
+    @POST
+    @Path("/requestItem")
+    @Produces(MediaType.TEXT_HTML)
+    public Response requestItem(@FormParam("item")int itemId,
+            @FormParam("from")int fromUserId,
+            @FormParam("to")int toUserId,
+            @FormParam("timeTo")Date timeTo,
+            @FormParam("meetingPoint")String meetingPoint){
+        Response response;
+        boolean result;
+        try {
+            
+            result = activityService.requestItem(itemId,fromUserId,toUserId,timeTo, meetingPoint);
+            if(result)
+                response =  Response.ok().entity("item requested successfully").build();
+            else
+                response =  Response.ok().entity("item is not available").build();
+           logger.info("request done successfully "+result);
+        } catch (ServiceException ex) {
+           logger.log(Level.SEVERE, "Unexpected Error occured", ex);
+            response = Response.ok().status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was a problem requesting the item").build();
+        }
+        
+        
+        return response;
+    }
+
 }
