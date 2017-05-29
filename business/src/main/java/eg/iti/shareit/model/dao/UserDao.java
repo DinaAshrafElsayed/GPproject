@@ -11,5 +11,5 @@ import eg.iti.shareit.model.entity.UserEntity;
 public interface UserDao extends GenericDao<UserEntity> {
 
     public UserEntity getUserByEmail(String email) throws DatabaseRollbackException;
-
+    
 }

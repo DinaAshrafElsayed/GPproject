@@ -5,9 +5,10 @@
  */
 package eg.iti.shareit.model.dao;
 
-import eg.iti.shareit.model.dto.CountryDto;
 import eg.iti.shareit.model.entity.CountryEntity;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -15,9 +16,17 @@ import javax.ejb.Stateless;
  */
 @Stateless(mappedName = "CountryDaoImpl")
 public class CountryDaoImpl extends GenericDaoImpl<CountryEntity> implements CountryDao{
-    
+   @PersistenceContext
+    EntityManager entityManager;
     public CountryDaoImpl() {
         super(CountryEntity.class);
+    }
+
+    @Override
+    public CountryEntity getCountryByName(String name) {
+         CountryEntity countryEntity = (CountryEntity) entityManager.createNamedQuery("CountryEntity.findByCountry").
+                setParameter("country", name).getSingleResult();
+        return countryEntity;
     }
     
 }

@@ -7,16 +7,28 @@ package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.model.entity.StateEntity;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author Yousef
  */
 @Stateless(mappedName = "StateDaoImpl")
-public class StateDaoImpl extends GenericDaoImpl<StateEntity> implements StateDao{
-    
+public class StateDaoImpl extends GenericDaoImpl<StateEntity> implements StateDao {
+
+    @PersistenceContext
+    EntityManager entityManager;
+
     public StateDaoImpl() {
         super(StateEntity.class);
     }
-    
+
+    @Override
+    public StateEntity getStateByName(String state) {
+        StateEntity stateEntity = (StateEntity) entityManager.createNamedQuery("StateEntity.findByState").
+                setParameter("state", state).getSingleResult();
+        return stateEntity;
+    }
+
 }

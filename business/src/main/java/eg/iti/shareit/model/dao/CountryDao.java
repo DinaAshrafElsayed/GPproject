@@ -13,5 +13,5 @@ import eg.iti.shareit.model.entity.CountryEntity;
  * @author Yousef
  */
 public interface CountryDao extends GenericDao<CountryEntity>{
-    
+    public CountryEntity getCountryByName(String name);
 }

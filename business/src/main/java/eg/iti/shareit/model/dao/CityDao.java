@@ -13,5 +13,5 @@ import eg.iti.shareit.model.entity.CityEntity;
  * @author Yousef
  */
 public interface CityDao extends GenericDao<CityEntity>{
-    
+    public CityEntity getCityByName(String name);
 }
