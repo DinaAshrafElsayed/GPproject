@@ -58,4 +58,13 @@ public class ItemService {
         }
     }
     
+    public boolean isPending(int itemId) throws ServiceException{
+        try {
+            boolean isPending = itemDao.isPendeingRequest(itemId);
+            return isPending;
+        } catch (DatabaseException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
 }

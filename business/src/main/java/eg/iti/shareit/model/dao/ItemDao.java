@@ -18,4 +18,6 @@ public interface ItemDao extends GenericDao<ItemEntity>{
     public List<ItemEntity> searchItem(String name, int category) throws DatabaseRollbackException;
     
     public boolean isItemAvailable(int itemId) throws DatabaseRollbackException;
+    
+    public boolean isPendeingRequest(int itemId) throws DatabaseRollbackException;
 }
