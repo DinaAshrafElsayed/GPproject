@@ -12,38 +12,81 @@ http://dozer.sourceforge.net/schema/beanmapping.xsd">
     <mapping>
         <class-a>eg.iti.shareit.model.entity.UserEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.UserDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
     </mapping>
     <mapping>
         <class-a>eg.iti.shareit.model.entity.StateEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.StateDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
     </mapping>
     <mapping>
         <class-a>eg.iti.shareit.model.entity.ItemEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.ItemDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
     </mapping>
     <mapping>
         <class-a>eg.iti.shareit.model.entity.GenderEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.GenderDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
     </mapping>
     <mapping>
         <class-a>eg.iti.shareit.model.entity.CountryEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.CountryDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
     </mapping>
     <mapping>
         <class-a>eg.iti.shareit.model.entity.CityEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.CityDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
     </mapping>
     <mapping>
         <class-a>eg.iti.shareit.model.entity.CategoryEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.CategoryDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
     </mapping>
     <mapping>
         <class-a>eg.iti.shareit.model.entity.AddressEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.AddressDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
     </mapping>
     <mapping>
         <class-a>eg.iti.shareit.model.entity.ActivityEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.ActivityDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
     </mapping>
-
+    <mapping>
+        <class-a>eg.iti.shareit.model.entity.StatusEntity</class-a>
+        <class-b>eg.iti.shareit.model.dto.StatusDto</class-b>
+<!--        <field-exclude>
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>-->
+    </mapping>
 </mappings>

@@ -6,28 +6,29 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
+import java.math.BigDecimal;
 
 /**
  *
  * @author Yousef
  */
 public class StateDto implements java.io.Serializable, GenericDto {
-    private int id;
+    private BigDecimal id;
     private String state;
 
     public StateDto() {
     }
 
-    public StateDto(int id, String state) {
+    public StateDto(BigDecimal id, String state) {
         this.id = id;
         this.state = state;
     }
 
-    public int getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 

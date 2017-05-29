@@ -16,11 +16,15 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,17 +56,14 @@ public class ActivityEntity implements Serializable,
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_ACTIVITY_SEQ")
+    @SequenceGenerator(name = "T_ACTIVITY_SEQ" ,sequenceName = "T_ACTIVITY_SEQ" ,allocationSize = 1,initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "MEETING_POINT")
     private String meetingPoint;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "STATUS")
-    private String status;
     @Basic(optional = false)
     @NotNull
     @Column(name = "TIME_FROM")
@@ -86,6 +87,9 @@ public class ActivityEntity implements Serializable,
     @JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private UserEntity fromUser;
+    @JoinColumn(name = "STATUS", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private StatusEntity status;
 
     public ActivityEntity() {
     }
@@ -94,7 +98,7 @@ public class ActivityEntity implements Serializable,
         this.id = id;
     }
 
-    public ActivityEntity(BigDecimal id, String meetingPoint, String status, Date timeFrom, Date timeTo, short activityDeleted) {
+    public ActivityEntity(BigDecimal id, String meetingPoint, StatusEntity status, Date timeFrom, Date timeTo, short activityDeleted) {
         this.id = id;
         this.meetingPoint = meetingPoint;
         this.status = status;
@@ -119,16 +123,16 @@ public class ActivityEntity implements Serializable,
         this.meetingPoint = meetingPoint;
     }
 
-    public String getStatus() {
+    public Date getTimeFrom() {
+        return timeFrom;
+    }
+
+    public StatusEntity getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusEntity status) {
         this.status = status;
-    }
-
-    public Date getTimeFrom() {
-        return timeFrom;
     }
 
     public void setTimeFrom(Date timeFrom) {

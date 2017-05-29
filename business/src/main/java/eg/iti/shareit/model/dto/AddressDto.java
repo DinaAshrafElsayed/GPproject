@@ -6,13 +6,14 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
+import java.math.BigDecimal;
 
 /**
  *
  * @author Yousef
  */
 public class AddressDto implements java.io.Serializable, GenericDto{
-    private int id;
+    private BigDecimal id;
     private int rUser;
     private CountryDto country;
     private CityDto city;
@@ -21,7 +22,7 @@ public class AddressDto implements java.io.Serializable, GenericDto{
     public AddressDto() {
     }
 
-    public AddressDto(int id, int rUser, CountryDto country, CityDto city, StateDto state) {
+    public AddressDto(BigDecimal id, int rUser, CountryDto country, CityDto city, StateDto state) {
         this.id = id;
         this.rUser = rUser;
         this.country = country;
@@ -29,11 +30,11 @@ public class AddressDto implements java.io.Serializable, GenericDto{
         this.state = state;
     }
 
-    public int getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 

@@ -7,6 +7,7 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -15,12 +16,12 @@ import java.util.Date;
  */
 public class ActivityDto implements java.io.Serializable, GenericDto {
 
-    private int id;
+    private BigDecimal id;
     private ItemDto item;
     private UserDto fromUser;
     private UserDto toUser;
     private String meetingPoint;
-    private String status;
+    private StatusDto status;
     private Date timeFrom;
     private Date timeTo;
     private int activityDeleted;
@@ -28,11 +29,11 @@ public class ActivityDto implements java.io.Serializable, GenericDto {
     public ActivityDto() {
     }
 
-    public int getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
@@ -68,11 +69,11 @@ public class ActivityDto implements java.io.Serializable, GenericDto {
         this.meetingPoint = meetingPoint;
     }
 
-    public String getStatus() {
+    public StatusDto getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusDto status) {
         this.status = status;
     }
 
