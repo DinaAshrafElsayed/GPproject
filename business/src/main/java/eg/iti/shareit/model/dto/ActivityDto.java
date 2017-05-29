@@ -20,7 +20,7 @@ public class ActivityDto implements java.io.Serializable, GenericDto {
     private UserDto fromUser;
     private UserDto toUser;
     private String meetingPoint;
-    private String status;
+    private StatusDto status;
     private Date timeFrom;
     private Date timeTo;
     private int activityDeleted;
@@ -68,11 +68,11 @@ public class ActivityDto implements java.io.Serializable, GenericDto {
         this.meetingPoint = meetingPoint;
     }
 
-    public String getStatus() {
+    public StatusDto getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusDto status) {
         this.status = status;
     }
 

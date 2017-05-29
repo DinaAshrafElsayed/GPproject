@@ -16,6 +16,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -60,11 +61,6 @@ public class ActivityEntity implements Serializable,
     private String meetingPoint;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "STATUS")
-    private String status;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "TIME_FROM")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeFrom;
@@ -86,6 +82,9 @@ public class ActivityEntity implements Serializable,
     @JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private UserEntity fromUser;
+    @JoinColumn(name = "STATUS", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private StatusEntity status;
 
     public ActivityEntity() {
     }
@@ -94,7 +93,7 @@ public class ActivityEntity implements Serializable,
         this.id = id;
     }
 
-    public ActivityEntity(BigDecimal id, String meetingPoint, String status, Date timeFrom, Date timeTo, short activityDeleted) {
+    public ActivityEntity(BigDecimal id, String meetingPoint, StatusEntity status, Date timeFrom, Date timeTo, short activityDeleted) {
         this.id = id;
         this.meetingPoint = meetingPoint;
         this.status = status;
@@ -119,16 +118,16 @@ public class ActivityEntity implements Serializable,
         this.meetingPoint = meetingPoint;
     }
 
-    public String getStatus() {
+    public Date getTimeFrom() {
+        return timeFrom;
+    }
+
+    public StatusEntity getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusEntity status) {
         this.status = status;
-    }
-
-    public Date getTimeFrom() {
-        return timeFrom;
     }
 
     public void setTimeFrom(Date timeFrom) {

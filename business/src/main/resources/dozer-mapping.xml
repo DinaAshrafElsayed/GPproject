@@ -45,5 +45,8 @@ http://dozer.sourceforge.net/schema/beanmapping.xsd">
         <class-a>eg.iti.shareit.model.entity.ActivityEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.ActivityDto</class-b>
     </mapping>
- 
+    <mapping>
+        <class-a>eg.iti.shareit.model.entity.StatusEntity</class-a>
+        <class-b>eg.iti.shareit.model.dto.StatusDto</class-b>
+    </mapping>
 </mappings>

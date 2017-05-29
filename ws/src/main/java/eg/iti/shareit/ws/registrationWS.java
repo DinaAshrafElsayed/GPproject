@@ -1,4 +1,5 @@
 package eg.iti.shareit.ws;
+
 import eg.iti.shareit.model.dto.GenderDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.service.UserService;
@@ -26,37 +27,37 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
  */
 @Path("/upload")
 public class registrationWS {
-    
+
     @EJB
     UserService userService;
-    
+
     private static final Logger logger = Logger.getLogger(registrationWS.class.getName());
-    
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes("multipart/form-data")
     public Response uploadUserImage(MultipartFormDataInput input) {
-        
+
         Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 
         // Get file data to save
         List<InputPart> inputParts = uploadForm.get("attachment");
-        
+
         for (InputPart inputPart : inputParts) {
             try {
-                
+
                 MultivaluedMap<String, String> header = inputPart.getHeaders();
                 String fileName = getFileName(header);
 
                 // convert the uploaded file to inputstream
                 InputStream inputStream = inputPart.getBody(InputStream.class,
                         null);
-                
+
                 byte[] bytes = IOUtils.toByteArray(inputStream);
                 // constructs upload file path and saves it
                 fileName = "/home/user/profile/" + fileName;
                 writeFile(bytes, fileName);
-                
+
                 UserDto userDto = new UserDto();
                 userDto.setUsername(input.getFormDataPart("username", String.class, null));
                 userDto.setEmail(input.getFormDataPart("email", String.class, null));
@@ -67,7 +68,6 @@ public class registrationWS {
                 genderDto.setGender(input.getFormDataPart("gender", String.class, null));
                 userDto.setGender(genderDto);
 
-                
                 //save url to database
                 return Response.status(200).entity("Uploaded file name : " + fileName)
                         .build();
@@ -77,16 +77,16 @@ public class registrationWS {
         }
         return null;
     }
-    
+
     private String getFileName(MultivaluedMap<String, String> header) {
-        
+
         String[] contentDisposition = header.getFirst("Content-Disposition").split(";");
-        
+
         for (String filename : contentDisposition) {
             if ((filename.trim().startsWith("filename"))) {
-                
+
                 String[] name = filename.split("=");
-                
+
                 String finalFileName = name[1].trim().replaceAll("\"", "");
                 return finalFileName;
             }

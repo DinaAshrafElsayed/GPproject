@@ -6,8 +6,10 @@
 package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
+import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.NotificationDto;
+import eg.iti.shareit.model.dto.StatusDto;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
 import eg.iti.shareit.model.entity.UserEntity;
@@ -64,7 +66,7 @@ public class ActivityDaoImplBTM extends GenericDaoImpl<ActivityEntity> implement
             userTransaction.begin();
 
             //make the status accepted for the request.
-            activityDto.setStatus("1");
+            activityDto.setStatus(StatusEnum.ACCEPTED.getStatus());
             ActivityEntity activityEntity = mappingUtil.getEntity(activityDto, ActivityEntity.class);
             activityDao.update(activityEntity);
 
