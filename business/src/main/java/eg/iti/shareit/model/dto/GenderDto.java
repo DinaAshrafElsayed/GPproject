@@ -6,20 +6,21 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
+import java.math.BigDecimal;
 
 /**
  *
  * @author Yousef
  */
 public class GenderDto implements java.io.Serializable, GenericDto {
-    private int id;
+    private BigDecimal id;
     private String  gender;
 
-    public int getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 

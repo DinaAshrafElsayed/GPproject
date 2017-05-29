@@ -8,6 +8,7 @@ package eg.iti.shareit.service;
 import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
+import eg.iti.shareit.model.dao.ActivityDao;
 import eg.iti.shareit.model.dao.ItemDao;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.entity.ItemEntity;
@@ -26,6 +27,8 @@ public class ItemService {
 
     @EJB
     private ItemDao itemDao;
+    @EJB
+    private ActivityDao activityDao;
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
@@ -45,4 +48,25 @@ public class ItemService {
         }
     }
     
+    public boolean isItemAvailable(int itemId) throws ServiceException{
+        try{
+            boolean isAvailable = itemDao.isItemAvailable(itemId);
+            return isAvailable;
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+    public boolean addItemForShare(ItemEntity item){
+        boolean flag=false;
+        try {
+            int added=itemDao.addItem(item);
+            if(added!=0){
+                flag= true;
+            }
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return flag;
+    }
 }

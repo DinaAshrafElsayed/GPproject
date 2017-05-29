@@ -7,7 +7,13 @@ package eg.iti.shareit.ws;
 
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.ItemDto;
+import eg.iti.shareit.model.entity.CategoryEntity;
+import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.EJB;
@@ -28,6 +34,9 @@ public class ItemWS {
     
     @EJB
     ItemService itemService;
+     @EJB
+    CategoryService categoryService;
+    
     private static final Logger logger = Logger.getLogger(ItemWS.class.getName());
     
     @GET
@@ -76,5 +85,44 @@ public class ItemWS {
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unexpected error has been occurred please try again later").build();
         }
         return response;
+    }
+    
+    
+    @GET
+    @Path("/isAvailable")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response isAvailable(@QueryParam("id")int itemId){
+        Response response;
+        try {
+            boolean isItemAvailable = itemService.isItemAvailable(itemId);
+             response = Response.ok().entity(isItemAvailable).build();
+        } catch (ServiceException ex) {
+            logger.log(Level.SEVERE,"service exception occurred",ex);
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Service exception occurred please try again later").build();
+        }catch (Exception e) {
+            logger.log(Level.SEVERE,"unexpected error",e);
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unexpected error has been occurred please try again later").build();
+        }
+        return response;
+    }
+    @GET
+    @Path("/add")
+    public void addItemForShare(@QueryParam("name") String name, @QueryParam("description") String description, @QueryParam("category") String category, @QueryParam("points") String points) {
+
+        try {
+            System.out.println("in item ws");
+            CategoryEntity cat = categoryService.getCategoryByName(category);
+
+            long pts = Integer.parseInt(points);
+           // ItemEntity item = new ItemEntity(BigDecimal.ONE, name, (short) 1, new Date(), (BigInteger.valueOf(pts)));
+           ItemEntity item=new ItemEntity(name, description, (short)1, new Date(), BigInteger.ONE);
+         //   item.setIsAvailable((short) 1);
+            item.setCategory(cat);
+            itemService.addItemForShare(item);
+            System.out.println("doneeeee with item");
+        } catch (ServiceException e) {
+            System.out.println("not done with item :(");
+            logger.log(Level.SEVERE, "service exception occurred", e);
+        }
     }
 }

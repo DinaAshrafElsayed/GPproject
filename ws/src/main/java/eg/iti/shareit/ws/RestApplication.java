@@ -19,6 +19,7 @@ public class RestApplication extends Application {
         classes.add(ActivityWS.class);
         classes.add(RegistrationWS.class);
         classes.add(ItemWS.class);
+        classes.add(RequestWS.class);
         return classes;
     }
 

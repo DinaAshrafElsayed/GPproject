@@ -3,6 +3,7 @@ package eg.iti.shareit.model.dto;
 // Generated Nov 9, 2015 9:29:03 PM by Hibernate Tools 4.0.0
 
 import eg.iti.shareit.common.dto.GenericDto;
+import java.math.BigDecimal;
 
 
 /**
@@ -10,7 +11,7 @@ import eg.iti.shareit.common.dto.GenericDto;
  */
 public class UserDto implements java.io.Serializable, GenericDto {
 
-    private int id;
+    private BigDecimal id;
     private String email;
     private String username;
     private String password;
@@ -22,12 +23,12 @@ public class UserDto implements java.io.Serializable, GenericDto {
     public UserDto() {
     }
 
-    public UserDto(int id, String username) {
+    public UserDto(BigDecimal id, String username) {
         this.id = id;
         this.username = username;
     }
 
-    public UserDto(int id, String email, String username, String password, String imageUrl, int points, GenderDto gender) {
+    public UserDto(BigDecimal id, String email, String username, String password, String imageUrl, int points, GenderDto gender) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -39,11 +40,11 @@ public class UserDto implements java.io.Serializable, GenericDto {
 
     
 
-    public int getId() {
+    public BigDecimal getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 

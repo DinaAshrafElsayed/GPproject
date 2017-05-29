@@ -5,7 +5,6 @@
  */
 package eg.iti.shareit.model.entity;
 
-import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,13 +31,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Adel Zaid
  */
 @Entity
-@Table(name = "T_COUNTRY")
+@Table(name = "T_STATUS")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CountryEntity.findAll", query = "SELECT t FROM CountryEntity t"),
-    @NamedQuery(name = "CountryEntity.findById", query = "SELECT t FROM CountryEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "CountryEntity.findByCountry", query = "SELECT t FROM CountryEntity t WHERE t.country = :country")})
-public class CountryEntity implements Serializable, GenericEntity {
+    @NamedQuery(name = "StatusEntity.findAll", query = "SELECT s FROM StatusEntity s"),
+    @NamedQuery(name = "StatusEntity.findById", query = "SELECT s FROM StatusEntity s WHERE s.id = :id"),
+    @NamedQuery(name = "StatusEntity.findByStatus", query = "SELECT s FROM StatusEntity s WHERE s.status = :status")})
+public class StatusEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -45,27 +45,27 @@ public class CountryEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_COUNTRY_SEQ")
-    @SequenceGenerator(name = "T_COUNTRY_SEQ" ,sequenceName = "T_COUNTRY_SEQ" ,allocationSize = 1,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_STATUS_SEQ")
+    @SequenceGenerator(name = "T_STATUS_SEQ" ,sequenceName = "T_STATUS_SEQ" ,allocationSize = 1,initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "COUNTRY")
-    private String country;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
-    private List<AddressEntity> addressList;
+    @Column(name = "STATUS")
+    private String status;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "status", fetch = FetchType.LAZY)
+    private List<ActivityEntity> activityEntityList;
 
-    public CountryEntity() {
+    public StatusEntity() {
     }
 
-    public CountryEntity(BigDecimal id) {
+    public StatusEntity(BigDecimal id) {
         this.id = id;
     }
 
-    public CountryEntity(BigDecimal id, String country) {
+    public StatusEntity(BigDecimal id, String status) {
         this.id = id;
-        this.country = country;
+        this.status = status;
     }
 
     public BigDecimal getId() {
@@ -76,21 +76,21 @@ public class CountryEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public String getCountry() {
-        return country;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @XmlTransient
-    public List<AddressEntity> getAddressList() {
-        return addressList;
+    public List<ActivityEntity> getActivityEntityList() {
+        return activityEntityList;
     }
 
-    public void setAddressList(List<AddressEntity> addressList) {
-        this.addressList = addressList;
+    public void setActivityEntityList(List<ActivityEntity> activityEntityList) {
+        this.activityEntityList = activityEntityList;
     }
 
     @Override
@@ -103,10 +103,10 @@ public class CountryEntity implements Serializable, GenericEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CountryEntity)) {
+        if (!(object instanceof StatusEntity)) {
             return false;
         }
-        CountryEntity other = (CountryEntity) object;
+        StatusEntity other = (StatusEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -115,7 +115,7 @@ public class CountryEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.CountryEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.model.entity.StatusEntity[ id=" + id + " ]";
     }
 
 }

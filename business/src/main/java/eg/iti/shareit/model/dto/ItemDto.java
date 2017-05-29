@@ -6,6 +6,7 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  * @author Yousef
  */
 public class ItemDto implements java.io.Serializable, GenericDto{
-    private int id;
+    private BigDecimal id;
     private String name;
     private String description;
     private CategoryDto category;
@@ -24,13 +25,13 @@ public class ItemDto implements java.io.Serializable, GenericDto{
     public ItemDto() {
     }
 
-    public ItemDto(int id, String name, String description) {
+    public ItemDto(BigDecimal id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public ItemDto(int id, String name, String description, CategoryDto category, int isAvailable, Date publishDate, int points) {
+    public ItemDto(BigDecimal id, String name, String description, CategoryDto category, int isAvailable, Date publishDate, int points) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -40,11 +41,11 @@ public class ItemDto implements java.io.Serializable, GenericDto{
         this.points = points;
     }
 
-    public int getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
