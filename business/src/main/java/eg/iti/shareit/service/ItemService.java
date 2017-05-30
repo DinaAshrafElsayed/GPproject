@@ -58,4 +58,25 @@ public class ItemService {
         }
     }
     
+    public boolean isPending(int itemId) throws ServiceException{
+        try {
+            boolean isPending = itemDao.isPendeingRequest(itemId);
+            return isPending;
+        } catch (DatabaseException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+    public boolean addItemForShare(ItemEntity item){
+        boolean flag=false;
+        try {
+            int added=itemDao.addItem(item);
+            if(added!=0){
+                flag= true;
+            }
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return flag;
+    }
 }

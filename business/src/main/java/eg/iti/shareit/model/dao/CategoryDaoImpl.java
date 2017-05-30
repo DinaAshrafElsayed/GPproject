@@ -5,8 +5,12 @@
  */
 package eg.iti.shareit.model.dao;
 
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.model.entity.CategoryEntity;
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 /**
  *
@@ -17,6 +21,23 @@ public class CategoryDaoImpl extends GenericDaoImpl<CategoryEntity> implements C
     
     public CategoryDaoImpl() {
         super(CategoryEntity.class);
+    }
+
+    @Override
+    public CategoryEntity getCategoryByName(String name) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select c From CategoryEntity c where c.name = :name");
+        query.setParameter("name", name);
+
+        try {
+            List<CategoryEntity> categoryList = query.getResultList();
+            if (categoryList != null && categoryList.size() == 1) {
+                return categoryList.get(0);
+            } else {
+                throw new DatabaseRollbackException("category  Not Found");
+            }
+        } catch (PersistenceException ex) {
+            throw new DatabaseRollbackException(ex.getMessage());
+        }
     }
     
 }

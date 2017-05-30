@@ -29,7 +29,24 @@ public class RequestWS {
     @EJB
     ItemService itemService;
     private static final Logger logger = Logger.getLogger(RequestWS.class.getName());
-    
-    
    
+    
+    @GET
+    @Path("/isPending")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response cancelRequest(@QueryParam("itemId") int itemId){
+        boolean itemStatus;
+        Response response;
+        try {
+            itemStatus = itemService.isPending(itemId);
+            response = Response.ok().entity(itemStatus).build();
+        } catch (ServiceException ex) {
+            logger.log(Level.SEVERE,"service exception occurred",ex);
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Service exception occurred please try again later").build();
+        }catch (Exception e) {
+            logger.log(Level.SEVERE,"unexpected error",e);
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unexpected error has been occurred please try again later").build();
+        }
+        return response;
+    }
 }
