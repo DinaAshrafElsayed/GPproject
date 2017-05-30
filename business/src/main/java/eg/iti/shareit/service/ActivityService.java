@@ -6,10 +6,12 @@
 package eg.iti.shareit.service;
 
 import eg.iti.shareit.common.Exception.DatabaseException;
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.dao.ActivityDao;
 import eg.iti.shareit.model.dao.ActivityDaoBTM;
+import eg.iti.shareit.model.dao.ActivityDaoImpl;
 import eg.iti.shareit.model.dao.ItemDao;
 import eg.iti.shareit.model.dao.UserDao;
 import eg.iti.shareit.model.dto.ActivityDto;
@@ -125,6 +127,12 @@ public class ActivityService {
     }
     private void insertActivity(ActivityDto actvity) throws ServiceException{
         ActivityEntity entity = mappingUtil.getEntity(actvity, ActivityEntity.class);
-        activityDao.save(entity);
+        
+        try {
+            activityDao.saveActivity(entity);
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ActivityService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
     }
 }
