@@ -14,6 +14,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 
 /**
  *
@@ -110,4 +111,30 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
+    
+    @Override
+    public int addItem(ItemEntity item) throws DatabaseRollbackException {
+        
+         int i=0;
+        try {
+           
+//            Query query = getEntityManager().createNativeQuery("insert into T_ITEM (NAME,DESCRIPTION,CATEGORY,IS_AVAILABLE,PUBLISH_DATE,POINTS)" + " values (?,?,?,?,?,?)");
+//            query.setParameter(1, item.getName());
+//            query.setParameter(2, item.getDescription());
+//            query.setParameter(3, item.getCategory());
+//            query.setParameter(4, item.getIsAvailable());
+//            query.setParameter(5, item.getPublishDate());
+//            query.setParameter(6, item.getPoints());
+//             i = query.executeUpdate();
+//            System.out.println("done in the database");
+
+              getEntityManager().persist(item);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RollbackException("cannot presist the item object using  presist");
+        }
+        return i;
+
+    }
+
 }
