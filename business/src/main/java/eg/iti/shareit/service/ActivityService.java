@@ -135,4 +135,14 @@ public class ActivityService {
             throw new ServiceException(ex.getMessage());
         }
     }
+    public String cancelRequest(int id) throws ServiceException{
+        try {
+            
+            return activityDao.cancelRequest(id);
+            
+        } catch (DatabaseException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
 }

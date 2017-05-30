@@ -6,6 +6,7 @@
 package eg.iti.shareit.ws;
 
 import eg.iti.shareit.common.Exception.ServiceException;
+import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.NotificationDto;
 import eg.iti.shareit.service.ActivityService;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javassist.compiler.TokenId;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -122,32 +124,58 @@ public class ActivityWS {
         }
         return response;
     }
-    
+
     @POST
     @Path("/requestItem")
     @Produces(MediaType.TEXT_HTML)
-    public Response requestItem(@FormParam("item")int itemId,
-            @FormParam("from")int fromUserId,
-            @FormParam("to")int toUserId,
-            @FormParam("timeTo")Date timeTo,
-            @FormParam("meetingPoint")String meetingPoint){
+    public Response requestItem(@FormParam("item") int itemId,
+            @FormParam("from") int fromUserId,
+            @FormParam("to") int toUserId,
+            @FormParam("timeTo") Date timeTo,
+            @FormParam("meetingPoint") String meetingPoint) {
         Response response;
         boolean result;
         try {
-            
-            result = activityService.requestItem(itemId,fromUserId,toUserId,timeTo, meetingPoint);
-            if(result)
-                response =  Response.ok().entity("item requested successfully").build();
-            else
-                response =  Response.ok().entity("item is not available").build();
-           logger.info("request done successfully "+result);
+
+            result = activityService.requestItem(itemId, fromUserId, toUserId, timeTo, meetingPoint);
+            if (result) {
+                response = Response.ok().entity("item requested successfully").build();
+            } else {
+                response = Response.ok().entity("item is not available").build();
+            }
+            logger.info("request done successfully " + result);
         } catch (ServiceException ex) {
-           logger.log(Level.SEVERE, "Unexpected Error occured", ex);
+            logger.log(Level.SEVERE, "Unexpected Error occured", ex);
             response = Response.ok().status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was a problem requesting the item").build();
         }
-        
-        
+
         return response;
     }
 
+    @POST
+    @Path("/cancelRequest")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response cancelRequest(@QueryParam("id") int id) {
+        boolean itemStatus;
+        Response response;
+         String cancelRequest;
+        try {
+             cancelRequest = activityService.cancelRequest(id);
+           if(cancelRequest.equals("Pending"))
+            response = Response.ok().entity("Request has been canceled!").build();
+           else if(cancelRequest.equals("Declined"))
+            response = Response.ok().entity("Request is already declined!").build();
+           else if(cancelRequest.equals("Accepted"))
+               response = Response.ok().entity("Request is already accepted!").build();
+            else 
+               response = Response.ok().entity("Request is already deleted!").build();
+        } catch (ServiceException ex) {
+            logger.log(Level.SEVERE, "service exception occurred", ex);
+            response = Response.status(Response.Status.NOT_FOUND).entity("Specified id is not found!").build();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "unexpected error", e);
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unexpected error has been occurred please try again later").build();
+        }
+        return response;
+    }
 }
