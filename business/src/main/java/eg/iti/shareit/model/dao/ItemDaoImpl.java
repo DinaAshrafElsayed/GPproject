@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 
 /**
  *
@@ -20,47 +21,48 @@ import javax.persistence.Query;
  */
 @Stateless(mappedName = "ItemDaoImpl")
 public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
-    
+
     public ItemDaoImpl() {
         super(ItemEntity.class);
     }
 
-    
     @Override
     public List<ItemEntity> searchItem(String name, int categoryId) throws DatabaseRollbackException {
         Query query;
         String queryString = "Select i From ItemEntity i ";
         boolean flag = false;
-        if(name != null){
+        if (name != null) {
             flag = true;
             queryString += " where i.name = :name ";
         }
-        if(categoryId != 0){
-            if(flag)
+        if (categoryId != 0) {
+            if (flag) {
                 queryString += " and ";
-            else
+            } else {
                 queryString += "where ";
+            }
             queryString += "i.category.id = :categoryId";
         }
-        
+
         query = getEntityManager().createQuery(queryString);
-        if(name != null)
+        if (name != null) {
             query.setParameter("name", name);
-        
-        if(categoryId != 0)
+        }
+
+        if (categoryId != 0) {
             query.setParameter("categoryId", new BigDecimal(categoryId));
+        }
 
         try {
             List<ItemEntity> itemList = query.getResultList();
-            if (itemList != null ) {
+            if (itemList != null) {
                 return itemList;
             } else {
-                throw new DatabaseRollbackException("ItemEntities with name <" + name + "> and categoryId <"+categoryId+"> Not Found");
+                throw new DatabaseRollbackException("ItemEntities with name <" + name + "> and categoryId <" + categoryId + "> Not Found");
             }
         } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
-    
 
     }
 
@@ -68,22 +70,46 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
     public boolean isItemAvailable(int itemId) throws DatabaseRollbackException {
         Query query = getEntityManager().createQuery("Select i From ItemEntity i where i.isAvailable = 1 and i.id = :itemId");
         query.setParameter("itemId", new BigDecimal(itemId));
-        
-        try{
+
+        try {
             List<ActivityEntity> activityList = query.getResultList();
-            if(activityList != null ){
-                if(activityList.size() == 1)
+            if (activityList != null) {
+                if (activityList.size() == 1) {
                     return true;
-                else
+                } else {
                     return false;
-            }else{ 
-               throw new DatabaseRollbackException("no such item");
+                }
+            } else {
+                throw new DatabaseRollbackException("no such item");
             }
-        }catch (PersistenceException ex) {
+        } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
 
-    
-    
+    @Override
+    public int addItem(ItemEntity item) throws DatabaseRollbackException {
+        
+         int i=0;
+        try {
+           
+//            Query query = getEntityManager().createNativeQuery("insert into T_ITEM (NAME,DESCRIPTION,CATEGORY,IS_AVAILABLE,PUBLISH_DATE,POINTS)" + " values (?,?,?,?,?,?)");
+//            query.setParameter(1, item.getName());
+//            query.setParameter(2, item.getDescription());
+//            query.setParameter(3, item.getCategory());
+//            query.setParameter(4, item.getIsAvailable());
+//            query.setParameter(5, item.getPublishDate());
+//            query.setParameter(6, item.getPoints());
+//             i = query.executeUpdate();
+//            System.out.println("done in the database");
+
+              getEntityManager().persist(item);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RollbackException("cannot presist the item object using  presist");
+        }
+        return i;
+
+    }
+
 }
