@@ -14,6 +14,5 @@ import eg.iti.shareit.model.entity.CategoryEntity;
  * @author Yousef
  */
 public interface CategoryDao extends GenericDao<CategoryEntity>{
-   
     public CategoryEntity getCategoryByName(String name)throws DatabaseRollbackException;  
 }
