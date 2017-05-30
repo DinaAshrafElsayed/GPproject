@@ -100,6 +100,14 @@ public class ItemEntity implements Serializable, GenericEntity {
         this.points = points;
     }
 
+    public ItemEntity(String name, String description, short isAvailable, Date publishDate, BigInteger points) {
+        this.name = name;
+        this.description = description;
+        this.isAvailable = isAvailable;
+        this.publishDate = publishDate;
+        this.points = points;
+    }
+
     public BigDecimal getId() {
         return id;
     }
