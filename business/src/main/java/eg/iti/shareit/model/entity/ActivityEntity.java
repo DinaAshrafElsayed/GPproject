@@ -57,7 +57,7 @@ public class ActivityEntity implements Serializable,
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_ACTIVITY_SEQ")
-    @SequenceGenerator(name = "T_ACTIVITY_SEQ" ,sequenceName = "T_ACTIVITY_SEQ" ,allocationSize = 1,initialValue = 1)
+    @SequenceGenerator(name = "T_ACTIVITY_SEQ" ,sequenceName = "T_ACTIVITY_SEQ" ,allocationSize = 100,initialValue = 5)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull

@@ -5,6 +5,7 @@
  */
 package eg.iti.shareit.model.entity;
 
+import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -37,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StatusEntity.findAll", query = "SELECT s FROM StatusEntity s"),
     @NamedQuery(name = "StatusEntity.findById", query = "SELECT s FROM StatusEntity s WHERE s.id = :id"),
     @NamedQuery(name = "StatusEntity.findByStatus", query = "SELECT s FROM StatusEntity s WHERE s.status = :status")})
-public class StatusEntity implements Serializable {
+public class StatusEntity implements Serializable,GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation

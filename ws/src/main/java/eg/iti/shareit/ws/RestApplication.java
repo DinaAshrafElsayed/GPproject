@@ -20,7 +20,7 @@ public class RestApplication extends Application {
         classes.add(registrationWS.class);
         classes.add(ItemWS.class);
         classes.add(LoginWS.class);
-        classes.add(RequestWS.class);
+        //classes.add(RequestWS.class);
         return classes;
     }
 

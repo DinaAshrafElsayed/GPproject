@@ -6,10 +6,12 @@
 package eg.iti.shareit.service;
 
 import eg.iti.shareit.common.Exception.DatabaseException;
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.dao.ActivityDao;
 import eg.iti.shareit.model.dao.ActivityDaoBTM;
+import eg.iti.shareit.model.dao.ActivityDaoImpl;
 import eg.iti.shareit.model.dao.ItemDao;
 import eg.iti.shareit.model.dao.UserDao;
 import eg.iti.shareit.model.dto.ActivityDto;
@@ -45,8 +47,7 @@ public class ActivityService {
     private UserDao userDao;
     @EJB
     private ItemService itemService;
-    
-    
+
     @EJB
     private ActivityDaoBTM activityDaoBTM;
     @EJB(beanName = "MappingUtil")
@@ -70,8 +71,14 @@ public class ActivityService {
         }
     }
 
-    public void deleteActivity(int id) throws ServiceException {
-        activityDao.delete(new BigDecimal(id));
+    public String declineRequest(int id) throws ServiceException {
+        try {
+            return activityDao.declineRequest(id);
+        } catch (DatabaseException e) {
+            Logger.getLogger(ActivityService.class.getName()).log(Level.SEVERE, null, e);
+            throw new ServiceException(e.getMessage());
+        }
+
     }
 
     public void acceptRequest(ActivityDto activityDto) throws ServiceException {
@@ -94,11 +101,11 @@ public class ActivityService {
             throw new ServiceException(ex.getMessage());
         }
     }
-    
-    public boolean requestItem(int itemId,int fromUserId,int toUserId,Date timeTo,String meetingPoint) throws ServiceException{
-       
+
+    public boolean requestItem(int itemId, int fromUserId, int toUserId, Date timeTo, String meetingPoint) throws ServiceException {
+
         boolean isAvailable = itemService.isItemAvailable(itemId);
-        if(isAvailable){
+        if (isAvailable) {
             ItemEntity itemEntity = itemDao.get(new BigDecimal(itemId));
             UserEntity fromUserEntity = userDao.get(new BigDecimal(fromUserId));
             UserEntity toUserEntity = userDao.get(new BigDecimal(toUserId));
@@ -119,12 +126,30 @@ public class ActivityService {
 
             insertActivity(activityDto);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    private void insertActivity(ActivityDto actvity) throws ServiceException{
+
+    private void insertActivity(ActivityDto actvity) throws ServiceException {
         ActivityEntity entity = mappingUtil.getEntity(actvity, ActivityEntity.class);
-        activityDao.save(entity);
+
+        try {
+            activityDao.saveActivity(entity);
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ActivityService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+
+    public String cancelRequest(int id) throws ServiceException {
+        try {
+
+            return activityDao.cancelRequest(id);
+
+        } catch (DatabaseException ex) {
+            Logger.getLogger(ActivityService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
     }
 }

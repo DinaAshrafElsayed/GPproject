@@ -57,6 +57,8 @@ public class ItemService {
             throw new ServiceException(ex.getMessage());
         }
     }
+    
+    
     public boolean addItemForShare(ItemEntity item){
         boolean flag=false;
         try {

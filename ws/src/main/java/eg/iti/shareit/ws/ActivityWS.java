@@ -73,14 +73,24 @@ public class ActivityWS {
         return response;
     }
 
-    @DELETE
-    @Path("/delete")
+    @POST
+    @Path("/declineRequest")
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteActivity(@QueryParam("id") int id) {
         Response response;
         try {
-            activityService.deleteActivity(id);
-            response = Response.status(Response.Status.OK).entity("User Deleted").build();
+            String declineRequest = activityService.declineRequest(id);
+            switch (declineRequest) {
+                case "Deleted":
+                    response = Response.ok().entity("Request is already deleted!").build();
+                    break;
+                case "Already Declined":
+                    response = Response.status(Response.Status.OK).entity("Request is already Declined").build();
+                    break;
+                default:
+                    response = Response.status(Response.Status.OK).entity("Request has been successfully Declined").build();
+                    break;
+            }
 
         } catch (ServiceException e) {
             logger.log(Level.SEVERE, "Service Exception occurred", e);
@@ -122,32 +132,59 @@ public class ActivityWS {
         }
         return response;
     }
-    
+
     @POST
     @Path("/requestItem")
     @Produces(MediaType.TEXT_HTML)
-    public Response requestItem(@FormParam("item")int itemId,
-            @FormParam("from")int fromUserId,
-            @FormParam("to")int toUserId,
-            @FormParam("timeTo")Date timeTo,
-            @FormParam("meetingPoint")String meetingPoint){
+    public Response requestItem(@FormParam("item") int itemId,
+            @FormParam("from") int fromUserId,
+            @FormParam("to") int toUserId,
+            @FormParam("timeTo") Date timeTo,
+            @FormParam("meetingPoint") String meetingPoint) {
         Response response;
         boolean result;
         try {
-            
-            result = activityService.requestItem(itemId,fromUserId,toUserId,timeTo, meetingPoint);
-            if(result)
-                response =  Response.ok().entity("item requested successfully").build();
-            else
-                response =  Response.ok().entity("item is not available").build();
-           logger.info("request done successfully "+result);
+
+            result = activityService.requestItem(itemId, fromUserId, toUserId, timeTo, meetingPoint);
+            if (result) {
+                response = Response.ok().entity("item requested successfully").build();
+            } else {
+                response = Response.ok().entity("item is not available").build();
+            }
+            logger.info("request done successfully " + result);
         } catch (ServiceException ex) {
-           logger.log(Level.SEVERE, "Unexpected Error occured", ex);
+            logger.log(Level.SEVERE, "Unexpected Error occured", ex);
             response = Response.ok().status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was a problem requesting the item").build();
         }
-        
-        
+
         return response;
     }
 
+    @POST
+    @Path("/cancelRequest")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response cancelRequest(@QueryParam("id") int id) {
+        boolean itemStatus;
+        Response response;
+        String cancelRequest;
+        try {
+            cancelRequest = activityService.cancelRequest(id);
+            if (cancelRequest.equals("Pending")) {
+                response = Response.ok().entity("Request has been canceled!").build();
+            } else if (cancelRequest.equals("Declined")) {
+                response = Response.ok().entity("Request is already declined!").build();
+            } else if (cancelRequest.equals("Accepted")) {
+                response = Response.ok().entity("Request is already accepted!").build();
+            } else {
+                response = Response.ok().entity("Request is already deleted!").build();
+            }
+        } catch (ServiceException ex) {
+            logger.log(Level.SEVERE, "service exception occurred", ex);
+            response = Response.status(Response.Status.NOT_FOUND).entity("Specified id is not found!").build();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "unexpected error", e);
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unexpected error has been occurred please try again later").build();
+        }
+        return response;
+    }
 }
