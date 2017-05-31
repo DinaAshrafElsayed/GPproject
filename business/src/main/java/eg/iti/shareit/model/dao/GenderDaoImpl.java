@@ -16,16 +16,13 @@ import javax.persistence.PersistenceContext;
 @Stateless(mappedName = "GenderDaoImpl")
 public class GenderDaoImpl extends GenericDaoImpl<GenderEntity> implements GenderDao {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     public GenderDaoImpl() {
         super(GenderEntity.class);
     }
 
     @Override
     public GenderEntity getGenderByName(String gender) {
-        GenderEntity genderEntity = (GenderEntity) entityManager.createNamedQuery("GenderEntity.findByGender").
+        GenderEntity genderEntity = (GenderEntity) getEntityManager().createNamedQuery("GenderEntity.findByGender").
                 setParameter("gender", gender).getSingleResult();
         return genderEntity;
     }

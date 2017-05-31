@@ -41,9 +41,25 @@ public class UserService {
         }
     }
 
-    public void RegisterUser(UserDto user) {
-        user.setGender(genderService.getGender(user.getGender().getGender()));
-        UserEntity userEntity = mappingUtil.getEntity(user, UserEntity.class);
-        userDao.save(userEntity);
+    public void RegisterUser(UserDto user) throws ServiceException {
+        try {
+            user.setGender(genderService.getGender(user.getGender().getGender()));
+            UserEntity userEntity = mappingUtil.getEntity(user, UserEntity.class);
+            userDao.save(userEntity);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public UserDto findUser(String email, String password) throws ServiceException {
+        try {
+            UserEntity userEntity = userDao.findUser(email, password);
+            UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
+            return userDto;
+        } catch (DatabaseException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
+        }
     }
 }

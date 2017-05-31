@@ -16,15 +16,13 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless(mappedName = "CountryDaoImpl")
 public class CountryDaoImpl extends GenericDaoImpl<CountryEntity> implements CountryDao{
-   @PersistenceContext
-    EntityManager entityManager;
     public CountryDaoImpl() {
         super(CountryEntity.class);
     }
 
     @Override
     public CountryEntity getCountryByName(String name) {
-         CountryEntity countryEntity = (CountryEntity) entityManager.createNamedQuery("CountryEntity.findByCountry").
+         CountryEntity countryEntity = (CountryEntity) getEntityManager().createNamedQuery("CountryEntity.findByCountry").
                 setParameter("country", name).getSingleResult();
         return countryEntity;
     }

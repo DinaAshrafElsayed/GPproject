@@ -17,16 +17,13 @@ import javax.persistence.PersistenceContext;
 @Stateless(mappedName = "StateDaoImpl")
 public class StateDaoImpl extends GenericDaoImpl<StateEntity> implements StateDao {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     public StateDaoImpl() {
         super(StateEntity.class);
     }
 
     @Override
     public StateEntity getStateByName(String state) {
-        StateEntity stateEntity = (StateEntity) entityManager.createNamedQuery("StateEntity.findByState").
+        StateEntity stateEntity = (StateEntity) getEntityManager().createNamedQuery("StateEntity.findByState").
                 setParameter("state", state).getSingleResult();
         return stateEntity;
     }

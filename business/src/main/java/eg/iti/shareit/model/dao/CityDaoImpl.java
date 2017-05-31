@@ -17,16 +17,13 @@ import javax.persistence.PersistenceContext;
 @Stateless(mappedName = "CityDaoImpl")
 public class CityDaoImpl extends GenericDaoImpl<CityEntity> implements CityDao {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     public CityDaoImpl() {
         super(CityEntity.class);
     }
 
     @Override
     public CityEntity getCityByName(String city) {
-        CityEntity cityEntity = (CityEntity) entityManager.createNamedQuery("CityEntity.findByCity").
+        CityEntity cityEntity = (CityEntity) getEntityManager().createNamedQuery("CityEntity.findByCity").
                 setParameter("city", city).getSingleResult();
         return cityEntity;
     }

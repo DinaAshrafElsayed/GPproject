@@ -2,6 +2,7 @@ package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.model.entity.UserEntity;
+import eg.iti.shareit.model.util.HashingUtil;
 
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
@@ -35,4 +36,21 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
         }
     }
 
+    @Override
+    public UserEntity findUser(String email, String password) throws DatabaseRollbackException {
+        HashingUtil hashingUtil = new HashingUtil();
+        String hashedPassword = hashingUtil.getHashedPassword(password);
+        Query query = getEntityManager().createQuery("Select u From UserEntity u where u.email = :email and u.password = :password");
+        query.setParameter("email", email).setParameter("password", hashedPassword);
+        try {
+            List<UserEntity> userList = query.getResultList();
+            if (userList != null && userList.size() == 1) {
+                return userList.get(0);
+            } else {
+                return null;
+            }
+        } catch (PersistenceException ex) {
+            throw new DatabaseRollbackException(ex.getMessage());
+        }
+    }
 }
