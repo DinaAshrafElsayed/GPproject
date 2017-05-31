@@ -6,7 +6,6 @@
 package eg.iti.shareit.ws;
 
 import eg.iti.shareit.common.Exception.ServiceException;
-import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.NotificationDto;
 import eg.iti.shareit.service.ActivityService;
@@ -14,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javassist.compiler.TokenId;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -75,14 +73,24 @@ public class ActivityWS {
         return response;
     }
 
-    @DELETE
-    @Path("/delete")
+    @POST
+    @Path("/declineRequest")
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteActivity(@QueryParam("id") int id) {
         Response response;
         try {
-            activityService.deleteActivity(id);
-            response = Response.status(Response.Status.OK).entity("User Deleted").build();
+            String declineRequest = activityService.declineRequest(id);
+            switch (declineRequest) {
+                case "Deleted":
+                    response = Response.ok().entity("Request is already deleted!").build();
+                    break;
+                case "Already Declined":
+                    response = Response.status(Response.Status.OK).entity("Request is already Declined").build();
+                    break;
+                default:
+                    response = Response.status(Response.Status.OK).entity("Request has been successfully Declined").build();
+                    break;
+            }
 
         } catch (ServiceException e) {
             logger.log(Level.SEVERE, "Service Exception occurred", e);
@@ -158,17 +166,18 @@ public class ActivityWS {
     public Response cancelRequest(@QueryParam("id") int id) {
         boolean itemStatus;
         Response response;
-         String cancelRequest;
+        String cancelRequest;
         try {
-             cancelRequest = activityService.cancelRequest(id);
-           if(cancelRequest.equals("Pending"))
-            response = Response.ok().entity("Request has been canceled!").build();
-           else if(cancelRequest.equals("Declined"))
-            response = Response.ok().entity("Request is already declined!").build();
-           else if(cancelRequest.equals("Accepted"))
-               response = Response.ok().entity("Request is already accepted!").build();
-            else 
-               response = Response.ok().entity("Request is already deleted!").build();
+            cancelRequest = activityService.cancelRequest(id);
+            if (cancelRequest.equals("Pending")) {
+                response = Response.ok().entity("Request has been canceled!").build();
+            } else if (cancelRequest.equals("Declined")) {
+                response = Response.ok().entity("Request is already declined!").build();
+            } else if (cancelRequest.equals("Accepted")) {
+                response = Response.ok().entity("Request is already accepted!").build();
+            } else {
+                response = Response.ok().entity("Request is already deleted!").build();
+            }
         } catch (ServiceException ex) {
             logger.log(Level.SEVERE, "service exception occurred", ex);
             response = Response.status(Response.Status.NOT_FOUND).entity("Specified id is not found!").build();

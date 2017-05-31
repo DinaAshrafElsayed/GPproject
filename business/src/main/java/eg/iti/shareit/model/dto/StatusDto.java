@@ -5,13 +5,15 @@
  */
 package eg.iti.shareit.model.dto;
 
+import eg.iti.shareit.common.dto.GenericDto;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  *
  * @author Adel Zaid
  */
-public class StatusDto {
+public class StatusDto implements Serializable, GenericDto {
 
     private BigDecimal id;
     private String status;
