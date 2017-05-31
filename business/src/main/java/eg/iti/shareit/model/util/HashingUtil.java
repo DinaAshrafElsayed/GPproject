@@ -8,10 +8,12 @@ import java.security.*;
 import java.math.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Stateless;
 /**
  *
  * @author Dina Ashraf
  */
+@Stateless
 public class HashingUtil {
     public String getHashedPassword(String password)
     {

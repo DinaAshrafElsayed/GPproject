@@ -7,11 +7,13 @@ package eg.iti.shareit.model.util;
 
 import java.security.SecureRandom;
 import java.math.BigInteger;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Dina Ashraf
  */
+@Stateless
 public final class SessionIdUtil {
 
     private SecureRandom random = new SecureRandom();

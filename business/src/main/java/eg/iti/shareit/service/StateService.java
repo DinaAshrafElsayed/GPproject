@@ -10,11 +10,13 @@ import eg.iti.shareit.model.dto.StateDto;
 import eg.iti.shareit.model.entity.StateEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Dina Ashraf
  */
+@Stateless
 public class StateService {
    @EJB
     private StateDao stateDao;

@@ -10,12 +10,14 @@ import eg.iti.shareit.model.dto.CityDto;
 import eg.iti.shareit.model.entity.CityEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
 /**
  *
  * @author Dina Ashraf
  */
+@Stateless
 public class CityService {
     @EJB
     private CityDao cityDao;

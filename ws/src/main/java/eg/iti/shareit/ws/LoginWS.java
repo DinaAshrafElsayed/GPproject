@@ -9,6 +9,7 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.util.SessionIdUtil;
 import eg.iti.shareit.service.UserService;
+import eg.iti.shareit.service.UserTrackingService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -30,6 +31,8 @@ public class LoginWS {
 
     @EJB
     UserService userService;
+    @EJB
+    UserTrackingService trackingService;
     private static final Logger logger = Logger.getLogger(LoginWS.class.getName());
 
     @POST
@@ -40,8 +43,10 @@ public class LoginWS {
         try {
             userDto = userService.findUser(email, password);
             SessionIdUtil sessionIdUtil = new SessionIdUtil();
-            NewCookie usercookie = new NewCookie("shareitCookie", sessionIdUtil.nextSessionId());
+            String key =  sessionIdUtil.nextSessionId();
+            NewCookie usercookie = new NewCookie("shareitCookie",key);
             if (userDto != null) {
+                trackingService.addUser(key, userDto);
                 response = Response.ok().cookie(usercookie).entity(userDto).build();
                 logger.info("user logged successfully : " + userDto);
             } else {

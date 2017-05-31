@@ -10,14 +10,16 @@ import eg.iti.shareit.model.dto.GenderDto;
 import eg.iti.shareit.model.entity.GenderEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
 /**
  *
  * @author Dina Ashraf
  */
+@Stateless
 public class GenderService {
-    @EJB
+    @EJB(beanName = "GenderDaoImpl")
     private GenderDao genderDao;
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;

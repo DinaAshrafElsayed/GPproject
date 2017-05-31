@@ -8,12 +8,14 @@ package eg.iti.shareit.model.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import javax.ejb.Stateless;
 import javax.ws.rs.core.MultivaluedMap;
 
 /**
  *
  * @author Dina Ashraf
  */
+@Stateless
 public class ImageUtil {
      public String getFileName(MultivaluedMap<String, String> header) {
 
