@@ -54,8 +54,17 @@ public class ActivityService {
     private MappingUtil mappingUtil;
 
     public List<ActivityDto> getAllActivities() throws ServiceException {
-        List<ActivityEntity> allActivities = activityDao.getAll();
-        return mappingUtil.< ActivityEntity, ActivityDto>getDtoList(allActivities, ActivityDto.class);
+
+        try {
+            List<ActivityEntity> allActivities = activityDao.getAllActivities();
+            if (allActivities != null) {
+                return mappingUtil.< ActivityEntity, ActivityDto>getDtoList(allActivities, ActivityDto.class);
+            }
+        } catch (DatabaseException ex) {
+            Logger.getLogger(ActivityService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+        return null;
     }
 
     public ActivityDto getActivity(int id) throws ServiceException {
