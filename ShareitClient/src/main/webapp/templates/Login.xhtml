@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    template="/templates/master.xhtml">
+
+
+    <ui:define name="title">LoginPage</ui:define>
+    <ui:define name="content">
+        <f:view>
+            <h:form prependId="false">
+                <br></br>
+                <div class="caption1" >  <h3 style="color: #0066ff">Enter your username and password to login</h3>
+
+                </div>
+
+
+                <div class="contact-form">
+
+                    <label> <span>Full name</span>
+                        <h:inputText value="#{mUser.name}" id="name" required="true"/>
+                    </label>
+
+
+                    <label> <span>password</span>
+                        <h:inputSecret value="#{mUser.password}" id="password"/>
+                    </label>
+
+                    <p><h:commandButton value="login" action="#{mUser.action}" class="button">
+
+                        </h:commandButton>
+                    </p>
+                </div>
+
+            </h:form>
+        </f:view>
+    </ui:define>   
+</ui:composition>
+
