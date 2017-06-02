@@ -13,5 +13,5 @@ import eg.iti.shareit.model.entity.StateEntity;
  * @author Yousef
  */
 public interface StateDao extends GenericDao<StateEntity>{
-    
+     public StateEntity getStateByName(String name);
 }
