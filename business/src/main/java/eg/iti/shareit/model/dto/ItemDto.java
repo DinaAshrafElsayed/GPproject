@@ -13,7 +13,8 @@ import java.util.Date;
  *
  * @author Yousef
  */
-public class ItemDto implements java.io.Serializable, GenericDto{
+public class ItemDto implements java.io.Serializable, GenericDto {
+
     private BigDecimal id;
     private String name;
     private String description;
@@ -21,6 +22,7 @@ public class ItemDto implements java.io.Serializable, GenericDto{
     private int isAvailable;
     private Date publishDate;
     private int points;
+    private String imageUrl;
 
     public ItemDto() {
     }
@@ -96,6 +98,13 @@ public class ItemDto implements java.io.Serializable, GenericDto{
     public void setPoints(int points) {
         this.points = points;
     }
-    
-    
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 }

@@ -49,14 +49,20 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ItemEntity.findByPoints", query = "SELECT t FROM ItemEntity t WHERE t.points = :points")})
 public class ItemEntity implements Serializable, GenericEntity {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "IMAGE_URL")
+    private String imageUrl;
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_ITEM_SEQ")
-    @SequenceGenerator(name = "T_ITEM_SEQ" ,sequenceName = "T_ITEM_SEQ" ,allocationSize = 1,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_ITEM_SEQ")
+    @SequenceGenerator(name = "T_ITEM_SEQ", sequenceName = "T_ITEM_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -196,6 +202,14 @@ public class ItemEntity implements Serializable, GenericEntity {
     @Override
     public String toString() {
         return "eg.iti.shareit.model.entity.ItemEntity[ id=" + id + " ]";
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }

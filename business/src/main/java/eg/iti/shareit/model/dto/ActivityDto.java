@@ -8,6 +8,7 @@ package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -101,4 +102,13 @@ public class ActivityDto implements java.io.Serializable, GenericDto {
         this.activityDeleted = activityDeleted;
     }
 
+    public int calculateIntervalOfTime() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(timeTo);
+        int daysTo = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar.setTime(timeFrom);
+        int daysFrom = calendar.get(Calendar.DAY_OF_MONTH);
+        return daysTo - daysFrom;
+    }
 }
