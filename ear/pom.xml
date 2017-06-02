@@ -37,8 +37,8 @@
 
                         <webModule>
                             <groupId>eg.iti.shareit</groupId>
-                            <artifactId>ws</artifactId>
-                            <bundleFileName>shareit-ws.war</bundleFileName>
+                            <artifactId>ShareitClient</artifactId>
+                            <bundleFileName>ShareitClient.war</bundleFileName>
                             <contextRoot>/shareit</contextRoot>
                         </webModule>
                     </modules>
@@ -66,7 +66,7 @@
 
         <dependency>
             <groupId>eg.iti.shareit</groupId>
-            <artifactId>ws</artifactId>
+            <artifactId>ShareitClient</artifactId>
             <version>0.1</version>
             <type>war</type>
         </dependency>
