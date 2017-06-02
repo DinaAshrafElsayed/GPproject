@@ -13,18 +13,19 @@
     <h:body>
         <h:outputStylesheet library="css" name="style.css"/>
         <ui:include src="/header/HeaderLoggedIn.xhtml"></ui:include>
+        <ui:include src="/navbar/navbar.xhtml"></ui:include>
         <ui:insert name="content">
             <h1>This is the body</h1>
         </ui:insert>
         <ui:include src="/footer/Footer.xhtml"></ui:include>
-        <script src="/resources/js/jquery-1.11.0.min.js"></script>
-        <script src="/resources/js/bootstrap.min.js"></script>
-        <script src="/resources/js/jquery.cookie.js"></script>
-        <script src="/resources/js/waypoints.min.js"></script>
-        <script src="/resources/js/modernizr.js"></script>
-        <script src="/resources/js/bootstrap-hover-dropdown.js"></script>
-        <script src="/resources/js/owl.carousel.min.js"></script>
-        <script src="/resources/js/front.js"></script>
+        <h:outputScript library="js" name="jquery-1.11.0.min.js" />
+        <h:outputScript library="js" name="bootstrap.min.js" />
+        <h:outputScript library="js" name="jquery.cookie.js" />
+        <h:outputScript library="js" name="waypoints.min.js" />
+         <h:outputScript library="js" name="modernizr.js" />
+        <h:outputScript library="js" name="bootstrap-hover-dropdown.js" />
+        <h:outputScript library="js" name="owl.carousel.min.js" />
+        <h:outputScript library="js" name="front.js" />
     </h:body>
 </html>
 
