@@ -5,10 +5,6 @@
         <param-value>smoothness</param-value>
     </context-param>
    
-    <context-param>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-    </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -24,6 +20,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/templates/master.xhtml</welcome-file>
+        <welcome-file>faces/templates/masterTemplate.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
