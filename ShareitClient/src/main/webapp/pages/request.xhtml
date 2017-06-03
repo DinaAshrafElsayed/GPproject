@@ -6,16 +6,15 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:p="http://primefaces.org/ui"
-                template="../templates/master.xhtml">
+                template="../templates/masterTemplate.xhtml">
     <ui:define name="title">Request</ui:define>
     <ui:define name="content">
-        <h:form id="form" >
+        <h:form id="form">
             <p:growl id="msgs" showDetail="true" />
-            <p:dataTable id="checkboxDT" var="activity" value="#{requests.activityDtos}" selection="#{requests.selectedActivityDto}" rowKey="#{activity.id}" >
+            <p:dataTable id="checkboxDT" var="activity" value="#{requests.dataModel}"  style="margin-bottom:0">
                 <f:facet name="header">
                     These are the pending requests you have
                 </f:facet>
-                <p:column selectionMode="multiple" style="width:50px;text-align:center"/>
                 <p:column headerText="Id">
                     <h:outputText value="#{activity.id}" />
                 </p:column>
@@ -28,19 +27,25 @@
                 <p:column headerText="Meeting Point">
                     <h:outputText value="#{activity.meetingPoint}" />
                 </p:column>
-                <p:column headerText="Interval of time" style="width:100px;text-align:center">
+                <p:column headerText="Interval of time">
                     <h:outputText value="#{activity.calculateIntervalOfTime()} days" />
                 </p:column>
-                <p:column headerText="Status" >
-                    <p:selectOneMenu id="console" value="#{activity.status.status}" style="width:500px;text-align:center">
-                        <f:selectItem itemLabel="Pending" itemValue="Pending" />
-                        <f:selectItem itemLabel="Accepted" itemValue="Accepted" />
-                        <f:selectItem itemLabel="Declined" itemValue="Declined" />
-                    </p:selectOneMenu>
+                <p:column headerText="Status">
+                    <h:outputText id="console" value="#{activity.status.status}" style="width:125px"/>
                 </p:column>
-                <f:facet name="footer">
-                    <p:commandButton process="checkboxDT" icon="ui-icon-disk" value="Save Changes" actionListener="#{requests.saveChanges()}" />
-                </f:facet>
+
+                <p:column headerText="Accept">
+
+                    <h:commandLink class="btn btn-primary" value="Accept" action="#{requests.acceptRequest()}" style="width: 100%;">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+
+                    </h:commandLink>
+                </p:column>
+                <p:column headerText="Decline">
+
+                    <h:commandLink class="btn btn-danger" value="Decline" action="#{requests.declineRequest()}" style="width: 100%;">
+                    </h:commandLink>
+                </p:column>
             </p:dataTable>
         </h:form>
     </ui:define>

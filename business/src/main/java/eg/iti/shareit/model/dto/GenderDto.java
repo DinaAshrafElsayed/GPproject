@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  */
 public class GenderDto implements java.io.Serializable, GenericDto {
     private BigDecimal id;
-    private String  gender;
+    private String gender;
 
     public BigDecimal getId() {
         return id;

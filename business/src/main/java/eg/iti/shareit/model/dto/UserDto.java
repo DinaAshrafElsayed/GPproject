@@ -97,7 +97,9 @@ public class UserDto implements java.io.Serializable, GenericDto {
     public void setPassword(String password) {
         this.password = password;
     }
-
-   
+    @Override
+    public String toString() {
+        return "UserDto{" + "id=" + id + ", email=" + email + ", username=" + username + ", password=" + password + ", imageUrl=" + imageUrl + ", points=" + points + ", gender=" + gender + '}';
+    }
 
 }
