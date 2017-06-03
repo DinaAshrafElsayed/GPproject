@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/masterTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="title">
+        Browse Items
+    </ui:define>
+
+    <ui:define name="content">
+        <div id="all">
+
+            <div id="content">
+                <div class="container">
+
+                    <div class="col-md-12">
+
+                        <ul class="breadcrumb">
+                            <li><a href="#">Home</a>
+                            </li>
+                            <li>Browse Items</li>
+                        </ul>
+
+                        <div class="box">
+                            <h1>Browse Items</h1>
+                            <p>foo bar</p>
+                        </div>
+
+                        <div class="box info-bar">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 products-showing">
+                                    Showing <strong>12</strong> of <strong>25</strong> products
+                                </div>
+
+                                <div class="col-sm-12 col-md-8  products-number-sort">
+                                    <div class="row">
+                                        <form class="form-inline">
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="products-number">
+                                                    <strong>Show</strong>  <a href="#" class="btn btn-default btn-sm btn-primary">12</a>  <a href="#" class="btn btn-default btn-sm">24</a>  <a href="#" class="btn btn-default btn-sm">All</a> products
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="products-sort-by">
+                                                    <strong>Sort by</strong>
+                                                    <select name="sort-by" class="form-control">
+                                                        <option>Price</option>
+                                                        <option>Name</option>
+                                                        <option>Sales first</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row products">
+                            <ui:repeat var="item" value="#{itemBean.items}">
+                                <div class="col-md-3 col-sm-4">
+                                    
+                                <div class="product">
+                                    <div class="flip-container">
+                                        <div class="flipper">
+                                            <div class="front">
+                                                <a href="detail.html">
+                                                    <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt=""/>
+
+                                                </a>
+                                            </div>
+                                            <div class="back">
+                                                <a href="detail.html">
+                                                    <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" pt:alt=""/>   
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="detail.html" class="invisible">
+                                        <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt=""/>
+                                    </a>
+                                    <div class="text">
+                                        <h3><a href="detail.html">#{item.name}<br></br>#{item.description}</a></h3>
+                                        <!--<p class="price"><del>$280</del> $143.00</p>-->
+                                        <p class="price">#{item.points}</p>
+                                        <p class="buttons">
+                                            <a href="detail.html" class="btn btn-default">View detail</a>
+                                            <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </p>
+                                    </div>
+                                    <!-- /.text -->
+                                    <!--
+                                                                    <div class="ribbon sale">
+                                                                        <div class="theribbon">SALE</div>
+                                                                        <div class="ribbon-background"></div>
+                                                                    </div>
+                                                                     /.ribbon 
+                                    
+                                                                    <div class="ribbon new">
+                                                                        <div class="theribbon">NEW</div>
+                                                                        <div class="ribbon-background"></div>
+                                                                    </div>
+                                                                     /.ribbon 
+                                    
+                                                                    <div class="ribbon gift">
+                                                                        <div class="theribbon">GIFT</div>
+                                                                        <div class="ribbon-background"></div>
+                                                                    </div>-->
+                                    <!-- /.ribbon -->
+                                </div>
+                                <!-- /.product -->
+                            </div>
+                            </ui:repeat>
+                        </div>
+                        <!-- /.products -->
+
+                        <div class="pages">
+
+                            <p class="loadMore">
+                                <a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a>
+                            </p>
+
+                            <ul class="pagination">
+                                <li><a href="#">#{"«"}</a>
+                                </li>
+                                <li class="active"><a href="#">1</a>
+                                </li>
+                                <li><a href="#">2</a>
+                                </li>
+                                <li><a href="#">3</a>
+                                </li>
+                                <li><a href="#">4</a>
+                                </li>
+                                <li><a href="#">5</a>
+                                </li>
+                                <li><a href="#">#{"»"}</a>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                    <!-- /.col-md-9 -->
+
+                </div>
+                <!-- /.container -->
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

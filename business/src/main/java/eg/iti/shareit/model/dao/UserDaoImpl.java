@@ -8,12 +8,16 @@ import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.List;
+import javax.ejb.EJB;
 
 /**
  * Created by Mohamed on 2015/07/04.
  */
 @Stateless(mappedName = "UserDaoImpl")
 public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
+
+    @EJB
+    private HashingUtil hashingUtil;
 
     public UserDaoImpl() {
         super(UserEntity.class);
@@ -38,7 +42,6 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
 
     @Override
     public UserEntity findUser(String email, String password) throws DatabaseRollbackException {
-        HashingUtil hashingUtil = new HashingUtil();
         String hashedPassword = hashingUtil.getHashedPassword(password);
         Query query = getEntityManager().createQuery("Select u From UserEntity u where u.email = :email and u.password = :password");
         query.setParameter("email", email).setParameter("password", hashedPassword);
@@ -51,6 +54,17 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
             }
         } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public boolean saveUser(UserEntity user) throws DatabaseRollbackException {
+        try {
+            getEntityManager().persist(user);
+            return true;
+        } catch (PersistenceException ex) {
+            throw new DatabaseRollbackException(ex.getMessage());
+
         }
     }
 }
