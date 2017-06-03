@@ -53,4 +53,15 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
+
+    @Override
+    public boolean saveUser(UserEntity user) throws DatabaseRollbackException {
+        try {
+            getEntityManager().persist(user);
+            return true;
+        } catch (PersistenceException ex) {
+            throw new DatabaseRollbackException(ex.getMessage());
+
+        }
+    }
 }
