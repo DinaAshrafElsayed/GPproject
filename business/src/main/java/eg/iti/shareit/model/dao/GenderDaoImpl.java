@@ -24,6 +24,7 @@ public class GenderDaoImpl extends GenericDaoImpl<GenderEntity> implements Gende
     public GenderEntity getGenderByName(String gender) {
         GenderEntity genderEntity = (GenderEntity) getEntityManager().createNamedQuery("GenderEntity.findByGender").
                 setParameter("gender", gender).getSingleResult();
+        System.out.println("the genderEntity is "+ genderEntity);
         return genderEntity;
     }
 

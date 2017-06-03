@@ -5,17 +5,25 @@
  */
 package eg.iti.shareit.model.dao;
 
+import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.StatusEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -90,6 +98,16 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
             Logger.getLogger(ActivityDaoImpl.class.getName()).log(Level.SEVERE, null, e);
             throw new DatabaseRollbackException("Cannot Cancel The request");
         }
+    }
+
+    @Override
+    public List<ActivityEntity> getAllActivities() throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.status.status = 'Pending'");
+        List<ActivityEntity> activityEntities = query.getResultList();
+        if (activityEntities != null && activityEntities.size() == 1) {
+            return activityEntities;
+        }
+        return null;
     }
 
 }
