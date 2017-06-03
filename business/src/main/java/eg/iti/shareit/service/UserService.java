@@ -45,7 +45,9 @@ public class UserService {
         try {
             user.setGender(genderService.getGender(user.getGender().getGender()));
             UserEntity userEntity = mappingUtil.getEntity(user, UserEntity.class);
-            userDao.save(userEntity);
+            System.out.println("user dto "+user);
+            boolean saved = userDao.saveUser(userEntity);
+            System.out.println("saved : "+saved );
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
             throw new ServiceException(e.getMessage());
