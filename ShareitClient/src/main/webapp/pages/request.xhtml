@@ -9,13 +9,13 @@
                 template="../templates/master.xhtml">
     <ui:define name="title">Request</ui:define>
     <ui:define name="content">
-        <h:form id="form">
+        <h:form id="form" >
             <p:growl id="msgs" showDetail="true" />
-            <p:dataTable id="checkboxDT" var="activity" value="#{requests.activityDtos}" selection="#{requests.selectedActivityDto}" rowKey="#{activity.id}" style="margin-bottom:0">
+            <p:dataTable id="checkboxDT" var="activity" value="#{requests.activityDtos}" selection="#{requests.selectedActivityDto}" rowKey="#{activity.id}" >
                 <f:facet name="header">
                     These are the pending requests you have
                 </f:facet>
-                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                <p:column selectionMode="multiple" style="width:50px;text-align:center"/>
                 <p:column headerText="Id">
                     <h:outputText value="#{activity.id}" />
                 </p:column>
@@ -28,11 +28,11 @@
                 <p:column headerText="Meeting Point">
                     <h:outputText value="#{activity.meetingPoint}" />
                 </p:column>
-                <p:column headerText="Interval of time">
+                <p:column headerText="Interval of time" style="width:100px;text-align:center">
                     <h:outputText value="#{activity.calculateIntervalOfTime()} days" />
                 </p:column>
-                <p:column headerText="Status">
-                    <p:selectOneMenu id="console" value="#{activity.status.status}" style="width:125px">
+                <p:column headerText="Status" >
+                    <p:selectOneMenu id="console" value="#{activity.status.status}" style="width:500px;text-align:center">
                         <f:selectItem itemLabel="Pending" itemValue="Pending" />
                         <f:selectItem itemLabel="Accepted" itemValue="Accepted" />
                         <f:selectItem itemLabel="Declined" itemValue="Declined" />
