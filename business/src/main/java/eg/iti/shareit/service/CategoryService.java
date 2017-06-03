@@ -13,6 +13,7 @@ import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.CategoryEntity;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -44,5 +45,25 @@ public class CategoryService {
             throw new ServiceException(e.getMessage());
         }
     }
+     public List<CategoryDto> getAllCategories()throws ServiceException{
+          try {     
+              List<CategoryEntity> cats=categoryDao.getAllCategories();
+             if (cats != null) {
+                return mappingUtil.< CategoryEntity, CategoryDto>getDtoList(cats, CategoryDto.class);
+            }
+             else{
+                 return null;
+             }
+        }catch (DatabaseException e) {
+
+            logger.log(Level.SEVERE,e.getMessage(),e);
+
+            throw new ServiceException(e.getMessage());
+        }
+     }
+     public CategoryEntity getCategoryEntityFromCategoryDto(CategoryDto catDto)throws ServiceException{
+     
+         return   mappingUtil.<CategoryEntity, CategoryDto >getEntity(catDto, CategoryEntity.class);
+     }
     
 }
