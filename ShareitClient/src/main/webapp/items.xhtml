@@ -15,7 +15,7 @@
 
     <ui:define name="content">
         <div id="all">
-
+            <h:form>
             <div id="content">
                 <div class="container">
 
@@ -71,27 +71,28 @@
                                         <div class="flipper">
                                             <div class="front">
                                                 <a href="detail.html">
-                                                    <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt=""/>
+                                                    <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" style="height: 316px;" pt:alt=""/>
 
                                                 </a>
                                             </div>
                                             <div class="back">
                                                 <a href="detail.html">
-                                                    <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" pt:alt=""/>   
+                                                    <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" style="height: 316px;" pt:alt=""/>   
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
                                     <a href="detail.html" class="invisible">
-                                        <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt=""/>
+                                        <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt="" style="height: 316px;"/>
                                     </a>
                                     <div class="text">
                                         <h3><a href="detail.html">#{item.name}<br></br>#{item.description}</a></h3>
                                         <!--<p class="price"><del>$280</del> $143.00</p>-->
                                         <p class="price">#{item.points}</p>
                                         <p class="buttons">
-                                            <a href="detail.html" class="btn btn-default">View detail</a>
-                                            <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            <h:commandLink action="detail.html" styleClass="btn btn-default">View detail</h:commandLink>
+                                            <h:commandLink action="basket.html" styleClass="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</h:commandLink>
+
                                         </p>
                                     </div>
                                     <!-- /.text -->
@@ -151,6 +152,7 @@
                 </div>
                 <!-- /.container -->
             </div>
+        </h:form>
         </div>
     </ui:define>
 </ui:composition>
