@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ManagedBeans;
+package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.GenderDto;
@@ -30,7 +30,7 @@ import javax.servlet.http.Part;
  *
  * @author Dina Ashraf
  */
-@ManagedBean(name = "user" , eager = true)
+@ManagedBean(name = "user", eager = true)
 @SessionScoped
 public class UserBean implements Serializable {
 
@@ -39,18 +39,31 @@ public class UserBean implements Serializable {
 
     @EJB
     UserService userService;
-    private GenderDto genderDto;
-    private UserDto userDto;
+    
+    private String gender;
+    private String userName;
+    private String email;
+    private String password;
     private Part file;
     private String imageUrl = "";
 
+    public UserBean() {
+
+    }
+
     public String register() {
         try {
-            String password = userDto.getPassword();
-            userDto.setPassword(hashingUtil.getHashedPassword(password));
+
+            UserDto userDto = new UserDto();
+            userDto.setEmail(getEmail());
+            userDto.setUsername(getUserName());
+            userDto.setPassword(hashingUtil.getHashedPassword(getPassword()));
             userDto.setImageUrl(imageUrl);
             userDto.setPoints(100);
-            userDto.setGender(getGenderDto());
+            GenderDto genderDto = new GenderDto();
+            genderDto.setGender(getGender());
+            userDto.setGender(genderDto);
+            System.out.println(userDto);
             userService.RegisterUser(userDto);
             return "";
         } catch (ServiceException ex) {
@@ -60,7 +73,7 @@ public class UserBean implements Serializable {
     }
 
     public void save() {
-        
+
         try (InputStream input = file.getInputStream()) {
             Files.copy(input, new File("E:\\ITI\\GPproject\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
             imageUrl = "E:\\ITI\\GPproject\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
@@ -85,13 +98,6 @@ public class UserBean implements Serializable {
     }
 
     /**
-     * @return the userDto
-     */
-    public UserDto getUserDto() {
-        return userDto;
-    }
-
-    /**
      * @return the file
      */
     public Part getFile() {
@@ -113,13 +119,6 @@ public class UserBean implements Serializable {
     }
 
     /**
-     * @param userDto the userDto to set
-     */
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
-    }
-
-    /**
      * @param file the file to set
      */
     public void setFile(Part file) {
@@ -127,17 +126,58 @@ public class UserBean implements Serializable {
     }
 
     /**
-     * @return the genderDto
+     * @return the gender
      */
-    public GenderDto getGenderDto() {
-        return genderDto;
+    public String getGender() {
+        return gender;
     }
 
     /**
-     * @param genderDto the genderDto to set
+     * @param gender the gender to set
      */
-    public void setGenderDto(GenderDto genderDto) {
-        this.genderDto = genderDto;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
+    /**
+     * @return the userName
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * @param userName the userName to set
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
