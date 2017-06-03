@@ -68,7 +68,7 @@ public class UserEntity implements Serializable, GenericEntity {
     private String email;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 100)
     @Column(name = "PASSWORD")
     private String password;
     @Size(max = 200)
