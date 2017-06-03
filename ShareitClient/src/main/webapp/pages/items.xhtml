@@ -5,7 +5,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                template="/templates/masterTemplate.xhtml"
+                template="../templates/masterTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
@@ -65,57 +65,57 @@
                         <div class="row products">
                             <ui:repeat var="item" value="#{itemBean.items}">
                                 <div class="col-md-3 col-sm-4">
-                                    
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="detail.html">
-                                                    <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt=""/>
 
-                                                </a>
-                                            </div>
-                                            <div class="back">
-                                                <a href="detail.html">
-                                                    <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" pt:alt=""/>   
-                                                </a>
+                                    <div class="product">
+                                        <div class="flip-container">
+                                            <div class="flipper">
+                                                <div class="front">
+                                                    <a href="detail.html">
+                                                        <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt=""/>
+
+                                                    </a>
+                                                </div>
+                                                <div class="back">
+                                                    <a href="detail.html">
+                                                        <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" pt:alt=""/>   
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
+                                        <a href="detail.html" class="invisible">
+                                            <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt=""/>
+                                        </a>
+                                        <div class="text">
+                                            <h3><a href="detail.html">#{item.name}<br></br>#{item.description}</a></h3>
+                                            <!--<p class="price"><del>$280</del> $143.00</p>-->
+                                            <p class="price">#{item.points}</p>
+                                            <p class="buttons">
+                                                <a href="detail.html" class="btn btn-default">View detail</a>
+                                                <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </p>
+                                        </div>
+                                        <!-- /.text -->
+                                        <!--
+                                                                        <div class="ribbon sale">
+                                                                            <div class="theribbon">SALE</div>
+                                                                            <div class="ribbon-background"></div>
+                                                                        </div>
+                                                                         /.ribbon 
+                                        
+                                                                        <div class="ribbon new">
+                                                                            <div class="theribbon">NEW</div>
+                                                                            <div class="ribbon-background"></div>
+                                                                        </div>
+                                                                         /.ribbon 
+                                        
+                                                                        <div class="ribbon gift">
+                                                                            <div class="theribbon">GIFT</div>
+                                                                            <div class="ribbon-background"></div>
+                                                                        </div>-->
+                                        <!-- /.ribbon -->
                                     </div>
-                                    <a href="detail.html" class="invisible">
-                                        <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt=""/>
-                                    </a>
-                                    <div class="text">
-                                        <h3><a href="detail.html">#{item.name}<br></br>#{item.description}</a></h3>
-                                        <!--<p class="price"><del>$280</del> $143.00</p>-->
-                                        <p class="price">#{item.points}</p>
-                                        <p class="buttons">
-                                            <a href="detail.html" class="btn btn-default">View detail</a>
-                                            <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        </p>
-                                    </div>
-                                    <!-- /.text -->
-                                    <!--
-                                                                    <div class="ribbon sale">
-                                                                        <div class="theribbon">SALE</div>
-                                                                        <div class="ribbon-background"></div>
-                                                                    </div>
-                                                                     /.ribbon 
-                                    
-                                                                    <div class="ribbon new">
-                                                                        <div class="theribbon">NEW</div>
-                                                                        <div class="ribbon-background"></div>
-                                                                    </div>
-                                                                     /.ribbon 
-                                    
-                                                                    <div class="ribbon gift">
-                                                                        <div class="theribbon">GIFT</div>
-                                                                        <div class="ribbon-background"></div>
-                                                                    </div>-->
-                                    <!-- /.ribbon -->
+                                    <!-- /.product -->
                                 </div>
-                                <!-- /.product -->
-                            </div>
                             </ui:repeat>
                         </div>
                         <!-- /.products -->

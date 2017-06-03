@@ -104,7 +104,7 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
     public List<ActivityEntity> getAllActivities() throws DatabaseRollbackException {
         Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.status.status = 'Pending'");
         List<ActivityEntity> activityEntities = query.getResultList();
-        if (activityEntities != null && activityEntities.size() == 1) {
+        if (activityEntities != null) {
             return activityEntities;
         }
         return null;

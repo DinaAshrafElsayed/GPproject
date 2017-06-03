@@ -5,18 +5,19 @@
  */
 package eg.iti.shareit.view.managedbeans;
 
-import static com.sun.javafx.logging.PulseLogger.addMessage;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.service.ActivityService;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
+import javax.faces.model.CollectionDataModel;
+import javax.faces.model.DataModel;
 import javax.inject.Named;
 
 /**
@@ -27,10 +28,10 @@ import javax.inject.Named;
 @SessionScoped
 public class Requests implements Serializable {
 
-    @Inject
+    @EJB
     private ActivityService activityService;
     private List<ActivityDto> activityDtos;
-    private List<ActivityDto> selectedActivityDto;
+    private DataModel<ActivityDto> dataModel;
 
     public ActivityService getActivityService() {
         return activityService;
@@ -48,12 +49,12 @@ public class Requests implements Serializable {
         this.activityDtos = activityDtos;
     }
 
-    public List<ActivityDto> getSelectedActivityDto() {
-        return selectedActivityDto;
+    public DataModel<ActivityDto> getDataModel() {
+        return dataModel;
     }
 
-    public void setSelectedActivityDto(List<ActivityDto> selectedActivityDto) {
-        this.selectedActivityDto = selectedActivityDto;
+    public void setDataModel(DataModel<ActivityDto> dataModel) {
+        this.dataModel = dataModel;
     }
 
     @PostConstruct
@@ -61,15 +62,28 @@ public class Requests implements Serializable {
         try {
             if (activityService.getAllActivities() != null) {
                 activityDtos = activityService.getAllActivities();
+                dataModel = new CollectionDataModel<>(activityDtos);
             }
         } catch (ServiceException ex) {
             Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void saveChanges() {
+    public void acceptRequest() {
         try {
-            activityService.acceptRequest(selectedActivityDto.get(0));
+            ActivityDto rowData = dataModel.getRowData();
+            activityService.acceptRequest(rowData);
+            init();
+        } catch (ServiceException ex) {
+            Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void declineRequest() {
+        try {
+            ActivityDto activityDto = dataModel.getRowData();
+            activityService.declineRequest((activityDto.getId()).intValue());
+            init();
         } catch (ServiceException ex) {
             Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
         }
