@@ -3,73 +3,49 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:custom="http://sara.com"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="/templates/master.xhtml">
+                template="/templates/masterTemplate.xhtml">
 
     <ui:define name="title">Add Item</ui:define>
     <ui:define name="content">
 
-        <h:body >
-            <f:view>
-                <h:form prependId="false">
-                    <div class="box">
-                        <br></br>
-                        <div class="lead" >  Please enter the item data
+            <h:form prependId="false">
+                <h:outputText value="Item name:"/>
+                <h:inputText value="#{itemBean.name}" id="name" />
+         
+                <h:commandButton value="Submit" action="#{itemBean.addItem()}" class="button">
 
-                        </div>
+                    </h:commandButton>
 
-                        <div class="form-group" >
-
-                            <table  class="form-group">
-
-                                <tr>
-                                    <td> <label> <span>Item name</span></label></td>
-                                    <td>    <h:inputText value="#{itemBean.name}" id="name" required="true" requiredMessage="name is required"/></td>
-                                    <td><h:message for="name" style="color:red"/></td>
-                                </tr>
-
-                                <tr>
-                                    <td> <label> <span>description</span> </label></td>
-                                    <td>  <h:inputText value="#{itemBean.description}" id="description" required="true" /></td>
-                                    <td>     <h:message for="description" style="color:red"/> </td>
-                                </tr>
-
-                                <tr>
-                                    <td>   <label> <span>Publish date</span></label> </td>
-                                    <td>   <h:inputText value="#{itemBean.publish_date}" id="publish_date" required="true" >
-                                            <f:convertDateTime pattern="dd-mm-yyyy"/>
-                                        </h:inputText> </td>
-                                    <td>   <h:message for="publish_date" style="color:red"/> </td>
-                                </tr>
-
-                                <tr>
-                                    <td> <label> <span>Points</span> </label></td>
-                                    <td>  <h:inputText value="#{itemBean.points}" id="points" required="true" /></td>
-                                    <td>     <h:message for="points" style="color:red"/> </td>
-                                </tr>
-                                <tr>
-                                    <td> <label> <span>Category</span> </label></td>
-                                    <h:selectOneMenu value="#{itemBean.category}">
-                                        <f:selectItems value="#{itemBean.categories}" var="cat" itemValue="#{cat.name}" />
-                                    </h:selectOneMenu>
-                                   
-                                </tr>
-
-                            </table>
+                description
+<!--                <h:inputText value="#{itemBean.description}" id="description" required="true" />
+                                                  <h:message for="description" style="color:red"/> 
 
 
 
-                            <p><h:commandButton value="Submit" action="#{itemBean.addItem}" class="button">
+                Publish date
+                <h:inputText value="#{itemBean.publish_date}" id="publish_date" required="true" >
+                    <f:convertDateTime pattern="dd-mm-yyyy"/>
+                </h:inputText> 
+                <h:message for="publish_date" style="color:red"/> 
 
-                                </h:commandButton></p>
 
-                        </div>
-                    </div>
-                </h:form>
+                Points
+                <h:inputText value="#{itemBean.points}" id="points" required="true" />
+                <h:message for="points" style="color:red"/> 
 
-            </f:view>
-        </h:body>
+
+                Category
+                <h:selectOneMenu value="#{itemBean.category}" converter="catConverter">
+                    <f:selectItems value="#{itemBean.categories}" var="cat" itemValue="#{cat}" itemLabel="#{cat.name}" />
+                </h:selectOneMenu> 
+
+
+-->
+
+            </h:form>
+
+     
     </ui:define>
 </ui:composition>
 

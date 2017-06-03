@@ -32,7 +32,7 @@ public class ItemManagedBean {
 
     @EJB
     CategoryService categoryService;
-     @EJB
+    @EJB
     ItemService itemService;
 
     public ItemService getItemService() {
@@ -51,13 +51,13 @@ public class ItemManagedBean {
         this.category = category;
     }
 
-    String name;
-    String description;
-    Date publish_date;
-    BigInteger points;
-    String image_url;
-   CategoryDto  category;
-    List<CategoryDto> categories;
+    private String name;
+    private String description;
+    private Date publish_date;
+    private BigInteger points;
+    private String image_url;
+    private CategoryDto category;
+    private List<CategoryDto> categories;
 
     public CategoryService getCategoryService() {
         return categoryService;
@@ -107,8 +107,6 @@ public class ItemManagedBean {
         this.image_url = image_url;
     }
 
-
-
     public List<CategoryDto> getCategories() {
         return categories;
     }
@@ -139,18 +137,18 @@ public class ItemManagedBean {
     }
 
     public String addItem() {
-        
+
         try {
-            ItemEntity item=new ItemEntity(name, description, (short)1, publish_date, points);
-           // item.setImageUrl(image_url);
-            CategoryEntity catEntity=categoryService.getCategoryEntityFromCategoryDto(category);
+            ItemEntity item = new ItemEntity(name, description, (short) 1, publish_date, points);
+            // item.setImageUrl(image_url);
+            CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
             item.setCategory(catEntity);
             itemService.addItemForShare(item);
-            
+
         } catch (ServiceException ex) {
             Logger.getLogger(ItemManagedBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return "";
     }
 }
