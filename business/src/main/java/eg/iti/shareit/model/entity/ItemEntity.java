@@ -49,12 +49,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ItemEntity.findByPoints", query = "SELECT t FROM ItemEntity t WHERE t.points = :points")})
 public class ItemEntity implements Serializable, GenericEntity {
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
-    @Column(name = "IMAGE_URL")
-    private String imageUrl;
-
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -90,6 +84,11 @@ public class ItemEntity implements Serializable, GenericEntity {
     @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private CategoryEntity category;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "IMAGE_URL")
+    private String imageUrl;
 
     public ItemEntity() {
     }
