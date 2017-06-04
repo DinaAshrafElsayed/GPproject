@@ -22,6 +22,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
@@ -30,7 +31,7 @@ import javax.servlet.http.Part;
  * @author Dina Ashraf
  */
 @ManagedBean(name = "registerBean", eager = true)
-@Stateless
+@RequestScoped
 public class RegistrationBean implements Serializable {
 
     @EJB
@@ -48,16 +49,6 @@ public class RegistrationBean implements Serializable {
 
     public RegistrationBean() {
     }
-//
-//    public String login() {
-//        try {
-//            UserDto userDto = userService.findUser(email, password);
-//            System.out.println("user dto " + userDto);
-//        } catch (ServiceException ex) {
-//            Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return "";
-//    }
 
     public String register() {
         try {
