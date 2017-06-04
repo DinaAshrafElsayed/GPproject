@@ -28,7 +28,6 @@
         </div>
         <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
             <div class="modal-dialog modal-sm">
-
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -42,14 +41,13 @@
                             <div class="form-group">
                                 <h:inputSecret class="form-control" value="#{user.password}" id="password-modal" pt:placeholder="password"/>
                             </div>
-
                             <p class="text-center">
                                 <h:commandLink action="#{user.login()}" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</h:commandLink>
                             </p>
                         </h:form>
 
                         <p class="text-center text-muted">Not registered yet?</p>
-                        <p class="text-center text-muted"><a href="register.html"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
+                        <p class="text-center text-muted"><h:form><h:commandLink action="register.xhtml"><strong>Register now</strong></h:commandLink></h:form>! It is easy and done in 1&nbsp;minute!</p>
 
                     </div>
                 </div>

@@ -38,27 +38,30 @@ and open the template in the editor.
                         <h:form enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <h:inputText class="form-control" id="name" value="#{registerBean.userName}"/>
+                                <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <h:inputText class="form-control" id="email" value="#{registerBean.email}"/>
+                                <h:inputText class="form-control" id="email" value="#{registerBean.email}" required="true"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <h:inputSecret class="form-control" id="password" value="#{registerBean.password}" required="true"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gender">gender</label>
+                                <h:selectOneMenu class="form-control" value="#{registerBean.gender}" required="true">   
+                                    <f:selectItem itemValue = "male" itemLabel = "male" /> 
+                                    <f:selectItem itemValue = "female" itemLabel = "female" /> 
+                                </h:selectOneMenu>
                             </div>
                             <div class="form-group">
                                 <label for="image">user Image</label>
                                 <h:inputFile value="#{registerBean.file}">
                                     <f:ajax listener="#{registerBean.save()}" />
                                 </h:inputFile>
-                            </div>
-                            <div class="form-group">
-                                <label for="gender">gender</label>
-                                <h:inputText value="#{registerBean.gender}">   
-                                </h:inputText>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <h:inputSecret class="form-control" id="password" value="#{registerBean.password}"/>
                             </div>
                             <div class="text-center">
                                 <h:commandLink class="btn btn-primary" action="#{registerBean.register()}"><i class="fa fa-user-md"></i> Register</h:commandLink>
