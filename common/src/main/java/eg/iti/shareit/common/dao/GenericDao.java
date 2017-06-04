@@ -1,5 +1,6 @@
 package eg.iti.shareit.common.dao;
 
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.entity.GenericEntity;
 import java.math.BigDecimal;
 
@@ -7,16 +8,16 @@ import java.util.List;
 
 public interface GenericDao<T extends GenericEntity> {
 
-    T get(BigDecimal id);
+    T get(BigDecimal id) throws DatabaseRollbackException ;
 
-    List<T> getAll();
+    List<T> getAll()throws DatabaseRollbackException ;
 
-    void save(T object);
+    void save(T object) throws DatabaseRollbackException ;
 
-    void update(T object);
+    void update(T object) throws DatabaseRollbackException ;
 
-    void delete(T object);
+    void delete(T object) throws DatabaseRollbackException ;
 
-    void delete(BigDecimal id);
+    void delete(BigDecimal id) throws DatabaseRollbackException ;
 
 }

@@ -33,8 +33,13 @@ public class ItemService {
     private MappingUtil mappingUtil;
 
     public List<ItemDto> getAllItems() throws ServiceException {
-        List<ItemEntity> itemEntities = itemDao.getAll();
-        return mappingUtil.getDtoList(itemEntities, ItemDto.class);
+        try {
+            List<ItemEntity> itemEntities = itemDao.getAll();
+            return mappingUtil.getDtoList(itemEntities, ItemDto.class);
+        } catch (DatabaseRollbackException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+  
     }
 
     public List<ItemDto> searchItems(String name,int categoryId) throws ServiceException{
