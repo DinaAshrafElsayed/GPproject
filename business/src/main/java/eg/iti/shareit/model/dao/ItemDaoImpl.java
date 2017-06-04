@@ -34,7 +34,7 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
         boolean flag = false;
         if (name != null) {
             flag = true;
-            queryString += " where i.name = :name ";
+            queryString += " where i.name LIKE :name ";
         }
         if (categoryId != 0) {
             if (flag) {
@@ -47,7 +47,7 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 
         query = getEntityManager().createQuery(queryString);
         if (name != null) {
-            query.setParameter("name", name);
+            query.setParameter("name", '%'+name+'%');
         }
 
         if (categoryId != 0) {
@@ -137,6 +137,16 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
         }
         return i;
 
+    }
+
+    @Override
+    public List<ItemEntity> searchItem(String name) throws DatabaseRollbackException {
+        return searchItem(name,0);
+    }
+
+    @Override
+    public List<ItemEntity> searchItem(int category) throws DatabaseRollbackException {
+        return searchItem(null,category);
     }
 
 }
