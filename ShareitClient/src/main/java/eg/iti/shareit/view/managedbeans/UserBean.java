@@ -39,7 +39,7 @@ public class UserBean implements Serializable {
 
     @EJB
     UserService userService;
-    
+
     private String gender;
     private String userName;
     private String email;
@@ -48,12 +48,20 @@ public class UserBean implements Serializable {
     private String imageUrl = "";
 
     public UserBean() {
+    }
 
+    public String login() {
+        try {
+            UserDto userDto = userService.findUser(email, password);
+            System.out.println("user dto " + userDto);
+        } catch (ServiceException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
     public String register() {
         try {
-
             UserDto userDto = new UserDto();
             userDto.setEmail(getEmail());
             userDto.setUsername(getUserName());
@@ -83,18 +91,6 @@ public class UserBean implements Serializable {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.addMessage(null, facesMessage);
         }
-    }
-
-    public String changeLang() {
-
-        String locale = FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage();
-        if (locale.equals("en")) {
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("ar", "EG"));
-        } else {
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("en", "US"));
-        }
-
-        return null;
     }
 
     /**
