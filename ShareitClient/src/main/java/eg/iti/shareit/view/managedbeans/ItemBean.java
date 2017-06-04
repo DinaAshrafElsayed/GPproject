@@ -6,6 +6,7 @@
 package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
+import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.service.ItemService;
 import java.io.Serializable;
@@ -14,9 +15,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
+
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
@@ -29,6 +30,7 @@ public class ItemBean implements Serializable{
     @EJB
     private ItemService itemService;
     private List<ItemDto> items;
+    private List<CategoryDto> categories;
     private String searchString;
     private int categoryId;
     
@@ -41,6 +43,7 @@ public class ItemBean implements Serializable{
             if (itemService.getAllItems()!= null) {
                 items = itemService.getAllItems();
             }
+            categories = itemService.getAllCategories();
         } catch (ServiceException ex) {
             Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,6 +72,16 @@ public class ItemBean implements Serializable{
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
+
+    public List<CategoryDto> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryDto> categories) {
+        this.categories = categories;
+    }
+    
+    
     public void doSearch(){
         try{
             List<ItemDto> items = itemService.searchItems(searchString, categoryId);
