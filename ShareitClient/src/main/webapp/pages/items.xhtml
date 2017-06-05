@@ -28,8 +28,8 @@
                             </ul>
                             <div class="box">
                                 <div class="input-group">
-                                    <h:inputText value="#{itemBean.searchString}" pt:placeholder="Search" styleClass="form-control">
-                                        <f:ajax event="keyup" listener="#{itemBean.doSearch()}" execute="searchString" render="itemsData" />
+                                    <h:inputText value="#{itemBean.searchString}" pt:placeholder="Search" styleClass="form-control" id="searchString">
+                                        <f:ajax event="keyup" listener="#{itemBean.doSearch()}"  render="itemsData" />
                                     </h:inputText> 
                                     <span class="input-group-btn">
                                         <h:commandLink action="#{itemBean.doSearch()}" styleClass="btn btn-primary"><i class="fa fa-search"></i></h:commandLink>
@@ -56,12 +56,17 @@
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="products-sort-by">
-                                                        <strong>Sort by</strong>
-                                                        <select name="sort-by" class="form-control">
+                                                        <strong>Category</strong>
+                                                        <h:selectOneMenu  styleClass="form-control" value="#{itemBean.categoryId}" style="width:125px" id="categoryId">
+                                                            <f:selectItem itemLabel="All" itemValue="0" />
+                                                            <f:selectItems value="#{itemBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
+                                                            <f:ajax event="click" listener="#{itemBean.doSearch()}" render="itemsData" />
+                                                        </h:selectOneMenu>
+<!--                                                        <select name="sort-by" class="form-control">
                                                             <option>Price</option>
                                                             <option>Name</option>
                                                             <option>Sales first</option>
-                                                        </select>
+                                                        </select>-->
                                                     </div>
                                                 </div>
                                             </form>
@@ -99,7 +104,7 @@
                                                 <p class="price">#{item.points}</p>
                                                 <p class="buttons">
                                                     <h:commandLink action="detail.html" styleClass="btn btn-default">View detail</h:commandLink>
-                                                    <h:commandLink action="basket.html" styleClass="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</h:commandLink>
+                                                    <h:commandLink action="basket.html" styleClass="btn btn-primary"><i class="fa fa-shopping-cart"></i>Request Item</h:commandLink>
 
                                                 </p>
                                             </div>
