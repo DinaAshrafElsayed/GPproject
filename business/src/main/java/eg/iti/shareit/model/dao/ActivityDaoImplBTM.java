@@ -93,7 +93,7 @@ public class ActivityDaoImplBTM extends GenericDaoImpl<ActivityEntity> implement
     }
 
     @Override
-    public NotificationDto getNotification(int id) {
+    public NotificationDto getNotification(int id) throws DatabaseRollbackException {
 
         ActivityEntity activityEntity = activityDao.get(new BigDecimal(id));
         NotificationDto notificationDto = new NotificationDto();

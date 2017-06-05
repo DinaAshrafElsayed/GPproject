@@ -6,57 +6,41 @@
 package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
-import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.service.ItemService;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+
 
 /**
  *
  * @author Yousef
  */
-@ManagedBean(name = "itemBean")
-@SessionScoped
-public class ItemBean implements Serializable{
+@Named(value = "searchBean")
+@RequestScoped
+public class SearchBean implements Serializable{
 
-    @EJB
+    /**
+     * Creates a new instance of SearchBean
+     */
+    @Inject
     private ItemService itemService;
-    private List<ItemDto> items;
-    private List<CategoryDto> categories;
+    
+    @Inject
+    ItemBean itemBean;
     private String searchString;
     private int categoryId;
-    
-    public ItemBean() {
+    public SearchBean() {
     }
     
-    @PostConstruct
-    public void init() {
-        try {
-            if (itemService.getAllItems()!= null) {
-                items = itemService.getAllItems();
-            }
-            categories = itemService.getAllCategories();
-        } catch (ServiceException ex) {
-            Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 
-    public List<ItemDto> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ItemDto> items) {
-        this.items = items;
-    }
-    
     public String getSearchString() {
         return searchString;
     }
@@ -72,24 +56,33 @@ public class ItemBean implements Serializable{
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
-
-    public List<CategoryDto> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<CategoryDto> categories) {
-        this.categories = categories;
-    }
+    
     
     
     public void doSearch(){
         try{
             List<ItemDto> items = itemService.searchItems(searchString, categoryId);
             System.out.println("items "+items.size());
-           this.items = items;
+            itemBean.setItems(items);
         }catch(ServiceException ex){
              Logger.getLogger(SearchBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public ItemService getItemService() {
+        return itemService;
+    }
+
+    public void setItemService(ItemService itemService) {
+        this.itemService = itemService;
+    }
+
+    public ItemBean getItemBean() {
+        return itemBean;
+    }
+
+    public void setItemBean(ItemBean itemBean) {
+        this.itemBean = itemBean;
     }
     
 }

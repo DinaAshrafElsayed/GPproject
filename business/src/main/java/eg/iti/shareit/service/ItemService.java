@@ -9,8 +9,11 @@ import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dao.ActivityDao;
+import eg.iti.shareit.model.dao.CategoryDao;
 import eg.iti.shareit.model.dao.ItemDao;
+import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
+import eg.iti.shareit.model.entity.CategoryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.util.List;
@@ -31,10 +34,26 @@ public class ItemService {
     private ActivityDao activityDao;
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
+    
+    @EJB
+    private CategoryDao categoryDao;
 
+    public List<CategoryDto> getAllCategories() throws ServiceException {
+        try {
+            List<CategoryEntity> entities = categoryDao.getAll();
+            return mappingUtil.getDtoList(entities, CategoryDto.class);
+        } catch (DatabaseRollbackException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
     public List<ItemDto> getAllItems() throws ServiceException {
-        List<ItemEntity> itemEntities = itemDao.getAll();
-        return mappingUtil.getDtoList(itemEntities, ItemDto.class);
+        try {
+            List<ItemEntity> itemEntities = itemDao.getAll();
+            return mappingUtil.getDtoList(itemEntities, ItemDto.class);
+        } catch (DatabaseRollbackException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+  
     }
 
     public List<ItemDto> searchItems(String name,int categoryId) throws ServiceException{
