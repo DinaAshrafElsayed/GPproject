@@ -40,14 +40,14 @@ public class UserBean implements Serializable {
 
     private String email;
     private String password;
-
+    private UserDto userDto;
     public UserBean() {
     }
 
     public String login() {
         try {
-            UserDto userDto = userService.findUser(email, password);
-            System.out.println("user dto " + userDto);
+            setUserDto(userService.findUser(email, password));
+            System.out.println("user dto " + getUserDto());
             
         } catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,5 +81,19 @@ public class UserBean implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the userDto
+     */
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    /**
+     * @param userDto the userDto to set
+     */
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 }
