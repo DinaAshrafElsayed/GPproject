@@ -46,7 +46,7 @@ public class UserBean implements Serializable {
 
     public String login() {
         try {
-            setUserDto(userService.findUser(email, password));
+            userDto = userService.findUser(email, password);
             System.out.println("user dto " + getUserDto());
             
         } catch (ServiceException ex) {
