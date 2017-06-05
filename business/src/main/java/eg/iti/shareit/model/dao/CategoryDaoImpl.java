@@ -25,24 +25,27 @@ public class CategoryDaoImpl extends GenericDaoImpl<CategoryEntity> implements C
 
     @Override
     public CategoryEntity getCategoryByName(String name) throws DatabaseRollbackException {
+        System.out.println("++++++++ in get cat by name");
         Query query = getEntityManager().createQuery("Select c From CategoryEntity c where c.name = :name");
         query.setParameter("name", name);
 
         try {
             List<CategoryEntity> categoryList = query.getResultList();
+            System.out.println("-------------------- in Cat Dao" +categoryList.size());
             if (categoryList != null && categoryList.size() == 1) {
                 return categoryList.get(0);
             } else {
                 throw new DatabaseRollbackException("category  Not Found");
             }
-        } catch (PersistenceException ex) {
+        } catch (Exception ex) {
+           ex.printStackTrace();
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
 
     @Override
     public List<CategoryEntity> getAllCategories() throws DatabaseRollbackException {
-          Query query = getEntityManager().createQuery("Select * From CategoryEntity ");
+          Query query = getEntityManager().createQuery("Select c From CategoryEntity c ",CategoryEntity.class);
         
 
         try {

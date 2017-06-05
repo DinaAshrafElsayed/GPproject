@@ -33,11 +33,11 @@ public class CategoryService {
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
     
-     public CategoryEntity getCategoryByName(String name) throws ServiceException {
+     public CategoryDto getCategoryByName(String name) throws ServiceException {
         try {
             CategoryEntity categoryEntity = categoryDao.getCategoryByName(name);
           
-            return categoryEntity;
+            return mappingUtil.getDto(categoryEntity, CategoryDto.class);
         }catch (DatabaseException e) {
 
             logger.log(Level.SEVERE,e.getMessage(),e);
@@ -61,9 +61,6 @@ public class CategoryService {
             throw new ServiceException(e.getMessage());
         }
      }
-     public CategoryEntity getCategoryEntityFromCategoryDto(CategoryDto catDto)throws ServiceException{
      
-         return   mappingUtil.<CategoryEntity, CategoryDto >getEntity(catDto, CategoryEntity.class);
-     }
     
 }

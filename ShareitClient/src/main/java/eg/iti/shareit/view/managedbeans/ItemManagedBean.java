@@ -7,33 +7,47 @@ package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.CategoryDto;
+import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.entity.CategoryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.util.MappingUtil;
 import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author sara metwalli
  */
-@ManagedBean(name = "itemBean")
+@ManagedBean(name = "itemManagedBean", eager = true)
 @SessionScoped
-public class ItemManagedBean {
+public class ItemManagedBean implements java.io.Serializable {
 
     @EJB
     CategoryService categoryService;
     @EJB
     ItemService itemService;
+    @EJB(beanName = "MappingUtil")
+    private MappingUtil mappingUtil;
 
     public ItemService getItemService() {
         return itemService;
@@ -53,9 +67,18 @@ public class ItemManagedBean {
 
     private String name;
     private String description;
+
+    public Part getFile() {
+        return file;
+    }
+
+    public void setFile(Part file) {
+        this.file = file;
+    }
     private Date publish_date;
-    private BigInteger points;
-    private String image_url;
+    private int points;
+    private String image_url = "";
+    private Part file;
     private CategoryDto category;
     private List<CategoryDto> categories;
 
@@ -91,13 +114,14 @@ public class ItemManagedBean {
         this.publish_date = publish_date;
     }
 
-    public BigInteger getPoints() {
+    public int getPoints() {
         return points;
     }
-
-    public void setPoints(BigInteger points) {
+   public void setPoints(int points) {
         this.points = points;
-    }
+    }  
+
+  
 
     public String getImage_url() {
         return image_url;
@@ -118,7 +142,7 @@ public class ItemManagedBean {
     public ItemManagedBean() {
     }
 
-    public ItemManagedBean(CategoryService categoryService, String name, String description, Date publish_date, BigInteger points, String image_url) {
+    public ItemManagedBean(CategoryService categoryService, String name, String description, Date publish_date, int points, String image_url) {
         this.categoryService = categoryService;
         this.name = name;
         this.description = description;
@@ -131,24 +155,46 @@ public class ItemManagedBean {
     public void init() {
         try {
             categories = categoryService.getAllCategories();
+            System.out.println("-------------------- categories "+categories);
         } catch (ServiceException ex) {
             Logger.getLogger(ItemManagedBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public String test() {
+
+        System.out.println("------------------------------======");
+        return "register";
+
+    }
+
     public String addItem() {
+        System.out.println("ru7t le add");
+        
+            System.out.println("-------------- in add item");
+            
+            ItemDto item = new ItemDto(name, description, (short) 1, publish_date, points,image_url);
 
-        try {
-            ItemEntity item = new ItemEntity(name, description, (short) 1, publish_date, points);
-            // item.setImageUrl(image_url);
-            CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
-            item.setCategory(catEntity);
+            //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
+            //System.out.println("----------------"+catEntity.getName());
+          //  item.setImageUrl(image_url);
+            item.setCategory(category);
+
             itemService.addItemForShare(item);
+            return "";
 
-        } catch (ServiceException ex) {
-            Logger.getLogger(ItemManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    public void save() {
+
+        try (InputStream input = file.getInputStream()) {
+            Files.copy(input, new File(System.getProperty("user.home")+"\\shareit\\images\\sharedItems\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
+            image_url = System.getProperty("user.home")+"\\shareit\\images\\sharedItems\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
+        } catch (IOException e) {
+            // Show faces message
+            FacesMessage facesMessage = new FacesMessage("error uploading image");
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage(null, facesMessage);
         }
-
-        return "";
     }
 }

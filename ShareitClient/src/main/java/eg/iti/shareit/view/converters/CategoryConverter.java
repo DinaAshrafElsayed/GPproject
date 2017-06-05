@@ -7,22 +7,27 @@ package eg.iti.shareit.view.converters;
 
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.CategoryDto;
+import eg.iti.shareit.model.entity.CategoryEntity;
 import eg.iti.shareit.service.CategoryService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
+
 
 /**
  *
  * @author sara metwalli
  */
-@FacesConverter("catConverter")
+//@FacesConverter("catConverter")
+@ManagedBean( name = "categoryConverter", eager = true)
+@SessionScoped
 
 public class CategoryConverter  implements Converter{
     
@@ -32,7 +37,16 @@ public class CategoryConverter  implements Converter{
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         try {
-            return categoryService.getCategoryByName(value);
+            System.out.println("==============================================in cat name"+value);
+            
+            CategoryDto cat= categoryService.getCategoryByName(value);
+            if(cat!=null){
+                System.out.println("cat "+cat.getName());
+                return cat;
+            }
+            else{
+                return null;
+            }
         } catch (ServiceException ex) {
             Logger.getLogger(CategoryConverter.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -43,8 +57,14 @@ public class CategoryConverter  implements Converter{
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-       CategoryDto dto =(CategoryDto)value;
-      return  dto.getName();
+        if(value!=null){
+              System.out.println("---------------- in return as string");
+              System.out.println(value.toString());
+        CategoryDto dto =(CategoryDto)value;
+        
+
+      return  dto.getName();}
+        else return null;
     }
     
 }
