@@ -112,31 +112,36 @@ public class ActivityService {
     }
 
     public boolean requestItem(int itemId, int fromUserId, int toUserId, Date timeTo, String meetingPoint) throws ServiceException {
-
+try {
         boolean isAvailable = itemService.isItemAvailable(itemId);
         if (isAvailable) {
-            ItemEntity itemEntity = itemDao.get(new BigDecimal(itemId));
-            UserEntity fromUserEntity = userDao.get(new BigDecimal(fromUserId));
-            UserEntity toUserEntity = userDao.get(new BigDecimal(toUserId));
-
-            // map entities to their dtos
-            ItemDto itemDto = mappingUtil.getDto(itemEntity, ItemDto.class);
-            UserDto fromUserDto = mappingUtil.getDto(fromUserEntity, UserDto.class);
-            UserDto toUserDto = mappingUtil.getDto(toUserEntity, UserDto.class);
-            //create activity dto object 
-            ActivityDto activityDto = new ActivityDto();
-            activityDto.setItem(itemDto);
-            activityDto.setFromUser(fromUserDto);
-            activityDto.setToUser(toUserDto);
-            activityDto.setStatus(StatusEnum.PENDING.getStatus());
-            activityDto.setTimeTo(timeTo);
-            activityDto.setMeetingPoint(meetingPoint);
-            activityDto.setTimeFrom(new Date());
-
-            insertActivity(activityDto);
-            return true;
+            
+                ItemEntity itemEntity = itemDao.get(new BigDecimal(itemId));
+                UserEntity fromUserEntity = userDao.get(new BigDecimal(fromUserId));
+                UserEntity toUserEntity = userDao.get(new BigDecimal(toUserId));
+                
+                // map entities to their dtos
+                ItemDto itemDto = mappingUtil.getDto(itemEntity, ItemDto.class);
+                UserDto fromUserDto = mappingUtil.getDto(fromUserEntity, UserDto.class);
+                UserDto toUserDto = mappingUtil.getDto(toUserEntity, UserDto.class);
+                //create activity dto object
+                ActivityDto activityDto = new ActivityDto();
+                activityDto.setItem(itemDto);
+                activityDto.setFromUser(fromUserDto);
+                activityDto.setToUser(toUserDto);
+                activityDto.setStatus(StatusEnum.PENDING.getStatus());
+                activityDto.setTimeTo(timeTo);
+                activityDto.setMeetingPoint(meetingPoint);
+                activityDto.setTimeFrom(new Date());
+                
+                insertActivity(activityDto);
+                return true;
+            
         } else {
             return false;
+        }
+        } catch (DatabaseRollbackException ex) {
+            throw new ServiceException(ex.getMessage());
         }
     }
 
