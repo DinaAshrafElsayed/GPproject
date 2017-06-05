@@ -38,16 +38,19 @@ and open the template in the editor.
                         <h:form enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true"/>
+                                <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true" requiredMessage="this field is required"/>
+                                <h:message for="name" style="color:red"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <h:inputText class="form-control" id="email" value="#{registerBean.email}" required="true"/>
+                                <h:inputText class="form-control" id="email" value="#{registerBean.email}" required="true" requiredMessage="this field is required"/>
+                                <h:message for="email" style="color:red"/>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <h:inputSecret class="form-control" id="password" value="#{registerBean.password}" required="true"/>
+                                <h:inputSecret class="form-control" id="password" value="#{registerBean.password}" required="true" requiredMessage="this field is required"/>
+                                <h:message for="password" style="color:red"/>
                             </div>
 
                             <div class="form-group">
@@ -77,12 +80,14 @@ and open the template in the editor.
                         <hr/>
                         <h:form>
                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <h:inputText class="form-control" value="#{user.email}" id="email"/>
+                                <label for="loginEmail">Email</label>
+                                <h:inputText class="form-control" value="#{user.email}" id="loginEmail" required="true" requiredMessage="this field is required"/>
+                                <h:message for="loginEmail" style="color:red"/>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
-                                <h:inputSecret class="form-control" value="#{user.password}" id="password"/>
+                                <label for="loginPassword">Password</label>
+                                <h:inputSecret class="form-control" value="#{user.password}" id="loginPassword" required="true" requiredMessage="this field is required"/>
+                                <h:message for="loginPassword" style="color:red"/>
                             </div>
                             <div class="text-center">
                                 <h:commandLink action="#{user.login()}" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</h:commandLink>
