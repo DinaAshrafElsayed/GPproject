@@ -9,6 +9,7 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.GenderDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.util.HashingUtil;
+import eg.iti.shareit.model.util.SessionUtil;
 import eg.iti.shareit.service.UserService;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -48,11 +50,32 @@ public class UserBean implements Serializable {
         try {
             userDto = userService.findUser(email, password);
             System.out.println("user dto " + getUserDto());
+            if(userDto!= null)
+            {
+                //save in session
+                HttpSession session = SessionUtil.getSession();
+                session.setAttribute("userDto", userDto);
+                System.out.println("user saved in session");
+            }
+            else
+            {
+                //return faces error msg
+                //error email or password
+            }
             
         } catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //supposedly return to home page
         return "";
+    }
+    public String logout()
+    {
+        userDto = null;
+        HttpSession session = SessionUtil.getSession();
+        session.invalidate();
+        System.out.println("session invalidated");
+        return "register";
     }
 
     /**

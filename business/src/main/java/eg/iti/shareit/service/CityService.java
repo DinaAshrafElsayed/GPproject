@@ -11,7 +11,6 @@ import eg.iti.shareit.model.entity.CityEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
 
 /**
  *
