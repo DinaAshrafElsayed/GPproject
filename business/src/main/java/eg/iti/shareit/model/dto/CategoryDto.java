@@ -49,5 +49,10 @@ public class CategoryDto implements java.io.Serializable, GenericDto{
     public void setMaxPoints(int maxPoints) {
         this.maxPoints = maxPoints;
     }
+
+    @Override
+    public String toString() {
+        return "CategoryDto{" + "id=" + id + ", name=" + name + ", maxPoints=" + maxPoints + '}';
+    }
     
 }

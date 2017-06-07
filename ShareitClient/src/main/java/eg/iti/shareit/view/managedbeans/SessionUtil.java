@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eg.iti.shareit.model.util;
+package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.model.dto.UserDto;
-import java.security.SecureRandom;
-import java.math.BigInteger;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;

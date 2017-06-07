@@ -50,7 +50,7 @@ public class AuthorizationFilter implements Filter {
 					|| (userSession != null && userSession.getAttribute("userDto") != null))
 				chain.doFilter(request, response);
 			else
-				resp.sendRedirect(req.getContextPath() + "/faces/register.xhtml");
+				resp.sendRedirect(req.getContextPath() + "/faces/pages/register.xhtml");
 		} catch (IOException | ServletException e) {
 			System.out.println(e.getMessage());
 		}

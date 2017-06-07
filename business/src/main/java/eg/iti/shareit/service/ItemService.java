@@ -78,10 +78,12 @@ public class ItemService {
     }
     
     
-    public boolean addItemForShare(ItemEntity item){
+    public boolean addItemForShare(ItemDto item){
         boolean flag=false;
         try {
-            int added=itemDao.addItem(item);
+            System.out.println("---------------- in add item for share");
+            
+            int added=itemDao.addItem(mappingUtil.getEntity(item, ItemEntity.class));
             if(added!=0){
                 flag= true;
             }
