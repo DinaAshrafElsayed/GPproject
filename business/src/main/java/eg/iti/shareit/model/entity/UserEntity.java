@@ -9,25 +9,18 @@ import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,13 +30,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_USER")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UserEntity.findAll", query = "SELECT t FROM UserEntity t"),
-    @NamedQuery(name = "UserEntity.findById", query = "SELECT t FROM UserEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT t FROM UserEntity t WHERE t.username = :username"),
-    @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT t FROM UserEntity t WHERE t.email = :email"),
-    @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT t FROM UserEntity t WHERE t.password = :password"),
-    @NamedQuery(name = "UserEntity.findByImageUrl", query = "SELECT t FROM UserEntity t WHERE t.imageUrl = :imageUrl"),
-    @NamedQuery(name = "UserEntity.findByPoints", query = "SELECT t FROM UserEntity t WHERE t.points = :points")})
+    @NamedQuery(name = "UserEntity.findAll", query = "SELECT u FROM UserEntity u"),
+    @NamedQuery(name = "UserEntity.findById", query = "SELECT u FROM UserEntity u WHERE u.id = :id"),
+    @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
+    @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
+    @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT u FROM UserEntity u WHERE u.password = :password"),
+    @NamedQuery(name = "UserEntity.findByImageUrl", query = "SELECT u FROM UserEntity u WHERE u.imageUrl = :imageUrl"),
+    @NamedQuery(name = "UserEntity.findByPoints", query = "SELECT u FROM UserEntity u WHERE u.points = :points")})
 public class UserEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +45,6 @@ public class UserEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_USER_SEQ")
-    @SequenceGenerator(name = "T_USER_SEQ" ,sequenceName = "T_USER_SEQ" ,allocationSize = 1,initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -78,12 +69,9 @@ public class UserEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "POINTS")
     private BigInteger points;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser")
-    private List<ActivityEntity> toActivityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser")
-    private List<ActivityEntity> fromActivityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rUser")
-    private List<AddressEntity> addressList;
+    @JoinColumn(name = "ADDRESS", referencedColumnName = "ID")
+    @ManyToOne
+    private AddressEntity address;
     @JoinColumn(name = "GENDER", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private GenderEntity gender;
@@ -151,31 +139,12 @@ public class UserEntity implements Serializable, GenericEntity {
         this.points = points;
     }
 
-    @XmlTransient
-    public List<ActivityEntity> getToActivityList() {
-        return toActivityList;
+    public AddressEntity getAddress() {
+        return address;
     }
 
-    public void setToActivityList(List<ActivityEntity> toActivityList) {
-        this.toActivityList = toActivityList;
-    }
-
-    @XmlTransient
-    public List<ActivityEntity> getFromActivityList() {
-        return fromActivityList;
-    }
-
-    public void setFromActivityList(List<ActivityEntity> fromActivityList) {
-        this.fromActivityList = fromActivityList;
-    }
-
-    @XmlTransient
-    public List<AddressEntity> getAddressList() {
-        return addressList;
-    }
-
-    public void setAddressList(List<AddressEntity> addressList) {
-        this.addressList = addressList;
+    public void setAddress(AddressEntity address) {
+        this.address = address;
     }
 
     public GenderEntity getGender() {

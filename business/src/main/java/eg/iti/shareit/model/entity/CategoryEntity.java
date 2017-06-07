@@ -41,6 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CategoryEntity.findByMaxPoints", query = "SELECT t FROM CategoryEntity t WHERE t.maxPoints = :maxPoints")})
 public class CategoryEntity implements Serializable, GenericEntity {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    private List<ItemEntity> itemEntityList;
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -131,6 +134,15 @@ public class CategoryEntity implements Serializable, GenericEntity {
     @Override
     public String toString() {
         return "eg.iti.shareit.model.entity.CategoryEntity[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<ItemEntity> getItemEntityList() {
+        return itemEntityList;
+    }
+
+    public void setItemEntityList(List<ItemEntity> itemEntityList) {
+        this.itemEntityList = itemEntityList;
     }
 
 }

@@ -6,6 +6,7 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
+import eg.iti.shareit.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -23,6 +24,8 @@ public class ItemDto implements java.io.Serializable, GenericDto {
     private Date publishDate;
     private int points;
     private String imageUrl;
+    private UserDto userFrom;
+    private String tags;
 
     public ItemDto() {
     }
@@ -105,6 +108,22 @@ public class ItemDto implements java.io.Serializable, GenericDto {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public UserDto getUserFrom() {
+        return userFrom;
+    }
+
+    public void setUserFrom(UserDto userFrom) {
+        this.userFrom = userFrom;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
 }

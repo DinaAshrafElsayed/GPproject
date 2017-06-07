@@ -6,31 +6,26 @@
 package eg.iti.shareit.model.entity;
 
 import eg.iti.shareit.common.entity.GenericEntity;
+import eg.iti.shareit.model.entity.CategoryEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -40,13 +35,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_ITEM")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ItemEntity.findAll", query = "SELECT t FROM ItemEntity t"),
-    @NamedQuery(name = "ItemEntity.findById", query = "SELECT t FROM ItemEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "ItemEntity.findByName", query = "SELECT t FROM ItemEntity t WHERE t.name = :name"),
-    @NamedQuery(name = "ItemEntity.findByDescription", query = "SELECT t FROM ItemEntity t WHERE t.description = :description"),
-    @NamedQuery(name = "ItemEntity.findByIsAvailable", query = "SELECT t FROM ItemEntity t WHERE t.isAvailable = :isAvailable"),
-    @NamedQuery(name = "ItemEntity.findByPublishDate", query = "SELECT t FROM ItemEntity t WHERE t.publishDate = :publishDate"),
-    @NamedQuery(name = "ItemEntity.findByPoints", query = "SELECT t FROM ItemEntity t WHERE t.points = :points")})
+    @NamedQuery(name = "ItemEntity.findAll", query = "SELECT i FROM ItemEntity i"),
+    @NamedQuery(name = "ItemEntity.findById", query = "SELECT i FROM ItemEntity i WHERE i.id = :id"),
+    @NamedQuery(name = "ItemEntity.findByName", query = "SELECT i FROM ItemEntity i WHERE i.name = :name"),
+    @NamedQuery(name = "ItemEntity.findByDescription", query = "SELECT i FROM ItemEntity i WHERE i.description = :description"),
+    @NamedQuery(name = "ItemEntity.findByIsAvailable", query = "SELECT i FROM ItemEntity i WHERE i.isAvailable = :isAvailable"),
+    @NamedQuery(name = "ItemEntity.findByPublishDate", query = "SELECT i FROM ItemEntity i WHERE i.publishDate = :publishDate"),
+    @NamedQuery(name = "ItemEntity.findByPoints", query = "SELECT i FROM ItemEntity i WHERE i.points = :points"),
+    @NamedQuery(name = "ItemEntity.findByImageUrl", query = "SELECT i FROM ItemEntity i WHERE i.imageUrl = :imageUrl"),
+    @NamedQuery(name = "ItemEntity.findByTags", query = "SELECT i FROM ItemEntity i WHERE i.tags = :tags")})
 public class ItemEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -55,8 +52,6 @@ public class ItemEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_ITEM_SEQ")
-    @SequenceGenerator(name = "T_ITEM_SEQ", sequenceName = "T_ITEM_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -79,16 +74,22 @@ public class ItemEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "POINTS")
     private BigInteger points;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
-    private List<ActivityEntity> activityList;
-    @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private CategoryEntity category;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "IMAGE_URL")
     private String imageUrl;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "TAGS")
+    private String tags;
+    @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private CategoryEntity category;
+    @JoinColumn(name = "USER_FROM", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private UserEntity userFrom;
 
     public ItemEntity() {
     }
@@ -97,20 +98,14 @@ public class ItemEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public ItemEntity(BigDecimal id, String name, short isAvailable, Date publishDate, BigInteger points) {
+    public ItemEntity(BigDecimal id, String name, short isAvailable, Date publishDate, BigInteger points, String imageUrl, String tags) {
         this.id = id;
         this.name = name;
         this.isAvailable = isAvailable;
         this.publishDate = publishDate;
         this.points = points;
-    }
-
-    public ItemEntity(String name, String description, short isAvailable, Date publishDate, BigInteger points) {
-        this.name = name;
-        this.description = description;
-        this.isAvailable = isAvailable;
-        this.publishDate = publishDate;
-        this.points = points;
+        this.imageUrl = imageUrl;
+        this.tags = tags;
     }
 
     public BigDecimal getId() {
@@ -161,13 +156,20 @@ public class ItemEntity implements Serializable, GenericEntity {
         this.points = points;
     }
 
-    @XmlTransient
-    public List<ActivityEntity> getActivityList() {
-        return activityList;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setActivityList(List<ActivityEntity> activityList) {
-        this.activityList = activityList;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public CategoryEntity getCategory() {
@@ -176,6 +178,14 @@ public class ItemEntity implements Serializable, GenericEntity {
 
     public void setCategory(CategoryEntity category) {
         this.category = category;
+    }
+
+    public UserEntity getUserFrom() {
+        return userFrom;
+    }
+
+    public void setUserFrom(UserEntity userFrom) {
+        this.userFrom = userFrom;
     }
 
     @Override
@@ -200,15 +210,7 @@ public class ItemEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.ItemEntity[ id=" + id + " ]";
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        return "eg.iti.shareit.common.enums.ItemEntity[ id=" + id + " ]";
     }
 
 }
