@@ -14,7 +14,7 @@ import javax.ejb.Stateless;
  * @author Dina Ashraf
  */
 @Stateless
-public final class SessionIdUtil {
+public class SessionIdUtil {
 
     private SecureRandom random = new SecureRandom();
 

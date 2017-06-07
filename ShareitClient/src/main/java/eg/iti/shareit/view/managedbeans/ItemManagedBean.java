@@ -154,7 +154,7 @@ public class ItemManagedBean implements java.io.Serializable {
     @PostConstruct
     public void init() {
         try {
-            categories = categoryService.getAllCategories();
+             categories= categoryService.getAllCategories();
             System.out.println("-------------------- categories "+categories);
         } catch (ServiceException ex) {
             Logger.getLogger(ItemManagedBean.class.getName()).log(Level.SEVERE, null, ex);
