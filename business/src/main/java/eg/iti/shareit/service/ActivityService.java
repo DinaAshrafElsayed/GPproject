@@ -55,10 +55,11 @@ public class ActivityService {
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
-    public List<ActivityDto> getAllActivities() throws ServiceException {
+    public List<ActivityDto> getAllActivities(UserDto userDto) throws ServiceException {
 
         try {
-            List<ActivityEntity> allActivities = activityDao.getAllActivities();
+            UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
+            List<ActivityEntity> allActivities = activityDao.getAllActivities(userEntity);
             if (allActivities != null) {
                 return mappingUtil.< ActivityEntity, ActivityDto>getDtoList(allActivities, ActivityDto.class);
             }

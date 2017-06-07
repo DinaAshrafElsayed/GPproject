@@ -45,7 +45,7 @@ public class ItemBean implements Serializable{
             }
             categories = itemService.getAllCategories();
         } catch (ServiceException ex) {
-            Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestsBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

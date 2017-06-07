@@ -7,6 +7,7 @@ package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.ActivityDto;
+import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.service.ActivityService;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.model.CollectionDataModel;
 import javax.faces.model.DataModel;
 import javax.inject.Named;
@@ -25,8 +27,8 @@ import javax.inject.Named;
  * @author Adel Zaid
  */
 @Named(value = "requests")
-@SessionScoped
-public class Requests implements Serializable {
+@javax.faces.view.ViewScoped
+public class RequestsBean implements Serializable {
 
     @EJB
     private ActivityService activityService;
@@ -60,12 +62,14 @@ public class Requests implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            if (activityService.getAllActivities() != null) {
-                activityDtos = activityService.getAllActivities();
+            UserDto user = SessionUtil.getUser();
+            activityDtos = activityService.getAllActivities(user);
+            if (activityDtos != null) {
+
                 dataModel = new CollectionDataModel<>(activityDtos);
             }
         } catch (ServiceException ex) {
-            Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestsBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -75,17 +79,18 @@ public class Requests implements Serializable {
             activityService.acceptRequest(rowData);
             init();
         } catch (ServiceException ex) {
-            Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestsBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void declineRequest() {
         try {
+
             ActivityDto activityDto = dataModel.getRowData();
             activityService.declineRequest((activityDto.getId()).intValue());
             init();
         } catch (ServiceException ex) {
-            Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestsBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

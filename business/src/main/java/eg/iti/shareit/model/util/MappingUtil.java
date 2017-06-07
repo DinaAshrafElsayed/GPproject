@@ -50,8 +50,4 @@ public class MappingUtil {
         return dtoList;
     }
 
-    public void getEntity(StatusEntity status, Class<StatusEntity> aClass) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
