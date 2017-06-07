@@ -12,9 +12,10 @@ import java.math.BigDecimal;
  *
  * @author Yousef
  */
-public class AddressDto implements java.io.Serializable, GenericDto{
+public class AddressDto implements java.io.Serializable, GenericDto {
+
     private BigDecimal id;
-    private int rUser;
+
     private CountryDto country;
     private CityDto city;
     private StateDto state;
@@ -22,9 +23,8 @@ public class AddressDto implements java.io.Serializable, GenericDto{
     public AddressDto() {
     }
 
-    public AddressDto(BigDecimal id, int rUser, CountryDto country, CityDto city, StateDto state) {
+    public AddressDto(BigDecimal id, CountryDto country, CityDto city, StateDto state) {
         this.id = id;
-        this.rUser = rUser;
         this.country = country;
         this.city = city;
         this.state = state;
@@ -36,14 +36,6 @@ public class AddressDto implements java.io.Serializable, GenericDto{
 
     public void setId(BigDecimal id) {
         this.id = id;
-    }
-
-    public int getrUser() {
-        return rUser;
-    }
-
-    public void setrUser(int rUser) {
-        this.rUser = rUser;
     }
 
     public CountryDto getCountry() {
@@ -69,6 +61,5 @@ public class AddressDto implements java.io.Serializable, GenericDto{
     public void setState(StateDto state) {
         this.state = state;
     }
-    
-    
+
 }

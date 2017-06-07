@@ -8,6 +8,7 @@ package eg.iti.shareit.model.entity;
 import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,10 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,8 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "T_ADDRESS")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "AddressEntity.findAll", query = "SELECT t FROM AddressEntity t"),
-    @NamedQuery(name = "AddressEntity.findById", query = "SELECT t FROM AddressEntity t WHERE t.id = :id")})
+    @NamedQuery(name = "AddressEntity.findAll", query = "SELECT a FROM AddressEntity a"),
+    @NamedQuery(name = "AddressEntity.findById", query = "SELECT a FROM AddressEntity a WHERE a.id = :id")})
 public class AddressEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -41,8 +44,8 @@ public class AddressEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_ADDRESS_SEQ")
-    @SequenceGenerator(name = "T_ADDRESS_SEQ" ,sequenceName = "T_ADDRESS_SEQ" ,allocationSize = 1,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_ADDRESS_SEQ")
+    @SequenceGenerator(name = "T_ADDRESS_SEQ", sequenceName = "T_ADDRESS_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @JoinColumn(name = "CITY", referencedColumnName = "ID")
     @ManyToOne(optional = false)
@@ -53,9 +56,8 @@ public class AddressEntity implements Serializable, GenericEntity {
     @JoinColumn(name = "STATE", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private StateEntity state;
-    @JoinColumn(name = "R_USER", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private UserEntity rUser;
+    @OneToMany(mappedBy = "address")
+    private List<UserEntity> userEntityList;
 
     public AddressEntity() {
     }
@@ -96,12 +98,13 @@ public class AddressEntity implements Serializable, GenericEntity {
         this.state = state;
     }
 
-    public UserEntity getRUser() {
-        return rUser;
+    @XmlTransient
+    public List<UserEntity> getUserEntityList() {
+        return userEntityList;
     }
 
-    public void setRUser(UserEntity rUser) {
-        this.rUser = rUser;
+    public void setUserEntityList(List<UserEntity> userEntityList) {
+        this.userEntityList = userEntityList;
     }
 
     @Override

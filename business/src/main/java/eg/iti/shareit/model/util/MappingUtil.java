@@ -3,6 +3,7 @@ package eg.iti.shareit.model.util;
 import eg.iti.shareit.common.dto.GenericDto;
 import eg.iti.shareit.common.entity.GenericEntity;
 import eg.iti.shareit.model.dto.ActivityDto;
+import eg.iti.shareit.model.entity.StatusEntity;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 
@@ -47,6 +48,10 @@ public class MappingUtil {
         }
 
         return dtoList;
+    }
+
+    public void getEntity(StatusEntity status, Class<StatusEntity> aClass) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

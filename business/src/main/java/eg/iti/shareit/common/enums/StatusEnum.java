@@ -6,6 +6,7 @@
 package eg.iti.shareit.common.enums;
 
 import eg.iti.shareit.model.dto.StatusDto;
+import eg.iti.shareit.model.entity.StatusEntity;
 import java.math.BigDecimal;
 
 /**
@@ -13,20 +14,20 @@ import java.math.BigDecimal;
  * @author Adel Zaid
  */
 public enum StatusEnum {
-    PENDING(new StatusDto(new BigDecimal(1), "Pending")), ACCEPTED(new StatusDto(new BigDecimal(2), "Accepted")), DECLINED(new StatusDto(new BigDecimal(3), "Declined"));
+    PENDING(new StatusEntity(new BigDecimal(1), "Pending")), ACCEPTED(new StatusEntity(new BigDecimal(2), "Accepted")), DECLINED(new StatusEntity(new BigDecimal(3), "Declined"));
 
-    private StatusEnum(StatusDto status) {
+    private StatusEnum(StatusEntity status) {
         this.status = status;
 
     }
 
-    private StatusDto status;
+    private StatusEntity status;
 
-    public StatusDto getStatus() {
+    public StatusEntity getStatus() {
         return status;
     }
 
-    public void setStatus(StatusDto status) {
+    public void setStatus(StatusEntity status) {
         this.status = status;
     }
 

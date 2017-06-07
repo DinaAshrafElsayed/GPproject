@@ -5,12 +5,10 @@
  */
 package eg.iti.shareit.model.dao;
 
-import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.StatusEntity;
-import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,11 +17,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -88,8 +82,7 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
                 return "Already Declined";
             } else {
 
-                StatusEntity statusEntity = mappingUtil.getEntity(StatusEnum.DECLINED.getStatus(), StatusEntity.class);
-                activityEntity.setStatus(statusEntity);
+                activityEntity.setStatus(StatusEnum.DECLINED.getStatus());
                 activityEntity.setActivityDeleted((short) 1);
                 activityDao.update(activityEntity);
                 return "Declined";
