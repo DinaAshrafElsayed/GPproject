@@ -6,7 +6,11 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
+import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -15,23 +19,59 @@ import java.util.Date;
  */
 public class NotificationDto implements Serializable, GenericDto {
 
-    private int points;
-    private int days;
+    private BigDecimal id;
+    private BigInteger pointsDeducted;
+    private BigInteger days;
     private String meetingPoint;
+    private ItemEntity item;
+    private UserEntity fromUser;
+    private UserEntity toUser;
 
-    public int getPoints() {
-        return points;
+    public BigDecimal getId() {
+        return id;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void setId(BigDecimal id) {
+        this.id = id;
     }
 
-    public int getDays() {
+    public BigInteger getPointsDeducted() {
+        return pointsDeducted;
+    }
+
+    public void setPointsDeducted(BigInteger pointsDeducted) {
+        this.pointsDeducted = pointsDeducted;
+    }
+
+    public ItemEntity getItem() {
+        return item;
+    }
+
+    public void setItem(ItemEntity item) {
+        this.item = item;
+    }
+
+    public UserEntity getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(UserEntity fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public UserEntity getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(UserEntity toUser) {
+        this.toUser = toUser;
+    }
+
+    public BigInteger getDays() {
         return days;
     }
 
-    public void setDays(int days) {
+    public void setDays(BigInteger days) {
         this.days = days;
     }
 
@@ -43,4 +83,5 @@ public class NotificationDto implements Serializable, GenericDto {
         this.meetingPoint = meetingPoint;
     }
 
+   
 }

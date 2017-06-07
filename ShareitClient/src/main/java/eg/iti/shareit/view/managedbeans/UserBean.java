@@ -6,26 +6,15 @@
 package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
-import eg.iti.shareit.model.dto.GenderDto;
 import eg.iti.shareit.model.dto.UserDto;
-import eg.iti.shareit.model.util.HashingUtil;
 import eg.iti.shareit.service.UserService;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.Part;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -48,11 +37,32 @@ public class UserBean implements Serializable {
         try {
             userDto = userService.findUser(email, password);
             System.out.println("user dto " + getUserDto());
+            if(userDto!= null)
+            {
+                //save in session
+                HttpSession session = SessionUtil.getSession();
+                session.setAttribute("userDto", userDto);
+                System.out.println("user saved in session");
+            }
+            else
+            {
+                //return faces error msg
+                //error email or password
+            }
             
         } catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //supposedly return to home page
         return "";
+    }
+    public String logout()
+    {
+        userDto = null;
+        HttpSession session = SessionUtil.getSession();
+        session.invalidate();
+        System.out.println("session invalidated");
+        return "register";
     }
 
     /**

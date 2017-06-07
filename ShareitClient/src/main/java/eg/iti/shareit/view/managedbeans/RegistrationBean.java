@@ -73,8 +73,8 @@ public class RegistrationBean implements Serializable {
     public void save() {
 
         try (InputStream input = file.getInputStream()) {
-            Files.copy(input, new File("E:\\ITI\\GPproject\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
-            imageUrl = "E:\\ITI\\GPproject\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
+            Files.copy(input, new File(System.getProperty("user.home")+"\\shareit\\images\\userProfile\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
+            imageUrl = System.getProperty("user.home")+"\\shareit\\images\\userProfile\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
         } catch (IOException e) {
             // Show faces message
             FacesMessage facesMessage = new FacesMessage("error uploading image");

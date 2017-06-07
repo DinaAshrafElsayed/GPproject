@@ -17,9 +17,11 @@ import eg.iti.shareit.model.dao.UserDao;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.dto.NotificationDto;
+import eg.iti.shareit.model.dto.StatusDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.entity.StatusEntity;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.math.BigDecimal;
@@ -92,34 +94,24 @@ public class ActivityService {
 
     public void acceptRequest(ActivityDto activityDto) throws ServiceException {
         try {
-            activityDaoBTM.acceptRequest(activityDto);
+            ActivityEntity activityEntity = mappingUtil.getEntity(activityDto, ActivityEntity.class);
+            activityDaoBTM.acceptRequest(activityEntity);
 
         } catch (DatabaseException ex) {
-            logger.log(Level.SEVERE, ex.getMessage(), ex);
-            throw new ServiceException(ex.getMessage());
-        }
-    }
-
-    public NotificationDto getNotification(int id) throws ServiceException {
-        try {
-            NotificationDto notificationDto = activityDaoBTM.getNotification(id);
-            return notificationDto;
-        } catch (DatabaseException ex) {
-
             logger.log(Level.SEVERE, ex.getMessage(), ex);
             throw new ServiceException(ex.getMessage());
         }
     }
 
     public boolean requestItem(int itemId, int fromUserId, int toUserId, Date timeTo, String meetingPoint) throws ServiceException {
-try {
-        boolean isAvailable = itemService.isItemAvailable(itemId);
-        if (isAvailable) {
-            
+        try {
+            boolean isAvailable = itemService.isItemAvailable(itemId);
+            if (isAvailable) {
+
                 ItemEntity itemEntity = itemDao.get(new BigDecimal(itemId));
                 UserEntity fromUserEntity = userDao.get(new BigDecimal(fromUserId));
                 UserEntity toUserEntity = userDao.get(new BigDecimal(toUserId));
-                
+
                 // map entities to their dtos
                 ItemDto itemDto = mappingUtil.getDto(itemEntity, ItemDto.class);
                 UserDto fromUserDto = mappingUtil.getDto(fromUserEntity, UserDto.class);
@@ -129,17 +121,18 @@ try {
                 activityDto.setItem(itemDto);
                 activityDto.setFromUser(fromUserDto);
                 activityDto.setToUser(toUserDto);
-                activityDto.setStatus(StatusEnum.PENDING.getStatus());
+                StatusDto statusDto = mappingUtil.getDto(StatusEnum.PENDING.getStatus(), StatusDto.class);
+                activityDto.setStatus(statusDto);
                 activityDto.setTimeTo(timeTo);
                 activityDto.setMeetingPoint(meetingPoint);
                 activityDto.setTimeFrom(new Date());
-                
+
                 insertActivity(activityDto);
                 return true;
-            
-        } else {
-            return false;
-        }
+
+            } else {
+                return false;
+            }
         } catch (DatabaseRollbackException ex) {
             throw new ServiceException(ex.getMessage());
         }
