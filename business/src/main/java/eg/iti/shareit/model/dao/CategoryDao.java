@@ -8,6 +8,7 @@ package eg.iti.shareit.model.dao;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.dao.GenericDao;
 import eg.iti.shareit.model.entity.CategoryEntity;
+import java.util.List;
 
 /**
  *
@@ -15,4 +16,5 @@ import eg.iti.shareit.model.entity.CategoryEntity;
  */
 public interface CategoryDao extends GenericDao<CategoryEntity>{
     public CategoryEntity getCategoryByName(String name)throws DatabaseRollbackException;  
+    public List<CategoryEntity> getAllCategories()throws DatabaseRollbackException;
 }

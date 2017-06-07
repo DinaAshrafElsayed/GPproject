@@ -50,6 +50,16 @@ public class ItemDto implements java.io.Serializable, GenericDto {
         return id;
     }
 
+    public ItemDto(String name, String description, int isAvailable, Date publishDate, int points, String imageUrl) {
+        this.name = name;
+        this.description = description;
+     
+        this.isAvailable = isAvailable;
+        this.publishDate = publishDate;
+        this.points = points;
+        this.imageUrl = imageUrl;
+    }
+
     public void setId(BigDecimal id) {
         this.id = id;
     }
