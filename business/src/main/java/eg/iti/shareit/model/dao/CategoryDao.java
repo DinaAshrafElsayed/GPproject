@@ -17,4 +17,5 @@ import java.util.List;
 public interface CategoryDao extends GenericDao<CategoryEntity>{
     public CategoryEntity getCategoryByName(String name)throws DatabaseRollbackException;  
     public List<CategoryEntity> getAllCategories()throws DatabaseRollbackException;
+    //    public List<CategoryEntity> AllCategoriesName() throws DatabaseRollbackException;
 }

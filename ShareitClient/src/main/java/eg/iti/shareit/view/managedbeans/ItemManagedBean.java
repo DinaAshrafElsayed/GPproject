@@ -163,6 +163,8 @@ public class ItemManagedBean implements java.io.Serializable {
     @PostConstruct
     public void init() {
         try {
+             categories= categoryService.getAllCategories();
+            System.out.println("-------------------- categories "+categories);
             categories = categoryService.getAllCategories();
             System.out.println("-------------------- categories " + categories);
         } catch (ServiceException ex) {

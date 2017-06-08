@@ -38,6 +38,10 @@ public class UserBean implements Serializable {
 
     public String login() {
         try {
+            UserDto userDto = userService.findUser(email, password);
+            System.out.println("user dto " + userDto);
+            if(userDto!= null)
+            {
             userDto = userService.findUser(email, password);
             System.out.println("user dto " + getUserDto());
             if (userDto != null) {
@@ -54,6 +58,7 @@ public class UserBean implements Serializable {
                 return null;
             }
 
+            }
         } catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }

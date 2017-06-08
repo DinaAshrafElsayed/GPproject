@@ -29,6 +29,7 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
             if (id == null) {
                 return null;
             } else {
+                
                 return em.find(type, id);
             }
         } catch (PersistenceException ex) {

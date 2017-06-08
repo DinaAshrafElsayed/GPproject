@@ -3,7 +3,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <!-- *** FOOTER ***
@@ -15,27 +16,17 @@ _________________________________________________________ -->
                     <h4>Pages</h4>
 
                     <ul>
-                        <li><a href="About_us.xhtml">About us</a>
-                        </li>
-                        <li><a href="text.html">Terms and conditions</a>
-                        </li>
-                        <li><a href="faq.xhtml">FAQ</a>
-                        </li>
-                        <li><a href="Contact_us.xhtml">Contact us</a>
-                        </li>
+                        <h:form>
+                            <li><h:commandLink action="About_us.xhtml">About us</h:commandLink>
+                            </li>
+                            <li><h:commandLink action="faq.xhtml">FAQ</h:commandLink>
+                            </li>
+                            <li><h:commandLink action="Contact_us.xhtml">Contact us</h:commandLink>
+                            </li>
+                        </h:form>
                     </ul>
 
                     <hr/>
-
-<!--                    <h4>User section</h4>
-
-                    <ul>
-                        <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
-                        </li>
-                        <li><a href="register.html">Regiter</a>
-                        </li>
-                    </ul>-->
-
                     <hr class="hidden-md hidden-lg hidden-sm"/>
 
                 </div>
@@ -44,34 +35,18 @@ _________________________________________________________ -->
                 <div class="col-md-3 col-sm-6">
 
                     <h4>Top categories</h4>
-
-                    <h5>Books</h5>
-
-                    <ul>
-                        <li><a href="category.html">Historical Books</a>
-                        </li>
-                        <li><a href="category.html">Italian Food</a>
-                        </li>
-                        <li><a href="category.html">Scientific Books</a>
-                        </li>
-                    </ul>
-
-                    <h5>Home&amp;Appliances</h5>
-                    <ul>
-                        <li><a href="category.html">Blender &amp;Mixers</a>
-                        </li>
-                        <li><a href="category.html">Chairs &amp;Bean Bags</a>
-                        </li>
-                        <li><a href="category.html">Kettles, Juciers &amp;Coffee Makers</a>
-                        </li>
-                    </ul>
-
+                    <h:form>
+                        <c:forEach items="#{category.categories}" var="c" class="col-md-3 col-sm-6">
+                            <h:commandLink value="#{c.name}" style="color: gray"/> 
+                            <br/>
+                        </c:forEach>
+                    </h:form>
                     <hr class="hidden-md hidden-lg"/>
 
                 </div>
 
                 <!-- /.col-md-3 -->
-                
+
                 <div class="col-md-3 col-sm-6">
 
                     <h4>Where to find us</h4>
@@ -83,38 +58,16 @@ _________________________________________________________ -->
                         <br/>Building B148
                         <br/>
                     </p>
-
-                    <a href="Contact_us.xhtml">Go to contact page</a>
-
+                    <h:form>
+                        <h:commandLink action="Contact_us.xhtml">Go to contact page</h:commandLink>
+                    </h:form>
                     <hr class="hidden-md hidden-lg"/>
 
                 </div>
                 <!-- /.col-md-3 -->
 
-
-
                 <div class="col-md-3 col-sm-6">
-
-                    <h4>Get the news</h4>
-
-                    <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-
-                    <form>
-                        <div class="input-group">
-
-                            <input type="text" class="form-control"/>
-
-                            <span class="input-group-btn">
-
-                                <button class="btn btn-default" type="button">Subscribe!</button>
-
-                            </span>
-
-                        </div>
-                        
-                    </form>
-
-                    <hr/>
+                    <!--<hr/>-->
 
                     <h4>Stay in touch</h4>
 
@@ -125,8 +78,6 @@ _________________________________________________________ -->
                         <a href="#" class="gplus external" data-animate-hover="shake"><i class="fa fa-google-plus"></i></a>
                         <a href="#" class="email external" data-animate-hover="shake"><i class="fa fa-envelope"></i></a>
                     </p>
-
-
                 </div>
                 <!-- /.col-md-3 -->
 
