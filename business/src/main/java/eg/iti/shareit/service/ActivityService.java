@@ -103,7 +103,7 @@ public class ActivityService {
         }
     }
 
-    public boolean requestItem(int itemId, int fromUserId, int toUserId, Date timeTo, String meetingPoint) throws ServiceException {
+    public boolean requestItem(int itemId, int fromUserId, int toUserId,Date timeFrom, Date timeTo, String meetingPoint) throws ServiceException {
         try {
             boolean isAvailable = itemService.isItemAvailable(itemId);
             if (isAvailable) {

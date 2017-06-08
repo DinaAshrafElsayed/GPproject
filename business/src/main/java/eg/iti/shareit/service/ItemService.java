@@ -16,6 +16,7 @@ import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.entity.CategoryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
 import eg.iti.shareit.model.util.MappingUtil;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -91,5 +92,15 @@ public class ItemService {
             Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return flag;
+    }
+    
+    public ItemDto getItemById(int id) throws ServiceException{
+        try {
+            ItemEntity itemEntity = itemDao.get(new BigDecimal(id));
+            return mappingUtil.getDto(itemEntity, ItemDto.class);
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
     }
 }
