@@ -1,10 +1,12 @@
 package eg.iti.shareit.service;
 
 import eg.iti.shareit.common.Exception.DatabaseException;
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dao.AddressDao;
 import eg.iti.shareit.model.dao.GenderDao;
 import eg.iti.shareit.model.dao.UserDao;
+import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
@@ -26,7 +28,8 @@ public class UserService {
     private UserDao userDao;
     @EJB
     private GenderService genderService;
-
+    @EJB
+    private AddressService addressService;
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
@@ -39,7 +42,7 @@ public class UserService {
             } else {
                 return null;
             }
-        } catch (DatabaseException e) {
+        } catch (DatabaseRollbackException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
@@ -48,11 +51,15 @@ public class UserService {
     public void RegisterUser(UserDto user) throws ServiceException {
         try {
             user.setGender(genderService.getGender(user.getGender().getGender()));
+            System.out.println("addressDto for user is : "+user.getAddressDto());
+            AddressDto addressDto = addressService.getAddress(user.getAddressDto());
+            System.out.println("addressDto is after getting it from database "+addressDto);
+            user.setAddressDto(addressDto);
             UserEntity userEntity = mappingUtil.getEntity(user, UserEntity.class);
             System.out.println("user dto " + user);
             boolean saved = userDao.saveUser(userEntity);
             System.out.println("saved : " + saved);
-        } catch (Exception e) {
+        } catch (DatabaseRollbackException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
@@ -66,7 +73,7 @@ public class UserService {
                 return userDto;
             }
             return null;
-        } catch (DatabaseException e) {
+        } catch (DatabaseRollbackException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
