@@ -101,7 +101,8 @@ public class ItemService {
         } catch (DatabaseRollbackException ex) {
             Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
             throw new ServiceException(ex.getMessage());
-
+        }
+    }
     public ItemDto getItem(BigDecimal id) throws ServiceException {
         try {
             ItemEntity itemEntity = itemDao.get(id);
