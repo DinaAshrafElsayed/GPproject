@@ -12,8 +12,10 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -30,6 +32,7 @@ public class UserBean implements Serializable {
     private String email;
     private String password;
     private UserDto userDto;
+
     public UserBean() {
     }
 
@@ -39,25 +42,30 @@ public class UserBean implements Serializable {
             System.out.println("user dto " + userDto);
             if(userDto!= null)
             {
+            userDto = userService.findUser(email, password);
+            System.out.println("user dto " + getUserDto());
+            if (userDto != null) {
                 //save in session
                 HttpSession session = SessionUtil.getSession();
                 session.setAttribute("userDto", userDto);
                 System.out.println("user saved in session");
+            } else {
+                 System.out.println("in error part ");
+                //faces error message email already exists
+                FacesMessage facesMessage = new FacesMessage("Wrong email or passwod");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("loginForm:loginEmail", facesMessage);
+                return null;
             }
-            else
-            {
-                //return faces error msg
-                //error email or password
-            }
-            
-        } catch (ServiceException ex) {
+
+            }} catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         //supposedly return to home page
         return "";
     }
-    public String logout()
-    {
+
+    public String logout() {
         userDto = null;
         HttpSession session = SessionUtil.getSession();
         session.invalidate();
@@ -97,7 +105,7 @@ public class UserBean implements Serializable {
      * @return the userDto
      */
     public UserDto getUserDto() {
-        return userDto;
+        return SessionUtil.getUser();
     }
 
     /**

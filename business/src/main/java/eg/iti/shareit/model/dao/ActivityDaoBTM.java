@@ -19,5 +19,4 @@ public interface ActivityDaoBTM extends GenericDao<ActivityEntity> {
 
     void acceptRequest(ActivityEntity activityEntity) throws DatabaseRollbackException;
 
-    void saveNotification(NotificationEntity notificationEntity) throws DatabaseRollbackException;
 }

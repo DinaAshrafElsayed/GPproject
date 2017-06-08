@@ -9,6 +9,8 @@ import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.dao.GenericDao;
 import eg.iti.shareit.model.entity.NotificationEntity;
 import eg.iti.shareit.model.entity.UserEntity;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  *
@@ -16,5 +18,10 @@ import eg.iti.shareit.model.entity.UserEntity;
  */
 public interface NotificationDao extends GenericDao<NotificationEntity> {
 
-    NotificationEntity getNotification(UserEntity userEntity) throws DatabaseRollbackException;
+    List<NotificationEntity> getNotifications(UserEntity userEntity) throws DatabaseRollbackException;
+
+    void saveNotification(NotificationEntity notificationEntity) throws DatabaseRollbackException;
+
+    void setNotificationAsRead(BigDecimal id) throws DatabaseRollbackException;
+
 }

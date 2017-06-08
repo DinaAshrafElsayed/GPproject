@@ -55,10 +55,26 @@ public class ActivityService {
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
-    public List<ActivityDto> getAllActivities() throws ServiceException {
+    public List<ActivityDto> getPendingActivities(UserDto userDto) throws ServiceException {
 
         try {
-            List<ActivityEntity> allActivities = activityDao.getAllActivities();
+            UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
+            List<ActivityEntity> allActivities = activityDao.getPendingActivities(userEntity);
+            if (allActivities != null) {
+                return mappingUtil.< ActivityEntity, ActivityDto>getDtoList(allActivities, ActivityDto.class);
+            }
+        } catch (DatabaseException ex) {
+            Logger.getLogger(ActivityService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+        return null;
+    }
+
+    public List<ActivityDto> getOtherActivities(UserDto userDto) throws ServiceException {
+
+        try {
+            UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
+            List<ActivityEntity> allActivities = activityDao.getOtherActivities(userEntity);
             if (allActivities != null) {
                 return mappingUtil.< ActivityEntity, ActivityDto>getDtoList(allActivities, ActivityDto.class);
             }

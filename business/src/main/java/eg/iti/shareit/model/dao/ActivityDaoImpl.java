@@ -9,6 +9,7 @@ import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.StatusEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.math.BigDecimal;
 import java.util.List;
@@ -94,8 +95,18 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
     }
 
     @Override
-    public List<ActivityEntity> getAllActivities() throws DatabaseRollbackException {
-        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.status.status = 'Pending'");
+    public List<ActivityEntity> getPendingActivities(UserEntity userEntity) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser=" + userEntity.getId() + " and a.status.status = 'Pending'");
+        List<ActivityEntity> activityEntities = query.getResultList();
+        if (activityEntities != null) {
+            return activityEntities;
+        }
+        return null;
+    }
+
+    @Override
+    public List<ActivityEntity> getOtherActivities(UserEntity userEntity) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser.id=" + userEntity.getId() + " and a.status.status != 'Pending'");
         List<ActivityEntity> activityEntities = query.getResultList();
         if (activityEntities != null) {
             return activityEntities;

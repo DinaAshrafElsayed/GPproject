@@ -33,7 +33,7 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
             if (userList != null && userList.size() == 1) {
                 return userList.get(0);
             } else {
-                throw new DatabaseRollbackException("UserEntity with email <" + email + "> Not Found");
+                return null;
             }
         } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());

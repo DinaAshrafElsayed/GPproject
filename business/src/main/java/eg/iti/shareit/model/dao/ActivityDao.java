@@ -7,7 +7,9 @@ package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.dao.GenericDao;
+import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.ActivityEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import java.util.List;
 
 /**
@@ -22,5 +24,7 @@ public interface ActivityDao extends GenericDao<ActivityEntity> {
 
     public String declineRequest(int id) throws DatabaseRollbackException;
 
-    public List<ActivityEntity> getAllActivities() throws DatabaseRollbackException;
+    public List<ActivityEntity> getPendingActivities(UserEntity userEntity) throws DatabaseRollbackException;
+
+    public List<ActivityEntity> getOtherActivities(UserEntity userEntity) throws DatabaseRollbackException;
 }

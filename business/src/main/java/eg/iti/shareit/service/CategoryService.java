@@ -25,42 +25,42 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class CategoryService {
-      private static final Logger logger =  Logger.getLogger(CategoryService.class.getName());
+
+    private static final Logger logger = Logger.getLogger(CategoryService.class.getName());
 
     @EJB
     private CategoryDao categoryDao;
 
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
-    
-     public CategoryDto getCategoryByName(String name) throws ServiceException {
+
+    public CategoryDto getCategoryByName(String name) throws ServiceException {
         try {
             CategoryEntity categoryEntity = categoryDao.getCategoryByName(name);
-          
-            return mappingUtil.getDto(categoryEntity, CategoryDto.class);
-        }catch (DatabaseException e) {
 
-            logger.log(Level.SEVERE,e.getMessage(),e);
+            return mappingUtil.getDto(categoryEntity, CategoryDto.class);
+        } catch (DatabaseException e) {
+
+            logger.log(Level.SEVERE, e.getMessage(), e);
 
             throw new ServiceException(e.getMessage());
         }
     }
-     public List<CategoryDto> getAllCategories()throws ServiceException{
-          try {     
-              List<CategoryEntity> cats=categoryDao.getAllCategories();
-             if (cats != null) {
-                return mappingUtil.< CategoryEntity, CategoryDto>getDtoList(cats, CategoryDto.class);
-            }
-             else{
-                 return null;
-             }
-        }catch (DatabaseException e) {
 
-            logger.log(Level.SEVERE,e.getMessage(),e);
+    public List<CategoryDto> getAllCategories() throws ServiceException {
+        try {
+            List<CategoryEntity> cats = categoryDao.getAllCategories();
+            if (cats != null) {
+                return mappingUtil.< CategoryEntity, CategoryDto>getDtoList(cats, CategoryDto.class);
+            } else {
+                return null;
+            }
+        } catch (DatabaseException e) {
+
+            logger.log(Level.SEVERE, e.getMessage(), e);
 
             throw new ServiceException(e.getMessage());
         }
-     }
-     
-    
+    }
+
 }
