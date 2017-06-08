@@ -45,19 +45,18 @@ public class CategoryDaoImpl extends GenericDaoImpl<CategoryEntity> implements C
     @Override
     public List<CategoryEntity> getAllCategories() throws DatabaseRollbackException {
         Query query = getEntityManager().createQuery("Select c From CategoryEntity c ", CategoryEntity.class);
+
         try {
             List<CategoryEntity> categoryList = query.getResultList();
-            if (categoryList != null && categoryList.size() >0) {
             if (categoryList != null) {
                 return categoryList;
             }else {
                 throw new DatabaseRollbackException(" No Categories Found");
             }
         } 
-        }catch (PersistenceException ex) {
+        catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
-        return null;
     }
 
     //get all categories for navigaton bar

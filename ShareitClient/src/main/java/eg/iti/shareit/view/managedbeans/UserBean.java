@@ -58,7 +58,8 @@ public class UserBean implements Serializable {
                 return null;
             }
 
-            }} catch (ServiceException ex) {
+            }
+        } catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         //supposedly return to home page
