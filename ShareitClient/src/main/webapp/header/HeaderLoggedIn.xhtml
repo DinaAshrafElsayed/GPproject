@@ -4,7 +4,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <div id="top">
         <div class="container">
@@ -16,13 +17,21 @@
             <div class="col-md-6" data-animate="fadeInDown">
                 <h:form>
                     <ul class="menu">
-                        <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+                        <c:if test="#{user.getUserDto() == null}">
+                            <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                        </c:if>
+                        <c:if test="#{user.userDto != null}">
+                            <li><h:commandLink action="#{user.logout()}">logout</h:commandLink></li>
+                        </c:if>
+                        <c:if test="#{user.userDto != null}">
+                            <li><h:commandLink>#{user.userDto.username}</h:commandLink></li>
+                        </c:if>
+                        <c:if test="#{user.getUserDto() == null}">
+                            <li><h:commandLink action="register.xhtml">Register</h:commandLink>
+                            </li>
+                        </c:if>
+                        <li><a href="#">Contact</a>
                         </li>
-                        <li><h:commandLink action="register.xhtml">Register</h:commandLink>
-                        </li>
-                        <li><a href="contact.html">Contact</a>
-                        </li>
-                        <li><h:commandLink action="show">items</h:commandLink></li>
                         <li><h:commandLink action="request.xhtml">Recently viewed</h:commandLink>
                         </li>
                     </ul>
