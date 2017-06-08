@@ -35,8 +35,8 @@ public class UserBean implements Serializable {
 
     public String login() {
         try {
-            userDto = userService.findUser(email, password);
-            System.out.println("user dto " + getUserDto());
+            UserDto userDto = userService.findUser(email, password);
+            System.out.println("user dto " + userDto);
             if(userDto!= null)
             {
                 //save in session
