@@ -95,8 +95,18 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
     }
 
     @Override
-    public List<ActivityEntity> getAllActivities(UserEntity userEntity) throws DatabaseRollbackException {
-        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.status.status = 'Pending' and a.toUser.id=" + userEntity.getId() + "");
+    public List<ActivityEntity> getPendingActivities(UserEntity userEntity) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser=" + userEntity.getId() + " and a.status.status = 'Pending'");
+        List<ActivityEntity> activityEntities = query.getResultList();
+        if (activityEntities != null) {
+            return activityEntities;
+        }
+        return null;
+    }
+
+    @Override
+    public List<ActivityEntity> getOtherActivities(UserEntity userEntity) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser.id=" + userEntity.getId() + " and a.status.status != 'Pending'");
         List<ActivityEntity> activityEntities = query.getResultList();
         if (activityEntities != null) {
             return activityEntities;

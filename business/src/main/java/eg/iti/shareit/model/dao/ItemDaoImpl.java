@@ -47,7 +47,7 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 
         query = getEntityManager().createQuery(queryString);
         if (name != null) {
-            query.setParameter("name", '%'+name+'%');
+            query.setParameter("name", '%' + name + '%');
         }
 
         if (categoryId != 0) {
@@ -113,13 +113,13 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
-    
+
     @Override
     public int addItem(ItemEntity item) throws DatabaseRollbackException {
-        
-         int i=0;
+
+        int i = 0;
         try {
-           
+
 //            Query query = getEntityManager().createNativeQuery("insert into T_ITEM (NAME,DESCRIPTION,CATEGORY,IS_AVAILABLE,PUBLISH_DATE,POINTS)" + " values (?,?,?,?,?,?)");
 //            query.setParameter(1, item.getName());
 //            query.setParameter(2, item.getDescription());
@@ -129,10 +129,8 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 //            query.setParameter(6, item.getPoints());
 //             i = query.executeUpdate();
 //            System.out.println("done in the database");
-
-              getEntityManager().persist(item);
+            getEntityManager().persist(item);
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw new RollbackException("cannot presist the item object using  presist");
         }
         return i;
@@ -141,12 +139,12 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 
     @Override
     public List<ItemEntity> searchItem(String name) throws DatabaseRollbackException {
-        return searchItem(name,0);
+        return searchItem(name, 0);
     }
 
     @Override
     public List<ItemEntity> searchItem(int category) throws DatabaseRollbackException {
-        return searchItem(null,category);
+        return searchItem(null, category);
     }
 
 }
