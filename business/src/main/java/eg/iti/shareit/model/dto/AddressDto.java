@@ -62,4 +62,9 @@ public class AddressDto implements java.io.Serializable, GenericDto {
         this.state = state;
     }
 
+    @Override
+    public String toString() {
+        return "AddressDto{" + "id=" + id + ", country=" + country + ", city=" + city + ", state=" + state + '}';
+    }
+
 }

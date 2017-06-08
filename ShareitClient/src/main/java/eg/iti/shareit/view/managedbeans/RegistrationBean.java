@@ -6,9 +6,11 @@
 package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
+import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.GenderDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.util.HashingUtil;
+import eg.iti.shareit.service.AddressService;
 import eg.iti.shareit.service.UserService;
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +18,10 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
@@ -39,13 +43,15 @@ public class RegistrationBean implements Serializable {
 
     @EJB
     UserService userService;
-
+    @EJB
+    AddressService addressService;
     private String gender;
     private String userName;
     private String email;
     private String password;
     private Part file;
     private String imageUrl = "";
+    private List<AddressDto> addresses;
 
     public RegistrationBean() {
     }
@@ -175,5 +181,29 @@ public class RegistrationBean implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    @PostConstruct
+    public void init() {
+        try {
+            addresses = addressService.getAllAddresses();
+            System.out.println("-------------------- addresses "+addresses);
+        } catch (ServiceException ex) {
+            Logger.getLogger(ItemManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * @return the addresses
+     */
+    public List<AddressDto> getAddresses() {
+        return addresses;
+    }
+
+    /**
+     * @param addresses the addresses to set
+     */
+    public void setAddresses(List<AddressDto> addresses) {
+        this.addresses = addresses;
     }
 }
