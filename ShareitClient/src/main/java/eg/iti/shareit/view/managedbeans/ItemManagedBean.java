@@ -177,7 +177,7 @@ public class ItemManagedBean implements java.io.Serializable {
 
     }
 
-    public String addItem() {
+    public String addItem() throws ServiceException {
         System.out.println("ru7t le add");
 
         System.out.println("-------------- in add item");
@@ -197,7 +197,7 @@ public class ItemManagedBean implements java.io.Serializable {
     public void save() {
         System.out.println("In save method");
         try (InputStream input = file.getInputStream()) {
-            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\"
+            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\"
                     + "\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath(), REPLACE_EXISTING);
             image_url = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
             System.out.println("Image url: " + image_url);

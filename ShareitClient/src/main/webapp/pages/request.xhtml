@@ -5,7 +5,8 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:p="http://primefaces.org/ui"
-                template="../templates/masterTemplate.xhtml">
+                template="../templates/masterTemplate.xhtml"
+                xmlns:o="http://omnifaces.org/ui">
     <ui:define name="title">Request</ui:define>
     <ui:define name="content">
         <h:form id="form">
@@ -18,7 +19,8 @@
                     <h:outputText value="#{activity.id}" />
                 </p:column>
                 <p:column headerText="Item">
-                    <h:outputText value="#{activity.item.name}" />
+                    <!--<h:outputText value="#{activity.item.name}" />-->
+                    <o:graphicImage value="#{requests.getImage(activity.item.imageUrl)}" dataURI="true" /> 
                 </p:column>
                 <p:column headerText="From user">
                     <h:outputText value="#{activity.fromUser.email}" />
@@ -47,9 +49,10 @@
             </p:dataTable>
             <p:repeat value="#{requests.otherActivityDtos}" var="otherActivity">
                 <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                    <p:commandLink>
-                        <h:graphicImage pt:src="#{otherActivity.item.imageUrl}" /> 
-                    </p:commandLink>
+                    <p:outputPanel>
+                        <o:graphicImage width="30px" height="30px" value="#{requests.getImage(otherActivity.item.imageUrl)}" dataURI="true" /> 
+                    </p:outputPanel>
+
 
                     <p:outputPanel>
                         <h:panelGrid columns="2" cellpadding="5">

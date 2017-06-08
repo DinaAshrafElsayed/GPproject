@@ -9,6 +9,10 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.service.ActivityService;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -116,6 +120,10 @@ public class RequestsBean implements Serializable {
 
     public void setOtherActivityDtos(List<ActivityDto> otherActivityDtos) {
         this.otherActivityDtos = otherActivityDtos;
+    }
+
+    public InputStream getImage(String filename) throws FileNotFoundException {
+        return new FileInputStream(new File(filename));
     }
 
 }
