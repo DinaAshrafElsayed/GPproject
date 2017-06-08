@@ -10,7 +10,7 @@
     <ui:define name="content">
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" />
-            <p:dataTable id="checkboxDT" var="activity" value="#{requests.dataModel}"  style="margin-bottom:0">
+            <p:dataTable id="checkboxDT" var="activity" value="#{requests.pendingRequestsdataModel}"  style="margin-bottom:0">
                 <f:facet name="header">
                     These are the pending requests you have
                 </f:facet>
@@ -45,6 +45,32 @@
                     </h:commandLink>
                 </p:column>
             </p:dataTable>
+            <p:repeat value="#{requests.otherActivityDtos}" var="otherActivity">
+                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                    <p:commandLink>
+                        <h:graphicImage pt:src="#{otherActivity.item.imageUrl}" /> 
+                    </p:commandLink>
+
+                    <p:outputPanel>
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="From User:" />
+                            <h:outputText value="#{otherActivity.fromUser.email}" style="font-weight: bold"/>
+
+                            <h:outputText value="Meeting Point:" />
+                            <h:outputText value="#{otherActivity.meetingPoint}" style="font-weight: bold"/>
+
+                            <h:outputText value="Interval of time:" />
+                            <h:outputText value="#{otherActivity.calculateIntervalOfTime()}" style="font-weight: bold"/>
+                            <h:outputText value="Status" />
+                            <h:outputText value="#{otherActivity.status.status}" style="font-weight: bold"/>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </h:panelGrid>
+                <hr />
+            </p:repeat>
+        </h:form>
+        <h:form id="form2">
+
         </h:form>
     </ui:define>
 </ui:composition>

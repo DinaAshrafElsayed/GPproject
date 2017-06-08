@@ -11,6 +11,7 @@ import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.service.ActivityService;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,8 +33,13 @@ public class RequestsBean implements Serializable {
 
     @EJB
     private ActivityService activityService;
-    private List<ActivityDto> activityDtos;
-    private DataModel<ActivityDto> dataModel;
+    private List<ActivityDto> otherActivityDtos;
+    private DataModel<ActivityDto> pendingRequestsdataModel;
+    private List<ActivityDto> pendingActivityDtos;
+
+    public RequestsBean() {
+        pendingActivityDtos = new ArrayList<>();
+    }
 
     public ActivityService getActivityService() {
         return activityService;
@@ -43,30 +49,40 @@ public class RequestsBean implements Serializable {
         this.activityService = activityService;
     }
 
-    public List<ActivityDto> getActivityDtos() {
-        return activityDtos;
-    }
-
-    public void setActivityDtos(List<ActivityDto> activityDtos) {
-        this.activityDtos = activityDtos;
-    }
-
     public DataModel<ActivityDto> getDataModel() {
-        return dataModel;
+        return pendingRequestsdataModel;
     }
 
     public void setDataModel(DataModel<ActivityDto> dataModel) {
-        this.dataModel = dataModel;
+        this.pendingRequestsdataModel = dataModel;
+    }
+
+    public DataModel<ActivityDto> getPendingRequestsdataModel() {
+        return pendingRequestsdataModel;
+    }
+
+    public void setPendingRequestsdataModel(DataModel<ActivityDto> pendingRequestsdataModel) {
+        this.pendingRequestsdataModel = pendingRequestsdataModel;
+    }
+
+    public List<ActivityDto> getPendingActivityDtos() {
+        return pendingActivityDtos;
+    }
+
+    public void setPendingActivityDtos(List<ActivityDto> pendingActivityDtos) {
+        this.pendingActivityDtos = pendingActivityDtos;
     }
 
     @PostConstruct
     public void init() {
         try {
             UserDto user = SessionUtil.getUser();
-            activityDtos = activityService.getAllActivities(user);
-            if (activityDtos != null) {
-
-                dataModel = new CollectionDataModel<>(activityDtos);
+            if (user != null) {
+                pendingActivityDtos = activityService.getPendingActivities(user);
+                if (pendingActivityDtos != null) {
+                    pendingRequestsdataModel = new CollectionDataModel<>(pendingActivityDtos);
+                }
+                otherActivityDtos = activityService.getOtherActivities(user);
             }
         } catch (ServiceException ex) {
             Logger.getLogger(RequestsBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,7 +91,7 @@ public class RequestsBean implements Serializable {
 
     public void acceptRequest() {
         try {
-            ActivityDto rowData = dataModel.getRowData();
+            ActivityDto rowData = pendingRequestsdataModel.getRowData();
             activityService.acceptRequest(rowData);
             init();
         } catch (ServiceException ex) {
@@ -86,11 +102,20 @@ public class RequestsBean implements Serializable {
     public void declineRequest() {
         try {
 
-            ActivityDto activityDto = dataModel.getRowData();
+            ActivityDto activityDto = pendingRequestsdataModel.getRowData();
             activityService.declineRequest((activityDto.getId()).intValue());
             init();
         } catch (ServiceException ex) {
             Logger.getLogger(RequestsBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public List<ActivityDto> getOtherActivityDtos() {
+        return otherActivityDtos;
+    }
+
+    public void setOtherActivityDtos(List<ActivityDto> otherActivityDtos) {
+        this.otherActivityDtos = otherActivityDtos;
+    }
+
 }
