@@ -84,28 +84,29 @@
                                             <div class="flip-container">
                                                 <div class="flipper">
                                                     <div class="front">
-                                                        <a href="detail.html">
-                                                            <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" style="height: 200px;" pt:alt=""/>
-                                                        </a>
+                                                        <h:commandLink action="#{itemBean.goToItem(item.id)}">
+                                                            <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" style="height: 200px;" pt:alt=""/>                                                        
+                                                        </h:commandLink>
                                                     </div>
                                                     <div class="back">
-                                                        <a href="detail.html">
+                                                        <h:link outcome="#{itemBean.goToItem(item.id)}" >
                                                             <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" style="height: 200px;" pt:alt=""/>   
-                                                        </a>
+                                                        </h:link>
+                                                        <h:link outcome="#{itemBean.goToItem(item.id)}">
+                                                            <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" style="height: 200px;" pt:alt=""/>   
+                                                        </h:link>    
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a href="detail.html" class="invisible">
+                                            <a href="details.xhtml" class="invisible">
                                                 <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt="" style="height: 316px;"/>
                                             </a>
                                             <div class="text">
-                                                <h3><a href="detail.html">#{item.name}<br></br>#{item.description}</a></h3>
+                                                <h3><a href="details.xhtml">#{item.name}<br></br>#{item.description}</a></h3>
                                                 <!--<p class="price"><del>$280</del> $143.00</p>-->
                                                 <p class="price">#{item.points}</p>
                                                 <p class="buttons">
-                                                    <h:commandLink action="detail.html" styleClass="btn btn-default">View detail</h:commandLink>
-                                                    <h:commandLink action="basket.html" styleClass="btn btn-primary"><i class="fa fa-shopping-cart"></i>Request Item</h:commandLink>
-
+                                                    <h:link value="View Details" outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default"/> 
                                                 </p>
                                             </div>
                                             <!-- /.text -->

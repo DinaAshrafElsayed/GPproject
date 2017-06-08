@@ -27,4 +27,5 @@ public interface ActivityDao extends GenericDao<ActivityEntity> {
     public List<ActivityEntity> getPendingActivities(UserEntity userEntity) throws DatabaseRollbackException;
 
     public List<ActivityEntity> getOtherActivities(UserEntity userEntity) throws DatabaseRollbackException;
+    public ActivityEntity getMyActivityOfItem(int itemId, int userId) throws DatabaseRollbackException;
 }
