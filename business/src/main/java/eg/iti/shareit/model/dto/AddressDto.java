@@ -64,10 +64,6 @@ public class AddressDto implements java.io.Serializable, GenericDto {
         this.state = state;
     }
 
-    @Override
-    public String toString() {
-        return "AddressDto{" + "id=" + id + ", country=" + country + ", city=" + city + ", state=" + state + '}';
-    }
     public List<UserDto> getUserDtos() {
         return userDtos;
     }
@@ -75,5 +71,11 @@ public class AddressDto implements java.io.Serializable, GenericDto {
     public void setUserDtos(List<UserDto> userDtos) {
         this.userDtos = userDtos;
     }
+
+    @Override
+    public String toString() {
+        return "AddressDto{" + "id=" + id + ", country=" + country + ", city=" + city + ", state=" + state + ", userDtos=" + userDtos + '}';
+    }
+    
 
 }
