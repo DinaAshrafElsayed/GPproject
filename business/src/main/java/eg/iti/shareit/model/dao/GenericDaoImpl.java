@@ -24,59 +24,71 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
         this.type = type;
     }
 
-    public T get(BigDecimal id) throws DatabaseRollbackException{
-        try{
+    public T get(BigDecimal id) throws DatabaseRollbackException {
+        try {
             if (id == null) {
                 return null;
             } else {
                 
                 return em.find(type, id);
             }
-        }catch(PersistenceException ex){
+        } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
 
     public List<T> getAll() throws DatabaseRollbackException {
-        try{
+        try {
             return em.createQuery("From " + type.getSimpleName() + "").getResultList();
-        }catch(PersistenceException ex){
+        } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
 
-    public void save(T object) throws DatabaseRollbackException{
-        try{
+    public List<T> getAll(BigDecimal id) throws DatabaseRollbackException {
+        try {
+            if (id == null) {
+                return null;
+            } else {
+                return em.createQuery("from " + type.getSimpleName() + " where id=" + id + "").getResultList();
+            }
+        } catch (PersistenceException e) {
+            throw new PersistenceException(e.getMessage());
+        }
+    }
+
+    public void save(T object) throws DatabaseRollbackException {
+        try {
             em.persist(object);
-        }catch(PersistenceException ex){
+        } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
 
-    public void delete(T object) throws DatabaseRollbackException{
-        try{
+    public void delete(T object) throws DatabaseRollbackException {
+        try {
             if (!em.contains(object)) {
                 object = em.merge(object);
             }
             em.remove(object);
-        }catch(PersistenceException ex){
+        } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
 
-    public void delete(BigDecimal id) throws DatabaseRollbackException{
-        try{
+    public void delete(BigDecimal id) throws DatabaseRollbackException {
+        try {
             T object = get(id);
             delete(object);
-        }catch(PersistenceException ex){
+        } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
 
-    public void update(T object) throws DatabaseRollbackException{
-        try{
+    public void update(T object) throws DatabaseRollbackException {
+        try {
             em.merge(object);
-        }catch(PersistenceException ex){
+        } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }

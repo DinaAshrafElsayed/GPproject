@@ -9,7 +9,9 @@ import eg.iti.shareit.common.entity.GenericEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,11 +21,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,6 +45,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UserEntity.findByImageUrl", query = "SELECT u FROM UserEntity u WHERE u.imageUrl = :imageUrl"),
     @NamedQuery(name = "UserEntity.findByPoints", query = "SELECT u FROM UserEntity u WHERE u.points = :points")})
 public class UserEntity implements Serializable, GenericEntity {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser")
+    private List<NotificationEntity> notificationEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser")
+    private List<NotificationEntity> notificationEntityList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom")
+    private List<ItemEntity> itemEntityList;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -183,6 +194,33 @@ public class UserEntity implements Serializable, GenericEntity {
     @Override
     public String toString() {
         return "eg.iti.shareit.model.entity.UserEntity[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<NotificationEntity> getNotificationEntityList() {
+        return notificationEntityList;
+    }
+
+    public void setNotificationEntityList(List<NotificationEntity> notificationEntityList) {
+        this.notificationEntityList = notificationEntityList;
+    }
+
+    @XmlTransient
+    public List<NotificationEntity> getNotificationEntityList1() {
+        return notificationEntityList1;
+    }
+
+    public void setNotificationEntityList1(List<NotificationEntity> notificationEntityList1) {
+        this.notificationEntityList1 = notificationEntityList1;
+    }
+
+    @XmlTransient
+    public List<ItemEntity> getItemEntityList() {
+        return itemEntityList;
+    }
+
+    public void setItemEntityList(List<ItemEntity> itemEntityList) {
+        this.itemEntityList = itemEntityList;
     }
 
 }

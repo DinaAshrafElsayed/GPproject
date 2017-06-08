@@ -26,6 +26,7 @@ public class NotificationDto implements Serializable, GenericDto {
     private ItemEntity item;
     private UserEntity fromUser;
     private UserEntity toUser;
+    private BigInteger seen;
 
     public BigDecimal getId() {
         return id;
@@ -83,5 +84,12 @@ public class NotificationDto implements Serializable, GenericDto {
         this.meetingPoint = meetingPoint;
     }
 
-   
+    public BigInteger getSeen() {
+        return seen;
+    }
+
+    public void setSeen(BigInteger seen) {
+        this.seen = seen;
+    }
+
 }

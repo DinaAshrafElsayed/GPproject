@@ -104,12 +104,6 @@ public class ActivityDto implements java.io.Serializable, GenericDto {
     }
 
     public int calculateIntervalOfTime() {
-        //        Calendar calendar = Calendar.getInstance();
-        //        calendar.setTime(timeTo);
-        //        int daysTo = calendar.get(Calendar.DAY_OF_MONTH);
-        //        calendar.setTime(timeFrom);
-        //        int daysFrom = calendar.get(Calendar.DAY_OF_MONTH);
-        //        return daysTo - daysFrom;
         long diff = timeTo.getTime() - timeFrom.getTime();
         long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
         return (int) days;

@@ -33,8 +33,12 @@ public class UserService {
     public UserDto getUserByEmail(String email) throws ServiceException {
         try {
             UserEntity userEntity = userDao.getUserByEmail(email);
-            UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
-            return userDto;
+            if (userEntity != null) {
+                UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
+                return userDto;
+            } else {
+                return null;
+            }
         } catch (DatabaseException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
             throw new ServiceException(e.getMessage());

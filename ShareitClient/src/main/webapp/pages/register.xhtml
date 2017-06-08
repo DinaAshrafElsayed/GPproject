@@ -35,7 +35,7 @@ and open the template in the editor.
 
                         <hr/>
 
-                        <h:form enctype="multipart/form-data">
+                        <h:form enctype="multipart/form-data" id="form">
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true" requiredMessage="this field is required"/>
@@ -78,7 +78,7 @@ and open the template in the editor.
                         <h1>Login</h1>
                         <p class="lead">Already our customer?</p>
                         <hr/>
-                        <h:form>
+                        <h:form id="loginForm">
                             <div class="form-group">
                                 <label for="loginEmail">Email</label>
                                 <h:inputText class="form-control" value="#{user.email}" id="loginEmail" required="true" requiredMessage="this field is required"/>

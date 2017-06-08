@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.servlet.http.Part;
 
 /**
@@ -48,6 +50,24 @@ public class ItemManagedBean implements java.io.Serializable {
     ItemService itemService;
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
+    private String name;
+    private String description;
+    private Date publish_date;
+    private int points;
+    private String image_url = "";
+    private Part file;
+    private CategoryDto category;
+    private List<CategoryDto> categories;
+    private String tags;
+
+    public ItemManagedBean(CategoryService categoryService, String name, String description, Date publish_date, int points, String image_url) {
+        this.categoryService = categoryService;
+        this.name = name;
+        this.description = description;
+        this.publish_date = publish_date;
+        this.points = points;
+        this.image_url = image_url;
+    }
 
     public ItemService getItemService() {
         return itemService;
@@ -65,9 +85,6 @@ public class ItemManagedBean implements java.io.Serializable {
         this.category = category;
     }
 
-    private String name;
-    private String description;
-
     public Part getFile() {
         return file;
     }
@@ -75,12 +92,6 @@ public class ItemManagedBean implements java.io.Serializable {
     public void setFile(Part file) {
         this.file = file;
     }
-    private Date publish_date;
-    private int points;
-    private String image_url = "";
-    private Part file;
-    private CategoryDto category;
-    private List<CategoryDto> categories;
 
     public CategoryService getCategoryService() {
         return categoryService;
@@ -117,11 +128,10 @@ public class ItemManagedBean implements java.io.Serializable {
     public int getPoints() {
         return points;
     }
-   public void setPoints(int points) {
-        this.points = points;
-    }  
 
-  
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public String getImage_url() {
         return image_url;
@@ -139,23 +149,24 @@ public class ItemManagedBean implements java.io.Serializable {
         this.categories = categories;
     }
 
-    public ItemManagedBean() {
+    public String getTags() {
+        return tags;
     }
 
-    public ItemManagedBean(CategoryService categoryService, String name, String description, Date publish_date, int points, String image_url) {
-        this.categoryService = categoryService;
-        this.name = name;
-        this.description = description;
-        this.publish_date = publish_date;
-        this.points = points;
-        this.image_url = image_url;
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public ItemManagedBean() {
     }
 
     @PostConstruct
     public void init() {
         try {
-            categories = categoryService.getAllCategories();
+             categories= categoryService.getAllCategories();
             System.out.println("-------------------- categories "+categories);
+            categories = categoryService.getAllCategories();
+            System.out.println("-------------------- categories " + categories);
         } catch (ServiceException ex) {
             Logger.getLogger(ItemManagedBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -163,33 +174,35 @@ public class ItemManagedBean implements java.io.Serializable {
 
     public String test() {
 
-        System.out.println("------------------------------======");
+        System.out.println("Test Method ------------------------------======");
         return "register";
 
     }
 
-    public String addItem() {
+    public String addItem() throws ServiceException {
         System.out.println("ru7t le add");
-        
-            System.out.println("-------------- in add item");
-            
-            ItemDto item = new ItemDto(name, description, (short) 1, publish_date, points,image_url);
 
-            //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
-            //System.out.println("----------------"+catEntity.getName());
-          //  item.setImageUrl(image_url);
-            item.setCategory(category);
+        System.out.println("-------------- in add item");
 
-            itemService.addItemForShare(item);
-            return "";
+        ItemDto item = new ItemDto(name, description, (short) 1, publish_date, points, image_url, tags, SessionUtil.getUser());
+
+        //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
+        //System.out.println("----------------"+catEntity.getName());
+        item.setImageUrl(image_url);
+        item.setCategory(category);
+
+        itemService.addItemForShare(item);
+        return "";
 
     }
 
     public void save() {
-
+        System.out.println("In save method");
         try (InputStream input = file.getInputStream()) {
-            Files.copy(input, new File(System.getProperty("user.home")+"\\shareit\\images\\sharedItems\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
-            image_url = System.getProperty("user.home")+"\\shareit\\images\\sharedItems\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
+            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\"
+                    + "\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath(), REPLACE_EXISTING);
+            image_url = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
+            System.out.println("Image url: " + image_url);
         } catch (IOException e) {
             // Show faces message
             FacesMessage facesMessage = new FacesMessage("error uploading image");

@@ -52,18 +52,28 @@ public class RegistrationBean implements Serializable {
 
     public String register() {
         try {
-            UserDto userDto = new UserDto();
-            userDto.setEmail(getEmail());
-            userDto.setUsername(getUserName());
-            userDto.setPassword(hashingUtil.getHashedPassword(getPassword()));
-            userDto.setImageUrl(imageUrl);
-            userDto.setPoints(100);
-            GenderDto genderDto = new GenderDto();
-            genderDto.setGender(getGender());
-            userDto.setGender(genderDto);
-            System.out.println(userDto);
-            userService.RegisterUser(userDto);
-            return "";
+            UserDto user = userService.getUserByEmail(email);
+            if (user == null) {
+                UserDto userDto = new UserDto();
+                userDto.setEmail(getEmail());
+                userDto.setUsername(getUserName());
+                userDto.setPassword(hashingUtil.getHashedPassword(getPassword()));
+                userDto.setImageUrl(imageUrl);
+                userDto.setPoints(100);
+                GenderDto genderDto = new GenderDto();
+                genderDto.setGender(getGender());
+                userDto.setGender(genderDto);
+                System.out.println(userDto);
+                userService.RegisterUser(userDto);
+                return "";
+            } else {
+                System.out.println("in error part ");
+                //faces error message email already exists
+                FacesMessage facesMessage = new FacesMessage("This email isn't valid");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("form:email", facesMessage);
+                return null;
+            }
         } catch (ServiceException ex) {
             Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -73,8 +83,8 @@ public class RegistrationBean implements Serializable {
     public void save() {
 
         try (InputStream input = file.getInputStream()) {
-            Files.copy(input, new File(System.getProperty("user.home")+"\\shareit\\images\\userProfile\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
-            imageUrl = System.getProperty("user.home")+"\\shareit\\images\\userProfile\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
+            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
+            imageUrl = System.getProperty("user.home") + "\\shareit\\images\\userProfile\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
         } catch (IOException e) {
             // Show faces message
             FacesMessage facesMessage = new FacesMessage("error uploading image");
