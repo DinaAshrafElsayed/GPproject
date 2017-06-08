@@ -97,6 +97,20 @@ public class ActivityService {
             throw new ServiceException(e.getMessage());
         }
     }
+    
+    public ActivityDto getActivityOfMyItem(int itemId,int userId) throws ServiceException{
+        try {
+            ActivityEntity entity = activityDao.getMyActivityOfItem(itemId, userId);
+            if(entity == null || !entity.getStatus().equals(StatusEnum.PENDING.getStatus()))
+                return null;
+            
+            ActivityDto activtyDto = mappingUtil.getDto(entity, ActivityDto.class);
+            return activtyDto;
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ActivityService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
 
     public String declineRequest(int id) throws ServiceException {
         try {

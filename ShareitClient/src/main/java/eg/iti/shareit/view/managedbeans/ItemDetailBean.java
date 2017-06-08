@@ -6,6 +6,8 @@
 package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
+import eg.iti.shareit.common.enums.StatusEnum;
+import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.service.ActivityService;
 import eg.iti.shareit.service.ItemService;
@@ -18,9 +20,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -38,16 +42,24 @@ public class ItemDetailBean implements Serializable {
     @EJB
     private ActivityService activityService;
     
+    @EJB
+    private ItemService itemService;
+    
+    @Inject
+    private UserBean user;
+    
     private int id;
     private long publishDays;
     
     private String timeFrom;
     private String timeTo;
     private String meetingPoint;
+    private boolean isRequested;
+    private ActivityDto activity;
+    private boolean noRequest;
 
     
-    @EJB
-    private ItemService itemService;
+    
 
     public ItemDetailBean() {
     }
@@ -65,10 +77,42 @@ public class ItemDetailBean implements Serializable {
             long diff = date1.getTime() - date2.getTime();
             publishDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
             System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+            
+            activity = activityService.getActivityOfMyItem(item.getId().intValue(), user.getUserDto().getId().intValue());
+            if(activity != null ){
+                isRequested = true;
+                if(activity.getStatus().getStatus() == "Accepted" || activity.getStatus().getStatus() == "Declined")
+                    noRequest = true;
+            }
+            
 
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public boolean isNoRequest() {
+        return noRequest;
+    }
+
+    public void setNoRequest(boolean noRequest) {
+        this.noRequest = noRequest;
+    }
+
+    public ActivityDto getActivity() {
+        return activity;
+    }
+
+    public void setActivity(ActivityDto activity) {
+        this.activity = activity;
+    }
+    
+    public UserBean getUser() {
+        return user;
+    }
+
+    public void setUser(UserBean user) {
+        this.user = user;
     }
 
     public ItemDto getItem() {
@@ -123,6 +167,14 @@ public class ItemDetailBean implements Serializable {
         this.meetingPoint = meetingPoint;
     }
 
+    public boolean isIsRequested() {
+        return isRequested;
+    }
+
+    public void setIsRequested(boolean isRequested) {
+        this.isRequested = isRequested;
+    }
+
 
     public String requestItem(String timeFrom,String timeTo,String meetingPoint){
         Date timeFromDate,timeToDate;
@@ -130,8 +182,9 @@ public class ItemDetailBean implements Serializable {
             timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeFrom);
             timeToDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeTo);
         
-            boolean result = activityService.requestItem(item.getId().intValue(), item.getUserFrom().getId().intValue(), 41, timeFromDate, timeToDate, meetingPoint);
+            boolean result = activityService.requestItem(item.getId().intValue(), item.getUserFrom().getId().intValue(), user.getUserDto().getId().intValue(), timeFromDate, timeToDate, meetingPoint);
             System.out.println("===================== ######## item requested ! "+result);
+            isRequested = true;
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -139,4 +192,29 @@ public class ItemDetailBean implements Serializable {
         }
         return "";
     }
+    public void cancelRequest(){
+        if(activity != null){
+            try {
+                String result = activityService.declineRequest(activity.getId().intValue());
+                if(result != null)
+                    isRequested = false;
+            } catch (ServiceException ex) {
+                Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void validateDateFrom(FacesContext context, UIComponent component, Object value){
+    
+    }
+//    public void validateDateTo(FacesContext context, UIComponent component, Object value){
+//        try {
+//            Date timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse((String) value);
+//            
+//            long diff = date1.getTime() - date2.getTime();
+//            publishDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+//        } catch (ParseException ex) {
+//            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }

@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 /**
@@ -91,6 +93,23 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
         } catch (Exception e) {
             Logger.getLogger(ActivityDaoImpl.class.getName()).log(Level.SEVERE, null, e);
             throw new DatabaseRollbackException("Cannot Cancel The request");
+        }
+    }
+
+    @Override
+    public ActivityEntity getMyActivityOfItem(int itemId, int userId) throws DatabaseRollbackException {
+        try {
+            System.out.println("|||||||||||||||||||||||||||||||||| item id : " + itemId + " userId " + userId);
+            Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser.id = " + userId + " AND a.item.id = " + itemId);
+            List<ActivityEntity> list = query.getResultList();
+            if (list != null && list.size() > 0) {
+                ActivityEntity activityEntity = list.get(0);
+                return activityEntity;
+            }else
+                return null;
+        } catch (PersistenceException ex) {
+            ex.printStackTrace();
+            throw new DatabaseRollbackException(ex.getMessage());
         }
     }
 
