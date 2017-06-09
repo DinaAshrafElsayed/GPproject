@@ -8,7 +8,9 @@ package eg.iti.shareit.model.dao;
 import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.model.entity.ActivityEntity;
+import eg.iti.shareit.model.entity.AddressEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -145,6 +147,16 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
     @Override
     public List<ItemEntity> searchItem(int category) throws DatabaseRollbackException {
         return searchItem(null, category);
+    }
+
+    @Override
+    public List<ItemEntity> searchItem(AddressEntity addressEntity) throws DatabaseRollbackException {
+       Query query = getEntityManager().createQuery("Select u.id From UserEntity u where u.address = :address");
+       query.setParameter("address", addressEntity);
+       List<BigDecimal> userIds = query.getResultList();
+       
+       return null;
+        
     }
 
 }

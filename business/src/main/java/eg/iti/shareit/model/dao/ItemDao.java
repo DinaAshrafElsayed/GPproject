@@ -7,6 +7,8 @@ package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.dao.GenericDao;
+import eg.iti.shareit.model.dto.AddressDto;
+import eg.iti.shareit.model.entity.AddressEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
 import java.util.List;
 
@@ -14,16 +16,20 @@ import java.util.List;
  *
  * @author Yousef
  */
-public interface ItemDao extends GenericDao<ItemEntity>{
+public interface ItemDao extends GenericDao<ItemEntity> {
+
     public List<ItemEntity> searchItem(String name, int category) throws DatabaseRollbackException;
-    
-    public List<ItemEntity> searchItem(String name ) throws DatabaseRollbackException;
-    
+
+    public List<ItemEntity> searchItem(String name) throws DatabaseRollbackException;
+
     public List<ItemEntity> searchItem(int category) throws DatabaseRollbackException;
-    
+
     public boolean isItemAvailable(int itemId) throws DatabaseRollbackException;
-    
+
     public boolean isPendeingRequest(int itemId) throws DatabaseRollbackException;
-     public int addItem(ItemEntity item)throws DatabaseRollbackException;
+
+    public int addItem(ItemEntity item) throws DatabaseRollbackException;
+
+    public List<ItemEntity> searchItem(AddressEntity addressEntity) throws DatabaseRollbackException;
 
 }
