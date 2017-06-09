@@ -44,16 +44,20 @@ public class ImageUtil {
     }
 
     public static String SaveImage(final Part file, String savingPath) {
+        System.out.println("in save image");
         try (InputStream input = file.getInputStream()) {
             String fileName = Paths.get(file.getSubmittedFileName()).getFileName().toString();
             File pathFile = new File(savingPath);
             if (pathFile.exists()) {
+                System.out.println("found folders");
                 writeResizedImage(input, fileName, savingPath);
             } else if (pathFile.mkdirs()) {
+                System.out.println("created folders");
                 writeResizedImage(input, fileName, savingPath);
             } else {
                 throw new IOException("Cannot Create the directories");
             }
+            System.out.println("image url is "+savingPath+fileName);
             return (savingPath + fileName);
         } catch (IOException e) {
             Logger.getLogger(ImageUtil.class.getName()).log(Level.SEVERE, null, e);

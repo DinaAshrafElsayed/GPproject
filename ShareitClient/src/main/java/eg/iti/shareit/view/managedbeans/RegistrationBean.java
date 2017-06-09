@@ -91,6 +91,7 @@ public class RegistrationBean implements Serializable {
                 userDto.setAddress(addressDto);
                 System.out.println(userDto);
                 userService.RegisterUser(userDto);
+                System.out.println("in register and supposedly registered!");
                 return "";
             } else {
                 System.out.println("in error part ");
@@ -136,6 +137,7 @@ public class RegistrationBean implements Serializable {
     }
 
     public void save() {
+        System.out.println("in save method");
         imageUrl = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\userProfile\\");
     }
 
@@ -164,6 +166,7 @@ public class RegistrationBean implements Serializable {
      * @param file the file to set
      */
     public void setFile(Part file) {
+        System.out.println("setting Image ");
         this.file = file;
     }
 
