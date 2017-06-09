@@ -26,4 +26,5 @@ public interface ItemDao extends GenericDao<ItemEntity>{
     public boolean isPendeingRequest(int itemId) throws DatabaseRollbackException;
      public int addItem(ItemEntity item)throws DatabaseRollbackException;
 
+//     public List<ItemEntity> getAllItems() throws DatabaseRollbackException;
 }
