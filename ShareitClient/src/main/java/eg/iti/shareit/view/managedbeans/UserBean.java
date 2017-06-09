@@ -11,6 +11,7 @@ import eg.iti.shareit.service.UserService;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -115,4 +116,5 @@ public class UserBean implements Serializable {
     public void setUserDto(UserDto userDto) {
         this.userDto = userDto;
     }
+    
 }

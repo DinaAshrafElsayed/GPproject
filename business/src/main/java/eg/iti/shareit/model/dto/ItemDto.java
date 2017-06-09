@@ -46,6 +46,8 @@ public class ItemDto implements java.io.Serializable, GenericDto {
         this.points = points;
     }
 
+  
+
     public BigDecimal getId() {
         return id;
     }
