@@ -208,6 +208,7 @@ public class ItemManagedBean implements java.io.Serializable {
             } else {
                 throw new IOException("Cannot Create the directories");
             }
+            image_url = savingPath +  Paths.get(file.getSubmittedFileName()).getFileName().toString();
         } catch (IOException e) {
             e.printStackTrace();
             // Show faces message
