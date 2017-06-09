@@ -61,6 +61,29 @@ and open the template in the editor.
                                 </h:selectOneMenu>
                             </div>
                             <div class="form-group">
+                                <label for="Countries" >Country</label>
+                                <h:selectOneMenu id="Countries" value="#{registerBean.country}" converter="omnifaces.SelectItemsConverter" class="form-control">
+                                    <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registerBean.countries}" var="country" itemValue="#{country}" itemLabel="#{country.country}"  /> 
+                                    <f:ajax listener="#{registerBean.onCountryChange(registerBean.country.id)}" render="States Cities"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group">
+                                <label for="States">State</label>
+                                <h:selectOneMenu id="States" value="#{registerBean.state}" converter="omnifaces.SelectItemsConverter" class="form-control">
+                                    <f:selectItem itemLabel="Select-State" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registerBean.states}" var="state" itemValue="#{state}" itemLabel="#{state.state}"  />
+                                    <f:ajax listener="#{registerBean.onStateChange(registerBean.state.id)}" render="Cities"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group">
+                                <label for="Cities">City</label>
+                                <h:selectOneMenu id="Cities" value="#{registerBean.city}" converter="omnifaces.SelectItemsConverter" class="form-control">
+                                    <f:selectItem itemLabel="Select-City" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registerBean.cities}" var="city" itemValue="#{city}" itemLabel="#{city.city}"  />
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group">
                                 <label for="image">User Image</label>
                                 <h:inputFile value="#{registerBean.file}">
                                     <f:ajax listener="#{registerBean.save()}" />
