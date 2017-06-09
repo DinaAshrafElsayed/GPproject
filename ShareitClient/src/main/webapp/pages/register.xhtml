@@ -39,7 +39,7 @@ and open the template in the editor.
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true" requiredMessage="this field is required"/>
-                                <h:message for="name" style="color:red"/>
+                                <h:message for="form:name" style="color:red"/>
                             </div>
 
                             <div class="form-group">
@@ -62,26 +62,29 @@ and open the template in the editor.
                             </div>
                             <div class="form-group">
                                 <label for="Countries" >Country</label>
-                                <h:selectOneMenu id="Countries" value="#{registerBean.country}" converter="omnifaces.SelectItemsConverter" class="form-control">
+                                <h:selectOneMenu id="Countries" value="#{registerBean.country}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
                                     <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{registerBean.countries}" var="country" itemValue="#{country}" itemLabel="#{country.country}"  /> 
                                     <f:ajax listener="#{registerBean.onCountryChange(registerBean.country.id)}" render="States Cities"/>
                                 </h:selectOneMenu>
+                                <h:message for="Countries" style="color:red"/>
                             </div>
                             <div class="form-group">
                                 <label for="States">State</label>
-                                <h:selectOneMenu id="States" value="#{registerBean.state}" converter="omnifaces.SelectItemsConverter" class="form-control">
+                                <h:selectOneMenu id="States" value="#{registerBean.state}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
                                     <f:selectItem itemLabel="Select-State" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{registerBean.states}" var="state" itemValue="#{state}" itemLabel="#{state.state}"  />
                                     <f:ajax listener="#{registerBean.onStateChange(registerBean.state.id)}" render="Cities"/>
                                 </h:selectOneMenu>
+                                <h:message for="States" style="color:red"/>
                             </div>
                             <div class="form-group">
                                 <label for="Cities">City</label>
-                                <h:selectOneMenu id="Cities" value="#{registerBean.city}" converter="omnifaces.SelectItemsConverter" class="form-control">
+                                <h:selectOneMenu id="Cities" value="#{registerBean.city}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
                                     <f:selectItem itemLabel="Select-City" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{registerBean.cities}" var="city" itemValue="#{city}" itemLabel="#{city.city}"  />
                                 </h:selectOneMenu>
+                                 <h:message for="Cities" style="color:red"/>
                             </div>
                             <div class="form-group">
                                 <label for="image">User Image</label>
