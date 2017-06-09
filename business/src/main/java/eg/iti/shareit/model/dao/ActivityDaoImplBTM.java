@@ -15,6 +15,7 @@ import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -63,7 +64,6 @@ public class ActivityDaoImplBTM extends GenericDaoImpl<ActivityEntity> implement
 
             //make the status accepted for the request.
             activityEntity.setStatus(StatusEnum.ACCEPTED.getStatus());
-//            ActivityEntity activityEntity = mappingUtil.getEntity(activityDto, ActivityEntity.class);
             activityDao.update(activityEntity);
 
             //We need to get the points from hamada and transfer it to mervat
@@ -85,6 +85,14 @@ public class ActivityDaoImplBTM extends GenericDaoImpl<ActivityEntity> implement
             ItemEntity itemEntity = activityEntity.getItem();
             itemDao.update(itemEntity);
 
+            //We need to decline any other request of the same item to the same user
+            List<ActivityEntity> pendingActivities = activityDao.getPendingActivities(activityEntity.getToUser());
+            for (ActivityEntity pendingActivity : pendingActivities) {
+                if (pendingActivity.getItem().getId().intValue() == activityEntity.getItem().getId().intValue()) {
+                    pendingActivity.setStatus(StatusEnum.DECLINED.getStatus());
+                }
+                activityDao.update(pendingActivity);
+            }
             //Form the entity of notification
             NotificationEntity notificationEntity = new NotificationEntity();
             notificationEntity.setItem(activityEntity.getItem());
