@@ -9,6 +9,10 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.service.ItemService;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -106,6 +110,10 @@ public class ItemBean implements Serializable{
     
     public String goToItem(int id){
         return "itemDetails.xhtml?id="+id;
+    }
+    
+    public InputStream getImage(String filename) throws FileNotFoundException {
+        return new FileInputStream(new File(filename));
     }
     
 }

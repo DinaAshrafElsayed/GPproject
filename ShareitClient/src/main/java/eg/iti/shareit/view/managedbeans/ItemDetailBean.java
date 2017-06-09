@@ -6,7 +6,6 @@
 package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
-import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.service.ActivityService;
@@ -15,6 +14,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,6 +57,15 @@ public class ItemDetailBean implements Serializable {
     private boolean isRequested;
     private ActivityDto activity;
     private boolean noRequest;
+    private List<ItemDto> relatedItems;
+
+    public List<ItemDto> getRelatedItems() {
+        return relatedItems;
+    }
+
+    public void setRelatedItems(List<ItemDto> relatedItems) {
+        this.relatedItems = relatedItems;
+    }
 
     
     
@@ -85,6 +94,7 @@ public class ItemDetailBean implements Serializable {
                     noRequest = true;
             }
             
+            relatedItems = itemService.getRelatedItems(item);
 
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
