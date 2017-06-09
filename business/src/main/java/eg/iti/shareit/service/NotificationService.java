@@ -37,10 +37,22 @@ public class NotificationService {
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
-    public List<NotificationDto> getNotifications(UserDto userDto) throws ServiceException {
+    public List<NotificationDto> getNotSeenNotifications(UserDto userDto) throws ServiceException {
         try {
             UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
-            List<NotificationEntity> notificationEntities = notificationDao.getNotifications(userEntity);
+            List<NotificationEntity> notificationEntities = notificationDao.getNotSeenNotifications(userEntity);
+            List<NotificationDto> notificationDtos = mappingUtil.<NotificationEntity, NotificationDto>getDtoList(notificationEntities, NotificationDto.class);
+            return notificationDtos;
+        } catch (DatabaseException ex) {
+            Logger.getLogger(NotificationService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+
+    public List<NotificationDto> getSeenNotifications(UserDto userDto) throws ServiceException {
+        try {
+            UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
+            List<NotificationEntity> notificationEntities = notificationDao.getSeenNotifications(userEntity);
             List<NotificationDto> notificationDtos = mappingUtil.<NotificationEntity, NotificationDto>getDtoList(notificationEntities, NotificationDto.class);
             return notificationDtos;
         } catch (DatabaseException ex) {
