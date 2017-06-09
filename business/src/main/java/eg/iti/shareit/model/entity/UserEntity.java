@@ -47,11 +47,11 @@ import javax.xml.bind.annotation.XmlTransient;
 public class UserEntity implements Serializable, GenericEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser")
-    private List<NotificationEntity> notificationEntityList;
+    private List<NotificationEntity> notificationFromUserList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser")
-    private List<NotificationEntity> notificationEntityList1;
+    private List<NotificationEntity> notificationToUserList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom")
-    private List<ItemEntity> itemEntityList;
+    private List<ItemEntity> items;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -78,7 +78,7 @@ public class UserEntity implements Serializable, GenericEntity {
     @Size(min = 1, max = 100)
     @Column(name = "PASSWORD")
     private String password;
-    @Size(max = 200)
+    @Size(max = 500)
     @Column(name = "IMAGE_URL")
     private String imageUrl;
     @Basic(optional = false)
@@ -197,30 +197,30 @@ public class UserEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<NotificationEntity> getNotificationEntityList() {
-        return notificationEntityList;
+    public List<NotificationEntity> getNotificationFromUserList() {
+        return notificationFromUserList;
     }
 
-    public void setNotificationEntityList(List<NotificationEntity> notificationEntityList) {
-        this.notificationEntityList = notificationEntityList;
-    }
-
-    @XmlTransient
-    public List<NotificationEntity> getNotificationEntityList1() {
-        return notificationEntityList1;
-    }
-
-    public void setNotificationEntityList1(List<NotificationEntity> notificationEntityList1) {
-        this.notificationEntityList1 = notificationEntityList1;
+    public void setNotificationFromUserList(List<NotificationEntity> notificationFromUserList) {
+        this.notificationFromUserList = notificationFromUserList;
     }
 
     @XmlTransient
-    public List<ItemEntity> getItemEntityList() {
-        return itemEntityList;
+    public List<NotificationEntity> getNotificationToUserList() {
+        return notificationToUserList;
     }
 
-    public void setItemEntityList(List<ItemEntity> itemEntityList) {
-        this.itemEntityList = itemEntityList;
+    public void setNotificationToUserList(List<NotificationEntity> notificationToUserList) {
+        this.notificationToUserList = notificationToUserList;
+    }
+
+    @XmlTransient
+    public List<ItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemEntity> items) {
+        this.items = items;
     }
 
 }

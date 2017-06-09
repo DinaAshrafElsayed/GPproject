@@ -3,6 +3,7 @@ package eg.iti.shareit.model.dto;
 // Generated Nov 9, 2015 9:29:03 PM by Hibernate Tools 4.0.0
 import eg.iti.shareit.common.dto.GenericDto;
 import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.entity.NotificationEntity;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -18,8 +19,10 @@ public class UserDto implements java.io.Serializable, GenericDto {
     private String imageUrl;
     private int points;
     private GenderDto gender;
-    private AddressDto addressDto;
-    private List<ItemDto> itemDtos;
+    private AddressDto address;
+    private List<ItemDto> items;
+    private List<NotificationDto> notificationFromUserList;
+    private List<NotificationDto> notificationToUserList;
 
     public UserDto() {
     }
@@ -95,24 +98,36 @@ public class UserDto implements java.io.Serializable, GenericDto {
         this.password = password;
     }
 
-    public AddressDto getAddressDto() {
-        return addressDto;
+    public AddressDto getAddress() {
+        return address;
     }
 
-    public void setAddressDto(AddressDto addressDto) {
-        this.addressDto = addressDto;
+    public void setAddress(AddressDto address) {
+        this.address = address;
     }
 
-    public List<ItemDto> getItemDtos() {
-        return itemDtos;
+    public List<NotificationDto> getNotificationFromUserList() {
+        return notificationFromUserList;
     }
 
-    public void setItemDtos(List<ItemDto> itemDtos) {
-        this.itemDtos = itemDtos;
+    public void setNotificationFromUserList(List<NotificationDto> notificationFromUserList) {
+        this.notificationFromUserList = notificationFromUserList;
     }
 
-    @Override
-    public String toString() {
-        return "UserDto{" + "id=" + id + ", email=" + email + ", username=" + username + ", password=" + password + ", imageUrl=" + imageUrl + ", points=" + points + ", gender=" + gender + ", addressDto=" + addressDto + ", itemDtos=" + itemDtos + '}';
+    public List<NotificationDto> getNotificationToUserList() {
+        return notificationToUserList;
     }
+
+    public void setNotificationToUserList(List<NotificationDto> notificationToUserList) {
+        this.notificationToUserList = notificationToUserList;
+    }
+
+    public List<ItemDto> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemDto> items) {
+        this.items = items;
+    }
+
 }
