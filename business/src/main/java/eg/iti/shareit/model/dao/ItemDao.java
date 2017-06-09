@@ -9,7 +9,10 @@ import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.dao.GenericDao;
 import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.entity.AddressEntity;
+import eg.iti.shareit.model.entity.CityEntity;
+import eg.iti.shareit.model.entity.CountryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.entity.StateEntity;
 import java.util.List;
 
 /**
@@ -30,6 +33,6 @@ public interface ItemDao extends GenericDao<ItemEntity> {
 
     public int addItem(ItemEntity item) throws DatabaseRollbackException;
 
-    public List<ItemEntity> searchItem(AddressEntity addressEntity) throws DatabaseRollbackException;
+    public List<ItemEntity> searchItem(CountryEntity countryEntity, StateEntity stateEntity, CityEntity cityEntity) throws DatabaseRollbackException;
 
 }

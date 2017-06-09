@@ -11,10 +11,15 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dao.ActivityDao;
 import eg.iti.shareit.model.dao.CategoryDao;
 import eg.iti.shareit.model.dao.ItemDao;
+import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
+import eg.iti.shareit.model.entity.AddressEntity;
 import eg.iti.shareit.model.entity.CategoryEntity;
+import eg.iti.shareit.model.entity.CityEntity;
+import eg.iti.shareit.model.entity.CountryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.entity.StateEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.math.BigDecimal;
 import java.util.List;
@@ -93,8 +98,8 @@ public class ItemService {
         }
         return flag;
     }
-    
-    public ItemDto getItemById(int id) throws ServiceException{
+
+    public ItemDto getItemById(int id) throws ServiceException {
         try {
             ItemEntity itemEntity = itemDao.get(new BigDecimal(id));
             return mappingUtil.getDto(itemEntity, ItemDto.class);
@@ -103,10 +108,27 @@ public class ItemService {
             throw new ServiceException(ex.getMessage());
         }
     }
+
     public ItemDto getItem(BigDecimal id) throws ServiceException {
         try {
             ItemEntity itemEntity = itemDao.get(id);
             return mappingUtil.getDto(itemEntity, ItemDto.class);
+        } catch (DatabaseRollbackException e) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, e);
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public List<ItemDto> searchByLocation(AddressDto addressDto) throws ServiceException {
+        try {
+            CountryEntity country = mappingUtil.getEntity(addressDto.getCountry(), CountryEntity.class);
+            CityEntity city = mappingUtil.getEntity(addressDto.getCity(), CityEntity.class);
+            StateEntity state = mappingUtil.getEntity(addressDto.getState(), StateEntity.class);
+            System.out.println("country is : " + country);
+            System.out.println("state is : " + state);
+            System.out.println("city is : " + city);
+            List<ItemEntity> items = itemDao.searchItem(country, state, city);
+            return mappingUtil.getDtoList(items, ItemDto.class);
         } catch (DatabaseRollbackException e) {
             Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, e);
             throw new ServiceException(e.getMessage());
