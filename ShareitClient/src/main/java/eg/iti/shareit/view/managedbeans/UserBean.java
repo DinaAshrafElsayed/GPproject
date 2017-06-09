@@ -63,7 +63,7 @@ public class UserBean implements Serializable {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         //supposedly return to home page
-        return "";
+        return "items?faces-redirect=true";
     }
 
     public String logout() {
