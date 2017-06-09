@@ -74,6 +74,8 @@ public class UserService {
             UserEntity userEntity = userDao.findUser(email, password);
             if (userEntity != null) {
                 UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
+                userDto.setAddressDto(mappingUtil.getDto(userEntity.getAddress(), AddressDto.class));
+                System.out.println("userDto is "+userDto);
                 return userDto;
             }
             return null;
