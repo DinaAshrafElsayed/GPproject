@@ -28,11 +28,11 @@ and open the template in the editor.
                 <div class="col-md-6">
                     <div class="box">
                         <h1>New account</h1>
-
-                        <p class="lead">Not our registered customer yet?</p>
-                        <p>With registration with us and share what you don't need! The whole process will not take you more than a minute!</p>
-                        <p class="text-muted">If you have any questions, please feel free to <a href="contact.html">contact us</a>, our customer service center is working for you 24/7.</p>
-
+                        <form>
+                            <p class="lead">Not our registered customer yet?</p>
+                            <p>With registration with us and share what you don't need! The whole process will not take you more than a minute!</p>
+                            <p class="text-muted">If you have any questions, please feel free to  <h:commandLink action="Contact_us.xhtml">contact us</h:commandLink>, our customer service center is working for you 24/7.</p>
+                        </form>
                         <hr/>
 
                         <h:form enctype="multipart/form-data" id="form">
@@ -84,7 +84,7 @@ and open the template in the editor.
                                     <f:selectItem itemLabel="Select-City" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{registerBean.cities}" var="city" itemValue="#{city}" itemLabel="#{city.city}"  />
                                 </h:selectOneMenu>
-                                 <h:message for="Cities" style="color:red"/>
+                                <h:message for="Cities" style="color:red"/>
                             </div>
                             <div class="form-group">
                                 <label for="image">User Image</label>
