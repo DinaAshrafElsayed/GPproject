@@ -48,7 +48,7 @@ public class ActivityDaoImplBTM extends GenericDaoImpl<ActivityEntity> implement
     UserDao userDao;
     @Inject
     ActivityDao activityDao;
-    @Inject
+    @EJB
     NotificationDao notificationDao;
     @Inject
     ItemDao itemDao;
@@ -94,7 +94,8 @@ public class ActivityDaoImplBTM extends GenericDaoImpl<ActivityEntity> implement
             ActivityDto activityDto = mappingUtil.getDto(activityEntity, ActivityDto.class);
             notificationEntity.setDays(BigInteger.valueOf((long) (activityDto.calculateIntervalOfTime())));
             notificationEntity.setPointsDeducted(pointsDeducted);
-            saveNotification(notificationEntity);
+            notificationEntity.setSeen(BigInteger.valueOf(0));
+            notificationDao.saveNotification(notificationEntity);
 
             userTransaction.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException e) {
@@ -107,9 +108,4 @@ public class ActivityDaoImplBTM extends GenericDaoImpl<ActivityEntity> implement
         }
     }
 
-    @Override
-    public void saveNotification(NotificationEntity notificationEntity) throws DatabaseRollbackException {
-        notificationDao.save(notificationEntity);
-
-    }
 }

@@ -9,6 +9,7 @@ import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.enums.StatusEnum;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.StatusEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 /**
@@ -94,8 +97,35 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
     }
 
     @Override
-    public List<ActivityEntity> getAllActivities() throws DatabaseRollbackException {
-        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.status.status = 'Pending'");
+    public ActivityEntity getMyActivityOfItem(int itemId, int userId) throws DatabaseRollbackException {
+        try {
+            System.out.println("|||||||||||||||||||||||||||||||||| item id : " + itemId + " userId " + userId);
+            Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser.id = " + userId + " AND a.item.id = " + itemId);
+            List<ActivityEntity> list = query.getResultList();
+            if (list != null && list.size() > 0) {
+                ActivityEntity activityEntity = list.get(0);
+                return activityEntity;
+            }else
+                return null;
+        } catch (PersistenceException ex) {
+            ex.printStackTrace();
+            throw new DatabaseRollbackException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public List<ActivityEntity> getPendingActivities(UserEntity userEntity) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser=" + userEntity.getId() + " and a.status.status = 'Pending'");
+        List<ActivityEntity> activityEntities = query.getResultList();
+        if (activityEntities != null) {
+            return activityEntities;
+        }
+        return null;
+    }
+
+    @Override
+    public List<ActivityEntity> getOtherActivities(UserEntity userEntity) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser.id=" + userEntity.getId() + " and a.status.status != 'Pending'");
         List<ActivityEntity> activityEntities = query.getResultList();
         if (activityEntities != null) {
             return activityEntities;

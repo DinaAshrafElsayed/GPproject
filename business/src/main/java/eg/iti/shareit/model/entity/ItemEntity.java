@@ -12,7 +12,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,6 +32,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -48,6 +52,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ItemEntity.findByImageUrl", query = "SELECT i FROM ItemEntity i WHERE i.imageUrl = :imageUrl"),
     @NamedQuery(name = "ItemEntity.findByTags", query = "SELECT i FROM ItemEntity i WHERE i.tags = :tags")})
 public class ItemEntity implements Serializable, GenericEntity {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
+    private List<NotificationEntity> notificationEntityList;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -216,6 +223,15 @@ public class ItemEntity implements Serializable, GenericEntity {
     @Override
     public String toString() {
         return "eg.iti.shareit.common.enums.ItemEntity[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<NotificationEntity> getNotificationEntityList() {
+        return notificationEntityList;
+    }
+
+    public void setNotificationEntityList(List<NotificationEntity> notificationEntityList) {
+        this.notificationEntityList = notificationEntityList;
     }
 
 }

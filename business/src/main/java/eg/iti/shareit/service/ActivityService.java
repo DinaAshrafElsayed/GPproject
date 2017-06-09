@@ -55,10 +55,26 @@ public class ActivityService {
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
-    public List<ActivityDto> getAllActivities() throws ServiceException {
+    public List<ActivityDto> getPendingActivities(UserDto userDto) throws ServiceException {
 
         try {
-            List<ActivityEntity> allActivities = activityDao.getAllActivities();
+            UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
+            List<ActivityEntity> allActivities = activityDao.getPendingActivities(userEntity);
+            if (allActivities != null) {
+                return mappingUtil.< ActivityEntity, ActivityDto>getDtoList(allActivities, ActivityDto.class);
+            }
+        } catch (DatabaseException ex) {
+            Logger.getLogger(ActivityService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+        return null;
+    }
+
+    public List<ActivityDto> getOtherActivities(UserDto userDto) throws ServiceException {
+
+        try {
+            UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
+            List<ActivityEntity> allActivities = activityDao.getOtherActivities(userEntity);
             if (allActivities != null) {
                 return mappingUtil.< ActivityEntity, ActivityDto>getDtoList(allActivities, ActivityDto.class);
             }
@@ -79,6 +95,20 @@ public class ActivityService {
             logger.log(Level.SEVERE, e.getMessage(), e);
 
             throw new ServiceException(e.getMessage());
+        }
+    }
+    
+    public ActivityDto getActivityOfMyItem(int itemId,int userId) throws ServiceException{
+        try {
+            ActivityEntity entity = activityDao.getMyActivityOfItem(itemId, userId);
+            if(entity == null || !entity.getStatus().equals(StatusEnum.PENDING.getStatus()))
+                return null;
+            
+            ActivityDto activtyDto = mappingUtil.getDto(entity, ActivityDto.class);
+            return activtyDto;
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ActivityService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
         }
     }
 
@@ -103,7 +133,7 @@ public class ActivityService {
         }
     }
 
-    public boolean requestItem(int itemId, int fromUserId, int toUserId, Date timeTo, String meetingPoint) throws ServiceException {
+    public boolean requestItem(int itemId, int fromUserId, int toUserId,Date timeFrom, Date timeTo, String meetingPoint) throws ServiceException {
         try {
             boolean isAvailable = itemService.isItemAvailable(itemId);
             if (isAvailable) {

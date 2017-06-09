@@ -113,7 +113,6 @@ public class UserDto implements java.io.Serializable, GenericDto {
 
     @Override
     public String toString() {
-        return "UserDto{" + "id=" + id + ", email=" + email + ", username=" + username + ", password=" + password + ", imageUrl=" + imageUrl + ", points=" + points + ", gender=" + gender + '}';
+        return "UserDto{" + "id=" + id + ", email=" + email + ", username=" + username + ", password=" + password + ", imageUrl=" + imageUrl + ", points=" + points + ", gender=" + gender + ", addressDto=" + addressDto + ", itemDtos=" + itemDtos + '}';
     }
-
 }

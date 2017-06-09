@@ -33,6 +33,7 @@ public class ItemBean implements Serializable{
     private List<CategoryDto> categories;
     private String searchString;
     private int categoryId;
+    private ItemDto itemDetail;
     
     public ItemBean() {
     }
@@ -45,7 +46,7 @@ public class ItemBean implements Serializable{
             }
             categories = itemService.getAllCategories();
         } catch (ServiceException ex) {
-            Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestsBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -80,6 +81,17 @@ public class ItemBean implements Serializable{
     public void setCategories(List<CategoryDto> categories) {
         this.categories = categories;
     }
+
+    
+
+    public ItemDto getItemDetail() {
+        return itemDetail;
+    }
+
+    public void setItemDetail(ItemDto itemDetail) {
+        this.itemDetail = itemDetail;
+    }
+    
     
     
     public void doSearch(){
@@ -90,6 +102,10 @@ public class ItemBean implements Serializable{
         }catch(ServiceException ex){
              Logger.getLogger(SearchBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public String goToItem(int id){
+        return "itemDetails.xhtml?id="+id;
     }
     
 }

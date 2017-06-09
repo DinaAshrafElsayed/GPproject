@@ -4,7 +4,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <!-- *** NAVBAR ***
@@ -13,27 +14,29 @@
     <div class="navbar navbar-default yamm" role="navigation" id="navbar">
         <div class="container">
             <div class="navbar-header">
-
-                <h:commandLink styleClass="navbar-brand home" action="index.html" pt:data-animate-hover="bounce">
-                    <h:graphicImage library="images" name="logo.png" pt:class="hidden-xs" pt:alt="logo"/>
-                    <!--<img src="/resources/images/logo.png" alt="Obaju logo" class="hidden-xs"/>-->
-                    <h:graphicImage library="images" name="logo-small.png" pt:class="visible-xs" pt:alt="logo"/>
-                    <!--<img src="/resources/images/logo-small.png" alt="Obaju logo" class="visible-xs"/>-->
-                    <span class="sr-only">Obaju - go to homepage</span>
-                </h:commandLink>
-                <div class="navbar-buttons">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
-                        <span class="sr-only">Toggle navigation</span>
-                        <i class="fa fa-align-justify"></i>
-                    </button>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
-                        <span class="sr-only">Toggle search</span>
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <a class="btn btn-default navbar-toggle" href="basket.html">
-                        <i class="fa fa-shopping-cart"></i>  <span class="hidden-xs">3 items in cart</span>
-                    </a>
-                </div>
+                <h:form>
+                    <h:commandLink styleClass="navbar-brand home" action="index.html" pt:data-animate-hover="bounce">
+                        <h:graphicImage library="images" name="logo.png" pt:class="hidden-xs" pt:alt="logo"/>
+                        <!--<img src="/resources/images/logo.png" alt="Obaju logo" class="hidden-xs"/>-->
+                        <h:graphicImage library="images" name="logo-small.png" pt:class="visible-xs" pt:alt="logo"/>
+                        <!--<img src="/resources/images/logo-small.png" alt="Obaju logo" class="visible-xs"/>-->
+                        <span class="sr-only">Obaju - go to homepage</span>
+                    </h:commandLink>
+                    <div class="navbar-buttons">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+                            <span class="sr-only">Toggle navigation</span>
+                            <i class="fa fa-align-justify"></i>
+                        </button>
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
+                            <span class="sr-only">Toggle search</span>
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <a class="btn btn-default navbar-toggle" href="basket.html">
+                            <!--<i class="fa fa-shopping-cart"></i>--> 
+                            <span class="hidden-xs">Notifications</span>
+                        </a>
+                    </div>
+                </h:form>
             </div>
             <!--/.navbar-header -->
 
@@ -41,53 +44,19 @@
 
                 <ul class="nav navbar-nav navbar-left">
                     <li class="active"><a href="index.html">Home</a>
-                        
                     </li>
+
                     <li class="dropdown yamm-fw">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Electronics<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Profile<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
                                 <div class="yamm-content">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h5>TV &amp;Audio</h5>
                                             <ul>
-                                                <li><a href="category.html">Projectors</a>
+                                                <li><a href="category.html">View Profile</a>
                                                 </li>
-                                                <li><a href="category.html">Speakers &amp;Home Theaters</a>
-                                                </li>
-                                                <li><a href="category.html">Satellite Receiver</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h5>Computers</h5>
-                                            <ul>
-                                                <li><a href="category.html">Hard Disks</a>
-                                                </li>
-                                                <li><a href="category.html">Printers &amp;Scanners</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h5>Cameras</h5>
-                                            <ul>
-                                                <li><a href="category.html">Digital Cameras</a>
-                                                </li>
-                                                <li><a href="category.html">Web cams</a>
-                                                </li>
-                                                <li><a href="category.html">Camera Accessories</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h5>Car Electronics</h5>
-                                            <ul>
-                                                <li><a href="category.html">Headphones</a>
-                                                </li>
-                                                <li><a href="category.html">Car Accessories</a>
-                                                </li>
-                                                <li><a href="category.html">Bags &amp;Carry cases</a>
+                                                <li><a href="category.html">Edit Profile</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -99,152 +68,49 @@
                     </li>
 
                     <li class="dropdown yamm-fw">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Mobiles &amp;Tablets <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Requests<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
                                 <div class="yamm-content">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h5>Mobiles</h5>
                                             <ul>
-                                                <li><a href="category.html">Samsung</a>
+                                                <li><a href="category.html">Pending Requests</a>
                                                 </li>
-                                                <li><a href="category.html">Lenovo</a>
-                                                </li>
-                                                <li><a href="category.html">Huawei</a>
-                                                </li>
-                                                <li><a href="category.html">HTC</a>
+                                                <li><a href="category.html">Borrowing Requests</a>
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="col-sm-3">
-                                            <h5>Tablets</h5>
-                                            <ul>
-                                                <li><a href="category.html">Lenovo</a>
-                                                </li>
-                                                <li><a href="category.html">Samsung</a>
-                                                </li>
-                                                <li><a href="category.html">Alcatel</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h5>Accessories</h5>
-                                            <ul>
-                                                <li><a href="category.html">Power Banks &amp;Chargers</a>
-                                                </li>
-                                                <li><a href="category.html">Memory Cards</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-<!--                                        <div class="col-sm-3">
-                                            <div class="banner">
-                                                <h:commandLink action="#">
-                                                    <h:graphicImage library="images" name="banner.jpg" styleClass="img img-responsive" pt:alt=""/>
-                                                    <img src="/resources/images/banner.jpg" class="img img-responsive" alt=""/>
-                                                </h:commandLink>
-                                            </div>
-                                            <div class="banner">
-                                                <h:commandLink action="#">
-                                                    <h:graphicImage library="images" name="banner2.jpg" styleClass="img img-responsive" pt:alt=""/>
-                                                    <img src="img/banner2.jpg" class="img img-responsive" alt=""/>
-                                                </h:commandLink>
-                                            </div>
-                                        </div>-->
                                     </div>
                                 </div>
                                 <!-- /.yamm-content -->
                             </li>
                         </ul>
-                    </li>
+                    </li>          
 
                     <li class="dropdown yamm-fw">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Home &amp;Appliances <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Categories<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
                                 <div class="yamm-content">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h5>Kitchen Appliances</h5>
                                             <ul>
-                                                <li><a href="index.html">Microwaves &amp;Grills</a>
-                                                </li>
-                                                <li><a href="category.html">Kettles, Juciers &amp;Coffee Makers</a>
-                                                </li>
-                                                <li><a href="category-right.html">Blender &amp;Mixers</a>
-                                                </li>
-                                                
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h5>Home Appliances &amp;Decor</h5>
-                                            <ul>
-                                                <li><a href="register.html">Fans &amp;Heaters</a>
-                                                </li>
-                                                <li><a href="customer-orders.html">Vaccums</a>
-                                                </li>
-                                                <li><a href="customer-order.html">Chairs &amp;Bean Bags</a>
-                                                </li>
-                                                
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h5>Tools &amp;Gardening</h5>
-                                            <ul>
-                                                <li><a href="basket.html">Gardening Decoration</a>
-                                                </li>
-                                                <li><a href="checkout1.html">Safety &amp;Work Wear</a>
-                                                </li>
-                                                <li><a href="checkout2.html">Outdoor Play</a>
-                                                </li>
-                                                
-                                            </ul>
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                                <!-- /.yamm-content -->
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown yamm-fw">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Books<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <div class="yamm-content">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h5>Cultural Books</h5>
-                                            <ul>
-                                                <li><a href="category.html">Historical Books</a>
-                                                </li>
-                                                <li><a href="category.html">Fictional Books</a>
-                                                </li>
-                                                <li><a href="category.html">Scientific Books</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <h5>Cooking Books</h5>
-                                            <ul>
-                                                <li><a href="category.html">Italian Food</a>
-                                                </li>
-                                                <li><a href="category.html">Indian Food</a>
-                                                </li>
-                                                <li><a href="category.html">Egyptian Food</a>
-                                                </li>
-                                                <li><a href="category.html">Korean Food</a>
-                                                </li>
+                                                <h:form>
+                                                    <ui:repeat value="#{category.categories}" var="c">
+                                                        <li>
+                                                            <h:commandLink value="#{c.name}"/> 
+                                                        </li>
+                                                    </ui:repeat>
+                                                </h:form>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /.yamm-content -->
                             </li>
                         </ul>
                     </li>
                 </ul>
-
             </div>
             <!--/.nav-collapse -->
 

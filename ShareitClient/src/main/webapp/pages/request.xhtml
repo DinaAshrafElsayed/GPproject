@@ -5,20 +5,22 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:p="http://primefaces.org/ui"
-                template="../templates/masterTemplate.xhtml">
+                template="../templates/masterTemplate.xhtml"
+                xmlns:o="http://omnifaces.org/ui">
     <ui:define name="title">Request</ui:define>
     <ui:define name="content">
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" />
-            <p:dataTable id="checkboxDT" var="activity" value="#{requests.dataModel}"  style="margin-bottom:0">
+            <p:dataTable id="checkboxDT" var="activity" value="#{requests.pendingRequestsdataModel}"  style="margin-bottom:0">
                 <f:facet name="header">
                     These are the pending requests you have
                 </f:facet>
                 <p:column headerText="Id">
                     <h:outputText value="#{activity.id}" />
                 </p:column>
-                <p:column headerText="Item">
-                    <h:outputText value="#{activity.item.name}" />
+                <p:column headerText="Item" style="text-align: center;">
+                    <!--<h:outputText value="#{activity.item.name}" />-->
+                    <o:graphicImage width="130px" height="100px" value="#{requests.getImage(activity.item.imageUrl)}" dataURI="true" /> 
                 </p:column>
                 <p:column headerText="From user">
                     <h:outputText value="#{activity.fromUser.email}" />
@@ -45,6 +47,45 @@
                     </h:commandLink>
                 </p:column>
             </p:dataTable>
+
+        </h:form>
+        <div class="panel-heading">
+            <div class="panel-title text-center">
+                <h1 class="title">Other Requests</h1>
+                <hr/>
+            </div>
+        </div> 
+        <h:form id="form2">
+            <p:dataTable value="#{requests.otherActivityDtos}" var="otherActivity" >
+                <f:facet name="header">
+                    These are your previous requests  
+                </f:facet>
+                <p:column style="width:3%; text-align: center;">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="Id">
+                    <h:outputText value="#{otherActivity.id}" />
+                </p:column>
+                <p:column headerText="Item Name">
+                    <h:outputText value="#{otherActivity.item.name}" />
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{otherActivity.status.status}" />
+                </p:column>
+
+                <p:rowExpansion>
+                    <p:panelGrid  columns="1" columnClasses="value" style="width:300px; text-align: center;font-weight: bold;">
+                        <f:facet name="header">
+                            <o:graphicImage width="250px" height="150px" value="#{requests.getImage(otherActivity.item.imageUrl)}" dataURI="true" /> 
+                        </f:facet>
+                        <h:outputText value="From user: #{otherActivity.fromUser.email}" />
+                        <h:outputText value="Meeting Point: #{otherActivity.meetingPoint}"/>
+                        <h:outputText value="Interval of time: #{otherActivity.calculateIntervalOfTime()} days" />
+                        <h:outputText value="Status: #{otherActivity.status.status}"/>
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
+
         </h:form>
     </ui:define>
 </ui:composition>

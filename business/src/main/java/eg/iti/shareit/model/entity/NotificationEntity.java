@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "NotificationEntity.findById", query = "SELECT n FROM NotificationEntity n WHERE n.id = :id"),
     @NamedQuery(name = "NotificationEntity.findByPointsDeducted", query = "SELECT n FROM NotificationEntity n WHERE n.pointsDeducted = :pointsDeducted"),
     @NamedQuery(name = "NotificationEntity.findByMeetingPoint", query = "SELECT n FROM NotificationEntity n WHERE n.meetingPoint = :meetingPoint"),
-    @NamedQuery(name = "NotificationEntity.findByDays", query = "SELECT n FROM NotificationEntity n WHERE n.days = :days")})
+    @NamedQuery(name = "NotificationEntity.findByDays", query = "SELECT n FROM NotificationEntity n WHERE n.days = :days"),
+    @NamedQuery(name = "NotificationEntity.findBySeen", query = "SELECT n FROM NotificationEntity n WHERE n.seen = :seen")})
 public class NotificationEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -47,7 +48,7 @@ public class NotificationEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_NOTIFICATION_SEQ")
-    @SequenceGenerator(name = "T_NOTIFICATION_SEQ", sequenceName = "T_NOTIFICATION_SEQ")
+    @SequenceGenerator(name = "T_NOTIFICATION_SEQ", sequenceName = "T_NOTIFICATION_SEQ", allocationSize = 50, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -62,6 +63,10 @@ public class NotificationEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "DAYS")
     private BigInteger days;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "SEEN")
+    private BigInteger seen;
     @JoinColumn(name = "ITEM", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ItemEntity item;
@@ -79,11 +84,12 @@ public class NotificationEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public NotificationEntity(BigDecimal id, BigInteger pointsDeducted, String meetingPoint, BigInteger days) {
+    public NotificationEntity(BigDecimal id, BigInteger pointsDeducted, String meetingPoint, BigInteger days, BigInteger seen) {
         this.id = id;
         this.pointsDeducted = pointsDeducted;
         this.meetingPoint = meetingPoint;
         this.days = days;
+        this.seen = seen;
     }
 
     public BigDecimal getId() {
@@ -116,6 +122,14 @@ public class NotificationEntity implements Serializable, GenericEntity {
 
     public void setDays(BigInteger days) {
         this.days = days;
+    }
+
+    public BigInteger getSeen() {
+        return seen;
+    }
+
+    public void setSeen(BigInteger seen) {
+        this.seen = seen;
     }
 
     public ItemEntity getItem() {

@@ -12,7 +12,8 @@ import java.math.BigDecimal;
  *
  * @author Yousef
  */
-public class CityDto implements java.io.Serializable, GenericDto{
+public class CityDto implements java.io.Serializable, GenericDto {
+
     private BigDecimal id;
     private String city;
 
@@ -39,6 +40,10 @@ public class CityDto implements java.io.Serializable, GenericDto{
     public void setCity(String city) {
         this.city = city;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "CityDto{" + "id=" + id + ", city=" + city + '}';
+    }
+
 }
