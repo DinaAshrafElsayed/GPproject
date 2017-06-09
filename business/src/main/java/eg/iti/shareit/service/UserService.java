@@ -50,10 +50,10 @@ public class UserService {
     public void RegisterUser(UserDto user) throws ServiceException {
         try {
             user.setGender(genderService.getGender(user.getGender().getGender()));
-            System.out.println("addressDto for user is : "+user.getAddressDto());
-            AddressDto addressDto = addressService.getAddress(user.getAddressDto());
+            System.out.println("addressDto for user is : "+user.getAddress());
+            AddressDto addressDto = addressService.getAddress(user.getAddress());
             System.out.println("addressDto is after getting it from database "+addressDto);
-            user.setAddressDto(addressDto);
+            user.setAddress(addressDto);
             UserEntity userEntity = mappingUtil.getEntity(user, UserEntity.class);
             System.out.println("user dto " + user);
             //AddressEntity addressEntity = mappingUtil.getEntity(addressDto, AddressEntity.class);

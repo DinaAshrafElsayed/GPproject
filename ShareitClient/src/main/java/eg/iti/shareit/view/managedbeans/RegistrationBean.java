@@ -83,7 +83,7 @@ public class RegistrationBean implements Serializable {
                 addressDto.setCountry(country);
                 addressDto.setState(state);
                 addressDto.setCity(city);
-                userDto.setAddressDto(addressDto);
+                userDto.setAddress(addressDto);
                 System.out.println(userDto);
                 userService.RegisterUser(userDto);
                 return "";
