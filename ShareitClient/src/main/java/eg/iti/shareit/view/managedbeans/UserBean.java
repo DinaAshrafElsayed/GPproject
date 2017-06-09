@@ -73,7 +73,7 @@ public class UserBean implements Serializable {
         HttpSession session = SessionUtil.getSession();
         session.invalidate();
         System.out.println("session invalidated");
-        return "register";
+        return "register?faces-redirect=true";
     }
 
     /**
