@@ -10,6 +10,7 @@ import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.entity.CategoryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.model.util.MappingUtil;
 import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
@@ -197,24 +198,6 @@ public class ItemManagedBean implements java.io.Serializable {
     }
 
     public void save() {
-
-        try (InputStream input = file.getInputStream()) {
-            String savingPath = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\";
-            File pathFile = new File(savingPath);
-            if (pathFile.exists()) {
-                Files.copy(input, new File(savingPath + "\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath(), REPLACE_EXISTING);
-            } else if (pathFile.mkdirs()) {
-                Files.copy(input, new File(savingPath + "\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath(), REPLACE_EXISTING);
-            } else {
-                throw new IOException("Cannot Create the directories");
-            }
-            image_url = savingPath +  Paths.get(file.getSubmittedFileName()).getFileName().toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Show faces message
-            FacesMessage facesMessage = new FacesMessage("error uploading image");
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, facesMessage);
-        }
+        image_url = ImageUtil.SaveImage(file,System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
     }
 }
