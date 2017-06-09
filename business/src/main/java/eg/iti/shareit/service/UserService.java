@@ -3,8 +3,6 @@ package eg.iti.shareit.service;
 import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
-import eg.iti.shareit.model.dao.AddressDao;
-import eg.iti.shareit.model.dao.GenderDao;
 import eg.iti.shareit.model.dao.UserDao;
 import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.UserDto;
