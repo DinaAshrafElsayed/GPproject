@@ -41,26 +41,24 @@ public class UserBean implements Serializable {
         try {
             UserDto userDto = userService.findUser(email, password);
             System.out.println("user dto " + userDto);
+            //userDto = userService.findUser(email, password);
+            System.out.println("user dto " + getUserDto());
             if (userDto != null) {
-                userDto = userService.findUser(email, password);
-                System.out.println("user dto " + getUserDto());
-                if (userDto != null) {
-                    //save in session
-                    HttpSession session = SessionUtil.getSession();
-                    session.setAttribute("userDto", userDto);
-                    System.out.println("user saved in session");
-                    //supposedly return to home page
-                    return "items?faces-redirect=true";
-                } else {
-                    System.out.println("in error part ");
-                    //faces error message email already exists
-                    FacesMessage facesMessage = new FacesMessage("Wrong email or passwod");
-                    FacesContext facesContext = FacesContext.getCurrentInstance();
-                    facesContext.addMessage("loginForm:loginEmail", facesMessage);
-                    return null;
-                }
-
+                //save in session
+                HttpSession session = SessionUtil.getSession();
+                session.setAttribute("userDto", userDto);
+                System.out.println("user saved in session");
+                //supposedly return to home page
+                return "items?faces-redirect=true";
+            } else {
+                System.out.println("in error part ");
+                //faces error message email already exists
+                FacesMessage facesMessage = new FacesMessage("Wrong email or passwod");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("loginForm:loginEmail", facesMessage);
+                return "";
             }
+
         } catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
 
