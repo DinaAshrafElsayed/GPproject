@@ -7,7 +7,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/templates/masterTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:o="http://omnifaces.org/ui">
 
     <ui:define name="title">
         Browse Items
@@ -61,6 +62,7 @@
                     </div>
                 </div>
 
+
                                 <!--<div class="row products">-->
                         <h:panelGroup styleClass="row products" id="itemsData" >
 
@@ -75,11 +77,42 @@
                                                 <a href="details.xhtml">
                                                     <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" style="height: 200px;" pt:alt=""/>
                                                 </a>
+
+                                        <div class="product">
+                                            <div class="flip-container">
+                                                <div class="flipper">
+                                                    <div class="front">
+                                                        <h:commandLink action="#{itemBean.goToItem(item.id)}">
+                                                            <o:graphicImage  height="200px" value="#{itemBean.getImage(item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                                            
+                                                        </h:commandLink>
+                                                    </div>
+                                                    <div class="back">
+                                                        <h:link outcome="#{itemBean.goToItem(item.id)}" >
+                                                            <o:graphicImage  height="200px" value="#{itemBean.getImage(item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                                        </h:link>
+                                                          
+                                                    </div>
+                                                </div>
+
                                             </div>
+
                                             <div class="back">
                                                 <a href="details.xhtml">
                                                     <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" style="height: 200px;" pt:alt=""/>   
                                                 </a>
+
+                                            <a href="details.xhtml" class="invisible">
+                                                <o:graphicImage  height="200px" value="#{itemBean.getImage(item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                            </a>
+                                            <div class="text">
+                                                <h3><a href="details.xhtml">#{item.name}<br></br>#{item.description}</a></h3>
+                                                <!--<p class="price"><del>$280</del> $143.00</p>-->
+                                                <p class="price">#{item.points}</p>
+                                                <p class="buttons">
+                                                    <h:link value="View Details" outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default"/> 
+                                                </p>
+
                                             </div>
                                         </div>
                                     </div>

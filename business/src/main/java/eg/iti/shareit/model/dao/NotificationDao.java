@@ -18,7 +18,9 @@ import java.util.List;
  */
 public interface NotificationDao extends GenericDao<NotificationEntity> {
 
-    List<NotificationEntity> getNotifications(UserEntity userEntity) throws DatabaseRollbackException;
+    List<NotificationEntity> getNotSeenNotifications(UserEntity userEntity) throws DatabaseRollbackException;
+
+    List<NotificationEntity> getSeenNotifications(UserEntity userEntity) throws DatabaseRollbackException;
 
     void saveNotification(NotificationEntity notificationEntity) throws DatabaseRollbackException;
 

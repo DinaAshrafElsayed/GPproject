@@ -163,8 +163,8 @@ public class ItemManagedBean implements java.io.Serializable {
     @PostConstruct
     public void init() {
         try {
-             categories= categoryService.getAllCategories();
-            System.out.println("-------------------- categories "+categories);
+            categories = categoryService.getAllCategories();
+            System.out.println("-------------------- categories " + categories);
             categories = categoryService.getAllCategories();
             System.out.println("-------------------- categories " + categories);
         } catch (ServiceException ex) {
@@ -184,7 +184,7 @@ public class ItemManagedBean implements java.io.Serializable {
 
         System.out.println("-------------- in add item");
 
-        ItemDto item = new ItemDto(name, description, (short) 1, publish_date, points, image_url, tags, SessionUtil.getUser());
+        ItemDto item = new ItemDto(name, description, 1, publish_date, points, image_url, tags, SessionUtil.getUser());
 
         //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
         //System.out.println("----------------"+catEntity.getName());
@@ -197,13 +197,20 @@ public class ItemManagedBean implements java.io.Serializable {
     }
 
     public void save() {
-        System.out.println("In save method");
+
         try (InputStream input = file.getInputStream()) {
-            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\"
-                    + "\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath(), REPLACE_EXISTING);
-            image_url = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
-            System.out.println("Image url: " + image_url);
+            String savingPath = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\";
+            File pathFile = new File(savingPath);
+            if (pathFile.exists()) {
+                Files.copy(input, new File(savingPath + "\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath(), REPLACE_EXISTING);
+            } else if (pathFile.mkdirs()) {
+                Files.copy(input, new File(savingPath + "\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath(), REPLACE_EXISTING);
+            } else {
+                throw new IOException("Cannot Create the directories");
+            }
+            image_url = savingPath +  Paths.get(file.getSubmittedFileName()).getFileName().toString();
         } catch (IOException e) {
+            e.printStackTrace();
             // Show faces message
             FacesMessage facesMessage = new FacesMessage("error uploading image");
             FacesContext facesContext = FacesContext.getCurrentInstance();

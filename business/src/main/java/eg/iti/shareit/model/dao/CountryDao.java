@@ -5,13 +5,17 @@
  */
 package eg.iti.shareit.model.dao;
 
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.dao.GenericDao;
+import eg.iti.shareit.model.entity.CityEntity;
 import eg.iti.shareit.model.entity.CountryEntity;
+import eg.iti.shareit.model.entity.StateEntity;
+import java.util.List;
 
 /**
  *
  * @author Yousef
  */
 public interface CountryDao extends GenericDao<CountryEntity>{
-    public CountryEntity getCountryByName(String name);
+    public CountryEntity getCountryByName(String name) throws DatabaseRollbackException;
 }

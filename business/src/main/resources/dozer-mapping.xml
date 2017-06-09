@@ -7,15 +7,13 @@ http://dozer.sourceforge.net/schema/beanmapping.xsd">
         <stop-on-errors>true</stop-on-errors>
         <date-format>dd/MM/yyyy HH:mm</date-format>
         <wildcard>true</wildcard>
+        
     </configuration>
 
     <mapping>
         <class-a>eg.iti.shareit.model.entity.UserEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.UserDto</class-b>
-        <!--        <field-exclude>
-            <a>id</a>
-            <b>id</b>
-        </field-exclude>-->
+        
     </mapping>
     <mapping>
         <class-a>eg.iti.shareit.model.entity.StateEntity</class-a>
@@ -68,6 +66,10 @@ http://dozer.sourceforge.net/schema/beanmapping.xsd">
     <mapping>
         <class-a>eg.iti.shareit.model.entity.AddressEntity</class-a>
         <class-b>eg.iti.shareit.model.dto.AddressDto</class-b>
+        <field>
+            <a>userEntityList</a>
+            <b>userDtos</b>
+        </field>
         <!--        <field-exclude>
             <a>id</a>
             <b>id</b>

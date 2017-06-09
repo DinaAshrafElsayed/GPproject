@@ -10,6 +10,10 @@ import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.NotificationDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.service.NotificationService;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,8 +35,9 @@ public class NotificationBean implements Serializable {
 
     @EJB
     private NotificationService notificationService;
-    private List<NotificationDto> notificationDtos;
-    private DataModel<NotificationDto> dataModel;
+    private List<NotificationDto> notSeenNotificationDtos;
+    private DataModel<NotificationDto> notSeenDataModel;
+    private List<NotificationDto> seenNotificationDtos;
 
     public NotificationService getNotificationService() {
         return notificationService;
@@ -42,29 +47,41 @@ public class NotificationBean implements Serializable {
         this.notificationService = notificationService;
     }
 
-    public List<NotificationDto> getNotificationDtos() {
-        return notificationDtos;
+    public List<NotificationDto> getNotSeenNotificationDtos() {
+        return notSeenNotificationDtos;
     }
 
-    public void setNotificationDtos(List<NotificationDto> notificationDtos) {
-        this.notificationDtos = notificationDtos;
+    public void setNotSeenNotificationDtos(List<NotificationDto> notSeenNotificationDtos) {
+        this.notSeenNotificationDtos = notSeenNotificationDtos;
     }
 
-    public DataModel<NotificationDto> getDataModel() {
-        return dataModel;
+    public DataModel<NotificationDto> getNotSeenDataModel() {
+        return notSeenDataModel;
     }
 
-    public void setDataModel(DataModel<NotificationDto> dataModel) {
-        this.dataModel = dataModel;
+    public void setNotSeenDataModel(DataModel<NotificationDto> notSeenDataModel) {
+        this.notSeenDataModel = notSeenDataModel;
+    }
+
+    public List<NotificationDto> getSeenNotificationDtos() {
+        return seenNotificationDtos;
+    }
+
+    public void setSeenNotificationDtos(List<NotificationDto> seenNotificationDtos) {
+        this.seenNotificationDtos = seenNotificationDtos;
     }
 
     @PostConstruct
     public void getNotification() {
         try {
             UserDto user = SessionUtil.getUser();
-            notificationDtos = notificationService.getNotifications(user);
-            //You need to filter the list and get only the seen column=0 and other values in anothr table
-            dataModel = new CollectionDataModel<>(notificationDtos);
+            if (user != null) {
+                notSeenNotificationDtos = notificationService.getNotSeenNotifications(user);
+                if (notSeenNotificationDtos != null) {
+                    notSeenDataModel = new CollectionDataModel<>(notSeenNotificationDtos);
+                }
+                seenNotificationDtos = notificationService.getSeenNotifications(user);
+            }
         } catch (ServiceException ex) {
             Logger.getLogger(NotificationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,10 +89,15 @@ public class NotificationBean implements Serializable {
 
     public void setNotificationAsRead() {
         try {
-            NotificationDto notificationDto = dataModel.getRowData();
+            NotificationDto notificationDto = notSeenDataModel.getRowData();
             notificationService.setNotificationAsRead(notificationDto.getId());
         } catch (ServiceException ex) {
             Logger.getLogger(NotificationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public InputStream getImage(String filename) throws FileNotFoundException {
+        return new FileInputStream(new File(filename));
+    }
+
 }

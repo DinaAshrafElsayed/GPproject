@@ -48,6 +48,7 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
         try {
             List<UserEntity> userList = query.getResultList();
             if (userList != null && userList.size() == 1) {
+                System.out.println("found user");
                 return userList.get(0);
             } else {
                 return null;
@@ -60,6 +61,7 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
     @Override
     public boolean saveUser(UserEntity user) throws DatabaseRollbackException {
         try {
+            System.out.println("userEntity address is "+user.getAddress());
             getEntityManager().persist(user);
             return true;
         } catch (PersistenceException ex) {

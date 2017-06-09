@@ -13,6 +13,7 @@ import java.math.BigDecimal;
  * @author Yousef
  */
 public class StateDto implements java.io.Serializable, GenericDto {
+
     private BigDecimal id;
     private String state;
 
@@ -39,6 +40,9 @@ public class StateDto implements java.io.Serializable, GenericDto {
     public void setState(String state) {
         this.state = state;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "StateDto{" + "id=" + id + ", state=" + state + '}';
+    }
 }

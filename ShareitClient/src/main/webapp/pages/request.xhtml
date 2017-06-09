@@ -18,9 +18,9 @@
                 <p:column headerText="Id">
                     <h:outputText value="#{activity.id}" />
                 </p:column>
-                <p:column headerText="Item">
+                <p:column headerText="Item" style="text-align: center;">
                     <!--<h:outputText value="#{activity.item.name}" />-->
-                    <o:graphicImage value="#{requests.getImage(activity.item.imageUrl)}" dataURI="true" /> 
+                    <o:graphicImage width="130px" height="100px" value="#{requests.getImage(activity.item.imageUrl)}" dataURI="true" /> 
                 </p:column>
                 <p:column headerText="From user">
                     <h:outputText value="#{activity.fromUser.email}" />
@@ -47,32 +47,44 @@
                     </h:commandLink>
                 </p:column>
             </p:dataTable>
-            <p:repeat value="#{requests.otherActivityDtos}" var="otherActivity">
-                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                    <p:outputPanel>
-                        <o:graphicImage width="30px" height="30px" value="#{requests.getImage(otherActivity.item.imageUrl)}" dataURI="true" /> 
-                    </p:outputPanel>
 
-
-                    <p:outputPanel>
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputText value="From User:" />
-                            <h:outputText value="#{otherActivity.fromUser.email}" style="font-weight: bold"/>
-
-                            <h:outputText value="Meeting Point:" />
-                            <h:outputText value="#{otherActivity.meetingPoint}" style="font-weight: bold"/>
-
-                            <h:outputText value="Interval of time:" />
-                            <h:outputText value="#{otherActivity.calculateIntervalOfTime()}" style="font-weight: bold"/>
-                            <h:outputText value="Status" />
-                            <h:outputText value="#{otherActivity.status.status}" style="font-weight: bold"/>
-                        </h:panelGrid>
-                    </p:outputPanel>
-                </h:panelGrid>
-                <hr />
-            </p:repeat>
         </h:form>
+        <div class="panel-heading">
+            <div class="panel-title text-center">
+                <h1 class="title">Other Requests</h1>
+                <hr/>
+            </div>
+        </div> 
         <h:form id="form2">
+            <p:dataTable value="#{requests.otherActivityDtos}" var="otherActivity" >
+                <f:facet name="header">
+                    These are your previous requests  
+                </f:facet>
+                <p:column style="width:3%; text-align: center;">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="Id">
+                    <h:outputText value="#{otherActivity.id}" />
+                </p:column>
+                <p:column headerText="Item Name">
+                    <h:outputText value="#{otherActivity.item.name}" />
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{otherActivity.status.status}" />
+                </p:column>
+
+                <p:rowExpansion>
+                    <p:panelGrid  columns="1" columnClasses="value" style="width:300px; text-align: center;font-weight: bold;">
+                        <f:facet name="header">
+                            <o:graphicImage width="250px" height="150px" value="#{requests.getImage(otherActivity.item.imageUrl)}" dataURI="true" /> 
+                        </f:facet>
+                        <h:outputText value="From user: #{otherActivity.fromUser.email}" />
+                        <h:outputText value="Meeting Point: #{otherActivity.meetingPoint}"/>
+                        <h:outputText value="Interval of time: #{otherActivity.calculateIntervalOfTime()} days" />
+                        <h:outputText value="Status: #{otherActivity.status.status}"/>
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
 
         </h:form>
     </ui:define>

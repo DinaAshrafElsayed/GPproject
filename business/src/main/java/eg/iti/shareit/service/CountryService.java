@@ -5,6 +5,7 @@
  */
 package eg.iti.shareit.service;
 
+import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.model.dao.CountryDao;
 import eg.iti.shareit.model.dto.CountryDto;
 import eg.iti.shareit.model.entity.CountryEntity;
@@ -21,7 +22,7 @@ public class CountryService {
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
     
-    public CountryDto getGender(String country) {
+    public CountryDto getCountry(String country) throws DatabaseRollbackException {
         CountryEntity countryEntity = countryDao.getCountryByName(country);
         return mappingUtil.getDto(countryEntity, CountryDto.class);
     }

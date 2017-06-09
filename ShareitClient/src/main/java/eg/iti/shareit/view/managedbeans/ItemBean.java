@@ -9,6 +9,10 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.service.ItemService;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,6 +37,7 @@ public class ItemBean implements Serializable{
     private List<CategoryDto> categories;
     private String searchString;
     private int categoryId;
+    private ItemDto itemDetail;
     
     public ItemBean() {
     }
@@ -80,6 +85,17 @@ public class ItemBean implements Serializable{
     public void setCategories(List<CategoryDto> categories) {
         this.categories = categories;
     }
+
+    
+
+    public ItemDto getItemDetail() {
+        return itemDetail;
+    }
+
+    public void setItemDetail(ItemDto itemDetail) {
+        this.itemDetail = itemDetail;
+    }
+    
     
     
     public void doSearch(){
@@ -90,6 +106,14 @@ public class ItemBean implements Serializable{
         }catch(ServiceException ex){
              Logger.getLogger(SearchBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public String goToItem(int id){
+        return "itemDetails.xhtml?id="+id;
+    }
+    
+    public InputStream getImage(String filename) throws FileNotFoundException {
+        return new FileInputStream(new File(filename));
     }
     
 }
