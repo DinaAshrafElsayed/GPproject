@@ -8,6 +8,7 @@ import eg.iti.shareit.model.dao.GenderDao;
 import eg.iti.shareit.model.dao.UserDao;
 import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.UserDto;
+import eg.iti.shareit.model.entity.AddressEntity;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 
@@ -57,6 +58,9 @@ public class UserService {
             user.setAddressDto(addressDto);
             UserEntity userEntity = mappingUtil.getEntity(user, UserEntity.class);
             System.out.println("user dto " + user);
+            AddressEntity addressEntity = mappingUtil.getEntity(addressDto, AddressEntity.class);
+            System.out.println("addressEntity is "+addressEntity);
+            userEntity.setAddress(addressEntity);
             boolean saved = userDao.saveUser(userEntity);
             System.out.println("saved : " + saved);
         } catch (DatabaseRollbackException e) {
@@ -70,6 +74,8 @@ public class UserService {
             UserEntity userEntity = userDao.findUser(email, password);
             if (userEntity != null) {
                 UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
+                userDto.setAddressDto(mappingUtil.getDto(userEntity.getAddress(), AddressDto.class));
+                System.out.println("userDto is "+userDto);
                 return userDto;
             }
             return null;

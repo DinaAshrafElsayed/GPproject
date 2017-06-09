@@ -42,7 +42,7 @@ public class AddressDaoImpl extends GenericDaoImpl<AddressEntity> implements Add
     @Override
     public List<StateEntity> getRelatedStates(BigDecimal countryId) throws DatabaseRollbackException {
         try {
-            Query query = getEntityManager().createQuery("Select a.state From AddressEntity a where a.country = :country");
+            Query query = getEntityManager().createQuery("Select DISTINCT a.state From AddressEntity a where a.country = :country");
             query.setParameter("country", countryDao.get(countryId));
             List<StateEntity> states = query.getResultList();
             if (states != null) {
@@ -60,7 +60,7 @@ public class AddressDaoImpl extends GenericDaoImpl<AddressEntity> implements Add
     @Override
     public List<CityEntity> getRelatedCities(BigDecimal countryId) throws DatabaseRollbackException {
         try {
-            Query query = getEntityManager().createQuery("Select a.city From AddressEntity a where a.country = :country");
+            Query query = getEntityManager().createQuery("Select DISTINCT  a.city From AddressEntity a where a.country = :country");
             query.setParameter("country", countryDao.get(countryId));
             List<CityEntity> cities = query.getResultList();
             if (cities != null) {
@@ -78,7 +78,7 @@ public class AddressDaoImpl extends GenericDaoImpl<AddressEntity> implements Add
     @Override
     public List<CityEntity> getRelatedCities(BigDecimal countryId, BigDecimal stateId) throws DatabaseRollbackException {
         try {
-            Query query = getEntityManager().createQuery("Select a.city From AddressEntity a where a.state = :state  and a.country = :country");
+            Query query = getEntityManager().createQuery("Select DISTINCT a.city From AddressEntity a where a.state = :state  and a.country = :country");
             query.setParameter("state", stateDao.get(stateId))
                     .setParameter("country", countryDao.get(countryId));
             List<CityEntity> cities = query.getResultList();

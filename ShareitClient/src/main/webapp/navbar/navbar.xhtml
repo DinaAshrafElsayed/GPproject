@@ -43,51 +43,54 @@
             <div class="navbar-collapse collapse" id="navigation">
 
                 <ul class="nav navbar-nav navbar-left">
-                    <li class="active"><a href="index.html">Home</a>
+                    <li class="active"><h:link outcome="items.xhtml">Home</h:link>
                     </li>
-
-                    <li class="dropdown yamm-fw">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Profile<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <div class="yamm-content">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <ul>
-                                                <li><a href="category.html">View Profile</a>
-                                                </li>
-                                                <li><a href="category.html">Edit Profile</a>
-                                                </li>
-                                            </ul>
+                    <li>
+                        <h:link outcome="items.xhtml">All Items</h:link>
+                    </li>
+                    <c:if test="#{user.userDto != null}">
+                        <li class="dropdown yamm-fw">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Profile<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="yamm-content">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <ul>
+                                                    <li><a href="category.html">View Profile</a>
+                                                    </li>
+                                                    <li><a href="category.html">Edit Profile</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- /.yamm-content -->
-                            </li>
-                        </ul>
-                    </li>
+                                    <!-- /.yamm-content -->
+                                </li>
+                            </ul>
+                        </li>
 
-                    <li class="dropdown yamm-fw">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Requests<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <div class="yamm-content">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <ul>
-                                                <li><a href="category.html">Pending Requests</a>
-                                                </li>
-                                                <li><a href="category.html">Borrowing Requests</a>
-                                                </li>
-                                            </ul>
+                        <li class="dropdown yamm-fw">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Requests<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="yamm-content">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <ul>
+                                                    <li><a href="category.html">Pending Requests</a>
+                                                    </li>
+                                                    <li><a href="category.html">Borrowing Requests</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- /.yamm-content -->
-                            </li>
-                        </ul>
-                    </li>          
-
+                                    <!-- /.yamm-content -->
+                                </li>
+                            </ul>
+                        </li>          
+                    </c:if>
                     <li class="dropdown yamm-fw">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Categories<b class="caret"></b></a>
                         <ul class="dropdown-menu">
