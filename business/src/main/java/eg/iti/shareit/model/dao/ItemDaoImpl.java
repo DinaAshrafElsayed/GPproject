@@ -32,6 +32,24 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
     public ItemDaoImpl() {
         super(ItemEntity.class);
     }
+    
+    @Override
+    public List<ItemEntity> getRelatedItems(ItemEntity myItem) throws DatabaseRollbackException {
+        Query query;
+        String[] tags = myItem.getTags().split(",");
+        String queryString = "SELECT i FROM ItemEntity i WHERE i.id <> :itemId ";
+        queryString += "And ( ";
+        for(String tag : tags){
+            queryString += "i.tags LIKE '%"+tag+"%' or ";
+        }
+        queryString = queryString.substring(0,queryString.length()-3);
+        queryString += " )";
+        query = getEntityManager().createQuery(queryString);
+        query.setParameter("itemId", myItem.getId());
+        List<ItemEntity> itemsList = query.setMaxResults(3).getResultList();
+        
+        return itemsList;
+    }
 
     @Override
     public List<ItemEntity> searchItem(String name, int categoryId) throws DatabaseRollbackException {

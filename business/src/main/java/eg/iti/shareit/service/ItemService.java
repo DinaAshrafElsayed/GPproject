@@ -134,4 +134,19 @@ public class ItemService {
             throw new ServiceException(e.getMessage());
         }
     }
+    public List<ItemDto> getRelatedItems(ItemDto itemDto) throws ServiceException {
+        ItemEntity itemEntity = mappingUtil.getEntity(itemDto, ItemEntity.class);
+        
+        try {
+            List<ItemEntity> itemEntitiesList = itemDao.getRelatedItems(itemEntity);
+            if(itemEntitiesList != null){
+                return mappingUtil.getDtoList(itemEntitiesList, ItemDto.class);
+            }else
+                return null;
+            
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
 }

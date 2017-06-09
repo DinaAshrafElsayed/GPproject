@@ -7,7 +7,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/templates/masterTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:o="http://omnifaces.org/ui">
 
     <ui:define name="title">
         Browse Items
@@ -85,21 +86,20 @@
                                                 <div class="flipper">
                                                     <div class="front">
                                                         <h:commandLink action="#{itemBean.goToItem(item.id)}">
-                                                            <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" style="height: 200px;" pt:alt=""/>                                                        
+                                                            <o:graphicImage  height="200px" value="#{itemBean.getImage(item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                                            
                                                         </h:commandLink>
                                                     </div>
                                                     <div class="back">
                                                         <h:link outcome="#{itemBean.goToItem(item.id)}" >
-                                                            <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" style="height: 200px;" pt:alt=""/>   
+                                                            <o:graphicImage  height="200px" value="#{itemBean.getImage(item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
                                                         </h:link>
-                                                        <h:link outcome="#{itemBean.goToItem(item.id)}">
-                                                            <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" style="height: 200px;" pt:alt=""/>   
-                                                        </h:link>    
+                                                          
                                                     </div>
                                                 </div>
                                             </div>
                                             <a href="details.xhtml" class="invisible">
-                                                <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt="" style="height: 316px;"/>
+                                                <o:graphicImage  height="200px" value="#{itemBean.getImage(item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
                                             </a>
                                             <div class="text">
                                                 <h3><a href="details.xhtml">#{item.name}<br></br>#{item.description}</a></h3>
