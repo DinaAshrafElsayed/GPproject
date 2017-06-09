@@ -5,12 +5,13 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:p="http://primefaces.org/ui"
-                template="../templates/masterTemplate.xhtml">
+                template="../templates/masterTemplate.xhtml"
+                xmlns:o="http://omnifaces.org/ui">
     <ui:define name="title">Notifications</ui:define>
     <ui:define name="content">
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" />
-            <p:dataTable id="checkboxDT" var="notification" value="#{notificationBean.dataModel}"  style="margin-bottom:0">
+            <p:dataTable id="checkboxDT" var="notification" value="#{notificationBean.notSeenDataModel}"  style="margin-bottom:0">
                 <f:facet name="header">
                     These are the Notifications you have not seen yet
                 </f:facet>
@@ -39,6 +40,44 @@
                 </p:column>
 
             </p:dataTable>
+        </h:form>
+        <div class="panel-heading">
+            <div class="panel-title text-center">
+                <h1 class="title">Other Notifications</h1>
+                <hr/>
+            </div>
+        </div> 
+        <h:form id="form2">
+            <p:dataTable value="#{notificationBean.seenNotificationDtos}" var="seenNotification" >
+                <f:facet name="header">
+                    These are your seen Notifications  
+                </f:facet>
+                <p:column style="width:3%; text-align: center;">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="Id">
+                    <h:outputText value="#{seenNotification.id}" />
+                </p:column>
+                <p:column headerText="Item Name">
+                    <h:outputText value="#{seenNotification.item.name}" />
+                </p:column>
+                <p:column headerText="Points deducted">
+                    <h:outputText value="#{seenNotification.pointsDeducted}" />
+                </p:column>
+
+                <p:rowExpansion>
+                    <p:panelGrid  columns="1" columnClasses="value" style="width:300px; text-align: center;font-weight: bold;">
+                        <f:facet name="header">
+                            <o:graphicImage width="250px" height="150px" value="#{notificationBean.getImage(seenNotification.item.imageUrl)}" dataURI="true" /> 
+                        </f:facet>
+                        <h:outputText value="From user: #{seenNotification.fromUser.email}" />
+                        <h:outputText value="Meeting Point: #{seenNotification.meetingPoint}"/>
+                        <h:outputText value="Interval of time: #{seenNotification.days} days" />
+                        <h:outputText value="Points deducted: #{seenNotification.pointsDeducted}"/>
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
+
         </h:form>
     </ui:define>
 </ui:composition>

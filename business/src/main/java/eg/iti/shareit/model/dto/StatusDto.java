@@ -42,4 +42,9 @@ public class StatusDto implements Serializable, GenericDto {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "StatusDto{" + "id=" + id + ", status=" + status + '}';
+    }
+
 }

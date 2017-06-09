@@ -6,7 +6,9 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
+import eg.iti.shareit.model.entity.UserEntity;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  *
@@ -15,10 +17,10 @@ import java.math.BigDecimal;
 public class AddressDto implements java.io.Serializable, GenericDto {
 
     private BigDecimal id;
-
     private CountryDto country;
     private CityDto city;
     private StateDto state;
+    List<UserDto> userDtos;
 
     public AddressDto() {
     }
@@ -60,6 +62,19 @@ public class AddressDto implements java.io.Serializable, GenericDto {
 
     public void setState(StateDto state) {
         this.state = state;
+    }
+
+    public List<UserDto> getUserDtos() {
+        return userDtos;
+    }
+
+    public void setUserDtos(List<UserDto> userDtos) {
+        this.userDtos = userDtos;
+    }
+
+    @Override
+    public String toString() {
+        return "AddressDto{" + "id=" + id + ", country=" + country + ", city=" + city + ", state=" + state + ", userDtos=" + userDtos + '}';
     }
 
 }
