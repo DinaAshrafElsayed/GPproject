@@ -32,7 +32,7 @@ public class UserBean implements Serializable {
 
     private String email;
     private String password;
-    private UserDto userDto;
+    //private UserDto userDto;
 
     public UserBean() {
     }
@@ -68,7 +68,7 @@ public class UserBean implements Serializable {
     }
 
     public String logout() {
-        userDto = null;
+        //userDto = null;
         HttpSession session = SessionUtil.getSession();
         session.invalidate();
         System.out.println("session invalidated");
@@ -110,11 +110,11 @@ public class UserBean implements Serializable {
         return SessionUtil.getUser();
     }
 
-    /**
-     * @param userDto the userDto to set
-     */
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
-    }
+//    /**
+//     * @param userDto the userDto to set
+//     */
+//    public void setUserDto(UserDto userDto) {
+//        this.userDto = userDto;
+//    }
     
 }
