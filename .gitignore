@@ -53,3 +53,6 @@ nbdist/
 ear/nb-configuration.xml
 ear/src/main/application/META-INF/glassfish-application.xml
 ear/src/main/application/META-INF/jboss-app.xml
+/ear/nb-configuration.xml
+/business/nb-configuration.xml
+/ShareitClient/nb-configuration.xml
