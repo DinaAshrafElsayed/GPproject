@@ -88,12 +88,12 @@ public class ItemEntity implements Serializable, GenericEntity {
     private BigInteger points;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 500)
     @Column(name = "IMAGE_URL")
     private String imageUrl;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "TAGS")
     private String tags;
     @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
