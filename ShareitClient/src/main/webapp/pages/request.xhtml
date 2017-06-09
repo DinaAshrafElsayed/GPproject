@@ -49,29 +49,42 @@
             </p:dataTable>
 
         </h:form>
-        <h3>These are the Other requests you have</h3>
+        <div class="panel-heading">
+            <div class="panel-title text-center">
+                <h1 class="title">Other Requests</h1>
+                <hr/>
+            </div>
+        </div> 
         <h:form id="form2">
+            <p:dataTable value="#{requests.otherActivityDtos}" var="otherActivity" >
+                <f:facet name="header">
+                    These are your previous requests  
+                </f:facet>
+                <p:column style="width:3%; text-align: center;">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="Id">
+                    <h:outputText value="#{otherActivity.id}" />
+                </p:column>
+                <p:column headerText="Item Name">
+                    <h:outputText value="#{otherActivity.item.name}" />
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{otherActivity.status.status}" />
+                </p:column>
 
-            <p:repeat value="#{requests.otherActivityDtos}" var="otherActivity">
-                <p:panelGrid columns="2">
-                    <f:facet name="header">
-
-                        <o:graphicImage width="250px" height="150px" value="#{requests.getImage(otherActivity.item.imageUrl)}" dataURI="true" /> 
-                    </f:facet>
-
-                    <h:outputText value="From User:" style="font-weight: bold" />
-                    <h:outputText value="#{otherActivity.fromUser.email}" />
-
-                    <h:outputText value="Meeting Point:"  style="font-weight: bold"/>
-                    <h:outputText value="#{otherActivity.meetingPoint}"/>
-
-                    <h:outputText value="Interval of time:" style="font-weight: bold" />
-                    <h:outputText value="#{otherActivity.calculateIntervalOfTime()}" />
-                    <h:outputText value="Status"  style="font-weight: bold"/>
-                    <h:outputText value="#{otherActivity.status.status}"/>
-                </p:panelGrid>
-                <hr />
-            </p:repeat>
+                <p:rowExpansion>
+                    <p:panelGrid  columns="1" columnClasses="value" style="width:300px; text-align: center;font-weight: bold;">
+                        <f:facet name="header">
+                            <o:graphicImage width="250px" height="150px" value="#{requests.getImage(otherActivity.item.imageUrl)}" dataURI="true" /> 
+                        </f:facet>
+                        <h:outputText value="From user: #{otherActivity.fromUser.email}" />
+                        <h:outputText value="Meeting Point: #{otherActivity.meetingPoint}"/>
+                        <h:outputText value="Interval of time: #{otherActivity.calculateIntervalOfTime()} days" />
+                        <h:outputText value="Status: #{otherActivity.status.status}"/>
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
 
         </h:form>
     </ui:define>
