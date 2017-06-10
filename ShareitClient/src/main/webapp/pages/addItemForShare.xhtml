@@ -16,13 +16,13 @@ and open the template in the editor.
         <div id="content">
             <div class="container">
 
-                <h:form  enctype="multipart/form-data" prependId="false">
+                <h:form  enctype="multipart/form-data" prependId="false" id="form">
 
-                    <h:messages></h:messages>
+                    
                     <div class="form-group">
                         <label for="name">Name</label>
 
-                        <h:inputText value="#{itemManagedBean.name}" id="name" class="form-control" required="true"/>
+                        <h:inputText value="#{itemManagedBean.name}" id="name" class="form-control" required="true" requiredMessage="name is required"/>
                     </div>
 
 
