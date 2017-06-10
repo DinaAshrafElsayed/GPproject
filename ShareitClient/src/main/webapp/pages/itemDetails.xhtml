@@ -7,7 +7,8 @@
                 template="/templates/masterTemplate.xhtml"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:o="http://omnifaces.org/ui">
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:p="http://primefaces.org/ui">
 
 
     <ui:define name="title">
@@ -61,10 +62,12 @@
                                         <c:if test="#{user.userDto ne null and itemDetailBean.noRequest eq false}" >
 
                                             <c:if test="#{itemDetailBean.isRequested ne true}" >
-                                                <label for="timeFrom" >Time From :</label>
-                                                <h:inputText  class="form-control" id="timeFrom" value="#{itemDetailBean.timeFrom}" pt:type="date" required="true"  
+                                                <label for="timeFrom" >Time From : #{itemDetailBean.todayString}</label>
+                                                <h:inputText  class="form-control" id="timeFrom" value="#{itemDetailBean.timeFrom}" pt:type="date" pt:min="#{itemDetailBean.todayString}" required="true"  
                                                               requiredMessage="this field is required" >
                                                 </h:inputText>
+                                                <!--<p:calendar id="timeFrom"  />-->
+ 
                                                 <h:message for="timeFrom" style="color:red;" />
                                                 <br/>
 
