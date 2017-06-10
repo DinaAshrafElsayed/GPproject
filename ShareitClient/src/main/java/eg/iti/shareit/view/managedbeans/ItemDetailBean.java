@@ -61,6 +61,7 @@ public class ItemDetailBean implements Serializable {
     private List<ItemDto> relatedItems;
     private String message;
     private String todayString;
+    private String url;
 
     public String getTodayString() {
         return todayString;
@@ -129,6 +130,8 @@ public class ItemDetailBean implements Serializable {
             
             relatedItems = itemService.getRelatedItems(item);
             todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            url = SessionUtil.getRequest().getRequestURI();
+            System.out.println(url+" $$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);

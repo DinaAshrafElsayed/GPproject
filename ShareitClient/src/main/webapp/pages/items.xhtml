@@ -15,6 +15,13 @@
     </ui:define>
 
     <ui:define name="content">
+        <style>
+            .ui-widget-header{
+                border: 1px solid #41b39c !important;
+                background: #4fbfa8 50% 50% repeat-x !important;
+            }
+            
+        </style>
         <div id="all">
             <h:form prependId="false">
                 <div id="content">
@@ -64,8 +71,8 @@
 
                                 <!--<div class="row products">-->
                                 <h:panelGroup styleClass="row products" id="itemsData">
-                                    <p:dataGrid var="item" value="#{itemBean.items}" columns="3" layout="grid"
-                                                rows="3" paginator="true" id="item"
+                                    <p:dataGrid var="item" value="#{itemBean.items}" columns="4" layout="grid"
+                                                rows="6" paginator="true" id="item"
                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                 rowsPerPageTemplate="3,6,9">
                                         
@@ -73,22 +80,20 @@
                                             <div class="flip-container">
                                                 <div class="flipper">
                                                     <div class="front">
-                                                        <o:graphicImage  style="height: 316px;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                        <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
                                                     </div>
                                                     <div class="back">
-                                                        <o:graphicImage  style="height: 316px;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                        <o:graphicImage  style="height: 316px;width:100%;"  value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
                                                     </div>
                                                 </div>
                                             </div>
-                                            <o:graphicImage  style="height: 316px;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                            <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
                                             <div class="text">
                                                 <h3><a href="details.xhtml">#{item.name}<br></br>#{item.description}</a></h3>
 
                                                 <p class="price">#{item.points}</p>
                                                 <p class="buttons">
-                                                    <h:link outcome="details.xhtml" styleClass="btn btn-default">View details</h:link><br/>
-                                                    <h:link outcome="itemDetails.xhtml" styleClass="btn btn-primary"><i class="fa fa-shopping-cart"></i>Request Item</h:link>
-
+                                                    <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default">View details</h:link><br/>
                                                 </p>
                                             </div>
 
