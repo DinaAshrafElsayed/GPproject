@@ -189,4 +189,10 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 
     }
 
+    @Override
+    public List<ItemEntity> updateItem() throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("update ");
+        return null;
+    }
+
 }

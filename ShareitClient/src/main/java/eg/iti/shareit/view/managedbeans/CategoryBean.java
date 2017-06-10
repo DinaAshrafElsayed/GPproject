@@ -32,6 +32,54 @@ public class CategoryBean implements Serializable {
     private CategoryService categoryService;
     
     private List<CategoryDto> categories;
+    
+    private List<CategoryDto> firstList;
+    
+    private List<CategoryDto> secondList;
+    
+    private int categoryListSize;
+    
+    private int firstListSize,secondListSize;
+
+    public List<CategoryDto> getFirstList() {
+        return firstList;
+    }
+
+    public void setFirstList(List<CategoryDto> firstList) {
+        this.firstList = firstList;
+    }
+
+    public List<CategoryDto> getSecondList() {
+        return secondList;
+    }
+
+    public void setSecondList(List<CategoryDto> secondList) {
+        this.secondList = secondList;
+    }
+
+    public int getCategoryListSize() {
+        return categoryListSize;
+    }
+
+    public void setCategoryListSize(int categoryListSize) {
+        this.categoryListSize = categoryListSize;
+    }
+
+    public int getFirstListSize() {
+        return firstListSize;
+    }
+
+    public void setFirstListSize(int firstListSize) {
+        this.firstListSize = firstListSize;
+    }
+
+    public int getSecondListSize() {
+        return secondListSize;
+    }
+
+    public void setSecondListSize(int secondListSize) {
+        this.secondListSize = secondListSize;
+    }
 
     public List<CategoryDto> getCategories() {
         return categories;
@@ -55,17 +103,41 @@ public class CategoryBean implements Serializable {
             System.out.println("in get categories intialization ");
             categories = categoryService.getAllCategories();
             System.out.println("categories are " + categories);
+//            categoryListSize = categories.size();
+//        if (categoryListSize % 2 == 0) {
+//            firstListSize = categoryListSize / 2;
+//            secondListSize = categoryListSize - firstListSize;
+//        } else {
+//            categoryListSize += 1;
+//            firstListSize = categoryListSize / 2;
+//            secondListSize = categoryListSize - firstListSize;
+//        }
+//         for (int first = 0; first < firstListSize; first++) {
+//                firstList.add(categories.get(first));
+//            }
+//            for (int second = firstListSize; second < categories.size(); second++) {
+//                secondList.add(categories.get(second));
+//            }
         } catch (ServiceException ex) {
             Logger.getLogger(CategoryBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//    public CategoryBean() {
-//        try {
-//            System.out.println("in get categories intialization ");
-//            categories = categoryService.getAllCategories();
-//            System.out.println("categories are " + categories);
-//        } catch (ServiceException ex) {
-//            Logger.getLogger(CategoryBean.class.getName()).log(Level.SEVERE, null, ex);
+    
+//    public void divideCategories(){
+//        categoryListSize = categories.size();
+//        if (categoryListSize % 2 == 0) {
+//            firstListSize = categoryListSize / 2;
+//            secondListSize = categoryListSize - firstListSize;
+//        } else {
+//            categoryListSize += 1;
+//            firstListSize = categoryListSize / 2;
+//            secondListSize = categoryListSize - firstListSize;
 //        }
+//         for (int first = 0; first < firstListSize; first++) {
+//                firstList.add(categories.get(first));
+//            }
+//            for (int second = firstListSize; second < categories.size(); second++) {
+//                secondList.add(categories.get(second));
+//            }
 //    }
 }

@@ -36,4 +36,6 @@ public interface ItemDao extends GenericDao<ItemEntity> {
     public List<ItemEntity> searchItem(CountryEntity countryEntity, StateEntity stateEntity, CityEntity cityEntity) throws DatabaseRollbackException;
 
     public List<ItemEntity> getRelatedItems(ItemEntity myItem) throws DatabaseRollbackException;
+    
+    public List<ItemEntity> updateItem() throws DatabaseRollbackException;
 }
