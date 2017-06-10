@@ -7,6 +7,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/templates/masterTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
     <ui:define name="title">
@@ -17,91 +18,85 @@
         <div id="all">
             <h:form prependId="false">
                 <div id="content">
-        <div class="container">
+                    <div class="container">
 
-            <div class="col-md-12">
+                        <div class="col-md-12">
 
-                <ul class="breadcrumb">
-                    <li><a href="#">Home</a>
-                    </li>
-                    <li>Browse Items</li>
-                </ul>
-                <div class="box">
-                    <div class="input-group">
-                        <h:inputText value="#{itemBean.searchString}" pt:placeholder="Search" styleClass="form-control" id="searchString">
-                            <f:ajax event="keyup" listener="#{itemBean.doSearch()}"  render="itemsData" />
-                        </h:inputText> 
-                        <span class="input-group-btn">
-                            <h:commandLink action="#{itemBean.doSearch()}" styleClass="btn btn-primary"><i class="fa fa-search"></i></h:commandLink>
+                            <ul class="breadcrumb">
+                                <li><a href="#">Home</a>
+                                </li>
+                                <li>Browse Items</li>
+                            </ul>
+                            <div class="box">
+                                <div class="input-group">
+                                    <h:inputText value="#{itemBean.searchString}" pt:placeholder="Search" styleClass="form-control" id="searchString">
+                                        <f:ajax event="keyup" listener="#{itemBean.doSearch()}"  render="itemsData" />
+                                    </h:inputText> 
+                                    <span class="input-group-btn">
+                                        <h:commandLink action="#{itemBean.doSearch()}" styleClass="btn btn-primary"><i class="fa fa-search"></i></h:commandLink>
 
-                        </span>
-                    </div>
-                </div>
+                                    </span>
+                                </div>
+                            </div>
 
 
-            <div class="box info-bar">
-                <div class="row">
+                            <div class="box info-bar">
+                                <div class="row">
 
-                    <div class="col-sm-12 col-md-8  products-number-sort">
-                        <div class="row">
-                            <form class="form-inline">
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="products-sort-by">
-                                        <strong>Choose your Category: </strong>
-                                        <h:selectOneMenu  styleClass="form-control" value="#{itemBean.categoryId}" style="width:125px" id="categoryId">
-                                            <f:selectItem itemLabel="All" itemValue="0" />
-                                            <f:selectItems value="#{itemBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
-                                            <f:ajax event="click" listener="#{itemBean.doSearch()}" render="itemsData" />
-                                        </h:selectOneMenu>
+                                    <div class="col-sm-12 col-md-8  products-number-sort">
+                                        <div class="row">
+                                            <form class="form-inline">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="products-sort-by">
+                                                        <strong>Choose your Category: </strong>
+                                                        <h:selectOneMenu  styleClass="form-control" value="#{itemBean.categoryId}" style="width:125px" id="categoryId">
+                                                            <f:selectItem itemLabel="All" itemValue="0" />
+                                                            <f:selectItems value="#{itemBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
+                                                            <f:ajax event="click" listener="#{itemBean.doSearch()}" render="itemsData" />
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
 
                                 <!--<div class="row products">-->
-                        <h:panelGroup styleClass="row products" id="itemsData" >
+                                <h:panelGroup styleClass="row products" id="itemsData">
+                                    <p:dataGrid var="item" value="#{itemBean.items}" columns="3" layout="grid"
+                                                rows="3" paginator="true" id="item"
+                                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                rowsPerPageTemplate="3,6,9">
+                                        
+                                        <div class="product">
+                                            <div class="flip-container">
+                                                <div class="flipper">
+                                                    <div class="front">
+                                                        <o:graphicImage  style="height: 316px;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                    </div>
+                                                    <div class="back">
+                                                        <o:graphicImage  style="height: 316px;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <o:graphicImage  style="height: 316px;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                            <div class="text">
+                                                <h3><a href="details.xhtml">#{item.name}<br></br>#{item.description}</a></h3>
 
-                            <p:dataGrid var="item" value="#{itemBean.items}" columns="3" layout="grid"
-                                        rows="6" paginator="true" id="items"
-                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                        rowsPerPageTemplate="3,6,9">
-                                <div class="product">
-                                    <div class="flip-container">
-                                        <div class="flipper">
-                                            <div class="front">
-                                                <a href="details.xhtml">
-                                                    <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" style="height: 200px;" pt:alt=""/>
-                                                </a>
+                                                <p class="price">#{item.points}</p>
+                                                <p class="buttons">
+                                                    <h:link outcome="details.xhtml" styleClass="btn btn-default">View details</h:link><br/>
+                                                    <h:link outcome="itemDetails.xhtml" styleClass="btn btn-primary"><i class="fa fa-shopping-cart"></i>Request Item</h:link>
+
+                                                </p>
                                             </div>
-                                            <div class="back">
-                                                <a href="details.xhtml">
-                                                    <h:graphicImage library="images" name="#{item.imageUrl}"  styleClass="img-responsive" style="height: 200px;" pt:alt=""/>   
-                                                </a>
-                                            </div>
+
                                         </div>
-                                    </div>
-                                    <a href="details.xhtml" class="invisible">
-                                        <h:graphicImage library="images" name="#{item.imageUrl}" styleClass="img-responsive" pt:alt="" style="height: 316px;"/>
-                                    </a>
-                                    <div class="text">
-                                        <h3><a href="details.xhtml">#{item.name}<br></br>#{item.description}</a></h3>
-
-                                        <p class="price">#{item.points}</p>
-                                        <p class="buttons">
-                                            <h:commandLink action="details.xhtml" styleClass="btn btn-default">View details</h:commandLink><br/>
-                                            <h:commandLink action="basket.html" styleClass="btn btn-primary"><i class="fa fa-shopping-cart"></i>Request Item</h:commandLink>
-
-                                        </p>
-                                    </div>
-
-                                </div>
-                                <!-- /.product -->
-                                <!--</div>-->
-                            </p:dataGrid>
-                        </h:panelGroup>
+                                        <!-- /.product -->
+                                        <!--</div>-->
+                                    </p:dataGrid>
+                                </h:panelGroup>
                             </div>
                             <!--</div>-->
                             <!-- /.products -->
