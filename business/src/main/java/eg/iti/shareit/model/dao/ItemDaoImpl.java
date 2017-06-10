@@ -7,8 +7,14 @@ package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
+import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.entity.ActivityEntity;
+import eg.iti.shareit.model.entity.AddressEntity;
+import eg.iti.shareit.model.entity.CityEntity;
+import eg.iti.shareit.model.entity.CountryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.entity.StateEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -25,6 +31,24 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 
     public ItemDaoImpl() {
         super(ItemEntity.class);
+    }
+    
+    @Override
+    public List<ItemEntity> getRelatedItems(ItemEntity myItem) throws DatabaseRollbackException {
+        Query query;
+        String[] tags = myItem.getTags().split(",");
+        String queryString = "SELECT i FROM ItemEntity i WHERE i.id <> :itemId ";
+        queryString += "And ( ";
+        for(String tag : tags){
+            queryString += "i.tags LIKE '%"+tag+"%' or ";
+        }
+        queryString = queryString.substring(0,queryString.length()-3);
+        queryString += " )";
+        query = getEntityManager().createQuery(queryString);
+        query.setParameter("itemId", myItem.getId());
+        List<ItemEntity> itemsList = query.setMaxResults(3).getResultList();
+        
+        return itemsList;
     }
 
     @Override
@@ -145,6 +169,29 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
     @Override
     public List<ItemEntity> searchItem(int category) throws DatabaseRollbackException {
         return searchItem(null, category);
+    }
+
+    @Override
+    public List<ItemEntity> searchItem(CountryEntity countryEntity, StateEntity stateEntity, CityEntity cityEntity) throws DatabaseRollbackException {
+        //Query query = getEntityManager().createQuery("From ItemEntity i where i.");
+        Query query = getEntityManager().createQuery("Select i From ItemEntity i where "
+                + "i.userFrom.address.country = :country and "
+                + "i.userFrom.address.state = :state and "
+                + "i.userFrom.address.city = :city");
+        
+        query.setParameter("country", countryEntity)
+                .setParameter("state", stateEntity)
+                .setParameter("city", cityEntity);
+        try {
+            List<ItemEntity> items = query.getResultList();
+            if (items != null) {
+                return items;
+            }
+        } catch (PersistenceException e) {
+            throw new DatabaseRollbackException(e.getMessage());
+        }
+        return null;
+
     }
 
 }

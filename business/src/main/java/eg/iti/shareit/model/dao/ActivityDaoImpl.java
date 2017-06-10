@@ -99,8 +99,8 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
     @Override
     public ActivityEntity getMyActivityOfItem(int itemId, int userId) throws DatabaseRollbackException {
         try {
-            System.out.println("|||||||||||||||||||||||||||||||||| item id : " + itemId + " userId " + userId);
-            Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser.id = " + userId + " AND a.item.id = " + itemId);
+            System.out.println("|| item id : " + itemId + " userId " + userId);
+            Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.fromUser.id = " + userId + " AND a.item.id = " + itemId);
             List<ActivityEntity> list = query.getResultList();
             if (list != null && list.size() > 0) {
                 ActivityEntity activityEntity = list.get(0);

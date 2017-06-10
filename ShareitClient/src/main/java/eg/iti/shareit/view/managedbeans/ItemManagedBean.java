@@ -10,6 +10,7 @@ import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.entity.CategoryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
+import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.model.util.MappingUtil;
 import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
@@ -163,8 +164,8 @@ public class ItemManagedBean implements java.io.Serializable {
     @PostConstruct
     public void init() {
         try {
-             categories= categoryService.getAllCategories();
-            System.out.println("-------------------- categories "+categories);
+            categories = categoryService.getAllCategories();
+            System.out.println("-------------------- categories " + categories);
             categories = categoryService.getAllCategories();
             System.out.println("-------------------- categories " + categories);
         } catch (ServiceException ex) {
@@ -184,7 +185,7 @@ public class ItemManagedBean implements java.io.Serializable {
 
         System.out.println("-------------- in add item");
 
-        ItemDto item = new ItemDto(name, description,  1, publish_date, points, image_url, tags, SessionUtil.getUser());
+        ItemDto item = new ItemDto(name, description, 1, publish_date, points, image_url, tags, SessionUtil.getUser());
 
         //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
         //System.out.println("----------------"+catEntity.getName());
@@ -197,17 +198,6 @@ public class ItemManagedBean implements java.io.Serializable {
     }
 
     public void save() {
-        System.out.println("In save method");
-        try (InputStream input = file.getInputStream()) {
-            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\"
-                    + "\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath(), REPLACE_EXISTING);
-            image_url = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
-            System.out.println("Image url: " + image_url);
-        } catch (IOException e) {
-            // Show faces message
-            FacesMessage facesMessage = new FacesMessage("error uploading image");
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, facesMessage);
-        }
+        image_url = ImageUtil.SaveImage(file,System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
     }
 }

@@ -101,7 +101,7 @@ public class ActivityService {
     public ActivityDto getActivityOfMyItem(int itemId,int userId) throws ServiceException{
         try {
             ActivityEntity entity = activityDao.getMyActivityOfItem(itemId, userId);
-            if(entity == null || !entity.getStatus().equals(StatusEnum.PENDING.getStatus()))
+            if(entity == null )
                 return null;
             
             ActivityDto activtyDto = mappingUtil.getDto(entity, ActivityDto.class);

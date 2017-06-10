@@ -42,18 +42,26 @@ import javax.servlet.http.Part;
 public class UserManagedBean implements Serializable {
 
     private UserDto userDto;
+    private String username;
+    private String password;
+
+    private String email;
+    private String gender;
+    private String image_url;
     private String confirmPassword;
-    private List<CountryDto> countries;
-    private List<StateDto> states;
-    private List<CityDto> cities;
-      private Part file;
+    private CountryDto country;
+    private CityDto city;
+    private StateDto state;
+    private Part file;
 
     @EJB
     UserService userService;
 
-    public List<CountryDto> getCountries() {
-        return countries;
-    }
+    @EJB
+    private HashingUtil hashingUtil;
+
+    @EJB
+    AddressService addressService;
 
     public Part getFile() {
         return file;
@@ -63,30 +71,93 @@ public class UserManagedBean implements Serializable {
         this.file = file;
     }
 
-    public void setCountries(List<CountryDto> countries) {
-        this.countries = countries;
+    public UserDto getUserDto() {
+        return userDto;
     }
 
-    public List<StateDto> getStates() {
-        return states;
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 
-    public void setStates(List<StateDto> states) {
-        this.states = states;
+    public String getUsername() {
+        return username;
     }
 
-    public List<CityDto> getCities() {
-        return cities;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setCities(List<CityDto> cities) {
-        this.cities = cities;
+    public String getPassword() {
+        return password;
     }
-    @EJB
-    private HashingUtil hashingUtil;
 
-    @EJB
-    AddressService addressService;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public CountryDto getCountry() {
+        return country;
+    }
+
+    public void setCountry(CountryDto country) {
+        this.country = country;
+    }
+
+    public CityDto getCity() {
+        return city;
+    }
+
+    public void setCity(CityDto city) {
+        this.city = city;
+    }
+
+    public StateDto getState() {
+        return state;
+    }
+
+    public void setState(StateDto state) {
+        this.state = state;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     public HashingUtil getHashingUtil() {
         return hashingUtil;
@@ -103,88 +174,25 @@ public class UserManagedBean implements Serializable {
     public void setAddressService(AddressService addressService) {
         this.addressService = addressService;
     }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    public UserManagedBean() {
-        System.out.println("------------- in const user");
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public UserDto getUserDto() {
-        return SessionUtil.getUser();
-    }
-
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
-    }
-
     @PostConstruct
-    public void init() {
-        try {
-            System.out.println("----------------------- in post construct user ");
-            userDto = this.getUserDto();
-            setCountries(addressService.getCountries());
-       
-            System.out.println("------------ yrb l country tzbot "+countries.size());
-            states = new ArrayList<>();
-            cities = new ArrayList<>();
-            System.out.println("-------------------- addresses " + getCountries());
-            
-            System.out.println("++++++++++++++++++++++++ at post construct " + userDto.getUsername());
-        } catch (ServiceException ex) {
-            Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-     public void onCountryChange(BigDecimal countryId)
-    {
-        System.out.println("in on country Change function");
-        try {
-            states = addressService.getStates(countryId);
-            cities = addressService.getCities(countryId);
-            userDto.getAddressDto().setCountry(addressService.getCountry(countryId));
-            System.out.println("countryid is "+countryId);
-    //        System.out.println("country is "+country);
-            System.out.println("states are "+ states);
-            System.out.println("cities are "+cities);
-        } catch (ServiceException ex) {
-            Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+     public void init() {
+         userDto=SessionUtil.getUser();
+         username=userDto.getUsername();
+         email=userDto.getEmail();
+         gender=userDto.getGender().getGender();
+        image_url=userDto.getImageUrl();
+        country=userDto.getAddress().getCountry();
+        city=userDto.getAddress().getCity();
+        state=userDto.getAddress().getState();
         
-    }
-   
-    public void onStateChange(BigDecimal stateId)
-    {
-        System.out.println("in function on stateChange");
-        System.out.println("state id is "+stateId);
-        System.out.println("country is ! "+ userDto.getAddressDto().getCountry());
-        try {
-            System.out.println("country id :"+userDto.getAddressDto().getCountry().getId()+" stateId :"+stateId);
-            cities = addressService.getCities(userDto.getAddressDto().getCountry().getId(), stateId);
-            System.out.println("cities are "+cities);
-        } catch (ServiceException ex) {
-            Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+     }
+    
+
     public void save() {
 
         try (InputStream input = file.getInputStream()) {
             Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
-            userDto .setImageUrl( System.getProperty("user.home") + "\\shareit\\images\\userProfile\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString());;
+            userDto.setImageUrl(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString());;
         } catch (IOException e) {
             // Show faces message
             FacesMessage facesMessage = new FacesMessage("error uploading image");
@@ -192,9 +200,10 @@ public class UserManagedBean implements Serializable {
             facesContext.addMessage(null, facesMessage);
         }
     }
-    public String editUser(){
+
+    public String editUser() {
         System.out.println("------------------------- in edit");
-        
+
         return "";
     }
 
