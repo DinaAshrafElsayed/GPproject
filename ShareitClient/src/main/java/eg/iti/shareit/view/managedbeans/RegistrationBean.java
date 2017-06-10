@@ -63,6 +63,7 @@ public class RegistrationBean implements Serializable {
     private CountryDto country;
     private CityDto city;
     private StateDto state;
+
     public RegistrationBean() {
     }
 
@@ -100,35 +101,36 @@ public class RegistrationBean implements Serializable {
             return null;
         }
     }
-    public void onCountryChange(BigDecimal countryId)
-    {
+
+    public void onCountryChange(BigDecimal countryId) {
         System.out.println("in on country Change function");
         try {
             states = addressService.getStates(countryId);
             cities = addressService.getCities(countryId);
             country = addressService.getCountry(countryId);
-            System.out.println("countryid is "+countryId);
-            System.out.println("country is "+country);
-            System.out.println("states are "+ states);
-            System.out.println("cities are "+cities);
+            System.out.println("countryid is " + countryId);
+            System.out.println("country is " + country);
+            System.out.println("states are " + states);
+            System.out.println("cities are " + cities);
         } catch (ServiceException ex) {
             Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    public void onStateChange(BigDecimal stateId)
-    {
+
+    public void onStateChange(BigDecimal stateId) {
         System.out.println("in function on stateChange");
-        System.out.println("state id is "+stateId);
-        System.out.println("country is ! "+ country);
+        System.out.println("state id is " + stateId);
+        System.out.println("country is ! " + country);
         try {
-            System.out.println("country id :"+country.getId()+" stateId :"+stateId);
+            System.out.println("country id :" + country.getId() + " stateId :" + stateId);
             cities = addressService.getCities(country.getId(), stateId);
-            System.out.println("cities are "+cities);
+            System.out.println("cities are " + cities);
         } catch (ServiceException ex) {
             Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void save() {
 
         try (InputStream input = file.getInputStream()) {
