@@ -15,7 +15,7 @@
         <div class="container">
             <div class="navbar-header">
                 <h:form>
-                    <h:commandLink styleClass="navbar-brand home" action="index.html" pt:data-animate-hover="bounce">
+                    <h:commandLink styleClass="navbar-brand home" action="items.xhtml" pt:data-animate-hover="bounce">
                         <h:graphicImage library="images" name="logo.png" pt:class="hidden-xs" pt:alt="logo"/>
                         <!--<img src="/resources/images/logo.png" alt="Obaju logo" class="hidden-xs"/>-->
                         <h:graphicImage library="images" name="logo-small.png" pt:class="visible-xs" pt:alt="logo"/>
@@ -31,8 +31,14 @@
                             <span class="sr-only">Toggle search</span>
                             <i class="fa fa-search"></i>
                         </button>
-                        <a class="btn btn-default navbar-toggle" href="basket.html">
-                            <!--<i class="fa fa-shopping-cart"></i>--> 
+
+                        <h:commandLink action="advancedSearch.xhtml"  class="navbar-toggle" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search">
+                            <span class="sr-only">Toggle Advanced search</span>
+                            <i class="fa fa-search-plus"></i>
+                        </h:commandLink>
+
+                        <a class="btn btn-default navbar-toggle" href="#">
+                            <i class="fa fa-bell"></i>
                             <span class="hidden-xs">Notifications</span>
                         </a>
                     </div>
@@ -78,9 +84,9 @@
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <ul>
-                                                    <li><a href="category.html">Pending Requests</a>
+                                                    <li><a href="#">Pending Requests</a>
                                                     </li>
-                                                    <li><a href="category.html">Borrowing Requests</a>
+                                                    <li><a href="#">Borrowing Requests</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -120,12 +126,19 @@
             <div class="navbar-buttons">
 
                 <div class="navbar-collapse collapse right" id="basket-overview">
-                    <a href="basket.html" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm">3 items in cart</span></a>
+                    <a href="#" class="btn btn-primary navbar-btn" data-toggle="collapse tooltip" data-placement="bottom" title="notification"><i class="fa fa-bell"></i><span class="hidden-sm">notification</span></a>
                 </div>
                 <!--/.nav-collapse -->
-
+                <div class="navbar-collapse collapse right" id="advancedSearch-not-mobile">
+                    <h:form>
+                        <h:commandLink action="advancedSearch.xhtml"  class="btn btn-primary navbar-btn" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search">
+                            <i class="fa fa-search-plus"></i>
+                            <span class="sr-only">Toggle Advanced search</span>
+                        </h:commandLink>
+                    </h:form>
+                </div>
                 <div class="navbar-collapse collapse right" id="search-not-mobile">
-                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
+                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse tooltip" data-placement="bottom" title="Search" data-target="#search">
                         <span class="sr-only">Toggle search</span>
                         <i class="fa fa-search"></i>
                     </button>

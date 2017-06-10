@@ -115,17 +115,12 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
     @Override
     public boolean isPendeingRequest(int itemId) throws DatabaseRollbackException {
         Query query = getEntityManager().createQuery("select status from StatusEntity INNER JOIN ActivityEntity ON StatusEntity.id = ActivityEntity.id");
-//        Query query = getEntityManager().createQuery("select a.status,s.status from ActivityEntity a, StatusEntity s where a.status = s.id");
-//query.setParameter("itemId", new BigDecimal(itemId));
         List activityList = query.getResultList();
         try {
             if (activityList != null) {
                 String result = activityList.get(0).toString();
                 System.out.println("activity list: " + result);
                 if (result.equals("pending")) {
-//                    query = getEntityManager().createQuery("update StatusEntity s set s.status = :status where statusId=:statusId");
-//                    query.setParameter("itemId", activityList.get(0));
-//                    query.setParameter("status", "available");
                     return true;
                 } else {
                     return false;

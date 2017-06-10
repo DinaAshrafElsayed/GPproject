@@ -40,48 +40,48 @@ public class AdvancedSearchBean implements Serializable {
      */
     @EJB
     private ItemService itemService;
-    @EJB
-    AddressService addressService;
+    //@EJB
+    //AddressService addressService;
 
     @Inject
     ItemBean itemBean;
    
-    private List<CountryDto> countries;
-    private List<StateDto> states;
-    private List<CityDto> cities;
+//    private List<CountryDto> countries;
+//    private List<StateDto> states;
+//    private List<CityDto> cities;
     private CountryDto country;
     private CityDto city;
     private StateDto state;
     
    
-    public void onCountryChange(BigDecimal countryId) {
-        System.out.println("in on country Change function");
-        try {
-            setStates(addressService.getStates(countryId));
-            setCities(addressService.getCities(countryId));
-            setCountry(addressService.getCountry(countryId));
-            System.out.println("countryid is " + countryId);
-            System.out.println("country is " + getCountry());
-            System.out.println("states are " + getStates());
-            System.out.println("cities are " + getCities());
-        } catch (ServiceException ex) {
-            Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void onStateChange(BigDecimal stateId) {
-        System.out.println("in function on stateChange");
-        System.out.println("state id is " + stateId);
-        System.out.println("country is ! " + getCountry());
-        try {
-            System.out.println("country id :" + getCountry().getId() + " stateId :" + stateId);
-            setCities(addressService.getCities(getCountry().getId(), stateId));
-            System.out.println("cities are " + getCities());
-        } catch (ServiceException ex) {
-            Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void onCountryChange(BigDecimal countryId) {
+//        System.out.println("in on country Change function");
+//        try {
+//            setStates(addressService.getStates(countryId));
+//            setCities(addressService.getCities(countryId));
+//            setCountry(addressService.getCountry(countryId));
+//            System.out.println("countryid is " + countryId);
+//            System.out.println("country is " + getCountry());
+//            System.out.println("states are " + getStates());
+//            System.out.println("cities are " + getCities());
+//        } catch (ServiceException ex) {
+//            Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
+//
+//    public void onStateChange(BigDecimal stateId) {
+//        System.out.println("in function on stateChange");
+//        System.out.println("state id is " + stateId);
+//        System.out.println("country is ! " + getCountry());
+//        try {
+//            System.out.println("country id :" + getCountry().getId() + " stateId :" + stateId);
+//            setCities(addressService.getCities(getCountry().getId(), stateId));
+//            System.out.println("cities are " + getCities());
+//        } catch (ServiceException ex) {
+//            Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     public String advancedSearch() {
         try {
@@ -100,59 +100,59 @@ public class AdvancedSearchBean implements Serializable {
         return "";
     }
 
-    @PostConstruct
-    public void init() {
-        try {
-            setCountries(addressService.getCountries());
-            cities = new ArrayList<>();
-            states = new ArrayList<>();
-            System.out.println("-------------------- addresses " + getCountries());
-        } catch (ServiceException ex) {
-            Logger.getLogger(AdvancedSearchBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    @PostConstruct
+//    public void init() {
+//        try {
+//            //setCountries(addressService.getCountries());
+//            //cities = new ArrayList<>();
+//            //states = new ArrayList<>();
+//            System.out.println("-------------------- addresses " + getCountries());
+//        } catch (ServiceException ex) {
+//            Logger.getLogger(AdvancedSearchBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
-    /**
-     * @return the countries
-     */
-    public List<CountryDto> getCountries() {
-        return countries;
-    }
-
-    /**
-     * @param countries the countries to set
-     */
-    public void setCountries(List<CountryDto> countries) {
-        this.countries = countries;
-    }
-
-    /**
-     * @return the states
-     */
-    public List<StateDto> getStates() {
-        return states;
-    }
-
-    /**
-     * @param states the states to set
-     */
-    public void setStates(List<StateDto> states) {
-        this.states = states;
-    }
-
-    /**
-     * @return the cities
-     */
-    public List<CityDto> getCities() {
-        return cities;
-    }
-
-    /**
-     * @param cities the cities to set
-     */
-    public void setCities(List<CityDto> cities) {
-        this.cities = cities;
-    }
+//    /**
+//     * @return the countries
+//     */
+//    public List<CountryDto> getCountries() {
+//        return countries;
+//    }
+//
+//    /**
+//     * @param countries the countries to set
+//     */
+//    public void setCountries(List<CountryDto> countries) {
+//        this.countries = countries;
+//    }
+//
+//    /**
+//     * @return the states
+//     */
+//    public List<StateDto> getStates() {
+//        return states;
+//    }
+//
+//    /**
+//     * @param states the states to set
+//     */
+//    public void setStates(List<StateDto> states) {
+//        this.states = states;
+//    }
+//
+//    /**
+//     * @return the cities
+//     */
+//    public List<CityDto> getCities() {
+//        return cities;
+//    }
+//
+//    /**
+//     * @param cities the cities to set
+//     */
+//    public void setCities(List<CityDto> cities) {
+//        this.cities = cities;
+//    }
 
     /**
      * @return the country

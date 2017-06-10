@@ -7,7 +7,8 @@
                 template="/templates/masterTemplate.xhtml"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:o="http://omnifaces.org/ui">
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:p="http://primefaces.org/ui">
 
 
     <ui:define name="title">
@@ -15,6 +16,18 @@
     </ui:define>
 
     <ui:define name="content">
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.9";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
         <o:form includeRequestParams="true" id="detailForm">
             <div id="all">
 
@@ -62,9 +75,11 @@
 
                                             <c:if test="#{itemDetailBean.isRequested ne true}" >
                                                 <label for="timeFrom" >Time From :</label>
-                                                <h:inputText  class="form-control" id="timeFrom" value="#{itemDetailBean.timeFrom}" pt:type="date" required="true"  
+                                                <h:inputText  class="form-control" id="timeFrom" value="#{itemDetailBean.timeFrom}" pt:type="date" pt:min="#{itemDetailBean.todayString}" required="true"  
                                                               requiredMessage="this field is required" >
                                                 </h:inputText>
+                                                <!--<p:calendar id="timeFrom"  />-->
+
                                                 <h:message for="timeFrom" style="color:red;" />
                                                 <br/>
 
@@ -93,7 +108,10 @@
 
                                             </p>
                                         </c:if>
-
+                                        <c:if test="#{user.userDto ne null and itemDetailBean.noRequest eq true}" >
+                                            <h:outputText value="#{itemDetailBean.message}" 
+                                                          style="display: block;text-align: center;font-weight: 300;font-size: 18px;" />
+                                        </c:if>
                                     </div>
                                 </div>
 
@@ -118,10 +136,15 @@
                                 <div class="social">
                                     <h4>Show it to your friends</h4>
                                     <p>
-                                        <a href="#" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
+                                        <div class="fb-share-button" data-href="#{request.requestURL}?id=#{itemDetailBean.item.id}" data-layout="button_count" data-size="large" data-mobile-iframe="true">
+                                            <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A8081%2Fshareit%2Ffaces%2Fpages%2FitemDetails.xhtml%3Fid%3D53&amp;src=sdkpreparse">
+                                                Share
+                                            </a>
+                                        </div>
+<!--                                        <a href="#" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
                                         <a href="#" class="external gplus" data-animate-hover="pulse"><i class="fa fa-google-plus"></i></a>
                                         <a href="#" class="external twitter" data-animate-hover="pulse"><i class="fa fa-twitter"></i></a>
-                                        <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
+                                        <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>-->
                                     </p>
                                 </div>
                             </div>

@@ -61,12 +61,23 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
     @Override
     public boolean saveUser(UserEntity user) throws DatabaseRollbackException {
         try {
-            System.out.println("userEntity address is "+user.getAddress());
+            System.out.println("userEntity address is " + user.getAddress());
             getEntityManager().persist(user);
             return true;
         } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
 
+        }
+    }
+
+    @Override
+    public boolean updateUser(UserEntity user) throws DatabaseRollbackException {
+
+        UserEntity usr = getEntityManager().merge(user);
+        if (usr != null) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

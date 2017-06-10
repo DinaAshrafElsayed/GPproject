@@ -13,8 +13,10 @@ import eg.iti.shareit.model.dto.GenderDto;
 import eg.iti.shareit.model.dto.StateDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.util.HashingUtil;
+import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.service.AddressService;
 import eg.iti.shareit.service.UserService;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +24,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,6 +37,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 
 /**
@@ -87,6 +91,7 @@ public class RegistrationBean implements Serializable {
                 userDto.setAddress(addressDto);
                 System.out.println(userDto);
                 userService.RegisterUser(userDto);
+                System.out.println("in register and supposedly registered!");
                 return "";
             } else {
                 System.out.println("in error part ");
@@ -118,7 +123,9 @@ public class RegistrationBean implements Serializable {
 
     }
 
+
     public void onStateChange(BigDecimal stateId) {
+
         System.out.println("in function on stateChange");
         System.out.println("state id is " + stateId);
         System.out.println("country is ! " + country);
@@ -132,16 +139,8 @@ public class RegistrationBean implements Serializable {
     }
 
     public void save() {
-
-        try (InputStream input = file.getInputStream()) {
-            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
-            imageUrl = System.getProperty("user.home") + "\\shareit\\images\\userProfile\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString();
-        } catch (IOException e) {
-            // Show faces message
-            FacesMessage facesMessage = new FacesMessage("error uploading image");
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, facesMessage);
-        }
+        System.out.println("in save method");
+        imageUrl = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\userProfile\\");
     }
 
     /**
@@ -169,6 +168,7 @@ public class RegistrationBean implements Serializable {
      * @param file the file to set
      */
     public void setFile(Part file) {
+        System.out.println("setting Image ");
         this.file = file;
     }
 
@@ -323,4 +323,10 @@ public class RegistrationBean implements Serializable {
     public void setState(StateDto state) {
         this.state = state;
     }
+    /////////////////// by sara ///////////////////////////////
+     public String editUser(){
+        System.out.println("------------------------- in edit");
+        return "";
+    }
+     /////////////////////// end by sara /////////////////////////////////
 }

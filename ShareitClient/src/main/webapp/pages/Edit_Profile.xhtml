@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="../templates/masterTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:define name="title">
+        Edit Profile
+    </ui:define>
+    <ui:define name="content">
+        <div id="content">
+            <div class="container">
+<!--                <h:messages></h:messages>-->
+                <h:form enctype="multipart/form-data" id="form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <h:inputText class="form-control" id="name" value="#{userManagedBean.username}" required="true" requiredMessage="this field is required"/>
+                        <h:message for="form:name" style="color:red"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Email</label>
+                        <h:inputText class="form-control" id="email" value="#{userManagedBean.email}" required="true" requiredMessage="this field is required" disabled="true"/>
+                        <h:message for="form:email" style="color:red"/>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <h:inputSecret class="form-control" id="password" value="#{userManagedBean.password}" required="true" requiredMessage="this field is required"/>
+                        <h:message for="password" style="color:red"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comfirm_password"> confirm password</label>
+                        <h:inputSecret class="form-control" id="confirm_password" value="#{userManagedBean.confirmPassword}" required="true" requiredMessage="this field is required"/>
+                        <h:message for="confirm_password" style="color:red"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <h:selectOneMenu class="form-control" value="#{userManagedBean.gender}" required="true">   
+                            <f:selectItem itemValue = "male" itemLabel = "male" /> 
+                            <f:selectItem itemValue = "female" itemLabel = "female" /> 
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Countries" >Country</label>
+                        <h:selectOneMenu id="Countries" value="#{userManagedBean.country}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
+                              <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{registerBean.countries}" var="country" itemValue="#{country}" itemLabel="#{country.country}"  /> 
+                            <f:ajax listener="#{registerBean.onCountryChange(userManagedBean.country.id)}" render="States Cities"/>
+                        </h:selectOneMenu>
+                        <h:message for="Countries" style="color:red"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="States">State</label>
+                        <h:selectOneMenu id="States" value="#{userManagedBean.state}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
+                              <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{registerBean.states}" var="state" itemValue="#{state}" itemLabel="#{state.state}"  />
+                            <f:ajax listener="#{registerBean.onStateChange(userManagedBean.state.id)}" render="Cities"/>
+                        </h:selectOneMenu>
+                        <h:message for="States" style="color:red"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="Cities">City</label>
+                        <h:selectOneMenu id="Cities" value="#{userManagedBean.city}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
+                              <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{registerBean.cities}" var="city" itemValue="#{city}" itemLabel="#{city.city}"  />
+                        </h:selectOneMenu>
+                        <h:message for="Cities" style="color:red"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">User Image</label>
+                        <h:inputFile value="#{userManagedBean.file}">
+                            <f:ajax listener="#{userManagedBean.save()}" />
+                        </h:inputFile>
+                    </div>
+
+                    <div class="text-center">
+                        <h:commandLink class="btn btn-primary" action="#{userManagedBean.editUser()}" ><i class="fa fa-user-md"></i> update</h:commandLink>
+                    </div>
+                </h:form>
+             
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+
