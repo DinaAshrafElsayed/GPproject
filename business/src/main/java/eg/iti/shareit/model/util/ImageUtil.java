@@ -5,11 +5,21 @@
  */
 package eg.iti.shareit.model.util;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
-import javax.ws.rs.core.MultivaluedMap;
+import javax.imageio.ImageIO;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -17,32 +27,56 @@ import javax.ws.rs.core.MultivaluedMap;
  */
 @Stateless
 public class ImageUtil {
-     public String getFileName(MultivaluedMap<String, String> header) {
 
-        String[] contentDisposition = header.getFirst("Content-Disposition").split(";");
-
-        for (String filename : contentDisposition) {
-            if ((filename.trim().startsWith("filename"))) {
-
-                String[] name = filename.split("=");
-
-                String finalFileName = name[1].trim().replaceAll("\"", "");
-                return finalFileName;
-            }
-        }
-        return "unknown";
+    public static BufferedImage resizeImage(BufferedImage originalImage, int type, int IMG_WIDTH, int IMG_HEIGHT) {
+        BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+        g.dispose();
+        g.setComposite(AlphaComposite.Src);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        return resizedImage;
     }
 
-    // Utility method
-    public void writeFile(byte[] content, String filename) throws IOException {
-        File file = new File(filename);
-        if (!file.exists()) {
-            System.out.println("not exist > " + file.getAbsolutePath());
-            file.createNewFile();
+    public static String SaveImage(final Part file, String savingPath) {
+        System.out.println("in save image");
+        try (InputStream input = file.getInputStream()) {
+            String fileName = Paths.get(file.getSubmittedFileName()).getFileName().toString();
+            File pathFile = new File(savingPath);
+            if (pathFile.exists()) {
+                System.out.println("found folders");
+                writeResizedImage(input, fileName, savingPath);
+            } else if (pathFile.mkdirs()) {
+                System.out.println("created folders");
+                writeResizedImage(input, fileName, savingPath);
+            } else {
+                throw new IOException("Cannot Create the directories");
+            }
+            System.out.println("image url is "+savingPath+fileName);
+            return (savingPath + fileName);
+        } catch (IOException e) {
+            Logger.getLogger(ImageUtil.class.getName()).log(Level.SEVERE, null, e);
         }
-        try (FileOutputStream fop = new FileOutputStream(file)) {
-            fop.write(content);
-            fop.flush();
+        return null;
+    }
+
+    private static void writeResizedImage(InputStream input, String fileName, String savingPath) {
+        try {
+            BufferedImage originalImage = ImageIO.read(input);
+            int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+            BufferedImage resizeImageJpg = ImageUtil.resizeImage(originalImage, type, 450, 600);
+            String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
+            String imageUrl = savingPath + fileName;
+            System.out.println("Image was overridden ! " + ImageIO.write(resizeImageJpg, extension, new File(imageUrl)));
+
+        } catch (IOException ex) {
+            Logger.getLogger(ImageUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 }

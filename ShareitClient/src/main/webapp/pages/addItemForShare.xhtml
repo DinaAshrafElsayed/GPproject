@@ -10,7 +10,7 @@ and open the template in the editor.
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 template="../templates/masterTemplate.xhtml"
-
+                xmlns:o="http://omnifaces.org/ui"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="content">
         <div id="content">
@@ -62,9 +62,10 @@ and open the template in the editor.
                     </div>
                     <div class="form-group">
                         <label for="image">Item Image</label>
-                        <h:inputFile value="#{itemManagedBean.file}" class="form-control">
-                            <f:ajax listener="#{itemManagedBean.save()}" />
-                        </h:inputFile>
+                        <o:inputFile id="image" value="#{itemManagedBean.file}" class="form-control" accept="image/*,image/PNG,image/JPG" acceptMessage="File extension is unacceptable!" required="true" requiredMessage="this field id required">
+                            <f:ajax listener="#{itemManagedBean.save()}" render="file_m"  />
+                        </o:inputFile>
+                        <h:message id="file_m" for="image" style="color:red"/>
                     </div>
 
                     <h:commandButton class="btn btn-primary" id="addbtn" value="add item"  action="#{itemManagedBean.addItem()}">
