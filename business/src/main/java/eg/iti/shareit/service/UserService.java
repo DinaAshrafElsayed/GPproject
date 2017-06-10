@@ -66,6 +66,23 @@ public class UserService {
             throw new ServiceException(e.getMessage());
         }
     }
+    public void updateUser(UserDto user) throws ServiceException{
+        try {
+            user.setGender(genderService.getGender(user.getGender().getGender()));
+            System.out.println("addressDto for user is : "+user.getAddress());
+            AddressDto addressDto = addressService.getAddress(user.getAddress());
+            System.out.println("addressDto is after getting it from database "+addressDto);
+            user.setAddress(addressDto);
+            UserEntity userEntity = mappingUtil.getEntity(user, UserEntity.class);
+            System.out.println("user dto " + user);
+            boolean added=userDao.updateUser(userEntity);
+            System.out.println("----------------------- Saved "+added);
+            
+        } catch (DatabaseRollbackException e) {
+         logger.log(Level.SEVERE, e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
+        }
+    }
 
     public UserDto findUser(String email, String password) throws ServiceException {
         try {

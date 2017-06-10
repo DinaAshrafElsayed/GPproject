@@ -6,14 +6,19 @@
 package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
+import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.CityDto;
 import eg.iti.shareit.model.dto.CountryDto;
+import eg.iti.shareit.model.dto.GenderDto;
 import eg.iti.shareit.model.dto.StateDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.util.HashingUtil;
+import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.service.AddressService;
 import eg.iti.shareit.service.UserService;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -174,37 +179,65 @@ public class UserManagedBean implements Serializable {
     public void setAddressService(AddressService addressService) {
         this.addressService = addressService;
     }
+
     @PostConstruct
-     public void init() {
-         userDto=SessionUtil.getUser();
-         username=userDto.getUsername();
-         email=userDto.getEmail();
-         gender=userDto.getGender().getGender();
-        image_url=userDto.getImageUrl();
-        country=userDto.getAddress().getCountry();
-        city=userDto.getAddress().getCity();
-        state=userDto.getAddress().getState();
-        
-     }
-    
+    public void init() {
+        userDto = SessionUtil.getUser();
+        username = userDto.getUsername();
+        email = userDto.getEmail();
+        gender = userDto.getGender().getGender();
+        image_url = userDto.getImageUrl();
+        country = userDto.getAddress().getCountry();
+        city = userDto.getAddress().getCity();
+        state = userDto.getAddress().getState();
+
+    }
 
     public void save() {
 
-        try (InputStream input = file.getInputStream()) {
-            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
-            userDto.setImageUrl(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString());;
-        } catch (IOException e) {
-            // Show faces message
-            FacesMessage facesMessage = new FacesMessage("error uploading image");
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, facesMessage);
-        }
+//        try (InputStream input = file.getInputStream()) {
+//            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
+//            userDto.setImageUrl(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString());;
+//        } catch (IOException e) {
+//            // Show faces message
+//            FacesMessage facesMessage = new FacesMessage("error uploading image");
+//            FacesContext facesContext = FacesContext.getCurrentInstance();
+//            facesContext.addMessage(null, facesMessage);
+//        }
+
+    System.out.println("in save method");
+        image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\userProfile\\");
+
     }
 
     public String editUser() {
         System.out.println("------------------------- in edit");
-
-        return "";
+        if (password.equals(confirmPassword)) {
+            try {
+                userDto.setUsername(username);
+                userDto.setEmail(email);
+                GenderDto genderDto = new GenderDto();
+                genderDto.setGender(gender);
+                userDto.setGender(genderDto);
+                AddressDto addressDto = new AddressDto();
+                addressDto.setCountry(country);
+                addressDto.setState(state);
+                addressDto.setCity(city);
+                userDto.setAddress(addressDto);
+                userDto.setPassword(hashingUtil.getHashedPassword(password));
+                userDto.setImageUrl(image_url);
+                userService.updateUser(userDto);
+                
+            } catch (ServiceException ex) {
+                Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+                
+            }
+            
+        }
+        return "Profile?faces-redirect=true";
+    }
+ public InputStream getImage(String filename) throws FileNotFoundException {
+        return new FileInputStream(new File(filename));
     }
 
 }

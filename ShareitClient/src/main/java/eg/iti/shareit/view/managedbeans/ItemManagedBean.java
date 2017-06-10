@@ -185,7 +185,7 @@ public class ItemManagedBean implements java.io.Serializable {
 
         System.out.println("-------------- in add item");
 
-        ItemDto item = new ItemDto(name, description, 1, publish_date, points, image_url, tags, SessionUtil.getUser());
+        ItemDto item = new ItemDto(name, description, 1, new Date(), points, image_url, tags, SessionUtil.getUser());
 
         //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
         //System.out.println("----------------"+catEntity.getName());
@@ -193,7 +193,7 @@ public class ItemManagedBean implements java.io.Serializable {
         item.setCategory(category);
 
         itemService.addItemForShare(item);
-        return "";
+        return "register";
 
     }
 

@@ -32,7 +32,7 @@
                             <div class="row" id="productMain">
                                 <div class="col-sm-6">
                                     <div id="mainImage">
-                                        <h:graphicImage library="images" name="#{userManagedBean.userDto.imageUrl}" styleClass="img-responsive" pt:alt=""/>
+                                         <o:graphicImage width="250px" height="150px" value="#{userManagedBean.getImage(userManagedBean.userDto.imageUrl)}" dataURI="true" /> 
                                     </div>
                                 </div>
                                  <div class="col-sm-6">
@@ -48,7 +48,7 @@
                                 <h4>Your Current Points</h4>
                                 <p>#{userManagedBean.userDto.points}</p>
                                 <h4>Your City</h4>
-                                <p>#{userManagedBean.userDto.addressDto.city}</p>
+                                <p>#{userManagedBean.userDto.address.city}</p>
 
                             </div>
                           </div>
