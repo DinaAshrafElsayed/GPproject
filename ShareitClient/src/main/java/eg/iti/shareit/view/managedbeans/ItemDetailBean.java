@@ -20,10 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Yousef
  */
 @Named(value = "itemDetailBean")
-@ViewScoped
+@RequestScoped
 public class ItemDetailBean implements Serializable {
 
     /**
@@ -58,7 +58,17 @@ public class ItemDetailBean implements Serializable {
     private ActivityDto activity;
     private boolean noRequest;
     private List<ItemDto> relatedItems;
+    private String message;
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    
     public List<ItemDto> getRelatedItems() {
         return relatedItems;
     }
@@ -90,9 +100,22 @@ public class ItemDetailBean implements Serializable {
             activity = activityService.getActivityOfMyItem(item.getId().intValue(), user.getUserDto().getId().intValue());
             if(activity != null ){
                 isRequested = true;
-                if(activity.getStatus().getStatus() == "Accepted" || activity.getStatus().getStatus() == "Declined")
+                if(activity.getStatus().getId().intValue() == 2){
+                    message = "Your Request to the item has been accepted";
                     noRequest = true;
+                }
+                if(activity.getStatus().getId().intValue() == 3){
+                    message = "Your Request to the item has been declined";
+                    noRequest = true;
+                }
             }
+            
+             if(user.getUserDto().getPoints() < item.getPoints()){
+                    message = "You don't have enough points";
+                    noRequest = true;
+                }
+            
+            
             
             relatedItems = itemService.getRelatedItems(item);
 
@@ -192,7 +215,7 @@ public class ItemDetailBean implements Serializable {
             timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeFrom);
             timeToDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeTo);
         
-            boolean result = activityService.requestItem(item.getId().intValue(), item.getUserFrom().getId().intValue(), user.getUserDto().getId().intValue(), timeFromDate, timeToDate, meetingPoint);
+            boolean result = activityService.requestItem(item.getId().intValue(),  user.getUserDto().getId().intValue(),item.getUserFrom().getId().intValue(), timeFromDate, timeToDate, meetingPoint);
             System.out.println("===================== ######## item requested ! "+result);
             isRequested = true;
         } catch (ServiceException ex) {
