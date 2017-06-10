@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -59,7 +60,17 @@ public class ItemDetailBean implements Serializable {
     private boolean noRequest;
     private List<ItemDto> relatedItems;
     private String message;
+    private String todayString;
+    private String url;
 
+    public String getTodayString() {
+        return todayString;
+    }
+
+    public void setTodayString(String todayString) {
+        this.todayString = todayString;
+    }
+    
     public String getMessage() {
         return message;
     }
@@ -118,6 +129,9 @@ public class ItemDetailBean implements Serializable {
             
             
             relatedItems = itemService.getRelatedItems(item);
+            todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            url = SessionUtil.getRequest().getRequestURI();
+            System.out.println(url+" $$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,11 +224,34 @@ public class ItemDetailBean implements Serializable {
 
 
     public String requestItem(String timeFrom,String timeTo,String meetingPoint){
-        Date timeFromDate,timeToDate;
+        Date timeFromDate,timeToDate,todayDate;
         try {  
             timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeFrom);
             timeToDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeTo);
-        
+            
+//            
+//            todayDate = new SimpleDateFormat("dd-MM-yyyy").parse(todayString);
+//            
+            boolean error = false;
+            if(timeFromDate.compareTo(timeToDate) > 0){
+                FacesMessage facesMessage = new FacesMessage("to date must be after from date");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("detailForm:timeTo", facesMessage);
+                error = true;
+            }
+            
+//            if(timeFromDate.compareTo(todayDate) < 0 ){
+//                FacesMessage facesMessage = new FacesMessage("from date can't be before today ");
+//                FacesContext facesContext = FacesContext.getCurrentInstance();
+//                facesContext.addMessage("detailForm:timeFrom", facesMessage);
+//                error = true;
+//            }
+            
+            if(error)
+                return "";
+            
+                
+                
             boolean result = activityService.requestItem(item.getId().intValue(),  user.getUserDto().getId().intValue(),item.getUserFrom().getId().intValue(), timeFromDate, timeToDate, meetingPoint);
             System.out.println("===================== ######## item requested ! "+result);
             isRequested = true;

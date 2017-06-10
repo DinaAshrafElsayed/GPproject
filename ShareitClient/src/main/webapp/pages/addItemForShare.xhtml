@@ -16,13 +16,13 @@ and open the template in the editor.
         <div id="content">
             <div class="container">
 
-                <h:form  enctype="multipart/form-data" prependId="false">
+                <h:form  enctype="multipart/form-data" prependId="false" id="form">
 
-                    <h:messages></h:messages>
+                    
                     <div class="form-group">
                         <label for="name">Name</label>
 
-                        <h:inputText value="#{itemManagedBean.name}" id="name" class="form-control" required="true"/>
+                        <h:inputText value="#{itemManagedBean.name}" id="name" class="form-control" required="true" requiredMessage="name is required"/>
                     </div>
 
 
@@ -32,16 +32,6 @@ and open the template in the editor.
                         <h:inputText value="#{itemManagedBean.description}" id="description" required="true" class="form-control"/>
                         <h:message for="description" style="color:red"/> 
                     </div>
-
-
-                    <div class="form-group">
-                        <label for="publish_date">Publish Date</label>
-                        <h:inputText value="#{itemManagedBean.publish_date}" id="publish_date" required="true" class="form-control"  >
-                            <f:convertDateTime pattern="dd-mm-yyyy"/>
-                        </h:inputText> 
-                        <h:message for="publish_date" style="color:red"/> 
-                    </div>
-
 
                     <div class="form-group">
                         <label for="points">points</label>
