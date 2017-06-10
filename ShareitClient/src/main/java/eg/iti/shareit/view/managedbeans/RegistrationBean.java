@@ -116,6 +116,7 @@ public class RegistrationBean implements Serializable {
         }
         
     }
+   
     public void onStateChange(BigDecimal stateId)
     {
         System.out.println("in function on stateChange");
@@ -321,4 +322,10 @@ public class RegistrationBean implements Serializable {
     public void setState(StateDto state) {
         this.state = state;
     }
+    /////////////////// by sara ///////////////////////////////
+     public String editUser(){
+        System.out.println("------------------------- in edit");
+        return "";
+    }
+     /////////////////////// end by sara /////////////////////////////////
 }
