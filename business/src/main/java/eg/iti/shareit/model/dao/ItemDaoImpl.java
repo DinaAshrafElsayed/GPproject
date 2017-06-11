@@ -17,6 +17,7 @@ import eg.iti.shareit.model.entity.StateEntity;
 import eg.iti.shareit.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -29,6 +30,8 @@ import javax.persistence.RollbackException;
 @Stateless(mappedName = "ItemDaoImpl")
 public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 
+    @EJB
+    ItemDao itemDao;
     public ItemDaoImpl() {
         super(ItemEntity.class);
     }
@@ -190,10 +193,12 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
     }
 
     @Override
-    public List<ItemEntity> updateItem() throws DatabaseRollbackException {
-        Query query = getEntityManager().createQuery("update ");
-        
-        return null;
+    public void updateItem(ItemEntity updateItem) throws DatabaseRollbackException {
+        try{ 
+        itemDao.update(updateItem);
+        }catch (PersistenceException e) {
+            throw new DatabaseRollbackException(e.getMessage());
+        }
     }
 
 }

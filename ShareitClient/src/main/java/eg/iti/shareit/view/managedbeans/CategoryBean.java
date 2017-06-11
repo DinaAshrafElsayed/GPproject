@@ -123,21 +123,4 @@ public class CategoryBean implements Serializable {
         }
     }
     
-//    public void divideCategories(){
-//        categoryListSize = categories.size();
-//        if (categoryListSize % 2 == 0) {
-//            firstListSize = categoryListSize / 2;
-//            secondListSize = categoryListSize - firstListSize;
-//        } else {
-//            categoryListSize += 1;
-//            firstListSize = categoryListSize / 2;
-//            secondListSize = categoryListSize - firstListSize;
-//        }
-//         for (int first = 0; first < firstListSize; first++) {
-//                firstList.add(categories.get(first));
-//            }
-//            for (int second = firstListSize; second < categories.size(); second++) {
-//                secondList.add(categories.get(second));
-//            }
-//    }
 }
