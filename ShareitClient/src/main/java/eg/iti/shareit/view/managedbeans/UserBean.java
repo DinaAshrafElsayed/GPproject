@@ -55,9 +55,9 @@ public class UserBean implements Serializable {
                 //save in session
                 HttpSession session = SessionUtil.getSession();
                 session.setAttribute("userDto", userDto);
-                if (itemTrackingService.isItemBack(userDto)) {
-                    //Set the notification here
-                }
+//                if (itemTrackingService.isItemBack(userDto)) {
+//                    //Set the notification here
+//                }
                 System.out.println("user saved in session");
                 //supposedly return to home page
                 return "items?faces-redirect=true";
