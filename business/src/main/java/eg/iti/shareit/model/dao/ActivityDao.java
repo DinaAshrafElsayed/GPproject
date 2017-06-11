@@ -30,6 +30,6 @@ public interface ActivityDao extends GenericDao<ActivityEntity> {
 
     public ActivityEntity getMyActivityOfItem(int itemId, int userId) throws DatabaseRollbackException;
 
-    public boolean isItemBack(UserEntity userEntity) throws DatabaseRollbackException;
-
+    //This method for getting the activities which belongs to user and he accepted it
+    public List<ActivityEntity> getAvtivityOfUser(UserEntity userEntity) throws DatabaseRollbackException;
 }
