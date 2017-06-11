@@ -107,7 +107,7 @@
                                         <div class="col-sm-3">
                                             <ul>
                                                 <h:form>
-                                                    <ui:repeat value="#{category.categories}" var="c">
+                                                    <ui:repeat value="#{category.firstList}" var="c">
                                                         <li>
                                                             <h:commandLink value="#{c.name}" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
                                                         </li>
@@ -115,6 +115,19 @@
                                                 </h:form>
                                             </ul>
                                         </div>
+                                        
+                                        <div class="col-sm-3">
+                                            <ul>
+                                                <h:form>
+                                                    <ui:repeat value="#{category.secondList}" var="c">
+                                                        <li>
+                                                            <h:commandLink value="#{c.name}" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
+                                                        </li>
+                                                    </ui:repeat>
+                                                </h:form>
+                                            </ul>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </li>
