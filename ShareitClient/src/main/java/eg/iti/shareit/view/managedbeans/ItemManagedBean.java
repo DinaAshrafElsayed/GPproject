@@ -33,6 +33,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.Part;
@@ -184,20 +185,42 @@ public class ItemManagedBean implements java.io.Serializable {
         System.out.println("ru7t le add");
 
         System.out.println("-------------- in add item");
+        int pts = category.getMaxPoints();
+        if (points <= pts) {
+            ItemDto item = new ItemDto(name, description, 1, new Date(), points, image_url, tags, SessionUtil.getUser());
 
-        ItemDto item = new ItemDto(name, description, 1, publish_date, points, image_url, tags, SessionUtil.getUser());
+            //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
+            //System.out.println("----------------"+catEntity.getName());
+            item.setImageUrl(image_url);
+            item.setCategory(category);
 
-        //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
-        //System.out.println("----------------"+catEntity.getName());
-        item.setImageUrl(image_url);
-        item.setCategory(category);
-
-        itemService.addItemForShare(item);
-        return "";
+            itemService.addItemForShare(item);
+             return "items?faces-redirect=true";
+        }
+        else
+        {
+           System.out.println("---------------------------------- error in add item");
+             
+                FacesMessage facesMessage = new FacesMessage("this points exceeded the max no of points allowed ");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("form:points", facesMessage);
+         
+                return null;  
+        }
+       
 
     }
 
     public void save() {
-        image_url = ImageUtil.SaveImage(file,System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
+        image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
+    }
+    
+    public void validatePoints(FacesContext context, UIComponent comp,
+			Object value) {
+       int pts=category.getMaxPoints();
+       if ((int)value>pts){
+       
+       }
+       
     }
 }

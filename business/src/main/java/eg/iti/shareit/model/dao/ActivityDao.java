@@ -30,4 +30,6 @@ public interface ActivityDao extends GenericDao<ActivityEntity> {
 
     public ActivityEntity getMyActivityOfItem(int itemId, int userId) throws DatabaseRollbackException;
 
+    public boolean isItemBack(UserEntity userEntity) throws DatabaseRollbackException;
+
 }
