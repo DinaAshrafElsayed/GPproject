@@ -92,21 +92,34 @@ public class RegistrationBean implements Serializable {
                 System.out.println(userDto);
                 userService.RegisterUser(userDto);
                 System.out.println("in register and supposedly registered!");
+                clearFields();
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("Successful", "registered Successfully"));
                 return "";
             } else {
                 System.out.println("in error part ");
                 //faces error message email already exists
-                FacesMessage facesMessage = new FacesMessage("This email isn't valid");
+                FacesMessage facesMessage = new FacesMessage("Error","This email isn't valid");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("form:email", facesMessage);
                 return null;
             }
         } catch (ServiceException ex) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "Registration didnt complete successfully"));
+
             Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
-
+    public void clearFields()
+    {
+        userName="";
+        email="";
+        password="";
+        imageUrl=null;
+        file=null;
+    }
     public void onCountryChange(BigDecimal countryId) {
         System.out.println("in on country Change function");
         try {

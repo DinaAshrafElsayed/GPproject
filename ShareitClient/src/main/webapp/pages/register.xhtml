@@ -11,7 +11,8 @@ and open the template in the editor.
                 template="../templates/masterTemplate.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:o="http://omnifaces.org/ui">
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <div id="content">
             <div class="container">
@@ -26,7 +27,7 @@ and open the template in the editor.
                     </div>
                 </h:form>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="box">
                         <h1>New account</h1>
                         <h:form>
@@ -37,6 +38,7 @@ and open the template in the editor.
                         <hr/>
 
                         <h:form enctype="multipart/form-data" id="form">
+                            <p:growl id="growl" showDetail="true" sticky="true" />
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true" requiredMessage="this field is required"/>
@@ -45,7 +47,7 @@ and open the template in the editor.
 
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <h:inputText class="form-control" id="email" value="#{registerBean.email}" required="true" requiredMessage="this field is required"/>
+                                <h:inputText pt:type="email" class="form-control" id="email" value="#{registerBean.email}" required="true" requiredMessage="this field is required"/>
                                 <h:message for="email" style="color:red"/>
                             </div>
                             <div class="form-group">
@@ -95,34 +97,15 @@ and open the template in the editor.
                                 <h:message id="file_m" for="image" style="color:red"/>
                             </div>
                             <div class="text-center">
-                                <h:commandLink class="btn btn-primary" action="#{registerBean.register()}"><i class="fa fa-user-md"></i> Register</h:commandLink>
+                                <h:commandLink class="btn btn-primary" actionListener="#{registerBean.register}"><i class="fa fa-user-md"></i> Register
+                                <f:ajax execute="@all" render="growl"/>
+                                </h:commandLink>
                             </div>
                         </h:form>
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="box">
-                        <h1>Login</h1>
-                        <p class="lead">Already our customer?</p>
-                        <hr/>
-                        <h:form id="loginForm">
-                            <div class="form-group">
-                                <label for="loginEmail">Email</label>
-                                <h:inputText class="form-control" value="#{user.email}" id="loginEmail" required="true" requiredMessage="this field is required"/>
-                                <h:message for="loginEmail" style="color:red"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="loginPassword">Password</label>
-                                <h:inputSecret class="form-control" value="#{user.password}" id="loginPassword" required="true" requiredMessage="this field is required"/>
-                                <h:message for="loginPassword" style="color:red"/>
-                            </div>
-                            <div class="text-center">
-                                <h:commandLink action="#{user.login()}" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</h:commandLink>
-                            </div>
-                        </h:form>
-                    </div>
-                </div>
+
             </div>
             <!-- /.container -->
         </div>

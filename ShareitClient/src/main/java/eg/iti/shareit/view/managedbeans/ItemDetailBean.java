@@ -7,8 +7,10 @@ package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.ActivityDto;
+import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.service.ActivityService;
+import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -46,6 +48,9 @@ public class ItemDetailBean implements Serializable {
     @EJB
     private ItemService itemService;
     
+    @EJB
+    private CategoryService categoryService;
+    
     @Inject
     private UserBean user;
     
@@ -62,6 +67,103 @@ public class ItemDetailBean implements Serializable {
     private String message;
     private String todayString;
     private String url;
+    
+    private CategoryDto category;
+    private String description;
+    private String imageUrl;
+    private int isAvailabe;
+    private String name;
+    private int points;
+    private String tags;
+
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    public ActivityService getActivityService() {
+        return activityService;
+    }
+
+    public void setActivityService(ActivityService activityService) {
+        this.activityService = activityService;
+    }
+
+    public ItemService getItemService() {
+        return itemService;
+    }
+
+    public void setItemService(ItemService itemService) {
+        this.itemService = itemService;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public CategoryDto getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDto category) {
+        this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public int getIsAvailabe() {
+        return isAvailabe;
+    }
+
+    public void setIsAvailabe(int isAvailabe) {
+        this.isAvailabe = isAvailabe;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+    
 
     public String getTodayString() {
         return todayString;
@@ -130,8 +232,6 @@ public class ItemDetailBean implements Serializable {
             
             relatedItems = itemService.getRelatedItems(item);
             todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            url = SessionUtil.getRequest().getRequestURI();
-            System.out.println(url+" $$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -287,4 +387,21 @@ public class ItemDetailBean implements Serializable {
 //            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
+    
+    public void updateItem(){
+        try {
+            String categoryName = item.getCategory().getName();
+            CategoryDto categoryDto = categoryService.getCategoryByName(categoryName);
+            item.setCategory(categoryDto);
+            item.setDescription(description);
+            item.setImageUrl(imageUrl);
+            item.setIsAvailable(isAvailabe);
+            item.setName(name);
+            item.setPoints(points);
+            item.setTags(tags);
+            itemService.updateSharedItem(item);
+        } catch (ServiceException ex) {
+            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -5,7 +5,8 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
 
 
     <!-- *** NAVBAR ***
@@ -63,9 +64,9 @@
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <ul>
-                                                    <li><a href="category.html">View Profile</a>
+                                                    <li><a href="Profile.xhtml">View Profile</a>
                                                     </li>
-                                                    <li><a href="category.html">Edit Profile</a>
+                                                    <li><a href="Edit_Profile.xhtml">Edit Profile</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -108,7 +109,7 @@
                                                 <h:form>
                                                     <ui:repeat value="#{category.categories}" var="c">
                                                         <li>
-                                                            <h:commandLink value="#{c.name}"/> 
+                                                            <h:commandLink value="#{c.name}" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
                                                         </li>
                                                     </ui:repeat>
                                                 </h:form>
@@ -129,16 +130,9 @@
                     <a href="#" class="btn btn-primary navbar-btn" data-toggle="collapse tooltip" data-placement="bottom" title="notification"><i class="fa fa-bell"></i><span class="hidden-sm">notification</span></a>
                 </div>
                 <!--/.nav-collapse -->
-                <div class="navbar-collapse collapse right" id="advancedSearch-not-mobile">
-                    <h:form>
-                        <h:commandLink action="advancedSearch.xhtml"  class="btn btn-primary navbar-btn" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search">
-                            <i class="fa fa-search-plus"></i>
-                            <span class="sr-only">Toggle Advanced search</span>
-                        </h:commandLink>
-                    </h:form>
-                </div>
+
                 <div class="navbar-collapse collapse right" id="search-not-mobile">
-                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse tooltip" data-placement="bottom" title="Search" data-target="#search">
+                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
                         <span class="sr-only">Toggle search</span>
                         <i class="fa fa-search"></i>
                     </button>
@@ -148,16 +142,23 @@
 
             <div class="collapse clearfix" id="search">
 
-                <form class="navbar-form" role="search">
+                <h:form class="navbar-form" role="search">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search"/>
                         <span class="input-group-btn">
 
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            <h:commandLink class="btn btn-primary"><i class="fa fa-search"></i></h:commandLink>
 
                         </span>
+                        <span class="input-group-btn">
+                            <h:commandLink action="advancedSearch.xhtml"  class="btn btn-primary navbar-btn" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search">
+                                <i class="fa fa-search-plus"></i>
+                                <span class="sr-only">Toggle Advanced search</span>
+                            </h:commandLink>
+                        </span>
                     </div>
-                </form>
+
+                </h:form>
 
             </div>
             <!--/.nav-collapse -->

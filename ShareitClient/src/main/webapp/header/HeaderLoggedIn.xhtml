@@ -13,7 +13,7 @@
             <h:form>
                 <div class="col-md-6 offer" data-animate="fadeInDown">
                     <!--<a href="#" class="btn btn-success btn-sm" data-animate-hover="shake">Register</a>-->
-                    <h:commandLink pt:data-animate-hover="shake" class="btn btn-success btn-sm" action="register.xhtml"> Register now and get 100 points for free</h:commandLink>
+                    <h:commandLink pt:data-animate-hover="shake" class="btn btn-success btn-sm" action="register.xhtml?faces-redirect=true"> Register now and get 100 points for free</h:commandLink>
                 </div>
             </h:form>
 
@@ -40,13 +40,15 @@
                                                         <o:graphicImage value="#{user.getImage(user.userDto.imageUrl)}" class="img-rounded" width="100" height="100"  dataURI="true" /> 
                                                     </p>
                                                 </div>
+
                                                 <div class="col-lg-8">
                                                     <p class="text-left" style="font-weight: bold;"><strong>#{user.userDto.username}</strong></p>
                                                     <p class="text-left small">#{user.userDto.email}</p>
                                                     <p class="text-left">
-                                                        <a href="#" class="btn btn-primary btn-block btn-sm">Profile</a>
+                                                        <h:commandLink action="Profile.xhtml" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
                                                     </p>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </li>
