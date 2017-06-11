@@ -8,54 +8,73 @@
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:o="http://omnifaces.org/ui">
-    
+
     <ui:define name="title">
         Your Profile
     </ui:define>
-   
-     <ui:define name="content">
+
+    <ui:define name="content">
+
         <o:form includeRequestParams="true" id="detailForm">
             <div id="all">
-
+                <h:messages></h:messages>
                 <div id="content">
                     <div class="container">
-                        
+
+
+
                         <div class="col-md-12">
-                            <ul class="breadcrumb">
-                                <li>username : #{userManagedBean.userDto.username} </li>
-                            </ul>
                         </div>
-                        
-                          <div class="col-md-12">
 
-                            <div class="row" id="productMain">
-                                <div class="col-sm-6">
-                                    <div id="mainImage">
-                                        <h:graphicImage library="images" name="#{userManagedBean.userDto.imageUrl}" styleClass="img-responsive" pt:alt=""/>
-                                    </div>
+                        <div class="row" id="productMain">
+                            <div class="col-sm-6">
+                                <div id="mainImage">
+                                    <o:graphicImage  height="150px"  value="#{userManagedBean.getImage(userManagedBean.userDto.imageUrl)}" dataURI="true" styleClass="img-responsive"/> 
                                 </div>
-                                 <div class="col-sm-6">
-                                    <div class="box">
-                                        <h1 class="text-center">#{userManagedBean.userDto.username}</h1>
-                                        
-                                    </div>
-                                 </div>
-                                 <div class="box" id="details">
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="box">
+                                    <h1 class="text-center">#{userManagedBean.userDto.username}</h1>
 
-                                <h4>Profile Details</h4>
-                                <p>#{userManagedBean.userDto.email}</p>
-                                <h4>Your Current Points</h4>
-                                <p>#{userManagedBean.userDto.points}</p>
-                                <h4>Your City</h4>
-                                <p>#{userManagedBean.userDto.addressDto.city}</p>
+                                </div>
+                                <div >
+                                    <div class="box" id="details">
+
+                                        <h4>Profile Details</h4>
+                                      
+                                        <p>#{userManagedBean.userDto.username}</p>
+                                        <p>#{userManagedBean.userDto.email}</p>
+                                        <p>#{userManagedBean.userDto.gender.gender}</p>
+                                        <h4>Your Current Points</h4>
+                                        <p>#{userManagedBean.userDto.points}</p>
+                                        <h4>Your Country</h4>
+                                        <p>#{userManagedBean.userDto.address.country.country}</p>
+
+                                    </div>
+
+                                </div>
+
 
                             </div>
-                          </div>
+                        </div>
+                        <!--                                 <div class="box" id="details">
                         
+                                                        <h4>Profile Details</h4>
+                                                        <p>#{userManagedBean.userDto.username}</p>
+                                                        <p>#{userManagedBean.userDto.email}</p>
+                                                        <p>#{userManagedBean.userDto.gender.gender}</p>
+                                                        <h4>Your Current Points</h4>
+                                                        <p>#{userManagedBean.userDto.points}</p>
+                                                        <h4>Your Country</h4>
+                                                        <p>#{userManagedBean.userDto.address.country.country}</p>
+                        
+                                                    </div>-->
+
+
                     </div>
-                    </div>
-            </div>
                 </div>
+            </div>
+
         </o:form>
-         </ui:define>
+    </ui:define>
 </ui:composition>

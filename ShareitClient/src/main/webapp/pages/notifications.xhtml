@@ -10,7 +10,6 @@
     <ui:define name="title">Notifications</ui:define>
     <ui:define name="content">
         <h:form id="form">
-            <p:growl id="msgs" showDetail="true" />
             <p:dataTable id="checkboxDT" var="notification" value="#{notificationBean.notSeenDataModel}"  style="margin-bottom:0">
                 <f:facet name="header">
                     These are the Notifications you have not seen yet

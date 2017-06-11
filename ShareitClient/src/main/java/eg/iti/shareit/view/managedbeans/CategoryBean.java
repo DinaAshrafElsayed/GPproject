@@ -38,13 +38,6 @@ public class CategoryBean implements Serializable {
     }
 
     public void setCategories(List<CategoryDto> categories) {
-        if (categories == null) {
-            List cList = new ArrayList<CategoryDto>();
-            CategoryDto c = new CategoryDto(BigDecimal.ONE, "name", 0);
-            cList.add(c);
-            this.categories = cList;
-            return;
-        }
         this.categories = categories;
     }
 

@@ -13,5 +13,5 @@ public interface UserDao extends GenericDao<UserEntity> {
     public UserEntity getUserByEmail(String email) throws DatabaseRollbackException;
     public UserEntity findUser(String email, String password) throws DatabaseRollbackException;
     public boolean saveUser(UserEntity user)throws DatabaseRollbackException;
-    
+    public boolean updateUser(UserEntity user)throws DatabaseRollbackException;
 }

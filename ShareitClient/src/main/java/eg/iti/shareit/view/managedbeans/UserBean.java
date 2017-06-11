@@ -7,7 +7,12 @@ package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.UserDto;
+import eg.iti.shareit.service.ItemTrackingService;
 import eg.iti.shareit.service.UserService;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +35,9 @@ public class UserBean implements Serializable {
     @EJB
     UserService userService;
 
+    @EJB
+    ItemTrackingService itemTrackingService;
+
     private String email;
     private String password;
     //private UserDto userDto;
@@ -47,6 +55,9 @@ public class UserBean implements Serializable {
                 //save in session
                 HttpSession session = SessionUtil.getSession();
                 session.setAttribute("userDto", userDto);
+                if (itemTrackingService.isItemBack(userDto)) {
+                    //Set the notification here
+                }
                 System.out.println("user saved in session");
                 //supposedly return to home page
                 return "?faces-redirect=true";
@@ -115,4 +126,8 @@ public class UserBean implements Serializable {
 //    public void setUserDto(UserDto userDto) {
 //        this.userDto = userDto;
 //    }
+    public InputStream getImage(String filename) throws FileNotFoundException {
+        return new FileInputStream(new File(filename));
+    }
+
 }
