@@ -13,6 +13,7 @@ import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -105,8 +106,9 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
             if (list != null && list.size() > 0) {
                 ActivityEntity activityEntity = list.get(0);
                 return activityEntity;
-            }else
+            } else {
                 return null;
+            }
         } catch (PersistenceException ex) {
             ex.printStackTrace();
             throw new DatabaseRollbackException(ex.getMessage());
@@ -131,6 +133,15 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
             return activityEntities;
         }
         return null;
+    }
+
+    @Override
+    public boolean isItemBack(UserEntity userEntity) throws DatabaseRollbackException {
+        ActivityEntity activityEntity = get(userEntity.getId());
+        if (activityEntity.getTimeTo().equals(new Date()) || activityEntity.getTimeTo().after(new Date())) {
+            //Sent the notification here
+        }
+        return false;
     }
 
 }
