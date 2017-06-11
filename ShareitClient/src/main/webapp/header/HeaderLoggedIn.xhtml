@@ -23,9 +23,9 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#"  data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span>
+                                <span  class="fa fa-user"></span>
                                 <strong>#{user.userDto.username}</strong>
-                                <span class="glyphicon glyphicon-chevron-down"></span>
+                                <span class="fa fa-chevron-down"></span>
                             </a>
                             <ul class="dropdown-menu" >
                                 <h:form>
@@ -63,7 +63,7 @@
                                     <h:commandLink class="list-group-item list-group-item"  action="#{user.logout()}" style="color: black;" >Favourites Snippets <span class="glyphicon glyphicon-heart pull-right"></span></h:commandLink>
 
 
-                                    <h:commandLink class="list-group-item list-group-item-info"  action="#{user.logout()}" style="color: black;" >Sign Out <span class="glyphicon glyphicon-log-out pull-right"></span></h:commandLink>
+                                    <h:commandLink class="list-group-item list-group-item-info"  action="#{user.logout()}" style="color: black;" >Sign Out <span class="fa fa-sign-out pull-right"></span></h:commandLink>
                                 </h:form>
                             </ul>
                         </li>
@@ -74,7 +74,7 @@
                 <h:form>
                     <ul class="menu">
                         <c:if test="#{user.getUserDto() == null}">
-                            <li><a href="#" data-toggle="modal" data-target="#login-modal"> <span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#login-modal"> <span class="fa fa-sign-in"></span> Login</a></li>
                         </c:if>
                     </ul>
                 </h:form>
