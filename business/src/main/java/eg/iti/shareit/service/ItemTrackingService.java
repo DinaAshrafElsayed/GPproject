@@ -8,6 +8,7 @@ package eg.iti.shareit.service;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dao.ActivityDao;
+import eg.iti.shareit.model.dao.BorrowStateDao;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
@@ -26,14 +27,14 @@ public class ItemTrackingService {
     private static final Logger logger = Logger.getLogger(ActivityService.class.getName());
 
     @EJB
-    private ActivityDao activityDao;
+    private BorrowStateDao borrowStateDao;
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
-    public boolean isItemBack(UserDto userDto) throws ServiceException {
+    public void isItemBack(UserDto userDto) throws ServiceException {
         try {
             UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
-            return activityDao.isItemBack(userEntity);
+            borrowStateDao.handleBorrowingDueDate(userEntity);
         } catch (DatabaseRollbackException ex) {
             Logger.getLogger(ItemTrackingService.class.getName()).log(Level.SEVERE, null, ex);
             throw new ServiceException(ex.getMessage());

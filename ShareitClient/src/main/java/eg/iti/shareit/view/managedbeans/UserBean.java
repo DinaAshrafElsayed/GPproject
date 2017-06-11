@@ -35,8 +35,8 @@ public class UserBean implements Serializable {
     @EJB
     UserService userService;
 
-    //@EJB
-    //ItemTrackingService itemTrackingService;
+    @EJB
+    ItemTrackingService itemTrackingService;
 
     private String email;
     private String password;
@@ -55,16 +55,10 @@ public class UserBean implements Serializable {
                 //save in session
                 HttpSession session = SessionUtil.getSession();
                 session.setAttribute("userDto", userDto);
-//                if (itemTrackingService.isItemBack(userDto)) {
-//                    //Set the notification here
-//                }
+                itemTrackingService.isItemBack(userDto);
                 System.out.println("user saved in session");
-                String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-                System.out.println("view id "+ viewId);
-                if(viewId.contains("register.xhtml"))
-                    return "items?faces-redirect=true";
                 //supposedly return to home page
-                return "?faces-redirect=true";
+                return "items?faces-redirect=true";
             } else {
                 System.out.println("in error part ");
                 //faces error message email already exists
@@ -86,7 +80,7 @@ public class UserBean implements Serializable {
         HttpSession session = SessionUtil.getSession();
         session.invalidate();
         System.out.println("session invalidated");
-        return "items?faces-redirect=true";
+        return "register?faces-redirect=true";
     }
 
     /**
