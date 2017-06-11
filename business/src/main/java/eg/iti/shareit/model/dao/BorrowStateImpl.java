@@ -13,18 +13,20 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Adel Zaid
  */
+@Stateless(mappedName = "BorrowStateImpl")
 public class BorrowStateImpl extends GenericDaoImpl<BorrowStateEntity> implements BorrowStateDao {
 
     @EJB
     ActivityDao activityDao;
 
-    public BorrowStateImpl(Class<BorrowStateEntity> type) {
-        super(type);
+    public BorrowStateImpl() {
+        super(BorrowStateEntity.class);
     }
 
     @Override
