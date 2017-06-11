@@ -28,8 +28,8 @@
 
                         <div class="row" id="productMain">
                             <div class="col-sm-6">
-                                <div id="mainImage">
-                                    <o:graphicImage  height="150px"  value="#{userManagedBean.getImage(userManagedBean.userDto.imageUrl)}" dataURI="true" styleClass="img-responsive"/> 
+                                <div id="mainImage"   >
+                                    <center>     <o:graphicImage    value="#{userManagedBean.getImage(userManagedBean.userDto.imageUrl)}" dataURI="true" styleClass="img-responsive"  /> </center>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -41,7 +41,7 @@
                                     <div class="box" id="details">
 
                                         <h4>Profile Details</h4>
-                                      
+
                                         <p>#{userManagedBean.userDto.username}</p>
                                         <p>#{userManagedBean.userDto.email}</p>
                                         <p>#{userManagedBean.userDto.gender.gender}</p>
@@ -49,8 +49,12 @@
                                         <p>#{userManagedBean.userDto.points}</p>
                                         <h4>Your Country</h4>
                                         <p>#{userManagedBean.userDto.address.country.country}</p>
+                                        <center>       
 
+                                            <a href="Edit_Profile.xhtml" class="btn btn-primary navbar-btn" data-toggle="collapse tooltip" data-placement="bottom" title="notification"><i class="fa fa-pencil-square-o"></i><span class="hidden-sm">Edit Profile</span></a>
+                                        </center>
                                     </div>
+
 
                                 </div>
 

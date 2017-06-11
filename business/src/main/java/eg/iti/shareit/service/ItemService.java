@@ -11,6 +11,7 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dao.ActivityDao;
 import eg.iti.shareit.model.dao.CategoryDao;
 import eg.iti.shareit.model.dao.ItemDao;
+import eg.iti.shareit.model.dao.ItemDaoImpl;
 import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
@@ -147,6 +148,15 @@ public class ItemService {
         } catch (DatabaseRollbackException ex) {
             Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
             throw new ServiceException(ex.getMessage());
+        }
+    }
+    
+    public void updateSharedItem (ItemDto itemDto) throws ServiceException{
+        try {
+            ItemEntity itemEntity = mappingUtil.getEntity(itemDto, ItemEntity.class);
+            itemDao.updateItem(itemEntity);
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
