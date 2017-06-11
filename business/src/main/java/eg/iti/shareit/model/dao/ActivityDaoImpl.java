@@ -138,7 +138,7 @@ public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements A
     //This method for getting the activities which belongs to user and he accepted it
     @Override
     public List<ActivityEntity> getAvtivityOfUser(UserEntity userEntity) throws DatabaseRollbackException {
-        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser.id=" + userEntity.getId() + " and a.status.status == 'Accepted'");
+        Query query = getEntityManager().createQuery("Select a From ActivityEntity a where a.toUser.id=" + userEntity.getId() + " and a.status.status = 'Accepted'");
         List<ActivityEntity> activityEntities = query.getResultList();
         if (activityEntities != null) {
             return activityEntities;

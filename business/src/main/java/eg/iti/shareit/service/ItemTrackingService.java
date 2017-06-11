@@ -31,7 +31,7 @@ public class ItemTrackingService {
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
-    public void isItemBack(UserDto userDto) throws ServiceException {
+    public void handleBorrowingDueDate(UserDto userDto) throws ServiceException {
         try {
             UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
             borrowStateDao.handleBorrowingDueDate(userEntity);

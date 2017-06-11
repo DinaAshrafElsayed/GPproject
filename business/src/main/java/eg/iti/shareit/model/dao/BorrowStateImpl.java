@@ -33,7 +33,7 @@ public class BorrowStateImpl extends GenericDaoImpl<BorrowStateEntity> implement
     public void handleBorrowingDueDate(UserEntity userEntity) throws DatabaseRollbackException {
         List<ActivityEntity> activityEntities = activityDao.getAvtivityOfUser(userEntity);
         for (ActivityEntity activityEntity : activityEntities) {
-            if (activityEntity.getTimeTo().equals(new Date()) || activityEntity.getTimeTo().after(new Date())) {
+            if (activityEntity.getTimeTo().equals(new Date()) || activityEntity.getTimeTo().before(new Date())) {
                 BorrowStateEntity borrowStateEntity = new BorrowStateEntity();
                 borrowStateEntity.setActivity(activityEntity);
                 borrowStateEntity.setIsBack(BigInteger.valueOf(0));
