@@ -21,6 +21,9 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.model.CollectionDataModel;
 import javax.faces.model.DataModel;
 import javax.inject.Named;
@@ -29,8 +32,8 @@ import javax.inject.Named;
  *
  * @author Adel Zaid
  */
-@Named(value = "notificationBean")
-@SessionScoped
+@ManagedBean(name = "notificationBean")
+@RequestScoped
 public class NotificationBean implements Serializable {
 
     @EJB
@@ -72,7 +75,7 @@ public class NotificationBean implements Serializable {
     }
 
     @PostConstruct
-    public void getNotification() {
+    public void init() {
         try {
             UserDto user = SessionUtil.getUser();
             if (user != null) {
@@ -91,6 +94,7 @@ public class NotificationBean implements Serializable {
         try {
             NotificationDto notificationDto = notSeenDataModel.getRowData();
             notificationService.setNotificationAsRead(notificationDto.getId());
+            init();
         } catch (ServiceException ex) {
             Logger.getLogger(NotificationBean.class.getName()).log(Level.SEVERE, null, ex);
         }

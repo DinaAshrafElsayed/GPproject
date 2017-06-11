@@ -64,9 +64,9 @@
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <ul>
-                                                    <li><a href="category.html">View Profile</a>
+                                                    <li><a href="Profile.xhtml">View Profile</a>
                                                     </li>
-                                                    <li><a href="category.html">Edit Profile</a>
+                                                    <li><a href="Edit_Profile.xhtml">Edit Profile</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -107,9 +107,9 @@
                                         <div class="col-sm-3">
                                             <ul>
                                                 <h:form>
-                                                        <ui:repeat value="#{category.categories}" var="c">
-                                                         <li>
-                                                             <h:commandLink value="#{c.name}"/> 
+                                                    <ui:repeat value="#{category.categories}" var="c">
+                                                        <li>
+                                                            <h:commandLink value="#{c.name}" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
                                                         </li>
                                                     </ui:repeat>
                                                 </h:form>
@@ -166,6 +166,8 @@
         </div>
         <!-- /.container -->
     </div>
+
+
     <!-- /#navbar -->
 
     <!-- *** NAVBAR END *** -->

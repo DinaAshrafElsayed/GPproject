@@ -232,8 +232,6 @@ public class ItemDetailBean implements Serializable {
             
             relatedItems = itemService.getRelatedItems(item);
             todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            url = SessionUtil.getRequest().getRequestURI();
-            System.out.println(url+" $$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
