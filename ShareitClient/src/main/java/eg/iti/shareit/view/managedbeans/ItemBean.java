@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,37 +22,45 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 
 /**
  *
  * @author Yousef
  */
 @ManagedBean(name = "itemBean")
-@SessionScoped
-public class ItemBean implements Serializable{
+@RequestScoped
+public class ItemBean implements Serializable {
 
     @EJB
     private ItemService itemService;
-    private List<ItemDto> items;
+    @Inject
+    private ListItemsBean listItems;
+    @Inject
+    private UserBean userBean;
+
+    private List<ItemDto> items = new ArrayList<>();
     private List<CategoryDto> categories;
     private String searchString;
     private int categoryId;
     private ItemDto itemDetail;
-    
+
     public ItemBean() {
     }
-    
+
     @PostConstruct
     public void init() {
-        try {
-            if (itemService.getAllItems()!= null) {
-                items = itemService.getAllItems();
+        if (userBean.getUserDto() == null) {
+            items = listItems.getItems();
+        } else {
+            for (ItemDto item : listItems.getItems()) {
+                if (item.getUserFrom().getId().intValue() != userBean.getUserDto().getId().intValue()) {
+                    items.add(item);
+                }
             }
-            categories = itemService.getAllCategories();
-        } catch (ServiceException ex) {
-            Logger.getLogger(RequestsBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        categories = listItems.getCategories();
     }
 
     public List<ItemDto> getItems() {
@@ -61,7 +70,7 @@ public class ItemBean implements Serializable{
     public void setItems(List<ItemDto> items) {
         this.items = items;
     }
-    
+
     public String getSearchString() {
         return searchString;
     }
@@ -86,8 +95,6 @@ public class ItemBean implements Serializable{
         this.categories = categories;
     }
 
-    
-
     public ItemDto getItemDetail() {
         return itemDetail;
     }
@@ -95,25 +102,29 @@ public class ItemBean implements Serializable{
     public void setItemDetail(ItemDto itemDetail) {
         this.itemDetail = itemDetail;
     }
-    
-    
-    
-    public void doSearch(){
-        try{
+
+    public void doSearchNavBar(int categoryId) {
+        this.categoryId = categoryId;
+        this.searchString = null;
+        doSearch();
+    }
+
+    public void doSearch() {
+        try {
             List<ItemDto> items = itemService.searchItems(searchString, categoryId);
-            System.out.println("items "+items.size());
-           this.items = items;
-        }catch(ServiceException ex){
-             Logger.getLogger(SearchBean.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("items " + items.size());
+            this.items = items;
+        } catch (ServiceException ex) {
+            Logger.getLogger(SearchBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public String goToItem(int id){
-        return "itemDetails.xhtml?id="+id;
+
+    public String goToItem(int id) {
+        return "itemDetails.xhtml?id=" + id;
     }
-    
+
     public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
-    
+
 }
