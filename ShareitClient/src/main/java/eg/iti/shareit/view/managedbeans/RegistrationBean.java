@@ -92,6 +92,8 @@ public class RegistrationBean implements Serializable {
                 System.out.println(userDto);
                 userService.RegisterUser(userDto);
                 System.out.println("in register and supposedly registered!");
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("Successful", "registered Successfully"));
                 return "";
             } else {
                 System.out.println("in error part ");
@@ -102,6 +104,9 @@ public class RegistrationBean implements Serializable {
                 return null;
             }
         } catch (ServiceException ex) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "Registration didnt complete successfully"));
+
             Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }

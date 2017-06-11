@@ -49,7 +49,7 @@ public class UserBean implements Serializable {
                 session.setAttribute("userDto", userDto);
                 System.out.println("user saved in session");
                 //supposedly return to home page
-                return "items?faces-redirect=true";
+                return "?faces-redirect=true";
             } else {
                 System.out.println("in error part ");
                 //faces error message email already exists
