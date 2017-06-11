@@ -35,8 +35,8 @@ public class UserBean implements Serializable {
     @EJB
     UserService userService;
 
-    @EJB
-    ItemTrackingService itemTrackingService;
+    //@EJB
+    //ItemTrackingService itemTrackingService;
 
     private String email;
     private String password;

@@ -58,25 +58,4 @@ public class CategoryDaoImpl extends GenericDaoImpl<CategoryEntity> implements C
             throw new DatabaseRollbackException(ex.getMessage());
         }
     }
-
-    //get all categories for navigaton bar
-//    @Override
-//    public List<CategoryEntity> AllCategoriesName() throws DatabaseRollbackException {
-//        Query query = getEntityManager().createQuery("select c.name from CategoryEntity c");
-//        List<CategoryEntity> categoryNames;
-//        try {
-//            categoryNames = query.getResultList();
-//            if (categoryNames != null) {
-//                for (int i = 0; i < categoryNames.size(); i++) {
-//                   categoryNames.add(categoryNames.get(i));
-//                }
-//            } else {
-//                throw new DatabaseRollbackException("No categories are found");
-//            }
-//        } catch (DatabaseRollbackException e) {
-//            throw new DatabaseRollbackException(e.getMessage());
-//        }
-//        return categoryNames;
-//    }
-    
 }
