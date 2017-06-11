@@ -92,6 +92,7 @@ public class RegistrationBean implements Serializable {
                 System.out.println(userDto);
                 userService.RegisterUser(userDto);
                 System.out.println("in register and supposedly registered!");
+                clearFields();
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage("Successful", "registered Successfully"));
                 return "";
@@ -111,7 +112,14 @@ public class RegistrationBean implements Serializable {
             return null;
         }
     }
-
+    public void clearFields()
+    {
+        userName="";
+        email="";
+        password="";
+        imageUrl=null;
+        file=null;
+    }
     public void onCountryChange(BigDecimal countryId) {
         System.out.println("in on country Change function");
         try {

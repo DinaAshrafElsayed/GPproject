@@ -59,8 +59,12 @@ public class UserBean implements Serializable {
 //                    //Set the notification here
 //                }
                 System.out.println("user saved in session");
+                String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+                System.out.println("view id "+ viewId);
+                if(viewId.contains("register.xhtml"))
+                    return "items?faces-redirect=true";
                 //supposedly return to home page
-                return "items?faces-redirect=true";
+                return "?faces-redirect=true";
             } else {
                 System.out.println("in error part ");
                 //faces error message email already exists
@@ -82,7 +86,7 @@ public class UserBean implements Serializable {
         HttpSession session = SessionUtil.getSession();
         session.invalidate();
         System.out.println("session invalidated");
-        return "register?faces-redirect=true";
+        return "items?faces-redirect=true";
     }
 
     /**
