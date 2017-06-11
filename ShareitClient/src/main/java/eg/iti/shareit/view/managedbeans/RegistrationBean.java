@@ -98,7 +98,7 @@ public class RegistrationBean implements Serializable {
             } else {
                 System.out.println("in error part ");
                 //faces error message email already exists
-                FacesMessage facesMessage = new FacesMessage("This email isn't valid");
+                FacesMessage facesMessage = new FacesMessage("Error","This email isn't valid");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("form:email", facesMessage);
                 return null;
