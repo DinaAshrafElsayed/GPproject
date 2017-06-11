@@ -8,7 +8,8 @@
                 template="/templates/masterTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:o="http://omnifaces.org/ui"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="title">
         Browse Items
@@ -20,7 +21,7 @@
                 border: 1px solid #41b39c !important;
                 background: #4fbfa8 50% 50% repeat-x !important;
             }
-            
+
         </style>
         <div id="all">
             <h:form prependId="false">
@@ -74,32 +75,29 @@
                                     <p:dataGrid var="item" value="#{itemBean.items}" columns="4" layout="grid"
                                                 rows="6" paginator="true" id="item"
                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                rowsPerPageTemplate="3,6,9">
-                                        
-                                        <div class="product">
-                                            <div class="flip-container">
-                                                <div class="flipper">
-                                                    <div class="front">
-                                                        <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
-                                                    </div>
-                                                    <div class="back">
-                                                        <o:graphicImage  style="height: 316px;width:100%;"  value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                rowsPerPageTemplate="3,6,9" >
+                                            <div class="product">
+                                                <div class="flip-container">
+                                                    <div class="flipper">
+                                                        <div class="front">
+                                                            <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                        </div>
+                                                        <div class="back">
+                                                            <o:graphicImage  style="height: 316px;width:100%;"  value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
-                                            <div class="text">
-                                                <h3><a href="details.xhtml">#{item.name}<br></br>#{item.description}</a></h3>
+                                                <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                <div class="text">
+                                                    <h3><a href="details.xhtml">#{item.name}<br></br>#{item.description}</a></h3>
 
-                                                <p class="price">#{item.points}</p>
-                                                <p class="buttons">
-                                                    <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default">View details</h:link><br/>
-                                                </p>
-                                            </div>
+                                                    <p class="price">#{item.points}</p>
+                                                    <p class="buttons">
+                                                        <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default">View details</h:link><br/>
+                                                    </p>
+                                                </div>
 
-                                        </div>
-                                        <!-- /.product -->
-                                        <!--</div>-->
+                                            </div>
                                     </p:dataGrid>
                                 </h:panelGroup>
                             </div>
