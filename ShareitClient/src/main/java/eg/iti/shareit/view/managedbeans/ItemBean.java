@@ -123,8 +123,14 @@ public class ItemBean implements Serializable {
         return "itemDetails.xhtml?id=" + id;
     }
 
-    public InputStream getImage(String filename) throws FileNotFoundException {
-        return new FileInputStream(new File(filename));
+    public InputStream getImage(String filename) {
+        try {
+        InputStream is =  new FileInputStream(new File(filename));
+        
+        return is;
+        } catch (FileNotFoundException ex) {
+            return null;
+        }
     }
 
 }

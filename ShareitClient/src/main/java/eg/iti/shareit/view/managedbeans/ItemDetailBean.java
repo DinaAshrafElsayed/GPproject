@@ -38,7 +38,7 @@ import javax.servlet.http.Part;
  * @author Yousef
  */
 @Named(value = "itemDetailBean")
-@SessionScoped
+@RequestScoped
 public class ItemDetailBean implements Serializable {
 
     /**
@@ -235,7 +235,7 @@ public class ItemDetailBean implements Serializable {
                 }
             }
             
-             if(user.getUserDto().getPoints() < item.getPoints()){
+             if(user.getUserDto()!=null&&user.getUserDto().getPoints() < item.getPoints()){
                     message = "You don't have enough points";
                     noRequest = true;
                 }

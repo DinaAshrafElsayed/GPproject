@@ -94,9 +94,9 @@
                                                     <f:validateLength minimum="6"/>
                                                 </h:inputText>
                                                 <h:message for="meetingPoint" style="color:red;"/>
-                                                 <br/><br/>
-                                            </c:if>
                                                 <br/><br/>
+                                            </c:if>
+                                            <br/><br/>
                                             <p class="text-center buttons">
                                                 <c:if test="#{itemDetailBean.isRequested ne true}" >
                                                     <h:commandLink value="Request Item" action="#{itemDetailBean.requestItem(itemDetailBean.timeFrom,itemDetailBean.timeTo,itemDetailBean.meetingPoint)}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>
@@ -132,9 +132,9 @@
                                     <p><em>Published at : #{itemDetailBean.item.publishDate}</em>
                                     </p>
                                 </blockquote>
-<!--                                <h:commandLink action="editItem.xhtml" immediate="true" value="Edit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>
-                                </h:commandLink>-->
-<h:link outcome="editItem.xhtml" value="Edit" styleClass="btn btn-default"/>
+                                <!--                                <h:commandLink action="editItem.xhtml" immediate="true" value="Edit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>
+                                                                </h:commandLink>-->
+                                <h:link outcome="editItem.xhtml" value="Edit" styleClass="btn btn-default" class="btn btn-primary"/>
                                 <hr></hr>
                                 <div class="social">
                                     <h4>Show it to your friends</h4>
@@ -150,14 +150,13 @@
                             </div>
 
                             <div class="row same-height-row">
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="box same-height">
+                                <div class="col-md-12 box">
+                                    <div class=" same-height">
                                         <h3>You may also like these products</h3>
-                                    </div>
-                                </div>
+                                    
                                 <ui:repeat var="relatedItem" value="#{itemDetailBean.relatedItems}">
                                     <div class="col-md-3 col-sm-6">
-                                        <div class="product same-height">
+                                        <div class="product same-height ">
                                             <div class="flip-container">
                                                 <div class="flipper">
                                                     <div class="front">
@@ -183,8 +182,8 @@
 
                                     </div>
                                 </ui:repeat>
-
-
+                                    </div>
+                                </div>
                             </div>
 
 
