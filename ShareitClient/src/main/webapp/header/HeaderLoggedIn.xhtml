@@ -45,7 +45,7 @@
                                                     <p class="text-left" style="font-weight: bold;"><strong>#{user.userDto.username}</strong></p>
                                                     <p class="text-left small">#{user.userDto.email}</p>
                                                     <p class="text-left">
-                                                        <h:commandLink action="Profile.xhtml" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
+                                                        <h:commandLink action="#{user.goToProfile(user.userDto.id)}" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
                                                     </p>
                                                 </div>
 

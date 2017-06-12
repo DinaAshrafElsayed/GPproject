@@ -46,6 +46,7 @@ public class ImageUtil {
     public static String SaveImage(final Part file, String savingPath) {
         System.out.println("in save image");
         try (InputStream input = file.getInputStream()) {
+            System.out.println("--------------- in size of image "+file.getSize());
             String fileName = Paths.get(file.getSubmittedFileName()).getFileName().toString();
             File pathFile = new File(savingPath);
             if (pathFile.exists()) {

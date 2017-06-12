@@ -9,6 +9,7 @@ import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.AddressEntity;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
+import java.math.BigDecimal;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -98,5 +99,9 @@ public class UserService {
             logger.log(Level.SEVERE, e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
+    }
+    public UserDto findUser(BigDecimal id){
+        return null;
+    
     }
 }

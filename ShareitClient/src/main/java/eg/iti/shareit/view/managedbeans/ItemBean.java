@@ -122,6 +122,9 @@ public class ItemBean implements Serializable {
     public String goToItem(int id) {
         return "itemDetails.xhtml?id=" + id;
     }
+    public String addItem(){
+        return "addItemForShare.xhtml";
+    }
 
     public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));

@@ -6,7 +6,8 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="../templates/masterTemplate.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                  xmlns:o="http://omnifaces.org/ui">
     <ui:define name="title">
         Edit Profile
     </ui:define>
@@ -79,6 +80,7 @@
                         <label for="image">User Image</label>
                         <h:inputFile value="#{userManagedBean.file}">
                             <f:ajax listener="#{userManagedBean.save()}" />
+            
                         </h:inputFile>
                     </div>
 
