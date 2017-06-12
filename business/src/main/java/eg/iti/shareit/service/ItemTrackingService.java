@@ -14,6 +14,7 @@ import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.BorrowStateEntity;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,6 +58,7 @@ public class ItemTrackingService {
 
     public void updateBorrowStatus(BorrowStateDto borrowStateDto) throws ServiceException {
         try {
+            borrowStateDto.setIsBack(BigInteger.valueOf(1));
             BorrowStateEntity borrowStateEntity = mappingUtil.getEntity(borrowStateDto, BorrowStateEntity.class);
             borrowStateDao.updateBorrowStatus(borrowStateEntity);
         } catch (DatabaseRollbackException ex) {

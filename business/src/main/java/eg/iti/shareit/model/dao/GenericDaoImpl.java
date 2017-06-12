@@ -88,6 +88,7 @@ public abstract class GenericDaoImpl<T extends GenericEntity> implements Generic
     public void update(T object) throws DatabaseRollbackException {
         try {
             em.merge(object);
+            em.flush();
         } catch (PersistenceException ex) {
             throw new DatabaseRollbackException(ex.getMessage());
         }
