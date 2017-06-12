@@ -8,6 +8,7 @@ package eg.iti.shareit.view.managedbeans;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.service.ItemTrackingService;
+import eg.iti.shareit.service.NotificationService;
 import eg.iti.shareit.service.UserService;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,12 +35,13 @@ public class UserBean implements Serializable {
 
     @EJB
     UserService userService;
-
     @EJB
     ItemTrackingService itemTrackingService;
-
+    @EJB
+    NotificationService notificationService;
     private String email;
     private String password;
+    private int notificationNumber;
     //private UserDto userDto;
 
     public UserBean() {
@@ -55,7 +57,11 @@ public class UserBean implements Serializable {
                 //save in session
                 HttpSession session = SessionUtil.getSession();
                 session.setAttribute("userDto", userDto);
+                //Check if the due date is today or after the day
                 itemTrackingService.handleBorrowingDueDate(userDto);
+
+                //Get the notifications of the user
+                notificationNumber = notificationService.getNotSeenNotifications(userDto).size();
                 System.out.println("user saved in session");
                 //supposedly return to home page
                 return "items?faces-redirect=true";
@@ -109,6 +115,17 @@ public class UserBean implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getNotificationNumber() {
+        return notificationNumber;
+    }
+
+    /**
+     * @param NotificationNumbers the NotificationNumbers to set
+     */
+    public void setNotificationNumber(int notificationNumber) {
+        this.notificationNumber = notificationNumber;
     }
 
     /**
