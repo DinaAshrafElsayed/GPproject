@@ -9,9 +9,12 @@ import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dao.ActivityDao;
 import eg.iti.shareit.model.dao.BorrowStateDao;
+import eg.iti.shareit.model.dto.BorrowStateDto;
 import eg.iti.shareit.model.dto.UserDto;
+import eg.iti.shareit.model.entity.BorrowStateEntity;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -35,6 +38,27 @@ public class ItemTrackingService {
         try {
             UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
             borrowStateDao.handleBorrowingDueDate(userEntity);
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ItemTrackingService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+
+    public List<BorrowStateDto> getBorrowStatus(UserDto userDto) throws ServiceException {
+        try {
+            UserEntity userEntity = mappingUtil.getEntity(userDto, UserEntity.class);
+            List<BorrowStateDto> dtoList = mappingUtil.<BorrowStateEntity, BorrowStateDto>getDtoList(borrowStateDao.getBorrowStatus(userEntity), BorrowStateDto.class);
+            return dtoList;
+        } catch (DatabaseRollbackException e) {
+            Logger.getLogger(ItemTrackingService.class.getName()).log(Level.SEVERE, null, e);
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public void updateBorrowStatus(BorrowStateDto borrowStateDto) throws ServiceException {
+        try {
+            BorrowStateEntity borrowStateEntity = mappingUtil.getEntity(borrowStateDto, BorrowStateEntity.class);
+            borrowStateDao.update(borrowStateEntity);
         } catch (DatabaseRollbackException ex) {
             Logger.getLogger(ItemTrackingService.class.getName()).log(Level.SEVERE, null, ex);
             throw new ServiceException(ex.getMessage());
