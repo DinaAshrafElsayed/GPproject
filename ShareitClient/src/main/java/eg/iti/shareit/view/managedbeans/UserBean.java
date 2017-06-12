@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -143,6 +144,12 @@ public class UserBean implements Serializable {
 //    }
     public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
+    }
+    ////////////////// by sara ///////////////////
+    public String goToProfile(BigDecimal id){
+        
+        return "Profile.xhtml?id"+id;
+    
     }
 
 }

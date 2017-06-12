@@ -9,6 +9,7 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
+import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.service.ActivityService;
 import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
@@ -24,11 +25,13 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -75,6 +78,15 @@ public class ItemDetailBean implements Serializable {
     private String name;
     private int points;
     private String tags;
+    private Part file;
+
+    public Part getFile() {
+        return file;
+    }
+
+    public void setFile(Part file) {
+        this.file = file;
+    }
 
     public CategoryService getCategoryService() {
         return categoryService;
@@ -223,7 +235,7 @@ public class ItemDetailBean implements Serializable {
                 }
             }
             
-             if(user.getUserDto().getPoints() < item.getPoints()){
+             if(user.getUserDto()!=null&&user.getUserDto().getPoints() < item.getPoints()){
                     message = "You don't have enough points";
                     noRequest = true;
                 }
@@ -388,13 +400,19 @@ public class ItemDetailBean implements Serializable {
 //        }
 //    }
     
+    public void save(){
+    System.out.println("in save method");
+        imageUrl = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
+    }
     public void updateItem(){
         try {
+            System.out.println("-------------- in update item method");
             String categoryName = item.getCategory().getName();
-            CategoryDto categoryDto = categoryService.getCategoryByName(categoryName);
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto = categoryService.getCategoryByName(categoryName);
             item.setCategory(categoryDto);
             item.setDescription(description);
-            item.setImageUrl(imageUrl);
+//            item.setImageUrl(imageUrl);
             item.setIsAvailable(isAvailabe);
             item.setName(name);
             item.setPoints(points);
