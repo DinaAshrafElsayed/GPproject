@@ -28,7 +28,7 @@
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
         </script>
-        <o:form>
+        <o:form enctype="multipart/form-data" prependId="false">
             <div id="all">
 
                 <div id="content">
@@ -41,7 +41,7 @@
                                 <li>
                                     <h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
                                 </li>
-                                <li>Item : #{itemDetailBean.item.name} details</li>
+                                <li>Item : #{itemEditBean.item.name} details</li>
                             </ul>
 
                         </div>
@@ -49,109 +49,50 @@
                         <div class="col-md-12">
 
                             <div class="row" id="productMain">
-                                <h1 class="text-center">#{itemDetailBean.item.name}</h1>
+                                <h1 class="text-center">#{itemEditBean.item.name}</h1>
                                 <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to item details </a>
                                 </p>
-
-                    
-
-                                    <label for="timeFrom" >Time From :</label>
-                                    <h:inputText  class="form-control" id="timeFrom" value="#{itemDetailBean.timeFrom}" pt:type="date" required="true" requiredMessage="this field is required" />
-                                    <h:message for="timeFrom" style="color:red;"/>
-                                    <br/>
-
-                                    <label for="timeTo" >Time To :</label>
-                                    <h:inputText  class="form-control" id="timeTo" value="#{itemDetailBean.timeTo}" pt:type="date" required="true" requiredMessage="this field is required" />
-                                    <h:message for="timeTo" style="color:red;"/>
-                                    <br/>
-                                    <label for="Meeting Point" >Meeting Point :</label>
-                                    <h:inputText class="form-control" id="meetingPoint" value="#{itemDetailBean.meetingPoint}"  required="true" 
-                                                 requiredMessage="this field is required" 
-                                                 validatorMessage="this field must be more than 6 length" >
-                                        <f:validateLength minimum="6"/>
-                                    </h:inputText>
-                                    <h:message for="meetingPoint" style="color:red;"/>
-                                    <br/><br/>
                                 
-
-
-                            
-
-
                             <div id="details">
 
                                 <h4>Item Details:</h4>
+                                
+                                <p><label>Name:</label>
+                                    <h:inputTextarea h:class="form-control" value="#{itemEditBean.item.name}"/>
+                                </p>
+                                
                                 <p><label>Description:</label>
-                                    <h:inputTextarea h:class="form-control" value="#{itemDetailBean.description}"/>
+                                    <h:inputTextarea h:class="form-control" value="#{itemEditBean.item.description}"/>
                                 </p>
                                 <p>
                                     <label>Category:</label>
-                                    <h:inputText class="form-control" value="#{itemDetailBean.category.name}"/>
+                                    <h:inputText class="form-control" value="#{itemEditBean.category.name}"/>
                                 </p>
 
                                 <p>
                                     <label>Tags:</label>
-                                    <h:inputText class="form-control" value="#{itemDetailBean.tags}"/>
+                                    <h:inputText class="form-control" value="#{itemEditBean.item.tags}"/>
                                 </p>
 
                                 <p>
                                     <label>Number Of Points:</label>
-                                    <h:inputText class="form-control" value="#{itemDetailBean.points}"/>
+                                    <h:inputText class="form-control" value="#{itemEditBean.item.points}"/>
                                 </p>
 
                                 <div class="form-group">
                                     <label for="image">User Image</label>
-                                    <h:inputFile value="#{itemDetailBean.file}">
-                                        <f:ajax listener="#{itemDetailBean.save()}" />
+                                    <h:inputFile value="#{itemEditBean.item.imageUrl}">
+                                        <f:ajax listener="#{itemEditBean.save()}" />
                                     </h:inputFile>
                                 </div>
 
-<!--                                <div class="text-center">
-                                    <h:commandLink class="btn btn-primary" action="#{itemDetailBean.updateItem()}" ><i class="fa fa-user-md"></i> update</h:commandLink>
-                                </div>-->
+                                <div class="text-center">
+                                    <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}" ><i class="fa fa-user-md"></i> update</h:commandLink>
+                                </div>
                                 <br/>
 
                             </div>
                                 </div>
-
-                            <div class="row same-height-row">
-                                <div class="col-md-12">
-                                    <div class="box same-height row">
-                                        <h3>You may also like these products</h3>
-
-                                        <ui:repeat var="relatedItem" value="#{itemDetailBean.relatedItems}">
-                                            <div class="col-md-3 col-sm-6">
-                                                <div class="product">
-                                                    <div class="flip-container">
-                                                        <div class="flipper">
-                                                            <div class="front">
-                                                                <h:link outcome="#{itemBean.goToItem(relatedItem.id)}" >
-                                                                    <o:graphicImage value="#{itemBean.getImage(relatedItem.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
-                                                                </h:link>
-                                                            </div>
-                                                            <div class="back">
-                                                                <h:link outcome="#{itemBean.goToItem(relatedItem.id)}" >
-                                                                    <o:graphicImage value="#{itemBean.getImage(relatedItem.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
-                                                                </h:link>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <h:link outcome="#{itemBean.goToItem(relatedItem.id)}" class="invisible" >
-                                                        <o:graphicImage value="#{itemBean.getImage(relatedItem.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
-                                                    </h:link>
-                                                    <div class="text">
-                                                        <h3>#{relatedItem.name}</h3>
-                                                        <p class="price">#{relatedItem.points} points</p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </ui:repeat>
-                                    </div>
-                                </div>
-
-                            </div>
-
 
                         </div>
                         <!-- /.col-md-9 -->
