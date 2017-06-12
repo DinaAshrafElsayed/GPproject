@@ -13,6 +13,10 @@ import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.dto.StateDto;
 import eg.iti.shareit.service.AddressService;
 import eg.iti.shareit.service.ItemService;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -43,16 +47,16 @@ public class AdvancedSearchBean implements Serializable {
     //@EJB
     //AddressService addressService;
 
-    @Inject
-    ItemBean itemBean;
-   
+//    @Inject
+//    ItemBean itemBean;
+//   
 //    private List<CountryDto> countries;
 //    private List<StateDto> states;
 //    private List<CityDto> cities;
     private CountryDto country;
     private CityDto city;
     private StateDto state;
-    
+    private List<ItemDto> items;
    
 //    public void onCountryChange(BigDecimal countryId) {
 //        System.out.println("in on country Change function");
@@ -90,10 +94,10 @@ public class AdvancedSearchBean implements Serializable {
             addressDto.setState(getState());
             addressDto.setCity(getCity());
             System.out.println("addressDto is : "+addressDto);
-            List<ItemDto> items = itemService.searchByLocation(addressDto);
-            System.out.println("items " + items.size());
-            itemBean.setItems(items);
-            return "items";
+            setItems(itemService.searchByLocation(addressDto));
+            System.out.println("items " + getItems().size());
+            //itemBean.setItems(items);
+            return "";
         } catch (ServiceException ex) {
             Logger.getLogger(SearchBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -194,5 +198,25 @@ public class AdvancedSearchBean implements Serializable {
      */
     public void setState(StateDto state) {
         this.state = state;
+    }
+
+    /**
+     * @return the items
+     */
+    public List<ItemDto> getItems() {
+        return items;
+    }
+
+    /**
+     * @param items the items to set
+     */
+    public void setItems(List<ItemDto> items) {
+        this.items = items;
+    }
+    public String goToItem(int id) {
+        return "itemDetails.xhtml?id=" + id;
+    }
+    public InputStream getImage(String filename) throws FileNotFoundException {
+        return new FileInputStream(new File(filename));
     }
 }
