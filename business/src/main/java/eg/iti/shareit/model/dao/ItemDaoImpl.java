@@ -32,25 +32,26 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 
     @EJB
     ItemDao itemDao;
+
     public ItemDaoImpl() {
         super(ItemEntity.class);
     }
-    
+
     @Override
     public List<ItemEntity> getRelatedItems(ItemEntity myItem) throws DatabaseRollbackException {
         Query query;
         String[] tags = myItem.getTags().split(",");
         String queryString = "SELECT i FROM ItemEntity i WHERE i.id <> :itemId ";
         queryString += "And ( ";
-        for(String tag : tags){
-            queryString += "i.tags LIKE '%"+tag+"%' or ";
+        for (String tag : tags) {
+            queryString += "i.tags LIKE '%" + tag + "%' or ";
         }
-        queryString = queryString.substring(0,queryString.length()-3);
+        queryString = queryString.substring(0, queryString.length() - 3);
         queryString += " )";
         query = getEntityManager().createQuery(queryString);
         query.setParameter("itemId", myItem.getId());
         List<ItemEntity> itemsList = query.setMaxResults(3).getResultList();
-        
+
         return itemsList;
     }
 
@@ -100,9 +101,9 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
         query.setParameter("itemId", new BigDecimal(itemId));
 
         try {
-            List<ActivityEntity> activityList = query.getResultList();
-            if (activityList != null) {
-                if (activityList.size() == 1) {
+            List<ItemEntity> itemEntitys = query.getResultList();
+            if (itemEntitys != null) {
+                if (itemEntitys.size() == 1) {
                     return true;
                 } else {
                     return false;
@@ -176,7 +177,7 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
                 + "i.userFrom.address.country = :country and "
                 + "i.userFrom.address.state = :state and "
                 + "i.userFrom.address.city = :city");
-        
+
         query.setParameter("country", countryEntity)
                 .setParameter("state", stateEntity)
                 .setParameter("city", cityEntity);
@@ -194,9 +195,9 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 
     @Override
     public void updateItem(ItemEntity updateItem) throws DatabaseRollbackException {
-        try{ 
-        itemDao.update(updateItem);
-        }catch (PersistenceException e) {
+        try {
+            itemDao.update(updateItem);
+        } catch (PersistenceException e) {
             throw new DatabaseRollbackException(e.getMessage());
         }
     }

@@ -58,7 +58,7 @@ public class ItemTrackingService {
     public void updateBorrowStatus(BorrowStateDto borrowStateDto) throws ServiceException {
         try {
             BorrowStateEntity borrowStateEntity = mappingUtil.getEntity(borrowStateDto, BorrowStateEntity.class);
-            borrowStateDao.update(borrowStateEntity);
+            borrowStateDao.updateBorrowStatus(borrowStateEntity);
         } catch (DatabaseRollbackException ex) {
             Logger.getLogger(ItemTrackingService.class.getName()).log(Level.SEVERE, null, ex);
             throw new ServiceException(ex.getMessage());
