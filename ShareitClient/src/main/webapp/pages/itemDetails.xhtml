@@ -96,12 +96,12 @@
                                                 <h:message for="meetingPoint" style="color:red;"/>
 
                                             </c:if>
+                                                <br/><br/>
                                             <p class="text-center buttons">
                                                 <c:if test="#{itemDetailBean.isRequested ne true}" >
                                                     <h:commandLink value="Request Item" action="#{itemDetailBean.requestItem(itemDetailBean.timeFrom,itemDetailBean.timeTo,itemDetailBean.meetingPoint)}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>
                                                     </h:commandLink>
                                                 </c:if>
-                                                <br/><br/>
                                                 <c:if test="#{itemDetailBean.isRequested eq true}" >
                                                     <h:commandLink value="Cancel Request" action="#{itemDetailBean.cancelRequest()}" class="btn btn-danger"><i class="fa fa-shopping-cart"></i>
                                                     </h:commandLink>
