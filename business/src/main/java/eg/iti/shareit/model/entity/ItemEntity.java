@@ -54,6 +54,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ItemEntity implements Serializable, GenericEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
+    private List<ActivityEntity> activityEntityList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
     private List<NotificationEntity> notificationEntityList;
 
     private static final long serialVersionUID = 1L;
@@ -232,6 +235,15 @@ public class ItemEntity implements Serializable, GenericEntity {
 
     public void setNotificationEntityList(List<NotificationEntity> notificationEntityList) {
         this.notificationEntityList = notificationEntityList;
+    }
+
+    @XmlTransient
+    public List<ActivityEntity> getActivityEntityList() {
+        return activityEntityList;
+    }
+
+    public void setActivityEntityList(List<ActivityEntity> activityEntityList) {
+        this.activityEntityList = activityEntityList;
     }
 
 }

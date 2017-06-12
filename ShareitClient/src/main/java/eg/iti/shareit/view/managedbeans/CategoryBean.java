@@ -33,9 +33,9 @@ public class CategoryBean implements Serializable {
     
     private List<CategoryDto> categories;
     
-    private List<CategoryDto> firstList;
+    private List<CategoryDto> firstList=new ArrayList<>();
     
-    private List<CategoryDto> secondList;
+    private List<CategoryDto> secondList=new ArrayList<>();
     
     private int categoryListSize;
     
@@ -102,22 +102,23 @@ public class CategoryBean implements Serializable {
         try {
             System.out.println("in get categories intialization ");
             categories = categoryService.getAllCategories();
-            System.out.println("categories are " + categories);
-//            categoryListSize = categories.size();
-//        if (categoryListSize % 2 == 0) {
-//            firstListSize = categoryListSize / 2;
-//            secondListSize = categoryListSize - firstListSize;
-//        } else {
-//            categoryListSize += 1;
-//            firstListSize = categoryListSize / 2;
-//            secondListSize = categoryListSize - firstListSize;
-//        }
-//         for (int first = 0; first < firstListSize; first++) {
-//                firstList.add(categories.get(first));
-//            }
-//            for (int second = firstListSize; second < categories.size(); second++) {
-//                secondList.add(categories.get(second));
-//            }
+            System.out.println("categories are " + categories.size());
+            categoryListSize = categories.size();
+        if (categoryListSize % 2 == 0) {
+            firstListSize = categoryListSize / 2;
+            secondListSize = categoryListSize - firstListSize;
+        } else {
+            categoryListSize += 1;
+            firstListSize = categoryListSize / 2;
+            secondListSize = categoryListSize - firstListSize;
+        }
+         for (int first = 0; first < firstListSize; first++) {
+                firstList.add(categories.get(first));
+                System.out.println("categories name in categoryBean: "+firstList.get(first).getName());
+            }
+            for (int second = firstListSize; second < categories.size(); second++) {
+                secondList.add(categories.get(second));
+            }
         } catch (ServiceException ex) {
             Logger.getLogger(CategoryBean.class.getName()).log(Level.SEVERE, null, ex);
         }

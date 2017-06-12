@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,6 +33,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -49,6 +52,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ActivityEntity.findByActivityDeleted", query = "SELECT t FROM ActivityEntity t WHERE t.activityDeleted = :activityDeleted")})
 public class ActivityEntity implements Serializable,
         GenericEntity {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
+    private List<BorrowStateEntity> borrowStateEntityList;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -202,6 +208,15 @@ public class ActivityEntity implements Serializable,
     @Override
     public String toString() {
         return "eg.iti.shareit.model.entity.ActivityEntity[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<BorrowStateEntity> getBorrowStateEntityList() {
+        return borrowStateEntityList;
+    }
+
+    public void setBorrowStateEntityList(List<BorrowStateEntity> borrowStateEntityList) {
+        this.borrowStateEntityList = borrowStateEntityList;
     }
 
 }
