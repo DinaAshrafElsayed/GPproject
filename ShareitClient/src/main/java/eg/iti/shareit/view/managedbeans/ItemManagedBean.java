@@ -195,32 +195,31 @@ public class ItemManagedBean implements java.io.Serializable {
             item.setCategory(category);
 
             itemService.addItemForShare(item);
-             return "items?faces-redirect=true";
-        }
-        else
-        {
-           System.out.println("---------------------------------- error in add item");
-             
-                FacesMessage facesMessage = new FacesMessage("this points exceeded the max no of points allowed ");
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "Item Added Successfully"));
+            return "";
+      //      return "items?faces-redirect=true";
+        } else {
+            System.out.println("---------------------------------- error in add item");
+              FacesMessage facesMessage = new FacesMessage("Error","this points exceeded the max no of points allowed ");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
-                facesContext.addMessage("form:points", facesMessage);
-         
-                return null;  
+                 facesContext.addMessage("addItemForm:points", facesMessage);
+          
+            return null;
         }
-       
 
     }
 
     public void save() {
         image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
     }
-    
-    public void validatePoints(FacesContext context, UIComponent comp,
-			Object value) {
-       int pts=category.getMaxPoints();
-       if ((int)value>pts){
-       
-       }
-       
-    }
+//    
+//    public void validatePoints(FacesContext context, UIComponent comp,
+//			Object value) {
+//       int pts=category.getMaxPoints();
+//       if ((int)value>pts){
+//       
+//       }
+//       
+//    }
 }

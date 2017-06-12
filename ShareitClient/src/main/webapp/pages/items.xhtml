@@ -46,6 +46,9 @@
                                     </span>
                                 </div>
                             </div>
+                            <div style="position: relative;float: right;">
+                                <h:link outcome="addItemForShare.xhtml" styleClass="btn btn-primary" ><i class="fa fa-plus"> add item</i></h:link>
+                            </div>
 
 
                             <div class="box info-bar">
@@ -57,12 +60,15 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="products-sort-by">
                                                         <strong>Choose your Category: </strong>
+
                                                         <h:selectOneMenu  styleClass="form-control" value="#{itemBean.categoryId}" style="width:125px" id="categoryId">
                                                             <f:selectItem itemLabel="All" itemValue="0" />
                                                             <f:selectItems value="#{itemBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
                                                             <f:ajax event="click" listener="#{itemBean.doSearch()}" render="itemsData" />
                                                         </h:selectOneMenu>
                                                     </div>
+
+
                                                 </div>
                                             </form>
                                         </div>
@@ -76,28 +82,28 @@
                                                 rows="6" paginator="true" id="item"
                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                 rowsPerPageTemplate="3,6,9" >
-                                            <div class="product">
-                                                <div class="flip-container">
-                                                    <div class="flipper">
-                                                        <div class="front">
-                                                            <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
-                                                        </div>
-                                                        <div class="back">
-                                                            <o:graphicImage  style="height: 316px;width:100%;"  value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
-                                                        </div>
+                                        <div class="product">
+                                            <div class="flip-container">
+                                                <div class="flipper">
+                                                    <div class="front">
+                                                        <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                    </div>
+                                                    <div class="back">
+                                                        <o:graphicImage  style="height: 316px;width:100%;"  value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
                                                     </div>
                                                 </div>
+                                            </div>
                                             <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
                                             <div class="text">
                                                 <h3><h:link outcome="#{itemBean.goToItem(item.id)}">#{item.name}<br></br>#{item.description}</h:link></h3>
 
-                                                    <p class="price">#{item.points}</p>
-                                                    <p class="buttons">
-                                                        <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-primary" style="color: white">View details</h:link><br/>
-                                                    </p>
-                                                </div>
-
+                                                <p class="price">#{item.points}</p>
+                                                <p class="buttons">
+                                                    <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default">View details</h:link><br/>
+                                                </p>
                                             </div>
+
+                                        </div>
                                     </p:dataGrid>
                                 </h:panelGroup>
                             </div>

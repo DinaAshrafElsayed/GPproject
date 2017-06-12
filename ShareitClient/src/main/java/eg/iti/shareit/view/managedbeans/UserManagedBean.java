@@ -33,6 +33,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -43,7 +44,7 @@ import javax.servlet.http.Part;
  * @author sara metwalli
  */
 @ManagedBean(name = "userManagedBean")
-@SessionScoped
+@RequestScoped
 public class UserManagedBean implements Serializable {
 
     private UserDto userDto;
@@ -182,6 +183,7 @@ public class UserManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        
         userDto = SessionUtil.getUser();
         username = userDto.getUsername();
         email = userDto.getEmail();
