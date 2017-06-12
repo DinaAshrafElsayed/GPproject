@@ -5,15 +5,18 @@
  */
 package eg.iti.shareit.model.dao;
 
+import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.BorrowStateEntity;
 import eg.iti.shareit.model.entity.UserEntity;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  *
@@ -31,14 +34,47 @@ public class BorrowStateImpl extends GenericDaoImpl<BorrowStateEntity> implement
 
     @Override
     public void handleBorrowingDueDate(UserEntity userEntity) throws DatabaseRollbackException {
-        List<ActivityEntity> activityEntities = activityDao.getAvtivityOfUser(userEntity);
-        for (ActivityEntity activityEntity : activityEntities) {
-            if (activityEntity.getTimeTo().equals(new Date()) || activityEntity.getTimeTo().before(new Date())) {
-                BorrowStateEntity borrowStateEntity = new BorrowStateEntity();
-                borrowStateEntity.setActivity(activityEntity);
-                borrowStateEntity.setIsBack(BigInteger.valueOf(0));
-                save(borrowStateEntity);
+        try {
+
+            List<ActivityEntity> activityEntities = activityDao.getAvtivityOfUser(userEntity);
+            for (ActivityEntity activityEntity : activityEntities) {
+                if (!isActivityInserted(activityEntity)) {
+                    if (activityEntity.getTimeTo().equals(new Date()) || activityEntity.getTimeTo().before(new Date())) {
+
+                        BorrowStateEntity borrowStateEntity = new BorrowStateEntity();
+                        borrowStateEntity.setActivity(activityEntity);
+                        borrowStateEntity.setIsBack(BigInteger.valueOf(0));
+                        save(borrowStateEntity);
+                    }
+                }
             }
+        } catch (DatabaseException e) {
+            throw new DatabaseRollbackException(e.getMessage());
         }
+    }
+
+    @Override
+    public List<BorrowStateEntity> getBorrowStatus(UserEntity userEntity) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select b From BorrowStateEntity b where b.activity.toUser=" + userEntity.getId() + " and  b.isBack =0");
+        List<BorrowStateEntity> borrowStateEntities = query.getResultList();
+        if (borrowStateEntities != null) {
+            return borrowStateEntities;
+        }
+        return null;
+    }
+
+    @Override
+    public void update(BorrowStateEntity borrowStateEntity) throws DatabaseRollbackException {
+        borrowStateEntity.setIsBack(BigInteger.valueOf(1));
+        super.update(borrowStateEntity);
+    }
+
+    public boolean isActivityInserted(ActivityEntity activityEntity) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select b From BorrowStateEntity b where b.activity.id=" + activityEntity.getId());
+        List<BorrowStateEntity> borrowStateEntities = query.getResultList();
+        if (borrowStateEntities.size() > 0) {
+            return true;
+        }
+        return false;
     }
 }
