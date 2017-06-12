@@ -19,7 +19,7 @@ public class BorrowStateDto implements Serializable, GenericDto {
 
     private BigDecimal id;
     private BigInteger isBack;
-    private ActivityDto activityDto;
+    private ActivityEntity activity;
 
     public BigDecimal getId() {
         return id;
@@ -37,12 +37,12 @@ public class BorrowStateDto implements Serializable, GenericDto {
         this.isBack = isBack;
     }
 
-    public ActivityDto getActivityDto() {
-        return activityDto;
+    public ActivityEntity getActivity() {
+        return activity;
     }
 
-    public void setActivityDto(ActivityDto activityDto) {
-        this.activityDto = activityDto;
+    public void setActivity(ActivityEntity activity) {
+        this.activity = activity;
     }
 
 }
