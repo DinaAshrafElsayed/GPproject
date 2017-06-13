@@ -52,47 +52,51 @@
                                 <h1 class="text-center">#{itemEditBean.item.name}</h1>
                                 <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to item details </a>
                                 </p>
-                                
-                            <div id="details">
 
-                                <h4>Item Details:</h4>
-                                
-                                <p><label>Name:</label>
-                                    <h:inputTextarea h:class="form-control" value="#{itemEditBean.item.name}"/>
-                                </p>
-                                
-                                <p><label>Description:</label>
-                                    <h:inputTextarea h:class="form-control" value="#{itemEditBean.item.description}"/>
-                                </p>
-                                <p>
-                                    <label>Category:</label>
-                                    <h:inputText class="form-control" value="#{itemEditBean.category.name}"/>
-                                </p>
+                                <div id="details">
 
-                                <p>
-                                    <label>Tags:</label>
-                                    <h:inputText class="form-control" value="#{itemEditBean.item.tags}"/>
-                                </p>
+                                    <h4>Item Details:</h4>
 
-                                <p>
-                                    <label>Number Of Points:</label>
-                                    <h:inputText class="form-control" value="#{itemEditBean.item.points}"/>
-                                </p>
+                                    <p><label>Name:</label>
+                                        <h:inputText class="form-control" value="#{itemEditBean.name}"/>
+                                    </p>
 
-                                <div class="form-group">
-                                    <label for="image">User Image</label>
-                                    <h:inputFile value="#{itemEditBean.item.imageUrl}">
-                                        <f:ajax listener="#{itemEditBean.save()}" />
-                                    </h:inputFile>
+                                    <p><label>Description:</label>
+                                        <h:inputTextarea class="form-control" value="#{itemEditBean.description}"/>
+                                    </p>
+                                    <p>
+                                        <label>Category:</label>
+                                        <h:selectOneMenu  styleClass="form-control" value="#{itemBean.categoryId}" style="width:125px" id="categoryId">
+                                            <f:selectItem itemLabel="All" itemValue="0" />
+                                            <f:selectItems value="#{itemBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
+                                            
+                                        </h:selectOneMenu>
+                                    </p>
+
+                                    <p>
+                                        <label>Tags:</label>
+                                        <h:inputText class="form-control" value="#{itemEditBean.tags}"/>
+                                    </p>
+
+                                    <p>
+                                        <label>Number Of Points:</label>
+                                        <h:inputText class="form-control" value="#{itemEditBean.points}"/>
+                                    </p>
+
+                                    <div class="form-group">
+                                        <label for="image">User Image</label>
+                                        <h:inputFile value="#{itemEditBean.item.imageUrl}">
+                                            <f:ajax listener="#{itemEditBean.save()}" />
+                                        </h:inputFile>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}" ><i class="fa fa-user-md"></i> update</h:commandLink>
+                                    </div>
+                                    <br/>
+
                                 </div>
-
-                                <div class="text-center">
-                                    <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}" ><i class="fa fa-user-md"></i> update</h:commandLink>
-                                </div>
-                                <br/>
-
                             </div>
-                                </div>
 
                         </div>
                         <!-- /.col-md-9 -->
