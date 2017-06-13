@@ -10,6 +10,7 @@ import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.CityDto;
 import eg.iti.shareit.model.dto.CountryDto;
 import eg.iti.shareit.model.dto.GenderDto;
+import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.dto.StateDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.util.HashingUtil;
@@ -44,7 +45,7 @@ import javax.servlet.http.Part;
  * @author sara metwalli
  */
 @ManagedBean(name = "userManagedBean")
-@RequestScoped
+@SessionScoped
 public class UserManagedBean implements Serializable {
 
     private UserDto userDto;
@@ -59,6 +60,7 @@ public class UserManagedBean implements Serializable {
     private CityDto city;
     private StateDto state;
     private Part file;
+    private List<ItemDto> items;
 
     @EJB
     UserService userService;
@@ -183,7 +185,7 @@ public class UserManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        
+
         userDto = SessionUtil.getUser();
         username = userDto.getUsername();
         email = userDto.getEmail();
@@ -192,7 +194,8 @@ public class UserManagedBean implements Serializable {
         country = userDto.getAddress().getCountry();
         city = userDto.getAddress().getCity();
         state = userDto.getAddress().getState();
-
+        items = userDto.getItems();
+        System.out.println("the user items size is " + items.size());
     }
 
     public void save() {
@@ -206,8 +209,7 @@ public class UserManagedBean implements Serializable {
 //            FacesContext facesContext = FacesContext.getCurrentInstance();
 //            facesContext.addMessage(null, facesMessage);
 //        }
-
-    System.out.println("in save method");
+        System.out.println("in save method");
         image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\userProfile\\");
 
     }
@@ -229,17 +231,36 @@ public class UserManagedBean implements Serializable {
                 userDto.setPassword(hashingUtil.getHashedPassword(password));
                 userDto.setImageUrl(image_url);
                 userService.updateUser(userDto);
-                
+
             } catch (ServiceException ex) {
                 Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-                
+
             }
-            
+
         }
         return "Profile?faces-redirect=true";
     }
- public InputStream getImage(String filename) throws FileNotFoundException {
+
+    public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
+    }
+
+    public String goToItem(int id) {
+        return "itemDetails.xhtml?id=" + id;
+    }
+
+    /**
+     * @return the items
+     */
+    public List<ItemDto> getItems() {
+        return items;
+    }
+
+    /**
+     * @param items the items to set
+     */
+    public void setItems(List<ItemDto> items) {
+        this.items = items;
     }
 
 }
