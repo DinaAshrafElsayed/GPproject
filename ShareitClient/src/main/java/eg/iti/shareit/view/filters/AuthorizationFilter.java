@@ -45,9 +45,10 @@ public class AuthorizationFilter implements Filter {
             //all pages that doesnt need login
             // or make filter on specfic pages instead easier
             String reqURI = req.getRequestURI();
+            
             if (reqURI.contains("items.xhtml") || reqURI.contains("About_us.xhtml")
                     || reqURI.contains("Contact_us.xhtml") || reqURI.contains("fag.xhtml")
-                    || reqURI.contains("advancedSearch.xhtml") ) {
+                    || reqURI.contains("advancedSearch.xhtml") || reqURI.contains("itemDetails.xhtml")) {
                 System.out.println("contiune with no redirect pages that dont need authentication");
                 chain.doFilter(request, response);
             } else if (reqURI.contains("/register.xhtml") && userSession != null && userSession.getAttribute("userDto") != null) {

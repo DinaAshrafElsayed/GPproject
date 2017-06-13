@@ -77,50 +77,52 @@
 
                             </div>
                             <!--<div class="col-sm-6">-->
-                            <div class="box">
-                                <c:if test="#{user.userDto ne null and itemDetailBean.noRequest eq false}" >
+                            <c:if test="#{(user.userDto ne null and user.userDto.id.intValue() ne itemDetailBean.item.userFrom.id.intValue())}">
+                                <div class="box">
+                                    <c:if test="#{user.userDto ne null and itemDetailBean.noRequest eq false}" >
 
-                                    <c:if test="#{itemDetailBean.isRequested ne true}" >
-                                        <label for="timeFrom" >Time From :</label>
-                                        <h:inputText  class="form-control" id="timeFrom" value="#{itemDetailBean.timeFrom}" pt:type="date" pt:min="#{itemDetailBean.todayString}" required="true"  
-                                                      requiredMessage="this field is required" >
-                                        </h:inputText>
-                                        <!--<p:calendar id="timeFrom"  />-->
-
-                                        <h:message for="timeFrom" style="color:red;" />
-                                        <br/>
-
-                                        <label for="timeTo" >Time To :</label>
-                                        <h:inputText  class="form-control" id="timeTo" value="#{itemDetailBean.timeTo}" pt:type="date" required="true" requiredMessage="this field is required" />
-                                        <h:message for="timeTo" style="color:red;"/>
-                                        <br/>
-                                        <label for="Meeting Point" >Meeting Point :</label>
-                                        <h:inputText class="form-control" id="meetingPoint" value="#{itemDetailBean.meetingPoint}"  required="true" 
-                                                     requiredMessage="this field is required" 
-                                                     validatorMessage="this field must be more than 6 length" >
-                                            <f:validateLength minimum="6"/>
-                                        </h:inputText>
-                                        <h:message for="meetingPoint" style="color:red;"/>
-                                        <br/><br/>
-                                    </c:if>
-                                    <br/><br/>
-                                    <p class="text-center buttons">
                                         <c:if test="#{itemDetailBean.isRequested ne true}" >
-                                            <h:commandLink value="Request Item" action="#{itemDetailBean.requestItem(itemDetailBean.timeFrom,itemDetailBean.timeTo,itemDetailBean.meetingPoint)}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>
-                                            </h:commandLink>
-                                        </c:if>
-                                        <c:if test="#{itemDetailBean.isRequested eq true}" >
-                                            <h:commandLink value="Cancel Request" action="#{itemDetailBean.cancelRequest()}" class="btn btn-danger"><i class="fa fa-shopping-cart"></i>
-                                            </h:commandLink>
-                                        </c:if>
+                                            <label for="timeFrom" >Time From :</label>
+                                            <h:inputText  class="form-control" id="timeFrom" value="#{itemDetailBean.timeFrom}" pt:type="date" pt:min="#{itemDetailBean.todayString}" required="true"  
+                                                          requiredMessage="this field is required" >
+                                            </h:inputText>
+                                            <!--<p:calendar id="timeFrom"  />-->
 
-                                    </p>
-                                </c:if>
-                                <c:if test="#{user.userDto ne null and itemDetailBean.noRequest eq true}" >
-                                    <h:outputText value="#{itemDetailBean.message}" 
-                                                  style="display: block;text-align: center;font-weight: 300;font-size: 18px;" />
-                                </c:if>
-                            </div>
+                                            <h:message for="timeFrom" style="color:red;" />
+                                            <br/>
+
+                                            <label for="timeTo" >Time To :</label>
+                                            <h:inputText  class="form-control" id="timeTo" value="#{itemDetailBean.timeTo}" pt:type="date" pt:min="#{itemDetailBean.todayString}" required="true" requiredMessage="this field is required" />
+                                            <h:message for="timeTo" style="color:red;"/>
+                                            <br/>
+                                            <label for="Meeting Point" >Meeting Point :</label>
+                                            <h:inputText class="form-control" id="meetingPoint" value="#{itemDetailBean.meetingPoint}"  required="true" 
+                                                         requiredMessage="this field is required" 
+                                                         validatorMessage="this field must be more than 6 length" >
+                                                <f:validateLength minimum="6"/>
+                                            </h:inputText>
+                                            <h:message for="meetingPoint" style="color:red;"/>
+                                            <br/><br/>
+                                        </c:if>
+                                        <br/><br/>
+                                        <p class="text-center buttons">
+                                            <c:if test="#{itemDetailBean.isRequested ne true}" >
+                                                <h:commandLink value="Request Item" action="#{itemDetailBean.requestItem(itemDetailBean.timeFrom,itemDetailBean.timeTo,itemDetailBean.meetingPoint)}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>
+                                                </h:commandLink>
+                                            </c:if>
+                                            <c:if test="#{itemDetailBean.isRequested eq true}" >
+                                                <h:commandLink value="Cancel Request" action="#{itemDetailBean.cancelRequest()}" class="btn btn-danger"><i class="fa fa-shopping-cart"></i>
+                                                </h:commandLink>
+                                            </c:if>
+
+                                        </p>
+                                    </c:if>
+                                    <c:if test="#{user.userDto ne null and itemDetailBean.noRequest eq true}" >
+                                        <h:outputText value="#{itemDetailBean.message}" 
+                                                      style="display: block;text-align: center;font-weight: 300;font-size: 18px;" />
+                                    </c:if>
+                                </div>
+                            </c:if>
                             <!--</div>-->
 
                             <div class="box" id="details">

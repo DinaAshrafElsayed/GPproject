@@ -6,7 +6,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui">
 
 
     <!-- *** NAVBAR ***
@@ -45,6 +46,61 @@
                     </div>
                 </h:form>
             </div>
+            <c:if test="#{user.userDto != null}">
+                <div class="collapse navbar-collapse" style="float: right;">
+
+                    <ul class="nav navbar-nav navbar-right" >
+                        <li class="dropdown">
+                            <a href="#"  data-toggle="dropdown">
+                                <span  class="fa fa-user"></span>
+                                <strong>#{user.userDto.username}</strong>
+                                <span class="fa fa-chevron-down"></span>
+                            </a>
+                            <ul class="dropdown-menu" >
+                                <h:form>
+                                    <li>
+                                        <div class="navbar-login" style=" width: 305px;
+                                             padding: 10px;
+                                             padding-bottom: 0px; color: black;">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <p class="text-center">
+
+                                                        <o:graphicImage value="#{user.getImage(user.userDto.imageUrl)}" class="img-rounded" width="100" height="100"  dataURI="true" /> 
+                                                    </p>
+                                                </div>
+
+                                                <div class="col-lg-8">
+                                                    <p class="text-left" style="font-weight: bold;"><strong>#{user.userDto.username}</strong></p>
+                                                    <p class="text-left small">#{user.userDto.email}</p>
+                                                    <p class="text-left">
+                                                        <h:commandLink action="#{user.goToProfile(user.userDto.id)}" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="divider navbar-login-session-bg" style=" padding: 10px;
+                                        padding-bottom: 0px;
+                                        padding-top: 0px;"></li>
+
+                                    <h:link class="list-group-item list-group-item"  outcome="notifications.xhtml" style="color: black;" >Notifications <span class="badge pull-right"> #{user.notificationNumber} </span></h:link>
+
+                                    <h:link class="list-group-item list-group-item"  outcome="itemStatus.xhtml" style="color: black;" >Items Status <span class="badge pull-right">#{itemStatusBean.itemNum}</span></h:link>
+
+
+                                    <h:link class="list-group-item list-group-item"  outcome="request.xhtml" style="color: black;" >Requests <span class="fa fa-shopping-cart pull-right"></span></h:link>
+
+
+                                    <h:commandLink class="list-group-item list-group-item-info"  action="#{user.logout()}" style="color: black;" >Sign Out <span class="fa fa-sign-out pull-right"></span></h:commandLink>
+                                </h:form>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </c:if>
             <!--/.navbar-header -->
 
             <div class="navbar-collapse collapse" id="navigation">
@@ -180,6 +236,13 @@
         </div>
         <!-- /.container -->
     </div>
+    <style>
+            .ui-widget-header{
+                border: 1px solid #41b39c !important;
+                background: #4fbfa8 50% 50% repeat-x !important;
+            }
+
+        </style>
 
 
     <!-- /#navbar -->
