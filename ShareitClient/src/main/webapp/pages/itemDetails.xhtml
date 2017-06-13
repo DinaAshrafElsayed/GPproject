@@ -133,7 +133,12 @@
                                 <p>#{itemDetailBean.item.category.name}</p>
                                 <h4>Tags</h4>
                                 <p>#{itemDetailBean.item.tags}</p>
-
+                                <h4>
+                                    Published By
+                                </h4>
+                           
+                                <p>  <h:link  outcome="#{userManagedBean.viewUser(itemDetailBean.item.userFrom.email)}" styleClass="btn btn-default" >Published by</h:link> <br/>  </p>
+                                
                                 <blockquote>
                                     <p><em>Published at : #{itemDetailBean.item.publishDate}</em>
                                     </p>
