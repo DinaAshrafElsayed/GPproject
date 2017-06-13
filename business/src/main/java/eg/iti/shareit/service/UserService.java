@@ -100,8 +100,20 @@ public class UserService {
             throw new ServiceException(e.getMessage());
         }
     }
-    public UserDto findUser(BigDecimal id){
-        return null;
+    public UserDto findUser(BigDecimal id) throws ServiceException{
+           try {
+            UserEntity userEntity = userDao.getUserById(id);
+            if (userEntity != null) {
+                UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
+                //userDto.setAddressDto(mappingUtil.getDto(userEntity.getAddress(), AddressDto.class));
+                System.out.println("userDto is "+userDto);
+                return userDto;
+            }
+            return null;
+        } catch (DatabaseRollbackException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            throw new ServiceException(e.getMessage());
+        }
     
     }
 }

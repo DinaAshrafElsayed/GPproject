@@ -37,6 +37,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
 /**
@@ -47,7 +48,16 @@ import javax.servlet.http.Part;
 @RequestScoped
 public class UserManagedBean implements Serializable {
 
+    public UserDto getUser2() {
+        return user2;
+    }
+
+    public void setUser2(UserDto user2) {
+        this.user2 = user2;
+    }
+
     private UserDto userDto;
+    private UserDto user2;
     private String username;
     private String password;
 
@@ -59,6 +69,7 @@ public class UserManagedBean implements Serializable {
     private CityDto city;
     private StateDto state;
     private Part file;
+    private boolean canEdit = false;
 
     @EJB
     UserService userService;
@@ -91,6 +102,14 @@ public class UserManagedBean implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean getCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
     }
 
     public String getPassword() {
@@ -184,14 +203,25 @@ public class UserManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         
-        userDto = SessionUtil.getUser();
-        username = userDto.getUsername();
-        email = userDto.getEmail();
-        gender = userDto.getGender().getGender();
-        image_url = userDto.getImageUrl();
-        country = userDto.getAddress().getCountry();
-        city = userDto.getAddress().getCity();
-        state = userDto.getAddress().getState();
+//            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            int id = Integer.parseInt(request.getParameter("id"));
+//            double id1 = (double) id;
+//            user2 = userService.findUser(BigDecimal.valueOf(id1));
+    
+            userDto = SessionUtil.getUser();
+            user2=userDto;
+            if (user2.getEmail().equals(userDto.getEmail())) {
+                canEdit = true;
+            }
+            username = user2.getUsername();
+            email = user2.getEmail();
+            gender = user2.getGender().getGender();
+            image_url = user2.getImageUrl();
+            country = user2.getAddress().getCountry();
+            city = user2.getAddress().getCity();
+            state = user2.getAddress().getState();
+
+    
 
     }
 
@@ -206,8 +236,7 @@ public class UserManagedBean implements Serializable {
 //            FacesContext facesContext = FacesContext.getCurrentInstance();
 //            facesContext.addMessage(null, facesMessage);
 //        }
-
-    System.out.println("in save method");
+        System.out.println("in save method");
         image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\userProfile\\");
 
     }
@@ -229,16 +258,17 @@ public class UserManagedBean implements Serializable {
                 userDto.setPassword(hashingUtil.getHashedPassword(password));
                 userDto.setImageUrl(image_url);
                 userService.updateUser(userDto);
-                
+
             } catch (ServiceException ex) {
                 Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-                
+
             }
-            
+
         }
         return "Profile?faces-redirect=true";
     }
- public InputStream getImage(String filename) throws FileNotFoundException {
+
+    public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
 
