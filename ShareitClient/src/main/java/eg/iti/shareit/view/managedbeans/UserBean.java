@@ -145,11 +145,12 @@ public class UserBean implements Serializable {
     public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
+
     ////////////////// by sara ///////////////////
-    public String goToProfile(BigDecimal id){
-        
-        return "Profile.xhtml?id"+id;
-    
+    public String goToProfile(BigDecimal id) {
+
+        return "Profile.xhtml?id" + id;
+
     }
 
 }
