@@ -43,6 +43,7 @@ public class UserBean implements Serializable {
     private String email;
     private String password;
     private int notificationNumber;
+    public static int currentItemId;
     //private UserDto userDto;
 
     public UserBean() {
@@ -65,7 +66,7 @@ public class UserBean implements Serializable {
                 notificationNumber = notificationService.getNotSeenNotifications(userDto).size();
                 System.out.println("user saved in session");
                 //supposedly return to home page
-                return "items?faces-redirect=true";
+                return "items.xhtml?faces-redirect=true";
             } else {
                 System.out.println("in error part ");
                 //faces error message email already exists
@@ -145,6 +146,15 @@ public class UserBean implements Serializable {
     public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
+
+    public int getCurrentItemId() {
+        return currentItemId;
+    }
+
+    public void setCurrentItemId(int currentItemId) {
+        UserBean.currentItemId = currentItemId;
+    }
+    
     ////////////////// by sara ///////////////////
     public String goToProfile(BigDecimal id){
         

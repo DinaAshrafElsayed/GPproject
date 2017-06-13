@@ -7,14 +7,14 @@
                 template="../templates/masterTemplate.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                  xmlns:o="http://omnifaces.org/ui">
+                xmlns:o="http://omnifaces.org/ui">
     <ui:define name="title">
         Edit Profile
     </ui:define>
     <ui:define name="content">
         <div id="content">
             <div class="container">
-<!--                <h:messages></h:messages>-->
+                <!--                <h:messages></h:messages>-->
                 <h:form enctype="multipart/form-data" id="form">
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label for="Countries" >Country</label>
                         <h:selectOneMenu id="Countries" value="#{userManagedBean.country}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
-                              <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{registerBean.countries}" var="country" itemValue="#{country}" itemLabel="#{country.country}"  /> 
                             <f:ajax listener="#{registerBean.onCountryChange(userManagedBean.country.id)}" render="States Cities"/>
                         </h:selectOneMenu>
@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label for="States">State</label>
                         <h:selectOneMenu id="States" value="#{userManagedBean.state}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
-                              <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{registerBean.states}" var="state" itemValue="#{state}" itemLabel="#{state.state}"  />
                             <f:ajax listener="#{registerBean.onStateChange(userManagedBean.state.id)}" render="Cities"/>
                         </h:selectOneMenu>
@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label for="Cities">City</label>
                         <h:selectOneMenu id="Cities" value="#{userManagedBean.city}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
-                              <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{registerBean.cities}" var="city" itemValue="#{city}" itemLabel="#{city.city}"  />
                         </h:selectOneMenu>
                         <h:message for="Cities" style="color:red"/>
@@ -80,16 +80,18 @@
                         <label for="image">User Image</label>
                         <h:inputFile value="#{userManagedBean.file}">
                             <f:ajax listener="#{userManagedBean.save()}" />
-            
+
                         </h:inputFile>
                     </div>
 
                     <div class="text-center">
-                        <h:commandLink class="btn btn-primary" action="#{userManagedBean.editUser()}" ><i class="fa fa-user-md"></i> update</h:commandLink>
+                        
+                            <h:commandLink class="btn btn-primary" action="#{userManagedBean.editUser()}" ><i class="fa fa-user-md"></i> update</h:commandLink>
+                        
                     </div>
                     <br/>
                 </h:form>
-             
+
             </div>
         </div>
     </ui:define>

@@ -8,21 +8,10 @@ package eg.iti.shareit.view.managedbeans;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
-import eg.iti.shareit.model.entity.CategoryEntity;
-import eg.iti.shareit.model.entity.ItemEntity;
 import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.model.util.MappingUtil;
 import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,10 +21,8 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
+import javax.inject.Inject;
 import javax.servlet.http.Part;
 
 /**
@@ -52,6 +39,9 @@ public class ItemManagedBean implements java.io.Serializable {
     ItemService itemService;
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
+    
+    @Inject
+    private ListItemsBean itemsList;
     private String name;
     private String description;
     private Date publish_date;
@@ -195,6 +185,8 @@ public class ItemManagedBean implements java.io.Serializable {
             item.setCategory(category);
 
             itemService.addItemForShare(item);
+            itemsList.setItems(itemService.getAllItems());
+            
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Successful", "Item Added Successfully"));
             return "";

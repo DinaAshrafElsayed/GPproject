@@ -49,6 +49,7 @@ import javax.servlet.http.Part;
 public class UserManagedBean implements Serializable {
 
     private UserDto userDto;
+    private UserDto user2;
     private String username;
     private String password;
 
@@ -60,6 +61,7 @@ public class UserManagedBean implements Serializable {
     private CityDto city;
     private StateDto state;
     private Part file;
+    private boolean canEdit = false;
     private List<ItemDto> items;
 
     @EJB
@@ -187,6 +189,10 @@ public class UserManagedBean implements Serializable {
     public void init() {
 
         userDto = SessionUtil.getUser();
+        setUser2(userDto);
+        if (getUser2().getEmail().equals(userDto.getEmail())) {
+            canEdit = true;
+        }
         username = userDto.getUsername();
         email = userDto.getEmail();
         gender = userDto.getGender().getGender();
@@ -196,6 +202,7 @@ public class UserManagedBean implements Serializable {
         state = userDto.getAddress().getState();
         items = userDto.getItems();
         System.out.println("the user items size is " + items.size());
+        
     }
 
     public void save() {
@@ -262,5 +269,26 @@ public class UserManagedBean implements Serializable {
     public void setItems(List<ItemDto> items) {
         this.items = items;
     }
+    
+    public boolean getCanEdit() {
+        return canEdit;
+    }
 
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    /**
+     * @return the user2
+     */
+    public UserDto getUser2() {
+        return user2;
+    }
+
+    /**
+     * @param user2 the user2 to set
+     */
+    public void setUser2(UserDto user2) {
+        this.user2 = user2;
+    }
 }
