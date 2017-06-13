@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,15 +46,15 @@ public class StateEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_STATE_SEQ")
-    @SequenceGenerator(name = "T_STATE_SEQ" ,sequenceName = "T_STATE_SEQ" ,allocationSize = 1,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_STATE_SEQ")
+    @SequenceGenerator(name = "T_STATE_SEQ", sequenceName = "T_STATE_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "STATE")
     private String state;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "state")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "state", fetch = FetchType.LAZY)
     private List<AddressEntity> addressList;
 
     public StateEntity() {

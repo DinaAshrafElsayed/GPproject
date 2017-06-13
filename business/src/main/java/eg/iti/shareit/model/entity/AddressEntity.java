@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,15 +49,15 @@ public class AddressEntity implements Serializable, GenericEntity {
     @SequenceGenerator(name = "T_ADDRESS_SEQ", sequenceName = "T_ADDRESS_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @JoinColumn(name = "CITY", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CityEntity city;
     @JoinColumn(name = "COUNTRY", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CountryEntity country;
     @JoinColumn(name = "STATE", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private StateEntity state;
-    @OneToMany(mappedBy = "address")
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
     private List<UserEntity> userEntityList;
 
     public AddressEntity() {

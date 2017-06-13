@@ -385,6 +385,11 @@ public class ItemDetailBean implements Serializable {
     public void validateDateFrom(FacesContext context, UIComponent component, Object value) {
 
     }
+    
+     public String goToEditItem(int id) {
+        return "editItem.xhtml?id=" + id;
+    }
+     
 //    public void validateDateTo(FacesContext context, UIComponent component, Object value){
 //        try {
 //            Date timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse((String) value);
@@ -395,29 +400,5 @@ public class ItemDetailBean implements Serializable {
 //            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-
-    public void save() {
-        System.out.println("in save method");
-        imageUrl = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
-    }
-
-    public void updateItem() {
-        try {
-            System.out.println("-------------- in update item method");
-            String categoryName = item.getCategory().getName();
-            CategoryDto categoryDto = new CategoryDto();
-            categoryDto = categoryService.getCategoryByName(categoryName);
-            item.setCategory(categoryDto);
-            item.setDescription(description);
-//            item.setImageUrl(imageUrl);
-            item.setIsAvailable(isAvailabe);
-            item.setName(name);
-            item.setPoints(points);
-            item.setTags(tags);
-            itemService.updateSharedItem(item);
-
-        } catch (ServiceException ex) {
-            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 }
