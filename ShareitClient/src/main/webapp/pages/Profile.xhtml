@@ -90,7 +90,7 @@
                 <c:if test="#{userManagedBean.items != null}">
                     <!--<div class="row products">-->
                     <h:panelGroup styleClass="row products" id="itemsData">
-                        <p:dataGrid var="item" value="#{userManagedBean.items}" columns="4" layout="grid"
+                        <p:dataGrid var="item" value="#{userManagedBean.items}" columns="3" layout="grid"
                                     rows="6" paginator="true" id="item"
                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                     rowsPerPageTemplate="3,6,9" >

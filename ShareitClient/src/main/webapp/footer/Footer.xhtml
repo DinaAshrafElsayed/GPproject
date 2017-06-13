@@ -34,7 +34,7 @@ _________________________________________________________ -->
 
                     <h4>Top categories</h4>
                     <h:form>
-                        <c:forEach items="#{category.categories}" var="c" class="col-md-3 col-sm-6" begin="1" end="3">
+                        <c:forEach items="#{category.firstList}" var="c" class="col-md-3 col-sm-6" begin="1" end="3">
                             <h:commandLink value="#{c.name}" style="color: gray" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
                             <br/>
                         </c:forEach>
