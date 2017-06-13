@@ -20,6 +20,7 @@
             .ui-widget-header{
                 border: 1px solid #41b39c !important;
                 background: #4fbfa8 50% 50% repeat-x !important;
+                color: white;
             }
 
         </style>
@@ -81,7 +82,7 @@
                                     <p:dataGrid var="item" value="#{itemBean.items}" columns="4" layout="grid"
                                                 rows="6" paginator="true" id="item"
                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                rowsPerPageTemplate="3,6,9" >
+                                                rowsPerPageTemplate="3,6,9">
                                         <div class="product">
                                             <div class="flip-container">
                                                 <div class="flipper">
@@ -99,7 +100,7 @@
 
                                                 <p class="price">#{item.points}</p>
                                                 <p class="buttons">
-                                                    <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default">View details</h:link><br/>
+                                                    <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default btn btn-primary" style="color: white">View details</h:link><br/>
                                                 </p>
                                             </div>
 

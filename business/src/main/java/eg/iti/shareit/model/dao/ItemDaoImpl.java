@@ -5,16 +5,11 @@
  */
 package eg.iti.shareit.model.dao;
 
-import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
-import eg.iti.shareit.model.dto.AddressDto;
-import eg.iti.shareit.model.entity.ActivityEntity;
-import eg.iti.shareit.model.entity.AddressEntity;
 import eg.iti.shareit.model.entity.CityEntity;
 import eg.iti.shareit.model.entity.CountryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
 import eg.iti.shareit.model.entity.StateEntity;
-import eg.iti.shareit.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
