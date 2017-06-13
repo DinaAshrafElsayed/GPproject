@@ -9,9 +9,11 @@ import eg.iti.shareit.common.Exception.DatabaseException;
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.BorrowStateEntity;
+import eg.iti.shareit.model.entity.ItemEntity;
 import eg.iti.shareit.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -27,6 +29,9 @@ public class BorrowStateImpl extends GenericDaoImpl<BorrowStateEntity> implement
 
     @EJB
     ActivityDao activityDao;
+
+    @EJB
+    ItemDao itemDao;
 
     public BorrowStateImpl() {
         super(BorrowStateEntity.class);
@@ -63,12 +68,6 @@ public class BorrowStateImpl extends GenericDaoImpl<BorrowStateEntity> implement
         return null;
     }
 
-    @Override
-    public void update(BorrowStateEntity borrowStateEntity) throws DatabaseRollbackException {
-        borrowStateEntity.setIsBack(BigInteger.valueOf(1));
-        super.update(borrowStateEntity);
-    }
-
     public boolean isActivityInserted(ActivityEntity activityEntity) throws DatabaseRollbackException {
         Query query = getEntityManager().createQuery("Select b From BorrowStateEntity b where b.activity.id=" + activityEntity.getId());
         List<BorrowStateEntity> borrowStateEntities = query.getResultList();
@@ -76,5 +75,24 @@ public class BorrowStateImpl extends GenericDaoImpl<BorrowStateEntity> implement
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void updateBorrowStatus(BorrowStateEntity borrowStateEntity) throws DatabaseRollbackException {
+        //borrowStateEntity.setIsBack(BigInteger.valueOf(1));
+        System.out.println(borrowStateEntity);
+        //borrowStateEntity.getActivity().getItem();
+        update(borrowStateEntity);
+        ActivityEntity activityEntity = borrowStateEntity.getActivity();
+        activityEntity.setBorrowStateEntityList(new ArrayList<BorrowStateEntity>());
+        activityEntity.getBorrowStateEntityList().add(borrowStateEntity);
+        getEntityManager().merge(activityEntity);
+        //System.out.println("activity is "+activityEntity);
+        //save(borrowStateEntity);
+        System.out.println("after update " + borrowStateEntity);
+        ItemEntity itemEntity = borrowStateEntity.getActivity().getItem();
+        itemEntity.setIsAvailable((short) 1);
+        itemDao.updateItem(itemEntity);
+        System.out.println("at end of update " + borrowStateEntity);
     }
 }

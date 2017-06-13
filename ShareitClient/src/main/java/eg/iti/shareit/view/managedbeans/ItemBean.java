@@ -51,15 +51,8 @@ public class ItemBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        if (userBean.getUserDto() == null) {
-            items = listItems.getItems();
-        } else {
-            for (ItemDto item : listItems.getItems()) {
-                if (item.getUserFrom().getId().intValue() != userBean.getUserDto().getId().intValue()) {
-                    items.add(item);
-                }
-            }
-        }
+        items = listItems.getItems();
+       
         categories = listItems.getCategories();
     }
 
