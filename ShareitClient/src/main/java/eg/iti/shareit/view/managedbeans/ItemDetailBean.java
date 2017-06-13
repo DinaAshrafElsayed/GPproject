@@ -401,26 +401,4 @@ public class ItemDetailBean implements Serializable {
 //        }
 //    }
     
-//    public void save(){
-//    System.out.println("in save method");
-//        imageUrl = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
-//    }
-//    public void updateItem(){
-//        try {
-//            System.out.println("-------------- in update item method");
-//            String categoryName = item.getCategory().getName();
-//            CategoryDto categoryDto = new CategoryDto();
-//            categoryDto = categoryService.getCategoryByName(categoryName);
-//            item.setCategory(categoryDto);
-//            item.setDescription(description);
-////            item.setImageUrl(imageUrl);
-//            item.setIsAvailable(isAvailabe);
-//            item.setName(name);
-//            item.setPoints(points);
-//            item.setTags(tags);
-//            itemService.updateSharedItem(item);
-//        } catch (ServiceException ex) {
-//            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 }

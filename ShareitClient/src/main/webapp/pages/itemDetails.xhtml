@@ -141,7 +141,7 @@
                                 <!--                                <h:commandLink action="editItem.xhtml" immediate="true" value="Edit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>
                                                                 </h:commandLink>-->
                                 <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
-                                    <h:link outcome="editItem.xhtml" value="Edit" styleClass="btn btn-default" class="btn btn-primary"/>
+                                    <h:link outcome="#{itemDetailBean.goToEditItem(id)}" value="Edit" styleClass="btn btn-default" class="btn btn-primary"/>
                                 </c:if>
                                 <hr></hr>
                                 <div class="social">
