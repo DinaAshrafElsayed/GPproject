@@ -238,12 +238,12 @@ public class UserManagedBean implements Serializable {
                 userDto.setPassword(hashingUtil.getHashedPassword(password));
                 userDto.setImageUrl(image_url);
                 userService.updateUser(userDto);
-
+                SessionUtil.getSession().setAttribute("userDto", userDto);
             } catch (ServiceException ex) {
                 Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
             }
-
+            
         }
         return "Profile?faces-redirect=true";
     }
