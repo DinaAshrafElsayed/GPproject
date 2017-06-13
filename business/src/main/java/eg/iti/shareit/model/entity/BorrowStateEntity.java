@@ -112,7 +112,7 @@ public class BorrowStateEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.BorrowStateEntity[ id=" + id + " ]";
+        return "" + id + " ==== isBack= " + isBack;
     }
 
 }

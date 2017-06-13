@@ -51,15 +51,8 @@ public class ItemBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        if (userBean.getUserDto() == null) {
-            items = listItems.getItems();
-        } else {
-            for (ItemDto item : listItems.getItems()) {
-                if (item.getUserFrom().getId().intValue() != userBean.getUserDto().getId().intValue()) {
-                    items.add(item);
-                }
-            }
-        }
+        items = listItems.getItems();
+       
         categories = listItems.getCategories();
     }
 
@@ -126,8 +119,14 @@ public class ItemBean implements Serializable {
         return "addItemForShare.xhtml";
     }
 
-    public InputStream getImage(String filename) throws FileNotFoundException {
-        return new FileInputStream(new File(filename));
+    public InputStream getImage(String filename) {
+        try {
+        InputStream is =  new FileInputStream(new File(filename));
+        
+        return is;
+        } catch (FileNotFoundException ex) {
+            return null;
+        }
     }
 
 }

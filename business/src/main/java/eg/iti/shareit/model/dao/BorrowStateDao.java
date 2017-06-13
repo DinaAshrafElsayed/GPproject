@@ -21,4 +21,6 @@ public interface BorrowStateDao extends GenericDao<BorrowStateEntity> {
     public void handleBorrowingDueDate(UserEntity userEntity) throws DatabaseRollbackException;
 
     public List<BorrowStateEntity> getBorrowStatus(UserEntity userEntity) throws DatabaseRollbackException;
+
+    public void updateBorrowStatus(BorrowStateEntity borrowStateEntity) throws DatabaseRollbackException;
 }
