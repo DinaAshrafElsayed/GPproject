@@ -62,8 +62,8 @@ public class ActivityEntity implements Serializable,
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_ACTIVITY_SEQ")
-    @SequenceGenerator(name = "T_ACTIVITY_SEQ" ,sequenceName = "T_ACTIVITY_SEQ" ,allocationSize = 100,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_ACTIVITY_SEQ")
+    @SequenceGenerator(name = "T_ACTIVITY_SEQ", sequenceName = "T_ACTIVITY_SEQ", allocationSize = 100, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -85,13 +85,13 @@ public class ActivityEntity implements Serializable,
     @Column(name = "ACTIVITY_DELETED")
     private short activityDeleted;
     @JoinColumn(name = "ITEM", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ItemEntity item;
     @JoinColumn(name = "TO_USER", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UserEntity toUser;
     @JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UserEntity fromUser;
     @JoinColumn(name = "STATUS", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

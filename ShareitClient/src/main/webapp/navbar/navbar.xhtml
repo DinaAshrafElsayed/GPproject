@@ -17,7 +17,7 @@
         <div class="container">
             <div class="navbar-header">
                 <h:form>
-                    <h:commandLink styleClass="navbar-brand home" action="items.xhtml" pt:data-animate-hover="bounce">
+                    <h:commandLink styleClass="navbar-brand home" action="items.xhtml?faces-redirect=true" pt:data-animate-hover="bounce">
                         <h:graphicImage library="images" name="logo.png" pt:class="hidden-xs" pt:alt="logo"/>
                         <!--<img src="/resources/images/logo.png" alt="Obaju logo" class="hidden-xs"/>-->
                         <h:graphicImage library="images" name="logo-small.png" pt:class="visible-xs" pt:alt="logo"/>
@@ -111,49 +111,7 @@
                     <li>
                         <h:link outcome="items.xhtml">All Items</h:link>
                     </li>
-                    <c:if test="#{user.userDto != null}">
-                        <li class="dropdown yamm-fw">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Profile<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <div class="yamm-content">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <ul>
-                                                    <li><a href="Profile.xhtml">View Profile</a>
-                                                    </li>
-                                                    <li><a href="Edit_Profile.xhtml">Edit Profile</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.yamm-content -->
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="dropdown yamm-fw">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Requests<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <div class="yamm-content">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <ul>
-                                                    <li><a href="#">Pending Requests</a>
-                                                    </li>
-                                                    <li><a href="#">Borrowing Requests</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.yamm-content -->
-                                </li>
-                            </ul>
-                        </li>          
-                    </c:if>
+                  
                     <li class="dropdown yamm-fw">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Categories<b class="caret"></b></a>
                         <ul class="dropdown-menu">

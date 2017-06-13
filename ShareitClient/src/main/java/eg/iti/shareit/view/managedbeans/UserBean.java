@@ -156,10 +156,10 @@ public class UserBean implements Serializable {
     }
     
     ////////////////// by sara ///////////////////
-    public String goToProfile(BigDecimal id){
-        
-        return "Profile.xhtml?id"+id;
-    
+    public String goToProfile(BigDecimal id) {
+
+        return "Profile.xhtml?id" + id;
+
     }
 
 }

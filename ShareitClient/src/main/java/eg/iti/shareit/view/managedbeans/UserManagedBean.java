@@ -10,6 +10,7 @@ import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.CityDto;
 import eg.iti.shareit.model.dto.CountryDto;
 import eg.iti.shareit.model.dto.GenderDto;
+import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.dto.StateDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.util.HashingUtil;
@@ -34,7 +35,12 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+
 import javax.servlet.http.HttpServletRequest;
+
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
+
 import javax.servlet.http.Part;
 
 /**
@@ -42,16 +48,8 @@ import javax.servlet.http.Part;
  * @author sara metwalli
  */
 @ManagedBean(name = "userManagedBean")
-@RequestScoped
+@SessionScoped
 public class UserManagedBean implements Serializable {
-
-    public UserDto getUser2() {
-        return user2;
-    }
-
-    public void setUser2(UserDto user2) {
-        this.user2 = user2;
-    }
 
     private UserDto userDto;
     private UserDto user2;
@@ -66,7 +64,11 @@ public class UserManagedBean implements Serializable {
     private CityDto city;
     private StateDto state;
     private Part file;
+
     private boolean canEdit = true;
+
+    private List<ItemDto> items;
+
 
     @EJB
     UserService userService;
@@ -99,14 +101,6 @@ public class UserManagedBean implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public boolean getCanEdit() {
-        return canEdit;
-    }
-
-    public void setCanEdit(boolean canEdit) {
-        this.canEdit = canEdit;
     }
 
     public String getPassword() {
@@ -200,7 +194,16 @@ public class UserManagedBean implements Serializable {
     @PostConstruct
     public void init() {
 
+
         userDto = SessionUtil.getUser();
+//        username = userDto.getUsername();
+//        email = userDto.getEmail();
+//        gender = userDto.getGender().getGender();
+//        image_url = userDto.getImageUrl();
+//        country = userDto.getAddress().getCountry();
+//        city = userDto.getAddress().getCity();
+//        state = userDto.getAddress().getState();
+
         username = userDto.getUsername();
         email = userDto.getEmail();
         gender = userDto.getGender().getGender();
@@ -208,7 +211,9 @@ public class UserManagedBean implements Serializable {
         country = userDto.getAddress().getCountry();
         city = userDto.getAddress().getCity();
         state = userDto.getAddress().getState();
-
+        items = userDto.getItems();
+        System.out.println("the user items size is " + items.size());
+        
     }
 
     public void save() {
@@ -235,12 +240,12 @@ public class UserManagedBean implements Serializable {
                 userDto.setPassword(hashingUtil.getHashedPassword(password));
                 userDto.setImageUrl(image_url);
                 userService.updateUser(userDto);
-
+                SessionUtil.getSession().setAttribute("userDto", userDto);
             } catch (ServiceException ex) {
                 Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
             }
-
+            
         }
         return "Profile?faces-redirect=true";
     }
@@ -248,6 +253,7 @@ public class UserManagedBean implements Serializable {
     public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
+
 
     public String viewUser(String myEmail) {
         try {
@@ -271,4 +277,45 @@ public class UserManagedBean implements Serializable {
         return "";
     }
 
+
+    public String goToItem(int id) {
+        return "itemDetails.xhtml?id=" + id;
+    }
+
+    /**
+     * @return the items
+     */
+    public List<ItemDto> getItems() {
+        return items;
+    }
+
+    /**
+     * @param items the items to set
+     */
+    public void setItems(List<ItemDto> items) {
+        this.items = items;
+    }
+    
+    public boolean getCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    /**
+     * @return the user2
+     */
+    public UserDto getUser2() {
+        return user2;
+    }
+
+    /**
+     * @param user2 the user2 to set
+     */
+    public void setUser2(UserDto user2) {
+        this.user2 = user2;
+
+}
 }

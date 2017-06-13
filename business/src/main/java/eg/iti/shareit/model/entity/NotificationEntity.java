@@ -12,6 +12,7 @@ import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -68,13 +69,13 @@ public class NotificationEntity implements Serializable, GenericEntity {
     @Column(name = "SEEN")
     private BigInteger seen;
     @JoinColumn(name = "ITEM", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ItemEntity item;
     @JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UserEntity fromUser;
     @JoinColumn(name = "TO_USER", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UserEntity toUser;
 
     public NotificationEntity() {
