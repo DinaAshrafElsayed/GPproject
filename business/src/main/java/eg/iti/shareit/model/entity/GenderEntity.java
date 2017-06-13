@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,15 +46,15 @@ public class GenderEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_GENDER_SEQ")
-    @SequenceGenerator(name = "T_GENDER_SEQ" ,sequenceName = "T_GENDER_SEQ" ,allocationSize = 1,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_GENDER_SEQ")
+    @SequenceGenerator(name = "T_GENDER_SEQ", sequenceName = "T_GENDER_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "GENDER")
     private String gender;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gender")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gender", fetch = FetchType.LAZY)
     private List<UserEntity> userList;
 
     public GenderEntity() {

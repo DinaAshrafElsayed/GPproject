@@ -17,6 +17,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -100,10 +101,10 @@ public class ItemEntity implements Serializable, GenericEntity {
     @Column(name = "TAGS")
     private String tags;
     @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CategoryEntity category;
     @JoinColumn(name = "USER_FROM", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UserEntity userFrom;
 
     public ItemEntity() {

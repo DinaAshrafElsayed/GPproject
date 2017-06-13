@@ -14,6 +14,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,16 +47,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserEntity.findByPoints", query = "SELECT u FROM UserEntity u WHERE u.points = :points")})
 public class UserEntity implements Serializable, GenericEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
     private List<ActivityEntity> activityEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
     private List<ActivityEntity> activityEntityList1;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
     private List<NotificationEntity> notificationFromUserList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
     private List<NotificationEntity> notificationToUserList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom", fetch = FetchType.LAZY)
     private List<ItemEntity> items;
 
     private static final long serialVersionUID = 1L;
@@ -91,10 +92,10 @@ public class UserEntity implements Serializable, GenericEntity {
     @Column(name = "POINTS")
     private BigInteger points;
     @JoinColumn(name = "ADDRESS", referencedColumnName = "ID")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private AddressEntity address;
     @JoinColumn(name = "GENDER", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private GenderEntity gender;
 
     public UserEntity() {
