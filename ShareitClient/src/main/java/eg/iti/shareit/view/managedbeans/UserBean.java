@@ -161,5 +161,14 @@ public class UserBean implements Serializable {
     }
 
     ////////////////// by sara ///////////////////
+       public String goToProfile(BigDecimal id) {
+        System.out.println("    ----------- ___ in go to profile " + id);
+        if (id != null) {
+           
+            return "Profile.xhtml?id=" + id;
+        } else {
+            return "";
+        }
+    }
    
 }

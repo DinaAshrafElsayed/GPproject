@@ -60,13 +60,13 @@ public class UserManagedBean implements Serializable {
     private String gender;
     private String image_url;
     private String confirmPassword;
-      private AddressDto address;
+    private AddressDto address;
     private CountryDto country;
     private CityDto city;
     private StateDto state;
     private Part file;
     private int id;
-     private int points;
+    private int points;
     private boolean canEdit;
 
     private List<ItemDto> items;
@@ -88,7 +88,6 @@ public class UserManagedBean implements Serializable {
         this.canEdit = canEdit;
     }
 
-  
     public AddressDto getAddress() {
         return address;
     }
@@ -96,7 +95,7 @@ public class UserManagedBean implements Serializable {
     public void setAddress(AddressDto address) {
         this.address = address;
     }
-   
+
     public int getId() {
         return id;
     }
@@ -113,8 +112,6 @@ public class UserManagedBean implements Serializable {
         this.points = points;
     }
 
-    
-    
     public Part getFile() {
         return file;
     }
@@ -232,33 +229,35 @@ public class UserManagedBean implements Serializable {
         {
             System.out.println("--------- dakhlt fl init");
             try {
+                userDto = SessionUtil.getUser();
                 HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                System.out.println("------------------- id is "+request.getParameter("id"));
+                System.out.println("------------------- id is " + request.getParameter("id"));
                 if (request.getParameter("id") != null) {
                     id = Integer.parseInt(request.getParameter("id"));
                     UserBean.currentItemId = id;
                 } else {
                     id = UserBean.currentItemId;
+                    id = userDto.getId().intValue();
+
                 }
 
                 user2 = userService.findUser(BigDecimal.valueOf((long) id));
                 System.out.println("++--++++++++++++++ user is " + user2.getUsername());
-                userDto = SessionUtil.getUser();
 
-                if(userDto.getEmail().equals(user2.getEmail())){
-                        
-                    canEdit=true;
+                if (userDto.getEmail().equals(user2.getEmail())) {
+
+                    canEdit = true;
                 }
                 username = user2.getUsername();
                 email = user2.getEmail();
                 gender = user2.getGender().getGender();
                 image_url = user2.getImageUrl();
-                address=user2.getAddress();
+                address = user2.getAddress();
                 country = user2.getAddress().getCountry();
                 city = user2.getAddress().getCity();
                 state = user2.getAddress().getState();
                 items = user2.getItems();
-               
+
                 System.out.println("the user items size is " + items.size());
             } catch (ServiceException ex) {
                 Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -344,7 +343,6 @@ public class UserManagedBean implements Serializable {
         this.items = items;
     }
 
-  
     /**
      * @return the user2
      */
@@ -358,15 +356,6 @@ public class UserManagedBean implements Serializable {
     public void setUser2(UserDto user2) {
         this.user2 = user2;
 
-    }
-     public String goToProfile(BigDecimal id) {
-
-        System.out.println("    ----------- ___ in go to profile "+id);
-        
-        if(id!=null)
-         return "Profile.xhtml?id="+ id;
-        else 
-            return "";
     }
 
 }
