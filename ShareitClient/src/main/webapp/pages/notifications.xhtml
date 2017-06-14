@@ -9,13 +9,23 @@
                 xmlns:o="http://omnifaces.org/ui">
     <ui:define name="title">Notifications</ui:define>
     <ui:define name="content">
+        <style>
+            .ui-widget-header{
+                border: 1px solid #41b39c !important;
+                background: #4fbfa8 50% 50% repeat-x !important;
+                color: white;
+            }
+
+        </style>
         <h:form id="form">
             <p:dataTable id="checkboxDT" var="notification" value="#{notificationBean.notSeenDataModel}"  style="margin-bottom:0">
                 <f:facet name="header">
-                    These are the Notifications you have not seen yet
+                    <span style="font-size: large;">
+                        These are the Notifications you have not seen yet  
+                    </span>
                 </f:facet>
                 <p:column headerText="Id">
-                    <h:outputText value="#{notification.id}" />
+                    <h:outputText value="#{notificationBean.notSeenDataModel.rowIndex+1}" />
                 </p:column>
                 <p:column headerText="Item">
                     <h:outputText value="#{notification.item.name}" />
@@ -49,16 +59,18 @@
         <h:form id="form2">
             <p:dataTable value="#{notificationBean.seenNotificationDtos}" var="seenNotification" >
                 <f:facet name="header">
-                    These are your seen Notifications  
+                    <span style="font-size: large;">
+                        These are your seen Notifications  
+                    </span>
                 </f:facet>
                 <p:column style="width:3%; text-align: center;">
                     <p:rowToggler />
                 </p:column>
-                <p:column headerText="Id">
-                    <h:outputText value="#{seenNotification.id}" />
-                </p:column>
                 <p:column headerText="Item Name">
                     <h:outputText value="#{seenNotification.item.name}" />
+                </p:column>
+                <p:column headerText="Meeting Point">
+                    <h:outputText value="#{seenNotification.meetingPoint}" />
                 </p:column>
                 <p:column headerText="Points deducted">
                     <h:outputText value="#{seenNotification.pointsDeducted}" />

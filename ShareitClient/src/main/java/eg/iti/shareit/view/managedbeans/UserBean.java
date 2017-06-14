@@ -6,6 +6,7 @@
 package eg.iti.shareit.view.managedbeans;
 
 import eg.iti.shareit.common.Exception.ServiceException;
+import eg.iti.shareit.model.dto.BorrowStateDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.service.ItemTrackingService;
 import eg.iti.shareit.service.NotificationService;
@@ -16,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -40,11 +42,12 @@ public class UserBean implements Serializable {
     ItemTrackingService itemTrackingService;
     @EJB
     NotificationService notificationService;
+
     private String email;
     private String password;
     private int notificationNumber;
     public static int currentItemId;
-    //private UserDto userDto;
+    private int ItemNum;
 
     public UserBean() {
     }
@@ -61,9 +64,8 @@ public class UserBean implements Serializable {
                 session.setAttribute("userDto", userDto);
                 //Check if the due date is today or after the day
                 itemTrackingService.handleBorrowingDueDate(userDto);
-
-                //Get the notifications of the user
-                notificationNumber = notificationService.getNotSeenNotifications(userDto).size();
+                getNotificationNumberFromDB();
+                getItemStatusNum();
                 System.out.println("user saved in session");
                 //supposedly return to home page
                 return "items.xhtml?faces-redirect=true";
@@ -81,6 +83,25 @@ public class UserBean implements Serializable {
 
         }
         return null;
+    }
+
+    public void getNotificationNumberFromDB() {
+        try {
+            //Get the notifications of the user
+            notificationNumber = 0;
+            notificationNumber = notificationService.getNotSeenNotifications(SessionUtil.getUser()).size();
+        } catch (ServiceException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void getItemStatusNum() {
+        try {
+
+            ItemNum = itemTrackingService.getBorrowStatus(SessionUtil.getUser()).size();
+        } catch (ServiceException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public String logout() {
@@ -154,7 +175,15 @@ public class UserBean implements Serializable {
     public void setCurrentItemId(int currentItemId) {
         UserBean.currentItemId = currentItemId;
     }
-    
+
+    public int getItemNum() {
+        return ItemNum;
+    }
+
+    public void setItemNum(int ItemNum) {
+        this.ItemNum = ItemNum;
+    }
+
     ////////////////// by sara ///////////////////
     public String goToProfile(BigDecimal id) {
 
