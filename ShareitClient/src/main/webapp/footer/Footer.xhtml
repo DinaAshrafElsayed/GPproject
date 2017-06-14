@@ -33,14 +33,15 @@ _________________________________________________________ -->
                 <div class="col-md-3 col-sm-6">
 
                     <h4>Top categories</h4>
-                    <h:form>
-                        <c:forEach items="#{category.categories}" var="c" class="col-md-3 col-sm-6" begin="1" end="3">
-                            <h:commandLink value="#{c.name}" style="color: gray" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
-                            <br/>
-                        </c:forEach>
-                    </h:form>
+                    <ul>
+                        <h:form>
+                            <c:forEach items="#{category.firstList}" var="c" class="col-md-3 col-sm-6" begin="0" end="3">
+                                <li><h:commandLink value="#{c.name}"  action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
+                                    <br/></li>
+                            </c:forEach>
+                        </h:form>
+                    </ul>
                     <hr class="hidden-md hidden-lg"/>
-
                 </div>
 
                 <!-- /.col-md-3 -->

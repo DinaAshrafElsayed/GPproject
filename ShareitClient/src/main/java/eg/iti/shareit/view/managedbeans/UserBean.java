@@ -67,7 +67,11 @@ public class UserBean implements Serializable {
                 notificationNumber = notificationService.getNotSeenNotifications(userDto).size();
                 System.out.println("user saved in session");
                 //supposedly return to home page
-                return "items.xhtml?faces-redirect=true";
+                if (SessionUtil.getRequest().getRequestURI().contains("register.xhtml")) {
+                    return "items.xhtml?faces-redirect=true";
+                } else {
+                    return "?faces-redirect=true";
+                }
             } else {
                 System.out.println("in error part ");
                 //faces error message email already exists
@@ -89,7 +93,7 @@ public class UserBean implements Serializable {
         HttpSession session = SessionUtil.getSession();
         session.invalidate();
         System.out.println("session invalidated");
-        return "register?faces-redirect=true";
+        return "items?faces-redirect=true";
     }
 
     /**
@@ -155,7 +159,7 @@ public class UserBean implements Serializable {
     public void setCurrentItemId(int currentItemId) {
         UserBean.currentItemId = currentItemId;
     }
-    
+
     ////////////////// by sara ///////////////////
    
 }

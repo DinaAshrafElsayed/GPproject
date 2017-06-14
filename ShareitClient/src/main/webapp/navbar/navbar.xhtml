@@ -74,8 +74,12 @@
                                                     <p class="text-left" style="font-weight: bold;"><strong>#{user.userDto.username}</strong></p>
                                                     <p class="text-left small">#{user.userDto.email}</p>
                                                     <p class="text-left">
+
                                                       
                                                          <h:commandLink action="#{userManagedBean.goToProfile(user.userDto.id)}" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
+
+                                                        <h:commandLink action="Profile.xhtml?faces-redirect=true" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
+
                                                     </p>
                                                 </div>
 
@@ -112,7 +116,7 @@
                     <li>
                         <h:link outcome="items.xhtml">All Items</h:link>
                     </li>
-                  
+
                     <li class="dropdown yamm-fw">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Categories<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -148,6 +152,11 @@
                             </li>
                         </ul>
                     </li>
+                    <c:if test="#{user.userDto != null}">
+                        <li>
+                            <h:link outcome="addItemForShare.xhtml">Share Item</h:link>
+                        </li>
+                    </c:if>
                 </ul>
             </div>
             <!--/.nav-collapse -->
@@ -196,12 +205,12 @@
         <!-- /.container -->
     </div>
     <style>
-            .ui-widget-header{
-                border: 1px solid #41b39c !important;
-                background: #4fbfa8 50% 50% repeat-x !important;
-            }
+        .ui-widget-header{
+            border: 1px solid #41b39c !important;
+            background: #4fbfa8 50% 50% repeat-x !important;
+        }
 
-        </style>
+    </style>
 
 
     <!-- /#navbar -->

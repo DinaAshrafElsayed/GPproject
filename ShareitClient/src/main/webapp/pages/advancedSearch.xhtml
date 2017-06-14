@@ -74,7 +74,7 @@ and open the template in the editor.
 
                             <div class="text-center">
                                 <h:commandLink class="btn btn-primary" action="#{AdvancedSearch.advancedSearch()}"><i class="fa fa-search"></i> Search
-
+                                        
                                 </h:commandLink>
                             </div>
 
@@ -82,7 +82,7 @@ and open the template in the editor.
                         <c:if test="#{AdvancedSearch.items != null}">
                             <!--<div class="row products">-->
                             <h:panelGroup styleClass="row products" id="itemsData">
-                                <p:dataGrid var="item" value="#{AdvancedSearch.items}" columns="4" layout="grid"
+                                <p:dataGrid var="item" value="#{AdvancedSearch.items}" columns="3" layout="grid"
                                             rows="6" paginator="true" id="item"
                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                             rowsPerPageTemplate="3,6,9" >
