@@ -9,6 +9,7 @@ import eg.iti.shareit.common.Exception.DatabaseRollbackException;
 import eg.iti.shareit.common.dao.GenericDao;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.ActivityEntity;
+
 import eg.iti.shareit.model.entity.UserEntity;
 import java.util.List;
 

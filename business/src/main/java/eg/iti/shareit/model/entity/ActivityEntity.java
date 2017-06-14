@@ -207,7 +207,7 @@ public class ActivityEntity implements Serializable,
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.ActivityEntity[ id=" + id + " ]"+"the status is" +status+" the borrowEntity " +borrowStateEntityList;
+        return "eg.iti.shareit.model.entity.ActivityEntity[ id=" + id + " ]" + "the status is" + status + " the borrowEntity " + borrowStateEntityList;
     }
 
     @XmlTransient
