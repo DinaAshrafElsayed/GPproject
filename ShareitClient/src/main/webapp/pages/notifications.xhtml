@@ -17,17 +17,6 @@
             }
 
         </style>
-
-        <script>
-
-            function ajaxCalls() {
-                setInterval(function ()
-                {
-                    document.getElementById('formProfile:notificationNumber').click();
-                    document.getElementById('formProfile:itemStatusNumber').click();
-                }, 1000000);
-            }
-        </script>
         <h:form id="form">
             <p:dataTable id="checkboxDT" var="notification" value="#{notificationBean.notSeenDataModel}"  style="margin-bottom:0">
                 <f:facet name="header">
@@ -54,7 +43,7 @@
 
                 <p:column headerText="Seen">
 
-                    <h:commandLink class="btn btn-primary" value="Mark as read" action="#{notificationBean.setNotificationAsRead()}" style="width: 100%;" onclick="ajaxCalls()">
+                    <h:commandLink class="btn btn-primary" value="Mark as read" action="#{notificationBean.setNotificationAsRead()}" style="width: 100%;" onclick="ajaxNotificationNumber()">
                         <i class="fa fa-check" aria-hidden="true"></i>
                     </h:commandLink>
                 </p:column>

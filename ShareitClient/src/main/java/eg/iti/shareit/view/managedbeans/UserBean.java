@@ -93,7 +93,6 @@ public class UserBean implements Serializable {
     public void getNotificationNumberFromDB() {
         try {
             //Get the notifications of the user
-            notificationNumber = 0;
             notificationNumber = notificationService.getNotSeenNotifications(SessionUtil.getUser()).size();
         } catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -190,14 +189,14 @@ public class UserBean implements Serializable {
     }
 
     ////////////////// by sara ///////////////////
-       public String goToProfile(BigDecimal id) {
+    public String goToProfile(BigDecimal id) {
         System.out.println("    ----------- ___ in go to profile " + id);
         if (id != null) {
-           
+
             return "Profile.xhtml?id=" + id;
         } else {
             return "";
         }
     }
-   
+
 }
