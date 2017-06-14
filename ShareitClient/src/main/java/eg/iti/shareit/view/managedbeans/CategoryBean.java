@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -30,12 +31,13 @@ public class CategoryBean implements Serializable {
 
     @EJB
     private CategoryService categoryService;
-    
+    @Inject
+    private ListItemsBean listItems;
     private List<CategoryDto> categories;
     
-    private List<CategoryDto> firstList=new ArrayList<>();
+    private List<CategoryDto> firstList;
     
-    private List<CategoryDto> secondList=new ArrayList<>();
+    private List<CategoryDto> secondList;
     
     private int categoryListSize;
     
@@ -99,9 +101,10 @@ public class CategoryBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        try {
+            firstList = new ArrayList<>();
+            secondList = new ArrayList<>();
             System.out.println("in get categories intialization ");
-            categories = categoryService.getAllCategories();
+            categories = listItems.getCategories();
             System.out.println("categories are " + categories.size());
             categoryListSize = categories.size();
         if (categoryListSize % 2 == 0) {
@@ -119,9 +122,6 @@ public class CategoryBean implements Serializable {
             for (int second = firstListSize; second < categories.size(); second++) {
                 secondList.add(categories.get(second));
             }
-        } catch (ServiceException ex) {
-            Logger.getLogger(CategoryBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
 }

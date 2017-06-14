@@ -14,6 +14,7 @@ import eg.iti.shareit.service.ActivityService;
 import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -389,6 +390,9 @@ public class ItemDetailBean implements Serializable {
      public String goToEditItem(int id) {
         return "editItem.xhtml?id=" + id;
     }
+    public String goToPublisher(BigDecimal id){
+        return "Profile.xhtml?id="+ id;
+    } 
      
 //    public void validateDateTo(FacesContext context, UIComponent component, Object value){
 //        try {

@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -57,7 +58,7 @@ public class UserBean implements Serializable {
             UserDto userDto = userService.findUser(email, password);
             System.out.println("user dto " + userDto);
             //userDto = userService.findUser(email, password);
-            System.out.println("user dto " + getUserDto());
+            System.out.println("user dto ---------------------- " + getUserDto());
             if (userDto != null) {
                 //save in session
                 HttpSession session = SessionUtil.getSession();
@@ -68,7 +69,11 @@ public class UserBean implements Serializable {
                 getItemStatusNum();
                 System.out.println("user saved in session");
                 //supposedly return to home page
-                return "items.xhtml?faces-redirect=true";
+                if (SessionUtil.getRequest().getRequestURI().contains("register.xhtml")) {
+                    return "items.xhtml?faces-redirect=true";
+                } else {
+                    return "?faces-redirect=true";
+                }
             } else {
                 System.out.println("in error part ");
                 //faces error message email already exists
@@ -109,7 +114,7 @@ public class UserBean implements Serializable {
         HttpSession session = SessionUtil.getSession();
         session.invalidate();
         System.out.println("session invalidated");
-        return "register?faces-redirect=true";
+        return "items?faces-redirect=true";
     }
 
     /**
@@ -185,10 +190,5 @@ public class UserBean implements Serializable {
     }
 
     ////////////////// by sara ///////////////////
-    public String goToProfile(BigDecimal id) {
-
-        return "Profile.xhtml?id" + id;
-
-    }
-
+   
 }

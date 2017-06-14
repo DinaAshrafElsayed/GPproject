@@ -30,13 +30,13 @@ and open the template in the editor.
 
                     <div class="form-group">
                         <label for="description">description</label>
-                        <h:inputText value="#{itemManagedBean.description}" id="description" required="true" class="form-control"/>
+                        <h:inputText value="#{itemManagedBean.description}" id="description" required="true" class="form-control" requiredMessage="description is required"/>
                         <h:message for="description" style="color:red"/> 
                     </div>
 
                     <div class="form-group">
                         <label for="points">points</label>
-                        <h:inputText value="#{itemManagedBean.points}" id="points" required="true" class="form-control"/>
+                        <h:inputText value="#{itemManagedBean.points}" id="points" required="true" class="form-control" requiredMessage="number of points is required"/>
                         <h:message  for="points" style="color:red"/> 
                     </div>
 
@@ -49,7 +49,7 @@ and open the template in the editor.
                     </div>
                     <div class="form-group">
                         <label for="tags">Tags:</label>
-                        <h:inputTextarea value="#{itemManagedBean.tags}" class="form-control" rows="3" cols="2" id="tags"  pt:placeholder="Dont't forget to add , after each tag"></h:inputTextarea>
+                        <h:inputTextarea value="#{itemManagedBean.tags}" class="form-control" rows="3" cols="2" id="tags"  required="true" requiredMessage="tags are required" pt:placeholder="Dont't forget to add , after each tag"/>
                     </div>
                     <div class="form-group">
                         <label for="image">Item Image</label>
@@ -60,11 +60,9 @@ and open the template in the editor.
                     </div>
 
                     <h:commandButton class="btn btn-primary" id="addbtn" value="add item" actionListener="#{itemManagedBean.addItem()}">
-                          <f:ajax execute="@all" render="growl"/>
+                          <f:ajax execute="@all" render="name tags points description growl"/>
                     </h:commandButton>
                     
-
-
                 </h:form>
             </div>
         </div>        

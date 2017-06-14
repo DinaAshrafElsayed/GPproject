@@ -8,6 +8,7 @@ package eg.iti.shareit.view.managedbeans;
 import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
+import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.model.util.MappingUtil;
 import eg.iti.shareit.service.CategoryService;
@@ -171,12 +172,17 @@ public class ItemManagedBean implements java.io.Serializable {
 
     }
 
-    public String addItem() throws ServiceException {
+    public void addItem() throws ServiceException {
         System.out.println("ru7t le add");
 
         System.out.println("-------------- in add item");
         int pts = category.getMaxPoints();
         if (points <= pts) {
+            System.out.println("name is  "+name+" description is "+description);
+            System.out.println("points is "+points);
+            System.out.println("image url is "+image_url );
+            System.out.println("tags are "+tags);
+            System.out.println("user is" +SessionUtil.getUser());
             ItemDto item = new ItemDto(name, description, 1, new Date(), points, image_url, tags, SessionUtil.getUser());
 
             //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
@@ -185,19 +191,28 @@ public class ItemManagedBean implements java.io.Serializable {
             item.setCategory(category);
 
             itemService.addItemForShare(item);
+            System.out.println("added !");
             itemsList.setItems(itemService.getAllItems());
+            System.out.println("after setting all items");
+            UserDto user = (UserDto)SessionUtil.getUser();
+            System.out.println("user list size"+user.getItems().size());
+            user.getItems().add(item);
+            System.out.println("user list size after adding"+user.getItems().size());
+            SessionUtil.getSession().setAttribute("userDto", user);
+            clear();
             
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Successful", "Item Added Successfully"));
-            return "";
-      //      return "items?faces-redirect=true";
+            
+            //return null;
+            //return "items?faces-redirect=true";
         } else {
             System.out.println("---------------------------------- error in add item");
               FacesMessage facesMessage = new FacesMessage("Error","this points exceeded the max no of points allowed ");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                  facesContext.addMessage("addItemForm:points", facesMessage);
           
-            return null;
+            //return null;
         }
 
     }
@@ -205,13 +220,12 @@ public class ItemManagedBean implements java.io.Serializable {
     public void save() {
         image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
     }
-//    
-//    public void validatePoints(FacesContext context, UIComponent comp,
-//			Object value) {
-//       int pts=category.getMaxPoints();
-//       if ((int)value>pts){
-//       
-//       }
-//       
-//    }
+
+    public void clear()
+    {
+        name ="";
+        description="";
+        points=0;
+        tags="";
+    }
 }

@@ -90,7 +90,9 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
         query.setParameter("id", id);
           List<UserEntity> userList = query.getResultList();
             if (userList != null && userList.size() == 1) {
+                System.out.println("---------------- in retrieve user "+userList.iterator().next().getUsername());
                 return userList.get(0);
+                
             } else {
                 return null;
             }
