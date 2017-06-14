@@ -22,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
@@ -36,14 +35,14 @@ import javax.servlet.http.Part;
  *
  * @author El-Greatly
  */
-@ManagedBean(name = "itemEditBean")
-@ViewScoped
+@ManagedBean(name = "itemEditBean",eager = true)
+@RequestScoped
 public class ItemEditBean implements Serializable {
 
     private ItemDto item;
     private CategoryDto category;
     private String description;
-    private String imageUrl;
+    private String image_url;
     private int isAvailabe;
     private String name;
     private int points;
@@ -61,6 +60,17 @@ public class ItemEditBean implements Serializable {
 
     @Inject
     private ListItemsBean listItems;
+
+    public ItemEditBean() {
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
 
     public int getCategoryId() {
         return categoryId;
@@ -134,14 +144,6 @@ public class ItemEditBean implements Serializable {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public int getIsAvailabe() {
         return isAvailabe;
     }
@@ -196,12 +198,8 @@ public class ItemEditBean implements Serializable {
             category = item.getCategory();
             isAvailabe = item.getIsAvailable();
             points = item.getPoints();
-            imageUrl = item.getImageUrl();
-            categories = listItems.getCategories();
-            for(int i=0;i<categories.size();i++)
-            {
-                System.out.println("------------------ categories name "+categories.get(i).getName());
-            }
+            image_url = item.getImageUrl();
+            categories = categoryService.getAllCategories();
         } catch (ServiceException ex) {
             Logger.getLogger(ItemEditBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -209,8 +207,9 @@ public class ItemEditBean implements Serializable {
 
     public void save() {
         System.out.println("in save method");
-        imageUrl = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
+        image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
     }
+
     public void updateItem() {
         try {
             System.out.println("-------------- in update item method");
@@ -219,7 +218,7 @@ public class ItemEditBean implements Serializable {
             categoryDto = categoryService.getCategoryByName(categoryName);
             item.setCategory(categoryDto);
             item.setDescription(description);
-            item.setImageUrl(imageUrl);
+            item.setImageUrl(image_url);
             item.setIsAvailable(isAvailabe);
             item.setName(name);
             item.setPoints(points);
@@ -230,7 +229,7 @@ public class ItemEditBean implements Serializable {
         }
     }
 
-     public InputStream getImage(String filename) throws FileNotFoundException {
+    public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
 }
