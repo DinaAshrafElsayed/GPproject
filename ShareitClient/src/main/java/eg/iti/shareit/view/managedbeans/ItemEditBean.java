@@ -36,7 +36,7 @@ import javax.servlet.http.Part;
  *
  * @author El-Greatly
  */
-@ManagedBean(name = "itemEditBean")
+@ManagedBean(name = "itemEditBean", eager = true)
 @ViewScoped
 public class ItemEditBean implements Serializable {
 
@@ -198,9 +198,8 @@ public class ItemEditBean implements Serializable {
             points = item.getPoints();
             imageUrl = item.getImageUrl();
             categories = listItems.getCategories();
-            for(int i=0;i<categories.size();i++)
-            {
-                System.out.println("------------------ categories name "+categories.get(i).getName());
+            for (int i = 0; i < categories.size(); i++) {
+                System.out.println("------------------ categories name " + categories.get(i).getName());
             }
         } catch (ServiceException ex) {
             Logger.getLogger(ItemEditBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -211,6 +210,7 @@ public class ItemEditBean implements Serializable {
         System.out.println("in save method");
         imageUrl = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
     }
+
     public void updateItem() {
         try {
             System.out.println("-------------- in update item method");
@@ -230,7 +230,7 @@ public class ItemEditBean implements Serializable {
         }
     }
 
-     public InputStream getImage(String filename) throws FileNotFoundException {
+    public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
 }

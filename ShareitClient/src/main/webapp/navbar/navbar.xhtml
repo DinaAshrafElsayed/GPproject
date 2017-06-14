@@ -39,13 +39,10 @@
                             <i class="fa fa-search-plus"></i>
                         </h:commandLink>
 
-                        <a class="btn btn-default navbar-toggle" href="#">
-                            <i class="fa fa-bell"></i>
-                            <span class="hidden-xs">Notifications</span>
-                        </a>
                     </div>
                 </h:form>
             </div>
+
             <c:if test="#{user.userDto != null}">
                 <div class="collapse navbar-collapse" style="float: right;">
 
@@ -57,7 +54,15 @@
                                 <span class="fa fa-chevron-down"></span>
                             </a>
                             <ul class="dropdown-menu" >
-                                <h:form>
+                                <h:form id="formProfile">
+                                    <c:if test="#{user.userDto!=null}">
+                                        <h:commandButton style="visibility: hidden;" action="#{user.getNotificationNumberFromDB()}" id="notificationNumber">
+                                            <f:ajax render="formProfile"/>
+                                        </h:commandButton>
+                                        <h:commandButton style="visibility: hidden;" action="#{user.itemStatusNum()}" id="itemStatusNumber">
+                                            <f:ajax render="formProfile"/>
+                                        </h:commandButton>
+                                    </c:if>
                                     <li>
                                         <div class="navbar-login" style=" width: 305px;
                                              padding: 10px;
@@ -93,7 +98,7 @@
 
                                     <h:link class="list-group-item list-group-item"  outcome="notifications.xhtml" style="color: black;" >Notifications <span class="badge pull-right"> #{user.notificationNumber} </span></h:link>
 
-                                    <h:link class="list-group-item list-group-item"  outcome="itemStatus.xhtml" style="color: black;" >Items Status <span class="badge pull-right">#{itemStatusBean.itemNum}</span></h:link>
+                                    <h:link class="list-group-item list-group-item"  outcome="itemStatus.xhtml" style="color: black;" >Items Status <span class="badge pull-right">#{user.itemNum}</span></h:link>
 
 
                                     <h:link class="list-group-item list-group-item"  outcome="request.xhtml" style="color: black;" >Requests <span class="fa fa-shopping-cart pull-right"></span></h:link>
@@ -162,11 +167,6 @@
             <!--/.nav-collapse -->
 
             <div class="navbar-buttons">
-                <c:if test="#{user.userDto!=null}">
-                    <div class="navbar-collapse collapse right" id="basket-overview">
-                        <a href="#" class="btn btn-primary navbar-btn" data-toggle="collapse tooltip" data-placement="bottom" title="notification"><i class="fa fa-bell"></i><span class="hidden-sm">notification</span></a>
-                    </div>
-                </c:if>
                 <!--/.nav-collapse -->
 
                 <div class="navbar-collapse collapse right" id="search-not-mobile">

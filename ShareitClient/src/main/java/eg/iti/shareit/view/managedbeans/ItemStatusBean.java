@@ -37,7 +37,6 @@ public class ItemStatusBean {
     private ItemTrackingService itemTrackingService;
     private List<BorrowStateDto> borrowStateDtos;
     private DataModel<BorrowStateDto> borrowStateDataModel;
-    int ItemNum;
 
     public ItemTrackingService getItemTrackingService() {
         return itemTrackingService;
@@ -63,21 +62,13 @@ public class ItemStatusBean {
         this.borrowStateDataModel = borrowStateDataModel;
     }
 
-    public int getItemNum() {
-        return ItemNum;
-    }
-
-    public void setItemNum(int ItemNum) {
-        this.ItemNum = ItemNum;
-    }
-
     @PostConstruct
     public void init() {
         try {
             if (SessionUtil.getUser() != null) {
                 borrowStateDtos = itemTrackingService.getBorrowStatus(SessionUtil.getUser());
                 borrowStateDataModel = new CollectionDataModel<>(borrowStateDtos);
-                ItemNum = borrowStateDtos.size();
+
             }
         } catch (ServiceException ex) {
             Logger.getLogger(ItemStatusBean.class.getName()).log(Level.SEVERE, null, ex);
