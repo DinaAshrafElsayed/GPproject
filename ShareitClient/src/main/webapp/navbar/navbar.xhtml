@@ -17,7 +17,7 @@
         <div class="container">
             <div class="navbar-header">
                 <h:form>
-                    <h:commandLink styleClass="navbar-brand home" action="items.xhtml" pt:data-animate-hover="bounce">
+                    <h:commandLink styleClass="navbar-brand home" action="items.xhtml?faces-redirect=true" pt:data-animate-hover="bounce">
                         <h:graphicImage library="images" name="logo.png" pt:class="hidden-xs" pt:alt="logo"/>
                         <!--<img src="/resources/images/logo.png" alt="Obaju logo" class="hidden-xs"/>-->
                         <h:graphicImage library="images" name="logo-small.png" pt:class="visible-xs" pt:alt="logo"/>
@@ -39,13 +39,10 @@
                             <i class="fa fa-search-plus"></i>
                         </h:commandLink>
 
-                        <a class="btn btn-default navbar-toggle" href="#">
-                            <i class="fa fa-bell"></i>
-                            <span class="hidden-xs">Notifications</span>
-                        </a>
                     </div>
                 </h:form>
             </div>
+
             <c:if test="#{user.userDto != null}">
                 <div class="collapse navbar-collapse" style="float: right;">
 
@@ -57,7 +54,15 @@
                                 <span class="fa fa-chevron-down"></span>
                             </a>
                             <ul class="dropdown-menu" >
-                                <h:form>
+                                <h:form id="formProfile">
+                                    <c:if test="#{user.userDto!=null}">
+                                        <h:commandButton style="visibility: hidden;" action="#{user.getNotificationNumberFromDB()}" id="notificationNumber">
+                                            <f:ajax render="formProfile"/>
+                                        </h:commandButton>
+                                        <h:commandButton style="visibility: hidden;" action="#{user.itemStatusNum()}" id="itemStatusNumber">
+                                            <f:ajax render="formProfile"/>
+                                        </h:commandButton>
+                                    </c:if>
                                     <li>
                                         <div class="navbar-login" style=" width: 305px;
                                              padding: 10px;
@@ -74,7 +79,12 @@
                                                     <p class="text-left" style="font-weight: bold;"><strong>#{user.userDto.username}</strong></p>
                                                     <p class="text-left small">#{user.userDto.email}</p>
                                                     <p class="text-left">
-                                                        <h:commandLink action="#{user.goToProfile(user.userDto.id)}" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
+
+                                                      
+                                                         <h:commandLink action="#{user.goToProfile(user.userDto.id)}" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
+
+<!--                                                        <h:commandLink action="Profile.xhtml?faces-redirect=true" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>-->
+
                                                     </p>
                                                 </div>
 
@@ -88,7 +98,7 @@
 
                                     <h:link class="list-group-item list-group-item"  outcome="notifications.xhtml" style="color: black;" >Notifications <span class="badge pull-right"> #{user.notificationNumber} </span></h:link>
 
-                                    <h:link class="list-group-item list-group-item"  outcome="itemStatus.xhtml" style="color: black;" >Items Status <span class="badge pull-right">#{itemStatusBean.itemNum}</span></h:link>
+                                    <h:link class="list-group-item list-group-item"  outcome="itemStatus.xhtml" style="color: black;" >Items Status <span class="badge pull-right">#{user.itemNum}</span></h:link>
 
 
                                     <h:link class="list-group-item list-group-item"  outcome="request.xhtml" style="color: black;" >Requests <span class="fa fa-shopping-cart pull-right"></span></h:link>
@@ -111,49 +121,7 @@
                     <li>
                         <h:link outcome="items.xhtml">All Items</h:link>
                     </li>
-                    <c:if test="#{user.userDto != null}">
-                        <li class="dropdown yamm-fw">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Profile<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <div class="yamm-content">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <ul>
-                                                    <li><a href="Profile.xhtml">View Profile</a>
-                                                    </li>
-                                                    <li><a href="Edit_Profile.xhtml">Edit Profile</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.yamm-content -->
-                                </li>
-                            </ul>
-                        </li>
 
-                        <li class="dropdown yamm-fw">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Requests<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <div class="yamm-content">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <ul>
-                                                    <li><a href="#">Pending Requests</a>
-                                                    </li>
-                                                    <li><a href="#">Borrowing Requests</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.yamm-content -->
-                                </li>
-                            </ul>
-                        </li>          
-                    </c:if>
                     <li class="dropdown yamm-fw">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Categories<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -189,16 +157,16 @@
                             </li>
                         </ul>
                     </li>
+                    <c:if test="#{user.userDto != null}">
+                        <li>
+                            <h:link outcome="addItemForShare.xhtml">Share Item</h:link>
+                        </li>
+                    </c:if>
                 </ul>
             </div>
             <!--/.nav-collapse -->
 
             <div class="navbar-buttons">
-<!--                <c:if test="#{user.userDto!=null}">
-                    <div class="navbar-collapse collapse right" id="basket-overview">
-                        <a href="#" class="btn btn-primary navbar-btn" data-toggle="collapse tooltip" data-placement="bottom" title="notification"><i class="fa fa-bell"></i><span class="hidden-sm">notification</span></a>
-                    </div>
-                </c:if>-->
                 <!--/.nav-collapse -->
 
                 <div class="navbar-collapse collapse right" id="search-not-mobile">
@@ -232,12 +200,12 @@
         <!-- /.container -->
     </div>
     <style>
-            .ui-widget-header{
-                border: 1px solid #41b39c !important;
-                background: #4fbfa8 50% 50% repeat-x !important;
-            }
+        .ui-widget-header{
+            border: 1px solid #41b39c !important;
+            background: #4fbfa8 50% 50% repeat-x !important;
+        }
 
-        </style>
+    </style>
 
 
     <!-- /#navbar -->

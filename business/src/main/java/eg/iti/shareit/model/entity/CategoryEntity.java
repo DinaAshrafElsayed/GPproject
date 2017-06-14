@@ -14,6 +14,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,8 +51,8 @@ public class CategoryEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_CATEGORY_SEQ")
-    @SequenceGenerator(name = "T_CATEGORY_SEQ" ,sequenceName = "T_CATEGORY_SEQ" ,allocationSize = 1,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_CATEGORY_SEQ")
+    @SequenceGenerator(name = "T_CATEGORY_SEQ", sequenceName = "T_CATEGORY_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -62,7 +63,7 @@ public class CategoryEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "MAX_POINTS")
     private BigInteger maxPoints;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.LAZY)
     private List<ItemEntity> itemList;
 
     public CategoryEntity() {

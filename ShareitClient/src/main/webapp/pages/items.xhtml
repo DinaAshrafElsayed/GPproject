@@ -16,7 +16,7 @@
     </ui:define>
 
     <ui:define name="content">
-
+        
         <div id="all">
             <h:form prependId="false">
                 <div id="content">
@@ -30,32 +30,20 @@
                                 <li>Browse Items</li>
                             </ul>
                             <div class="box">
-                                <div class="row">
-                                    <div class="input-group col-sm-12">
-                                        <h:inputText value="#{itemBean.searchString}" pt:placeholder="Search" styleClass="form-control" id="searchString">
-                                            <f:ajax event="keyup" listener="#{itemBean.doSearch()}"  render="itemsData" />
-                                        </h:inputText> 
-                                        <span class="input-group-btn">
-                                            <h:commandLink action="#{itemBean.doSearch()}" styleClass="btn btn-primary"><i class="fa fa-search"></i></h:commandLink>
+                                <div class="input-group">
+                                    <h:inputText value="#{itemBean.searchString}" pt:placeholder="Search" styleClass="form-control" id="searchString">
+                                        <f:ajax event="keyup" listener="#{itemBean.doSearch()}"  render="itemsData" />
+                                    </h:inputText> 
+                                    <span class="input-group-btn">
+                                        <h:commandLink action="#{itemBean.doSearch()}" styleClass="btn btn-primary"><i class="fa fa-search"></i></h:commandLink>
 
-                                        </span>
-                                    </div>
-<!--                                    <div class="input-group col-sm-1">
-                                        <span class="input-group-btn">
-                                            <h:commandLink action="advancedSearch.xhtml"  class="btn btn-primary navbar-btn" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search">
-                                                <i class="fa fa-search-plus"></i>
-                                                <span class="sr-only">Toggle Advanced search</span>
-                                            </h:commandLink>
-                                        </span>
-                                    </div>-->
+                                    </span>
                                 </div>
                             </div>
-                           
-                            <div style="position: relative;float: right;">
-                                <h:link outcome="advancedSearch.xhtml" styleClass="btn btn-primary" ><i class="fa fa-search-plus"> Advanced Search</i></h:link>
-                                &nbsp;
+                            
+<!--                            <div style="position: relative;float: right;">
                                 <h:link outcome="addItemForShare.xhtml" styleClass="btn btn-primary" ><i class="fa fa-plus"> add item</i></h:link>
-                            </div>
+                            </div>-->
 
 
                             <div class="box info-bar">
@@ -85,7 +73,7 @@
 
                                 <!--<div class="row products">-->
                                 <h:panelGroup styleClass="row products" id="itemsData">
-                                    <p:dataGrid var="item" value="#{itemBean.items}" columns="4" layout="grid"
+                                    <p:dataGrid var="item" value="#{itemBean.items}" columns="3" layout="grid"
                                                 rows="6" paginator="true" id="item"
                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                 rowsPerPageTemplate="3,6,9" >
@@ -107,6 +95,7 @@
                                                 <p class="price">#{item.points}</p>
                                                 <p class="buttons">
                                                     <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default">View details</h:link><br/>
+                                                  
                                                 </p>
                                             </div>
 
@@ -123,6 +112,7 @@
                     <!-- /.container -->
                 </div>
             </h:form>
+         
         </div>
     </ui:define>
 </ui:composition>

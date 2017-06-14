@@ -1,8 +1,10 @@
 package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
+import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.HashingUtil;
+import java.math.BigDecimal;
 
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
@@ -80,4 +82,23 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
             return false;
         }
     }
+
+    @Override
+    public UserEntity getUserById(BigDecimal id) throws DatabaseRollbackException {
+   try{
+          Query query = getEntityManager().createQuery("Select u From UserEntity u where u.id = :id");
+        query.setParameter("id", id);
+          List<UserEntity> userList = query.getResultList();
+            if (userList != null && userList.size() == 1) {
+                System.out.println("---------------- in retrieve user "+userList.iterator().next().getUsername());
+                return userList.get(0);
+                
+            } else {
+                return null;
+            }
+    }catch (PersistenceException ex) {
+            throw new DatabaseRollbackException(ex.getMessage());
+        }
+}
+    
 }

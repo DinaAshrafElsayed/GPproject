@@ -9,13 +9,23 @@
                 xmlns:o="http://omnifaces.org/ui">
     <ui:define name="title">Item Status</ui:define>
     <ui:define name="content">
+        <style>
+            .ui-widget-header{
+                border: 1px solid #41b39c !important;
+                background: #4fbfa8 50% 50% repeat-x !important;
+                color: white;
+            }
+
+        </style>
         <h:form id="form">
             <p:dataTable id="checkboxDT" var="itemStatus" value="#{itemStatusBean.borrowStateDataModel}"  style="margin-bottom:0">
                 <f:facet name="header">
-                    These are the Items that haven't come back yet
+                    <span style="font-size: large;">
+                        These are the Items that haven't come back yet
+                    </span>
                 </f:facet>
                 <p:column headerText="Id" style="width: 50px;">
-                    <h:outputText value="#{itemStatus.id}" />
+                    <h:outputText value="#{itemStatusBean.borrowStateDataModel.rowIndex+1}" />
                 </p:column>
                 <p:column headerText="Item" style="text-align: center;" > 
                     <o:graphicImage width="130px" height="100px" value="#{itemStatusBean.getImage(itemStatus.activity.item.imageUrl)}" dataURI="true" /> 

@@ -12,6 +12,7 @@ import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,7 +52,7 @@ public class BorrowStateEntity implements Serializable, GenericEntity {
     @Column(name = "IS_BACK")
     private BigInteger isBack;
     @JoinColumn(name = "ACTIVITY", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ActivityEntity activity;
 
     public BorrowStateEntity() {
@@ -112,7 +113,7 @@ public class BorrowStateEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "" + id + " ==== isBack= " + isBack;
+        return "eg.iti.shareit.model.entity.BorrowStateEntity[ id=" + id + " ]";
     }
 
 }

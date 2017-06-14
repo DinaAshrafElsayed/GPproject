@@ -10,6 +10,7 @@ import eg.iti.shareit.model.dto.AddressDto;
 import eg.iti.shareit.model.dto.CityDto;
 import eg.iti.shareit.model.dto.CountryDto;
 import eg.iti.shareit.model.dto.GenderDto;
+import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.dto.StateDto;
 import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.model.util.HashingUtil;
@@ -31,12 +32,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+
+import javax.servlet.http.HttpServletRequest;
+
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+
 import javax.servlet.http.Part;
 
 /**
@@ -48,6 +52,7 @@ import javax.servlet.http.Part;
 public class UserManagedBean implements Serializable {
 
     private UserDto userDto;
+    private UserDto user2;
     private String username;
     private String password;
 
@@ -55,10 +60,16 @@ public class UserManagedBean implements Serializable {
     private String gender;
     private String image_url;
     private String confirmPassword;
+    private AddressDto address;
     private CountryDto country;
     private CityDto city;
     private StateDto state;
     private Part file;
+    private int id;
+    private int points;
+    private boolean canEdit;
+
+    private List<ItemDto> items;
 
     @EJB
     UserService userService;
@@ -68,6 +79,38 @@ public class UserManagedBean implements Serializable {
 
     @EJB
     AddressService addressService;
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    public AddressDto getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressDto address) {
+        this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public Part getFile() {
         return file;
@@ -183,31 +226,48 @@ public class UserManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        
-        userDto = SessionUtil.getUser();
-        username = userDto.getUsername();
-        email = userDto.getEmail();
-        gender = userDto.getGender().getGender();
-        image_url = userDto.getImageUrl();
-        country = userDto.getAddress().getCountry();
-        city = userDto.getAddress().getCity();
-        state = userDto.getAddress().getState();
+        {
+            System.out.println("--------- dakhlt fl init");
+            try {
+                userDto = SessionUtil.getUser();
+                HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                System.out.println("------------------- id is " + request.getParameter("id"));
+                if (request.getParameter("id") != null) {
+                    id = Integer.parseInt(request.getParameter("id"));
+                    UserBean.currentItemId = id;
+                } else {
+                    id = UserBean.currentItemId;
+                    id = userDto.getId().intValue();
 
+                }
+
+                user2 = userService.findUser(BigDecimal.valueOf((long) id));
+                System.out.println("++--++++++++++++++ user is " + user2.getUsername());
+
+                if (userDto.getEmail().equals(user2.getEmail())) {
+
+                    canEdit = true;
+                }
+                username = user2.getUsername();
+                email = user2.getEmail();
+                gender = user2.getGender().getGender();
+                image_url = user2.getImageUrl();
+                address = user2.getAddress();
+                country = user2.getAddress().getCountry();
+                city = user2.getAddress().getCity();
+                state = user2.getAddress().getState();
+                items = user2.getItems();
+
+                System.out.println("the user items size is " + items.size());
+            } catch (ServiceException ex) {
+                Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void save() {
 
-//        try (InputStream input = file.getInputStream()) {
-//            Files.copy(input, new File(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\", Paths.get(file.getSubmittedFileName()).getFileName().toString()).toPath());
-//            userDto.setImageUrl(System.getProperty("user.home") + "\\shareit\\images\\userProfile\\" + Paths.get(file.getSubmittedFileName()).getFileName().toString());;
-//        } catch (IOException e) {
-//            // Show faces message
-//            FacesMessage facesMessage = new FacesMessage("error uploading image");
-//            FacesContext facesContext = FacesContext.getCurrentInstance();
-//            facesContext.addMessage(null, facesMessage);
-//        }
-
-    System.out.println("in save method");
+        System.out.println("in save method");
         image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\userProfile\\");
 
     }
@@ -229,17 +289,73 @@ public class UserManagedBean implements Serializable {
                 userDto.setPassword(hashingUtil.getHashedPassword(password));
                 userDto.setImageUrl(image_url);
                 userService.updateUser(userDto);
-                
+                SessionUtil.getSession().setAttribute("userDto", userDto);
             } catch (ServiceException ex) {
                 Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-                
+
             }
-            
+
         }
         return "Profile?faces-redirect=true";
     }
- public InputStream getImage(String filename) throws FileNotFoundException {
+
+    public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
+    }
+
+    public String viewUser(String myEmail) {
+        try {
+
+            System.out.println(" ------------------- +++++++ in view USer" + myEmail);
+            user2 = userService.getUserByEmail(myEmail);
+            System.out.println("----------++++++++++++------- user is " + user2.getUsername());
+            canEdit = false;
+            username = user2.getUsername();
+//            email = user2.getEmail();
+//            gender = user2.getGender().getGender();
+//            image_url = user2.getImageUrl();
+//            country = user2.getAddress().getCountry();
+//            city = user2.getAddress().getCity();
+//            state = user2.getAddress().getState();
+            System.out.println("end of the function <<<<<<<<<<<<<<<");
+            return "Profile.xhtml";
+        } catch (ServiceException ex) {
+            Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
+    public String goToItem(int id) {
+        return "itemDetails.xhtml?id=" + id;
+    }
+
+    /**
+     * @return the items
+     */
+    public List<ItemDto> getItems() {
+        return items;
+    }
+
+    /**
+     * @param items the items to set
+     */
+    public void setItems(List<ItemDto> items) {
+        this.items = items;
+    }
+
+    /**
+     * @return the user2
+     */
+    public UserDto getUser2() {
+        return user2;
+    }
+
+    /**
+     * @param user2 the user2 to set
+     */
+    public void setUser2(UserDto user2) {
+        this.user2 = user2;
+
     }
 
 }

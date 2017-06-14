@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,15 +46,15 @@ public class CountryEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_COUNTRY_SEQ")
-    @SequenceGenerator(name = "T_COUNTRY_SEQ" ,sequenceName = "T_COUNTRY_SEQ" ,allocationSize = 1,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_COUNTRY_SEQ")
+    @SequenceGenerator(name = "T_COUNTRY_SEQ", sequenceName = "T_COUNTRY_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "COUNTRY")
     private String country;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country", fetch = FetchType.LAZY)
     private List<AddressEntity> addressList;
 
     public CountryEntity() {
