@@ -32,35 +32,45 @@
 
 
                     <div class="col-md-12">
-                    </div>
 
-                    <div class="row" id="productMain">
-                        <div class="col-sm-6">
+
+
+                        <div class="col-sm-3">
                             <div id="mainImage"   >
-                                <center>     <o:graphicImage    value="#{userManagedBean.getImage(userManagedBean.userDto.imageUrl)}" dataURI="true" styleClass="img-responsive"  /> </center>
+                                <center>     <o:graphicImage    value="#{userManagedBean.getImage(userManagedBean.image_url)}" dataURI="true" styleClass="img-responsive"  /> </center>
+                            </div>
+                            <div class="box">
+                                <h1 class="text-center">#{userManagedBean.username}</h1>
+
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="box">
-                                <h1 class="text-center">#{userManagedBean.userDto.username}</h1>
+                        <div class="col-sm-9">
 
-                            </div>
                             <div >
                                 <div class="box" id="details">
 
-                                    <h4>Profile Details</h4>
+                                    <h3>Profile Details</h3> 
 
-                                    <p>#{userManagedBean.userDto.username}</p>
-                                    <p>#{userManagedBean.userDto.email}</p>
-                                    <p>#{userManagedBean.userDto.gender.gender}</p>
-                                    <h4>Your Current Points</h4>
-                                    <p>#{userManagedBean.userDto.points}</p>
-                                    <h4>Your Country</h4>
-                                    <p>#{userManagedBean.userDto.address.country.country}</p>
-                                    <center>       
+                                    <h4>       Username :        <p>#{userManagedBean.username}</p>
+                                           email :    <p>#{userManagedBean.email}</p>
+                                           gender :    <p>#{userManagedBean.gender}</p>
+                                           Country :   
+                                    <p>#{userManagedBean.address.country.country}</p>
 
+                                         City :    
+                                    <p>#{userManagedBean.address.city.city}</p>
+                                     </h4>
+
+                                    <c:if test="#{userManagedBean.canEdit==true}">
+                                        <h3>Your Current Points</h3>
+                                        <p>#{userManagedBean.points}</p>
+                                    </c:if>
+                                    <center>
+                                    <c:if test="#{userManagedBean.canEdit==true}">
                                         <a href="Edit_Profile.xhtml" class="btn btn-primary navbar-btn" data-toggle="collapse tooltip" data-placement="bottom" title="notification"><i class="fa fa-pencil-square-o"></i><span class="hidden-sm">Edit Profile</span></a>
+                                    </c:if>
                                     </center>
+
                                 </div>
 
 
@@ -68,7 +78,9 @@
 
 
                         </div>
+
                     </div>
+
                     <!--                                 <div class="box" id="details">
                     
                                                     <h4>Profile Details</h4>
@@ -88,37 +100,43 @@
 
             <div class="box">
                 <c:if test="#{userManagedBean.items != null}">
-                    <!--<div class="row products">-->
-                    <h:panelGroup styleClass="row products" id="itemsData">
-                        <p:dataGrid var="item" value="#{userManagedBean.items}" columns="4" layout="grid"
-                                    rows="6" paginator="true" id="item"
-                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                    rowsPerPageTemplate="3,6,9" >
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <o:graphicImage  style="height: 316px;width:100%;" value="#{userManagedBean.getImage(item.imageUrl)}" dataURI="true" /> 
-                                        </div>
-                                        <div class="back">
-                                            <o:graphicImage  style="height: 316px;width:100%;"  value="#{userManagedBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                    <center>    <h3>Published Products</h3> </center>
+                    <div class="row products">
+                        <h:panelGroup styleClass="row products" id="itemsData">
+                            <p:dataGrid var="item" value="#{userManagedBean.items}" columns="3" layout="grid"
+                                        rows="6" paginator="true" id="item"
+                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="3,6,9" >
+                                <div class="product">
+                                    <div class="flip-container">
+                                        <div class="flipper">
+                                            <div class="front">
+                                                <o:graphicImage  style="height: 316px;width:100%;" value="#{userManagedBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                            </div>
+                                            <div class="back">
+                                                <o:graphicImage  style="height: 316px;width:100%;"  value="#{userManagedBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <o:graphicImage  style="height: 316px;width:100%;" value="#{userManagedBean.getImage(item.imageUrl)}" dataURI="true" /> 
-                                <div class="text">
-                                    <h3><h:link outcome="#{userManagedBean.goToItem(item.id)}">#{item.name}<br></br>#{item.description}</h:link></h3>
+                                    <o:graphicImage  style="height: 316px;width:100%;" value="#{userManagedBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                    <div class="text">
+                                        <h3><h:link outcome="#{userManagedBean.goToItem(item.id)}">#{item.name}<br></br>#{item.description}</h:link></h3>
 
-                                    <p class="price">#{userManagedBean.userDto.points}</p>
-                                    <p class="buttons">
-                                        <h:link outcome="#{userManagedBean.goToItem(item.id)}" styleClass="btn btn-default">View details</h:link><br/>
-                                    </p>
+                                        <p class="price">#{userManagedBean.userDto.points}</p>
+                                        <p class="buttons">
+                                            <h:link outcome="#{userManagedBean.goToItem(item.id)}" styleClass="btn btn-default">View details</h:link><br/>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </p:dataGrid>
-                    </h:panelGroup>
+                            </p:dataGrid>
+                        </h:panelGroup>
+                    </div>
                 </c:if>
+
             </div>
-        </div>
+
+        </div >
+
+
     </ui:define>
 </ui:composition>
