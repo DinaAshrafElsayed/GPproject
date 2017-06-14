@@ -45,6 +45,7 @@ public class UserBean implements Serializable {
     private int notificationNumber;
     public static int currentItemId;
     //private UserDto userDto;
+    private String genericSearchString;
 
     public UserBean() {
     }
@@ -91,6 +92,15 @@ public class UserBean implements Serializable {
         return "register?faces-redirect=true";
     }
 
+    public String getGenericSearchString() {
+        return genericSearchString;
+    }
+
+    public void setGenericSearchString(String genericSearchString) {
+        this.genericSearchString = genericSearchString;
+    }
+
+    
     /**
      * @return the email
      */
@@ -143,8 +153,20 @@ public class UserBean implements Serializable {
 //    public void setUserDto(UserDto userDto) {
 //        this.userDto = userDto;
 //    }
-    public InputStream getImage(String filename) throws FileNotFoundException {
-        return new FileInputStream(new File(filename));
+   public InputStream getImage(String filename) {
+        InputStream is;
+        try {
+            is = new FileInputStream(new File(filename));
+
+            return is;
+        } catch (FileNotFoundException ex) {
+            try {
+                String filePath = System.getProperty("user.home") + "\\shareit\\images\\userProfile\\profile.png";
+                return new FileInputStream(new File(filePath));
+            } catch (FileNotFoundException ex1) {
+                return null;
+            }
+        }
     }
 
     public int getCurrentItemId() {

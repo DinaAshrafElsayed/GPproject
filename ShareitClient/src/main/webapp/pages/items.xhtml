@@ -16,7 +16,7 @@
     </ui:define>
 
     <ui:define name="content">
-        
+
         <div id="all">
             <h:form prependId="false">
                 <div id="content">
@@ -30,17 +30,30 @@
                                 <li>Browse Items</li>
                             </ul>
                             <div class="box">
-                                <div class="input-group">
-                                    <h:inputText value="#{itemBean.searchString}" pt:placeholder="Search" styleClass="form-control" id="searchString">
-                                        <f:ajax event="keyup" listener="#{itemBean.doSearch()}"  render="itemsData" />
-                                    </h:inputText> 
-                                    <span class="input-group-btn">
-                                        <h:commandLink action="#{itemBean.doSearch()}" styleClass="btn btn-primary"><i class="fa fa-search"></i></h:commandLink>
+                                <div class="row">
+                                    <div class="input-group col-sm-12">
+                                        <h:inputText value="#{itemBean.searchString}" pt:placeholder="Search" styleClass="form-control" id="searchString">
+                                            <f:ajax event="keyup" listener="#{itemBean.doSearch()}"  render="itemsData" />
+                                        </h:inputText> 
+                                        <span class="input-group-btn">
+                                            <h:commandLink action="#{itemBean.doSearch()}" styleClass="btn btn-primary"><i class="fa fa-search"></i></h:commandLink>
 
-                                    </span>
+                                        </span>
+                                    </div>
+<!--                                    <div class="input-group col-sm-1">
+                                        <span class="input-group-btn">
+                                            <h:commandLink action="advancedSearch.xhtml"  class="btn btn-primary navbar-btn" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search">
+                                                <i class="fa fa-search-plus"></i>
+                                                <span class="sr-only">Toggle Advanced search</span>
+                                            </h:commandLink>
+                                        </span>
+                                    </div>-->
                                 </div>
                             </div>
+                           
                             <div style="position: relative;float: right;">
+                                <h:link outcome="advancedSearch.xhtml" styleClass="btn btn-primary" ><i class="fa fa-search-plus"> Advanced Search</i></h:link>
+                                &nbsp;
                                 <h:link outcome="addItemForShare.xhtml" styleClass="btn btn-primary" ><i class="fa fa-plus"> add item</i></h:link>
                             </div>
 

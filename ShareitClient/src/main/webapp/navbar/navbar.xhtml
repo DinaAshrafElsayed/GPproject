@@ -194,11 +194,11 @@
             <!--/.nav-collapse -->
 
             <div class="navbar-buttons">
-                <c:if test="#{user.userDto!=null}">
+<!--                <c:if test="#{user.userDto!=null}">
                     <div class="navbar-collapse collapse right" id="basket-overview">
                         <a href="#" class="btn btn-primary navbar-btn" data-toggle="collapse tooltip" data-placement="bottom" title="notification"><i class="fa fa-bell"></i><span class="hidden-sm">notification</span></a>
                     </div>
-                </c:if>
+                </c:if>-->
                 <!--/.nav-collapse -->
 
                 <div class="navbar-collapse collapse right" id="search-not-mobile">
@@ -214,18 +214,13 @@
 
                 <h:form class="navbar-form" role="search">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search"/>
+                        <input type="text" class="form-control" placeholder="Search" value="#{itemBean.searchString}"/>
                         <span class="input-group-btn">
-
-                            <h:commandLink class="btn btn-primary"><i class="fa fa-search"></i></h:commandLink>
-
-                        </span>
-                        <span class="input-group-btn">
-                            <h:commandLink action="advancedSearch.xhtml"  class="btn btn-primary navbar-btn" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search">
-                                <i class="fa fa-search-plus"></i>
-                                <span class="sr-only">Toggle Advanced search</span>
+                            <h:commandLink class="btn btn-primary"  action="items.xhtml"  actionListener="#{itemBean.doSearchGeneric()}">
+                                <i class="fa fa-search"></i>
                             </h:commandLink>
                         </span>
+                        
                     </div>
 
                 </h:form>

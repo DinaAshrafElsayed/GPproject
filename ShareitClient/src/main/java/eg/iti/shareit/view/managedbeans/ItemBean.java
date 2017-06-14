@@ -22,7 +22,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 /**
@@ -37,7 +40,7 @@ public class ItemBean implements Serializable {
     private ItemService itemService;
     @Inject
     private ListItemsBean listItems;
-    @Inject
+    @ManagedProperty(value="#{user}")
     private UserBean userBean;
 
     private List<ItemDto> items = new ArrayList<>();
@@ -52,7 +55,7 @@ public class ItemBean implements Serializable {
     @PostConstruct
     public void init() {
         items = listItems.getItems();
-       
+
         categories = listItems.getCategories();
     }
 
@@ -101,12 +104,27 @@ public class ItemBean implements Serializable {
         this.searchString = null;
         doSearch();
     }
+    public void doSearchNavBar() {
+        this.categoryId = 0;
+        this.searchString = "book";
+        doSearch();
+    }
+    
+    public void doSearchGeneric(){
+        this.categoryId = 0;
+        UIViewRoot view = FacesContext.getCurrentInstance().getViewRoot();
+        searchString = getUserBean().getGenericSearchString();
+        System.out.println("search string is "+searchString);
+//        this.searchString 
+        doSearch();
+    }
 
     public void doSearch() {
         try {
             List<ItemDto> items = itemService.searchItems(searchString, categoryId);
             System.out.println("items " + items.size());
             this.items = items;
+            System.out.println("test");
         } catch (ServiceException ex) {
             Logger.getLogger(SearchBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -115,18 +133,39 @@ public class ItemBean implements Serializable {
     public String goToItem(int id) {
         return "itemDetails.xhtml?id=" + id;
     }
-    public String addItem(){
+
+    public String addItem() {
         return "addItemForShare.xhtml";
     }
 
     public InputStream getImage(String filename) {
+        InputStream is;
         try {
-        InputStream is =  new FileInputStream(new File(filename));
-        
-        return is;
+            is = new FileInputStream(new File(filename));
+
+            return is;
         } catch (FileNotFoundException ex) {
-            return null;
+            try {
+                String filePath = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\item.png";
+                return new FileInputStream(new File(filePath));
+            } catch (FileNotFoundException ex1) {
+                return null;
+            }
         }
+    }
+
+    /**
+     * @return the userBean
+     */
+    public UserBean getUserBean() {
+        return userBean;
+    }
+
+    /**
+     * @param userBean the userBean to set
+     */
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
     }
 
 }

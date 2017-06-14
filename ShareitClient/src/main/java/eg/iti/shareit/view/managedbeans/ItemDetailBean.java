@@ -345,6 +345,7 @@ public class ItemDetailBean implements Serializable {
                 FacesMessage facesMessage = new FacesMessage("to date must be after from date");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("detailForm:timeTo", facesMessage);
+
                 error = true;
             }
 
