@@ -47,10 +47,10 @@
                                     </span>
                                 </div>
                             </div>
-                            
-<!--                            <div style="position: relative;float: right;">
-                                <h:link outcome="addItemForShare.xhtml" styleClass="btn btn-primary" ><i class="fa fa-plus"> add item</i></h:link>
-                            </div>-->
+
+                            <!--                            <div style="position: relative;float: right;">
+                                                            <h:link outcome="addItemForShare.xhtml" styleClass="btn btn-primary" ><i class="fa fa-plus"> add item</i></h:link>
+                                                        </div>-->
 
 
                             <div class="box info-bar">
@@ -70,7 +70,6 @@
                                                         </h:selectOneMenu>
                                                     </div>
 
-
                                                 </div>
                                             </form>
                                         </div>
@@ -83,7 +82,7 @@
                                     <p:dataGrid var="item" value="#{itemBean.items}" columns="3" layout="grid"
                                                 rows="6" paginator="true" id="item"
                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                rowsPerPageTemplate="3,6,9" style="color: white">
+                                                rowsPerPageTemplate="3,6,9">
                                         <div class="product">
                                             <div class="flip-container">
                                                 <div class="flipper">
@@ -101,8 +100,8 @@
 
                                                 <p class="price">#{item.points}</p>
                                                 <p class="buttons">
-                                                    <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-default btn btn-primary" style="color: white">View details</h:link><br/>
-                                                  
+                                                    <h:link outcome="#{itemBean.goToItem(item.id)}" styleClass="btn btn-primary" style="color: white">View details</h:link><br/>
+
                                                 </p>
                                             </div>
 
@@ -119,7 +118,7 @@
                     <!-- /.container -->
                 </div>
             </h:form>
-         
+
         </div>
     </ui:define>
 </ui:composition>

@@ -36,8 +36,8 @@ import javax.servlet.http.Part;
  *
  * @author El-Greatly
  */
-@ManagedBean(name = "itemEditBean", eager = true)
-@SessionScoped
+@ManagedBean(name = "itemEditBean")
+@ViewScoped
 public class ItemEditBean implements Serializable {
 
     private ItemDto item;

@@ -28,7 +28,7 @@
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
         </script>
-        <o:form enctype="multipart/form-data" prependId="false">
+        <h:form enctype="multipart/form-data" prependId="false"> 
             <div id="all">
 
                 <div id="content">
@@ -58,15 +58,15 @@
                                     <h4>Item Details:</h4>
 
                                     <p><label>Name:</label>
-                                        <h:inputText class="form-control" value="#{itemEditBean.name}"/>
+                                        <h:inputText class="form-control" value="#{itemEditBean.name}" immediate="true"/>
                                     </p>
 
                                     <p><label>Description:</label>
-                                        <h:inputTextarea class="form-control" value="#{itemEditBean.description}"/>
+                                        <h:inputTextarea class="form-control" value="#{itemEditBean.description}" immediate="true"/>
                                     </p>
                                     <p>
                                         <label>Category:</label>
-                                        <h:selectOneMenu  styleClass="form-control" value="#{itemBean.categoryId}" style="width:125px" id="categoryId">
+                                        <h:selectOneMenu  styleClass="form-control" value="#{itemEditBean.category}" style="width:125px" id="categoryId" immediate="true">
                                             <f:selectItem itemLabel="All" itemValue="0" />
                                             <f:selectItems value="#{itemBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
                                             
@@ -99,13 +99,12 @@
                             </div>
 
                         </div>
-                        <!-- /.col-md-9 -->
+
                     </div>
-                    <!-- /.container -->
                 </div>
-                <!-- /#content -->
+
 
             </div>
-        </o:form>
+        </h:form>
     </ui:define>
 </ui:composition>

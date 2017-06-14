@@ -23,9 +23,9 @@ public class NotificationDto implements Serializable, GenericDto {
     private BigInteger pointsDeducted;
     private BigInteger days;
     private String meetingPoint;
-    private ItemEntity item;
-    private UserEntity fromUser;
-    private UserEntity toUser;
+    private ItemDto item;
+    private UserDto fromUser;
+    private UserDto toUser;
     private BigInteger seen;
 
     public BigDecimal getId() {
@@ -44,27 +44,27 @@ public class NotificationDto implements Serializable, GenericDto {
         this.pointsDeducted = pointsDeducted;
     }
 
-    public ItemEntity getItem() {
+    public ItemDto getItem() {
         return item;
     }
 
-    public void setItem(ItemEntity item) {
+    public void setItem(ItemDto item) {
         this.item = item;
     }
 
-    public UserEntity getFromUser() {
+    public UserDto getFromUser() {
         return fromUser;
     }
 
-    public void setFromUser(UserEntity fromUser) {
+    public void setFromUser(UserDto fromUser) {
         this.fromUser = fromUser;
     }
 
-    public UserEntity getToUser() {
+    public UserDto getToUser() {
         return toUser;
     }
 
-    public void setToUser(UserEntity toUser) {
+    public void setToUser(UserDto toUser) {
         this.toUser = toUser;
     }
 
