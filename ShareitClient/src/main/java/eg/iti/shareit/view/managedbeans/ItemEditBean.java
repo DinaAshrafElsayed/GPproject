@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -35,8 +36,8 @@ import javax.servlet.http.Part;
  *
  * @author El-Greatly
  */
-@ManagedBean(name = "itemEditBean",eager = true)
-@RequestScoped
+@ManagedBean(name = "itemEditBean", eager = true)
+@SessionScoped
 public class ItemEditBean implements Serializable {
 
     private ItemDto item;
@@ -51,6 +52,15 @@ public class ItemEditBean implements Serializable {
     private int id;
     private List<CategoryDto> categories = new ArrayList<>();
     private int categoryId;
+    private ItemEditBean tempItemEditBean;
+
+    public ItemEditBean getTempItemEditBean() {
+        return tempItemEditBean;
+    }
+
+    public void setTempItemEditBean(ItemEditBean tempItemEditBean) {
+        this.tempItemEditBean = tempItemEditBean;
+    }
 
     @EJB
     private ItemService itemService;

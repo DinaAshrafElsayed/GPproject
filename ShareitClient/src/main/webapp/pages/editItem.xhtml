@@ -66,9 +66,10 @@
                                     </p>
                                     <p>
                                         <label>Category:</label>
-                                        <h:selectOneMenu  styleClass="form-control" value="#{itemEditBean.category}" style="width:125px" id="categoryId">
+                                        <h:selectOneMenu  styleClass="form-control" value="#{itemBean.categoryId}" style="width:125px" id="categoryId">
                                             <f:selectItem itemLabel="All" itemValue="0" />
-                                            <f:selectItems value="#{itemEditBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
+                                            <f:selectItems value="#{itemBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
+                                            
                                         </h:selectOneMenu>
                                     </p>
 
@@ -90,7 +91,7 @@
                                     </div>
 
                                     <div class="text-center">
-                                        <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}" immediate="true"><i class="fa fa-user-md"></i> update</h:commandLink>
+                                        <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}" ><i class="fa fa-user-md"></i> update</h:commandLink>
                                     </div>
                                     <br/>
 

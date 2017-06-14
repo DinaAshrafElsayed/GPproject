@@ -139,7 +139,7 @@
                                     <p><em>Published at : #{itemDetailBean.item.publishDate}</em>
                                     </p>
                                 </blockquote>
-                                <h:link outcome="#{itemDetailBean.goToPublisher(itemDetailBean.item.userFrom.id)}" styleClass="btn btn-default">View Publisher</h:link><br/>         
+                                <h:link outcome="#{itemDetailBean.goToPublisher(itemDetailBean.item.userFrom.id)}" styleClass="btn btn-default btn btn-primary">View Publisher</h:link><br/>         
                                 
                                 <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
                                     <h:link outcome="#{itemDetailBean.goToEditItem(itemDetailBean.item.id)}" value="Edit" styleClass="btn btn-default" class="btn btn-primary"/>
