@@ -22,6 +22,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -54,7 +55,7 @@ public class UserBean implements Serializable {
             UserDto userDto = userService.findUser(email, password);
             System.out.println("user dto " + userDto);
             //userDto = userService.findUser(email, password);
-            System.out.println("user dto " + getUserDto());
+            System.out.println("user dto ---------------------- " + getUserDto());
             if (userDto != null) {
                 //save in session
                 HttpSession session = SessionUtil.getSession();
@@ -156,10 +157,5 @@ public class UserBean implements Serializable {
     }
     
     ////////////////// by sara ///////////////////
-    public String goToProfile(BigDecimal id) {
-
-        return "Profile.xhtml?id" + id;
-
-    }
-
+   
 }

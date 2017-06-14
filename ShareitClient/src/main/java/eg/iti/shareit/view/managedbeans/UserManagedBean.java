@@ -48,7 +48,7 @@ import javax.servlet.http.Part;
  * @author sara metwalli
  */
 @ManagedBean(name = "userManagedBean")
-@SessionScoped
+@RequestScoped
 public class UserManagedBean implements Serializable {
 
     private UserDto userDto;
@@ -60,15 +60,16 @@ public class UserManagedBean implements Serializable {
     private String gender;
     private String image_url;
     private String confirmPassword;
+      private AddressDto address;
     private CountryDto country;
     private CityDto city;
     private StateDto state;
     private Part file;
-
-    private boolean canEdit = true;
+    private int id;
+     private int points;
+    private boolean canEdit;
 
     private List<ItemDto> items;
-
 
     @EJB
     UserService userService;
@@ -79,6 +80,41 @@ public class UserManagedBean implements Serializable {
     @EJB
     AddressService addressService;
 
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+  
+    public AddressDto getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressDto address) {
+        this.address = address;
+    }
+   
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    
+    
     public Part getFile() {
         return file;
     }
@@ -193,27 +229,41 @@ public class UserManagedBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        {
+            System.out.println("--------- dakhlt fl init");
+            try {
+                HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                System.out.println("------------------- id is "+request.getParameter("id"));
+                if (request.getParameter("id") != null) {
+                    id = Integer.parseInt(request.getParameter("id"));
+                    UserBean.currentItemId = id;
+                } else {
+                    id = UserBean.currentItemId;
+                }
 
+                user2 = userService.findUser(BigDecimal.valueOf((long) id));
+                System.out.println("++--++++++++++++++ user is " + user2.getUsername());
+                userDto = SessionUtil.getUser();
 
-        userDto = SessionUtil.getUser();
-//        username = userDto.getUsername();
-//        email = userDto.getEmail();
-//        gender = userDto.getGender().getGender();
-//        image_url = userDto.getImageUrl();
-//        country = userDto.getAddress().getCountry();
-//        city = userDto.getAddress().getCity();
-//        state = userDto.getAddress().getState();
-
-        username = userDto.getUsername();
-        email = userDto.getEmail();
-        gender = userDto.getGender().getGender();
-        image_url = userDto.getImageUrl();
-        country = userDto.getAddress().getCountry();
-        city = userDto.getAddress().getCity();
-        state = userDto.getAddress().getState();
-        items = userDto.getItems();
-        System.out.println("the user items size is " + items.size());
-        
+                if(userDto.getEmail().equals(user2.getEmail())){
+                        
+                    canEdit=true;
+                }
+                username = user2.getUsername();
+                email = user2.getEmail();
+                gender = user2.getGender().getGender();
+                image_url = user2.getImageUrl();
+                address=user2.getAddress();
+                country = user2.getAddress().getCountry();
+                city = user2.getAddress().getCity();
+                state = user2.getAddress().getState();
+                items = user2.getItems();
+               
+                System.out.println("the user items size is " + items.size());
+            } catch (ServiceException ex) {
+                Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void save() {
@@ -245,7 +295,7 @@ public class UserManagedBean implements Serializable {
                 Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
             }
-            
+
         }
         return "Profile?faces-redirect=true";
     }
@@ -254,11 +304,10 @@ public class UserManagedBean implements Serializable {
         return new FileInputStream(new File(filename));
     }
 
-
     public String viewUser(String myEmail) {
         try {
 
-            System.out.println(" ------------------- +++++++ in view USer"+myEmail);
+            System.out.println(" ------------------- +++++++ in view USer" + myEmail);
             user2 = userService.getUserByEmail(myEmail);
             System.out.println("----------++++++++++++------- user is " + user2.getUsername());
             canEdit = false;
@@ -269,14 +318,13 @@ public class UserManagedBean implements Serializable {
 //            country = user2.getAddress().getCountry();
 //            city = user2.getAddress().getCity();
 //            state = user2.getAddress().getState();
-                System.out.println("end of the function <<<<<<<<<<<<<<<");
+            System.out.println("end of the function <<<<<<<<<<<<<<<");
             return "Profile.xhtml";
         } catch (ServiceException ex) {
             Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
-
 
     public String goToItem(int id) {
         return "itemDetails.xhtml?id=" + id;
@@ -295,15 +343,8 @@ public class UserManagedBean implements Serializable {
     public void setItems(List<ItemDto> items) {
         this.items = items;
     }
-    
-    public boolean getCanEdit() {
-        return canEdit;
-    }
 
-    public void setCanEdit(boolean canEdit) {
-        this.canEdit = canEdit;
-    }
-
+  
     /**
      * @return the user2
      */
@@ -317,5 +358,15 @@ public class UserManagedBean implements Serializable {
     public void setUser2(UserDto user2) {
         this.user2 = user2;
 
-}
+    }
+     public String goToProfile(BigDecimal id) {
+
+        System.out.println("    ----------- ___ in go to profile "+id);
+        
+        if(id!=null)
+         return "Profile.xhtml?id="+ id;
+        else 
+            return "";
+    }
+
 }

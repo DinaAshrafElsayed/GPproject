@@ -133,16 +133,13 @@
                                 <p>#{itemDetailBean.item.category.name}</p>
                                 <h4>Tags</h4>
                                 <p>#{itemDetailBean.item.tags}</p>
-                                <h4>
-                                    Published By
-                                </h4>
-                           
-                                <p>  <h:link  outcome="#{userManagedBean.viewUser(itemDetailBean.item.userFrom.email)}" styleClass="btn btn-default" >Published by</h:link> <br/>  </p>
+                               
                                 
                                 <blockquote>
                                     <p><em>Published at : #{itemDetailBean.item.publishDate}</em>
                                     </p>
                                 </blockquote>
+                                <h:link outcome="#{itemDetailBean.goToPublisher(itemDetailBean.item.userFrom.id)}" styleClass="btn btn-default">View Publisher</h:link><br/>         
                                 <!--                                <h:commandLink action="editItem.xhtml" immediate="true" value="Edit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>
                                                                 </h:commandLink>-->
                                 <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
