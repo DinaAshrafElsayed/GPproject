@@ -70,4 +70,13 @@ public class NotificationService {
             throw new ServiceException(ex.getMessage());
         }
     }
+
+    public int getNotificationNumber(BigDecimal userId) throws ServiceException {
+        try {
+            return notificationDao.getNotificationNumber(userId);
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(NotificationService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServiceException(ex.getMessage());
+        }
+    }
 }

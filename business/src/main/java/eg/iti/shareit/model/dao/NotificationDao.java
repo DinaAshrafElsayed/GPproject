@@ -26,4 +26,6 @@ public interface NotificationDao extends GenericDao<NotificationEntity> {
 
     void setNotificationAsRead(BigDecimal id) throws DatabaseRollbackException;
 
+    int getNotificationNumber(BigDecimal userId) throws DatabaseRollbackException;
+
 }

@@ -1,8 +1,5 @@
-function ajaxNotificationNumber() {
-
+setInterval(function ()
+{
     document.getElementById('formProfile:notificationNumber').click();
-
-}
-function ajaxItemStatus() {
     document.getElementById('formProfile:itemStatusNumber').click();
-}
+}, 500);

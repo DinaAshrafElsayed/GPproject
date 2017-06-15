@@ -55,4 +55,11 @@ public class NotificationDaoImpl extends GenericDaoImpl<NotificationEntity> impl
         update(notificationEntity);
     }
 
+    @Override
+    public int getNotificationNumber(BigDecimal userId) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("select COUNT(n.seen) from NotificationEntity n where n.toUser.id=" + userId.intValue() + " and seen=0");
+        long singleResult = (Long) query.getSingleResult();
+        return (int) singleResult;
+    }
+
 }

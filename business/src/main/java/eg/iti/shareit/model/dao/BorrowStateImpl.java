@@ -95,4 +95,11 @@ public class BorrowStateImpl extends GenericDaoImpl<BorrowStateEntity> implement
         itemDao.updateItem(itemEntity);
         System.out.println("at end of update " + borrowStateEntity);
     }
+
+    @Override
+    public int getItemStatusNumber(BigDecimal userID) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("Select count(b.isBack) From BorrowStateEntity b where b.activity.toUser=" + userID.intValue() + " and  b.isBack =0");
+        long singleResult = (long) query.getSingleResult();
+        return (int) singleResult;
+    }
 }
