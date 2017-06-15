@@ -17,17 +17,7 @@
 
     <ui:define name="content">
         <div id="fb-root"></div>
-        <script>
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id))
-                    return;
-                js = d.createElement(s);
-                js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.9";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
+
         <h:form enctype="multipart/form-data" prependId="false"> 
             <div id="all">
 
@@ -41,7 +31,6 @@
                                 <li>
                                     <h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
                                 </li>
-                                <li>Item : #{itemEditBean.item.name} details</li>
                             </ul>
 
                         </div>
@@ -49,37 +38,39 @@
                         <div class="col-md-12">
 
                             <div class="row" id="productMain">
+                                <div class="col-md-12 text-center">
+                                        
+                                    </div>
                                 <h1 class="text-center">#{itemEditBean.item.name}</h1>
-                                <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to item details </a>
-                                </p>
 
                                 <div id="details">
 
                                     <h4>Item Details:</h4>
 
                                     <p><label>Name:</label>
-                                        <h:inputText class="form-control" value="#{itemEditBean.name}" immediate="true"/>
+                                        <h:inputText class="form-control" value="#{itemEditBean.item.name}" immediate="true"/>
                                     </p>
 
                                     <p><label>Description:</label>
-                                        <h:inputTextarea class="form-control" value="#{itemEditBean.description}" immediate="true"/>
+                                        <h:inputTextarea class="form-control" value="#{itemEditBean.item.description}" immediate="true"/>
                                     </p>
                                     <p>
                                         <label>Category:</label>
-                                        <h:selectOneMenu  styleClass="form-control" value="#{itemEditBean.category}" style="width:125px" id="categoryId" immediate="true">
-                                            <f:selectItem itemLabel="All" itemValue="0" />
-                                            <f:selectItems value="#{itemEditBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
+                                        <h:selectOneMenu  styleClass="form-control" value="#{itemEditBean.item.category}" style="width:125px" id="categoryId" converter="omnifaces.SelectItemsConverter">
+
+                                            <f:selectItems value="#{itemBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c}"/>
+
                                         </h:selectOneMenu>
                                     </p>
 
                                     <p>
                                         <label>Tags:</label>
-                                        <h:inputText class="form-control" value="#{itemEditBean.tags}"/>
+                                        <h:inputText class="form-control" value="#{itemEditBean.item.tags}"/>
                                     </p>
 
                                     <p>
                                         <label>Number Of Points:</label>
-                                        <h:inputText class="form-control" value="#{itemEditBean.points}"/>
+                                        <h:inputText class="form-control" value="#{itemEditBean.item.points}"/>
                                     </p>
 
                                     <div class="form-group">
@@ -88,15 +79,14 @@
                                             <f:ajax listener="#{itemEditBean.save()}" />
                                         </h:inputFile>
                                     </div>
-
+                                    
                                     <div class="text-center">
-                                        <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}" immediate="true"><i class="fa fa-user-md"></i> update</h:commandLink>
+                                        <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}"><i class="fa fa-user-md"> Update</i></h:commandLink>
+                                        <h:messages />
                                     </div>
                                     <br/>
-
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
@@ -105,5 +95,6 @@
 
             </div>
         </h:form>
+
     </ui:define>
 </ui:composition>
