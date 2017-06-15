@@ -51,7 +51,9 @@
                             <div class="row" id="productMain">
                                 <div class="col-sm-4">
                                     <div id="mainImage">
+                                        <c:if test="#{relatedItem.imageUrl != ''}">
                                         <o:graphicImage  height="200px" value="#{itemBean.getImage(itemDetailBean.item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                        </c:if>
                                     </div>
 
                                     <c:if test="#{itemDetailBean.publishDays le 7}">
@@ -139,7 +141,7 @@
                                     <p><em>Published at : #{itemDetailBean.item.publishDate}</em>
                                     </p>
                                 </blockquote>
-                                <h:link outcome="#{itemDetailBean.goToPublisher(itemDetailBean.item.userFrom.id)}" styleClass="btn btn-default btn btn-primary">View Publisher</h:link><br/>         
+                                <h:link outcome="#{itemDetailBean.goToPublisher(itemDetailBean.item.userFrom.id)}" styleClass="btn btn-default btn btn-primary">View Publisher</h:link><br/><br/>       
                                 
                                 <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
                                     <h:link outcome="#{itemDetailBean.goToEditItem(itemDetailBean.item.id)}" value="Edit" styleClass="btn btn-default" class="btn btn-primary"/>
@@ -171,18 +173,24 @@
                                                         <div class="flipper">
                                                             <div class="front">
                                                                 <h:link outcome="#{itemBean.goToItem(relatedItem.id)}" >
+                                                                    <c:if test="#{relatedItem.imageUrl != ''}">
                                                                     <o:graphicImage value="#{itemBean.getImage(relatedItem.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                                                    </c:if>
                                                                 </h:link>
                                                             </div>
                                                             <div class="back">
                                                                 <h:link outcome="#{itemBean.goToItem(relatedItem.id)}" >
+                                                                   <c:if test="#{relatedItem.imageUrl != ''}">
                                                                     <o:graphicImage value="#{itemBean.getImage(relatedItem.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                                                   </c:if>
                                                                 </h:link>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <h:link outcome="#{itemBean.goToItem(relatedItem.id)}" class="invisible" >
+                                                        <c:if test="#{relatedItem.imageUrl != ''}">
                                                         <o:graphicImage value="#{itemBean.getImage(relatedItem.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                                        </c:if>
                                                     </h:link>
                                                     <div class="text">
                                                         <h3>#{relatedItem.name}</h3>

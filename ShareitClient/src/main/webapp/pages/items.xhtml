@@ -88,12 +88,15 @@
                                                 <div class="flipper">
                                                     <div class="front">
                                                         <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                    
                                                     </div>
                                                     <div class="back">
                                                         <o:graphicImage  style="height: 316px;width:100%;"  value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                     
                                                     </div>
                                                 </div>
                                             </div>
+                                           
                                             <o:graphicImage  style="height: 316px;width:100%;" value="#{itemBean.getImage(item.imageUrl)}" dataURI="true" /> 
                                             <div class="text">
                                                 <h3><h:link outcome="#{itemBean.goToItem(item.id)}">#{item.name}<br></br>#{item.description}</h:link></h3>
