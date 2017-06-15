@@ -6,7 +6,6 @@
 package eg.iti.shareit.model.dao;
 
 import eg.iti.shareit.common.Exception.DatabaseRollbackException;
-import eg.iti.shareit.model.entity.ActivityEntity;
 import eg.iti.shareit.model.entity.NotificationEntity;
 import eg.iti.shareit.model.entity.UserEntity;
 import eg.iti.shareit.model.util.MappingUtil;
@@ -54,6 +53,13 @@ public class NotificationDaoImpl extends GenericDaoImpl<NotificationEntity> impl
         NotificationEntity notificationEntity = get(id);
         notificationEntity.setSeen(BigInteger.valueOf(1));
         update(notificationEntity);
+    }
+
+    @Override
+    public int getNotificationNumber(BigDecimal userId) throws DatabaseRollbackException {
+        Query query = getEntityManager().createQuery("select COUNT(n.seen) from NotificationEntity n where n.toUser.id=" + userId.intValue() + " and seen=0");
+        long singleResult = (Long) query.getSingleResult();
+        return (int) singleResult;
     }
 
 }

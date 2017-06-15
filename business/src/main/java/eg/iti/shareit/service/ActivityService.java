@@ -97,13 +97,14 @@ public class ActivityService {
             throw new ServiceException(e.getMessage());
         }
     }
-    
-    public ActivityDto getActivityOfMyItem(int itemId,int userId) throws ServiceException{
+
+    public ActivityDto getActivityOfMyItem(int itemId, int userId) throws ServiceException {
         try {
             ActivityEntity entity = activityDao.getMyActivityOfItem(itemId, userId);
-            if(entity == null )
+            if (entity == null) {
                 return null;
-            
+            }
+
             ActivityDto activtyDto = mappingUtil.getDto(entity, ActivityDto.class);
             return activtyDto;
         } catch (DatabaseRollbackException ex) {
@@ -133,7 +134,7 @@ public class ActivityService {
         }
     }
 
-    public boolean requestItem(int itemId, int fromUserId, int toUserId,Date timeFrom, Date timeTo, String meetingPoint) throws ServiceException {
+    public boolean requestItem(int itemId, int fromUserId, int toUserId, Date timeFrom, Date timeTo, String meetingPoint) throws ServiceException {
         try {
             boolean isAvailable = itemService.isItemAvailable(itemId);
             if (isAvailable) {

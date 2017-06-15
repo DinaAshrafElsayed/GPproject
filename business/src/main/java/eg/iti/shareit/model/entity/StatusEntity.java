@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StatusEntity.findAll", query = "SELECT s FROM StatusEntity s"),
     @NamedQuery(name = "StatusEntity.findById", query = "SELECT s FROM StatusEntity s WHERE s.id = :id"),
     @NamedQuery(name = "StatusEntity.findByStatus", query = "SELECT s FROM StatusEntity s WHERE s.status = :status")})
-public class StatusEntity implements Serializable,GenericEntity {
+public class StatusEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -46,8 +46,8 @@ public class StatusEntity implements Serializable,GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "T_STATUS_SEQ")
-    @SequenceGenerator(name = "T_STATUS_SEQ" ,sequenceName = "T_STATUS_SEQ" ,allocationSize = 1,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_STATUS_SEQ")
+    @SequenceGenerator(name = "T_STATUS_SEQ", sequenceName = "T_STATUS_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull

@@ -10,6 +10,7 @@ import eg.iti.shareit.common.dao.GenericDao;
 import eg.iti.shareit.common.entity.GenericEntity;
 import eg.iti.shareit.model.entity.BorrowStateEntity;
 import eg.iti.shareit.model.entity.UserEntity;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -23,4 +24,6 @@ public interface BorrowStateDao extends GenericDao<BorrowStateEntity> {
     public List<BorrowStateEntity> getBorrowStatus(UserEntity userEntity) throws DatabaseRollbackException;
 
     public void updateBorrowStatus(BorrowStateEntity borrowStateEntity) throws DatabaseRollbackException;
+
+    public int getItemStatusNumber(BigDecimal userID) throws DatabaseRollbackException;
 }

@@ -6,7 +6,6 @@
 package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
-import eg.iti.shareit.model.entity.ActivityEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -19,7 +18,7 @@ public class BorrowStateDto implements Serializable, GenericDto {
 
     private BigDecimal id;
     private BigInteger isBack;
-    private ActivityEntity activity;
+    private ActivityDto activity;
 
     public BigDecimal getId() {
         return id;
@@ -37,11 +36,11 @@ public class BorrowStateDto implements Serializable, GenericDto {
         this.isBack = isBack;
     }
 
-    public ActivityEntity getActivity() {
+    public ActivityDto getActivity() {
         return activity;
     }
 
-    public void setActivity(ActivityEntity activity) {
+    public void setActivity(ActivityDto activity) {
         this.activity = activity;
     }
 
