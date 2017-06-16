@@ -9,7 +9,6 @@ import eg.iti.shareit.common.Exception.ServiceException;
 import eg.iti.shareit.model.dto.ActivityDto;
 import eg.iti.shareit.model.dto.CategoryDto;
 import eg.iti.shareit.model.dto.ItemDto;
-import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.service.ActivityService;
 import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
@@ -17,6 +16,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +27,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -80,7 +80,17 @@ public class ItemDetailBean implements Serializable {
     private int points;
     private String tags;
     private Part file;
+    private List<String> hashTags;
 
+    public List<String> getHashTags() {
+        return hashTags;
+    }
+
+    public void setHashTags(List<String> hashTags) {
+        this.hashTags = hashTags;
+    }
+    
+    
     public Part getFile() {
         return file;
     }
@@ -215,7 +225,8 @@ public class ItemDetailBean implements Serializable {
                 id = UserBean.currentItemId;
             }
                 item = itemService.getItemById(id);
-
+                hashTags = Arrays.asList(item.getTags().split(","));
+                
                 Date date1 = new Date();
                 Date date2 = item.getPublishDate();
                 long diff = date1.getTime() - date2.getTime();
@@ -299,12 +310,10 @@ public class ItemDetailBean implements Serializable {
     }
 
     public String getTimeFrom() {
-        System.out.println("////////////////////// gettt time frommmm");
         return timeFrom;
     }
 
     public void setTimeFrom(String timeFrom) {
-        System.out.println("////////////////////// time frommmm");
         this.timeFrom = timeFrom;
     }
 

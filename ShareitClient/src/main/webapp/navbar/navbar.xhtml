@@ -133,7 +133,7 @@
                                                 <h:form>
                                                     <ui:repeat value="#{category.firstList}" var="c">
                                                         <li>
-                                                            <h:commandLink value="#{c.name}" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
+                                                            <h:commandLink value="#{c.name}" action="items.xhtml?faces-redirect=true" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
                                                         </li>
                                                     </ui:repeat>
                                                 </h:form>
@@ -145,7 +145,7 @@
                                                 <h:form>
                                                     <ui:repeat value="#{category.secondList}" var="c">
                                                         <li>
-                                                            <h:commandLink value="#{c.name}" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
+                                                            <h:commandLink value="#{c.name}" action="items.xhtml?faces-redirect=true" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
                                                         </li>
                                                     </ui:repeat>
                                                 </h:form>

@@ -105,9 +105,9 @@ public class ItemBean implements Serializable {
         this.searchString = null;
         doSearch();
     }
-    public void doSearchNavBar() {
+    public void doSearchTag(String tagStr) {
         this.categoryId = 0;
-        this.searchString = "book";
+        this.searchString = "#"+tagStr;
         doSearch();
     }
     
