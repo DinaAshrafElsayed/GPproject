@@ -25,6 +25,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIViewRoot;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -112,8 +113,9 @@ public class ItemBean implements Serializable {
     
     public void doSearchGeneric(){
         this.categoryId = 0;
-        UIViewRoot view = FacesContext.getCurrentInstance().getViewRoot();
-        searchString = getUserBean().getGenericSearchString();
+//        searchString = getUserBean().getGenericSearchString();
+//        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//        searchString = ec.getRequestParameterMap().get("searchFormGlobal:searchValue");
         System.out.println("search string is "+searchString);
 //        this.searchString 
         doSearch();

@@ -180,11 +180,11 @@
 
             <div class="collapse clearfix" id="search">
 
-                <h:form class="navbar-form" role="search">
+                <h:form class="navbar-form" role="search" id="searchFormGlobal">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search" value="#{itemBean.searchString}"/>
+                        <h:inputText class="form-control" pt:placeholder="Search" id="searchValue" value="#{itemBean.searchString}"/>
                         <span class="input-group-btn">
-                            <h:commandLink class="btn btn-primary"  action="items.xhtml"  actionListener="#{itemBean.doSearchGeneric()}">
+                            <h:commandLink class="btn btn-primary" action="items.xhtml"   actionListener="#{itemBean.doSearchGeneric()}">
                                 <i class="fa fa-search"></i>
                             </h:commandLink>
                         </span>
