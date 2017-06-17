@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
@@ -26,7 +27,7 @@ import javax.inject.Inject;
  * @author El-Greatly
  */
 @ManagedBean(name = "category")
-@RequestScoped
+@ApplicationScoped
 public class CategoryBean implements Serializable {
 
     @EJB

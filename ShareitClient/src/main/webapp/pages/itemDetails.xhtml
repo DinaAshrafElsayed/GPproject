@@ -135,7 +135,7 @@
                                 <p>#{itemDetailBean.item.category.name}</p>
                                 <h4>Tags</h4>
                                 <ui:repeat var="currTag" value="#{itemDetailBean.hashTags}">
-                                    <h:commandLink value="##{currTag}" action="items.xhtml?faces-redirect=true" actionListener="#{itemBean.doSearchTag(currTag)}" immediate="true"/>  &nbsp;
+                                    <h:commandLink value="##{currTag}" action="items.xhtml" actionListener="#{itemBean.doSearchTag(currTag)}" immediate="true"/>  &nbsp;
                                 </ui:repeat>
 
 
