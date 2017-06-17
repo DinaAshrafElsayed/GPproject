@@ -344,6 +344,7 @@ public class ItemDetailBean implements Serializable {
     public String requestItem(String timeFrom, String timeTo, String meetingPoint) {
         Date timeFromDate, timeToDate, todayDate;
         try {
+            
             timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeFrom);
             timeToDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeTo);
 
@@ -359,12 +360,6 @@ public class ItemDetailBean implements Serializable {
                 error = true;
             }
 
-//            if(timeFromDate.compareTo(todayDate) < 0 ){
-//                FacesMessage facesMessage = new FacesMessage("from date can't be before today ");
-//                FacesContext facesContext = FacesContext.getCurrentInstance();
-//                facesContext.addMessage("detailForm:timeFrom", facesMessage);
-//                error = true;
-//            }
             if (error) {
                 return "";
             }
@@ -375,7 +370,10 @@ public class ItemDetailBean implements Serializable {
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
+                FacesMessage facesMessage = new FacesMessage("please provid valid date format dd-MM-yyyy");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("detailForm:timeTo", facesMessage);
+                facesContext.addMessage("detailForm:timeFrom", facesMessage);
         }
         return "";
     }
