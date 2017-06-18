@@ -30,7 +30,9 @@
         <h:outputScript library="js" name="bootstrap-hover-dropdown.js" />
         <h:outputScript library="js" name="owl.carousel.min.js" />
         <h:outputScript library="js" name="front.js" />
-        <h:outputScript library="js" name="custome.js" />
+        <c:if test="#{user.userDto ne null}">
+            <h:outputScript library="js" name="custome.js" />
+        </c:if>
     </h:body>
 
 </html>

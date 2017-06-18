@@ -45,7 +45,7 @@ public class AuthorizationFilter implements Filter {
             //all pages that doesnt need login
             // or make filter on specfic pages instead easier
             String reqURI = req.getRequestURI();
-
+            System.out.println("request url is "+reqURI);
             if (reqURI.contains("items.xhtml") || reqURI.contains("About_us.xhtml")
                     || reqURI.contains("Contact_us.xhtml") || reqURI.contains("fag.xhtml")
                     || reqURI.contains("advancedSearch.xhtml") || reqURI.contains("itemDetails.xhtml")) {

@@ -11,6 +11,7 @@ import eg.iti.shareit.model.entity.CountryEntity;
 import eg.iti.shareit.model.entity.ItemEntity;
 import eg.iti.shareit.model.entity.StateEntity;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -53,12 +54,49 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
     @Override
     public List<ItemEntity> searchItem(String name, int categoryId) throws DatabaseRollbackException {
         Query query;
+        System.out.println("name string "+name);
+         List<String> names = new ArrayList<>();
+         List<String> tags = new ArrayList<>();
+        if (name != null) {
+            //extract names and tags
+            String[] words = name.split(" ");
+           
+            for (String word : words) {
+                if (word.charAt(0) == '#') {
+                    tags.add(word.substring(1));
+                } else {
+                    names.add(word);
+                }
+            }
+        }
+
         String queryString = "Select i From ItemEntity i ";
         boolean flag = false;
-        if (name != null) {
+        if (names.size() > 0) {
             flag = true;
-            queryString += " where i.name LIKE :name ";
+            queryString += " where ( ";
+            for (String nameStr : names) {
+                queryString += " i.name LIKE '%" + nameStr + "%' or ";
+            }
+            queryString = queryString.substring(0, queryString.length() - 3);
+            queryString += " )";
         }
+
+        if (tags.size() > 0) {
+            if (flag) {
+                queryString += " or ";
+            } else {
+                queryString += "where ";
+            }
+            flag = true;
+            queryString += " ( ";
+            for (String tagStr : tags) {
+                queryString += " i.tags LIKE '%" + tagStr + "%' or ";
+            }
+            queryString = queryString.substring(0, queryString.length() - 3);
+            queryString += " )";
+        }
+
         if (categoryId != 0) {
             if (flag) {
                 queryString += " and ";
@@ -69,9 +107,9 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
         }
 
         query = getEntityManager().createQuery(queryString);
-        if (name != null) {
-            query.setParameter("name", '%' + name + '%');
-        }
+//        if (name != null) {
+//            query.setParameter("name", '%' + name + '%');
+//        }
 
         if (categoryId != 0) {
             query.setParameter("categoryId", new BigDecimal(categoryId));
@@ -80,6 +118,7 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
         try {
             List<ItemEntity> itemList = query.getResultList();
             if (itemList != null) {
+                System.out.println("item list returned from search "+itemList.size());
                 return itemList;
             } else {
                 throw new DatabaseRollbackException("ItemEntities with name <" + name + "> and categoryId <" + categoryId + "> Not Found");

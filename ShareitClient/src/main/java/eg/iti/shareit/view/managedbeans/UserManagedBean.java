@@ -300,7 +300,19 @@ public class UserManagedBean implements Serializable {
     }
 
     public InputStream getImage(String filename) throws FileNotFoundException {
-        return new FileInputStream(new File(filename));
+        InputStream is;
+        try {
+            is = new FileInputStream(new File(filename));
+
+            return is;
+        } catch (FileNotFoundException ex) {
+            try {
+                String filePath = System.getProperty("user.home") + "\\shareit\\images\\userProfile\\profile.png";
+                return new FileInputStream(new File(filePath));
+            } catch (FileNotFoundException ex1) {
+                return null;
+            }
+        }
     }
 
     public String viewUser(String myEmail) {

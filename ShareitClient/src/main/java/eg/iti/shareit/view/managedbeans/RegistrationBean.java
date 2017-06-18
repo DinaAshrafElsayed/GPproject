@@ -16,28 +16,18 @@ import eg.iti.shareit.model.util.HashingUtil;
 import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.service.AddressService;
 import eg.iti.shareit.service.UserService;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 
 /**
