@@ -373,9 +373,19 @@ public class ItemDetailBean implements Serializable {
             timeToDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeTo);
 
 //            
-//            todayDate = new SimpleDateFormat("dd-MM-yyyy").parse(todayString);
+            todayDate = new SimpleDateFormat("dd-MM-yyyy").parse(todayString);
 //            
             boolean error = false;
+
+            if (timeFromDate.compareTo(todayDate) < 0) {
+                FacesMessage facesMessage = new FacesMessage("From date can't be before today");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("detailForm:timeFrom", facesMessage);
+
+                error = true;
+            }
+
+
             if (timeFromDate.compareTo(timeToDate) > 0) {
                 FacesMessage facesMessage = new FacesMessage("to date must be after from date");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
