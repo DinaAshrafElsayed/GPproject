@@ -89,8 +89,7 @@ public class ItemDetailBean implements Serializable {
     public void setHashTags(List<String> hashTags) {
         this.hashTags = hashTags;
     }
-    
-    
+
     public Part getFile() {
         return file;
     }
@@ -221,41 +220,41 @@ public class ItemDetailBean implements Serializable {
             if (request.getParameter("id") != null) {
                 id = Integer.parseInt(request.getParameter("id"));
                 UserBean.currentItemId = id;
-            }else{
+            } else {
                 id = UserBean.currentItemId;
             }
-                item = itemService.getItemById(id);
-                hashTags = Arrays.asList(item.getTags().split(","));
-                
-                Date date1 = new Date();
-                Date date2 = item.getPublishDate();
-                long diff = date1.getTime() - date2.getTime();
-                publishDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-                System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+            item = itemService.getItemById(id);
+            hashTags = Arrays.asList(item.getTags().split(","));
 
-                if (user.getUserDto() != null) {
-                    activity = activityService.getActivityOfMyItem(item.getId().intValue(), user.getUserDto().getId().intValue());
-                }
-                if (activity != null) {
-                    isRequested = true;
-                    if (activity.getStatus().getId().intValue() == 2) {
-                        message = "Your Request to the item has been accepted";
-                        noRequest = true;
-                    }
-                    if (activity.getStatus().getId().intValue() == 3) {
-                        message = "Your Request to the item has been declined";
-                        noRequest = true;
-                    }
-                }
+            Date date1 = new Date();
+            Date date2 = item.getPublishDate();
+            long diff = date1.getTime() - date2.getTime();
+            publishDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
 
-                if (user.getUserDto() != null && user.getUserDto().getPoints() < item.getPoints()) {
-                    message = "You don't have enough points";
+            if (user.getUserDto() != null) {
+                activity = activityService.getActivityOfMyItem(item.getId().intValue(), user.getUserDto().getId().intValue());
+            }
+            if (activity != null) {
+                isRequested = true;
+                if (activity.getStatus().getId().intValue() == 2) {
+                    message = "Your Request to the item has been accepted";
                     noRequest = true;
                 }
+                if (activity.getStatus().getId().intValue() == 3) {
+                    message = "Your Request to the item has been declined";
+                    noRequest = true;
+                }
+            }
 
-                relatedItems = itemService.getRelatedItems(item);
-                todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-           
+            if (user.getUserDto() != null && user.getUserDto().getPoints() < item.getPoints()) {
+                message = "You don't have enough points";
+                noRequest = true;
+            }
+
+            relatedItems = itemService.getRelatedItems(item);
+            todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -344,14 +343,24 @@ public class ItemDetailBean implements Serializable {
     public String requestItem(String timeFrom, String timeTo, String meetingPoint) {
         Date timeFromDate, timeToDate, todayDate;
         try {
-            
+
             timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeFrom);
             timeToDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeTo);
 
 //            
-//            todayDate = new SimpleDateFormat("dd-MM-yyyy").parse(todayString);
+            todayDate = new SimpleDateFormat("dd-MM-yyyy").parse(todayString);
 //            
             boolean error = false;
+
+            if (timeFromDate.compareTo(todayDate) < 0) {
+                FacesMessage facesMessage = new FacesMessage("From date can't be before today");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("detailForm:timeFrom", facesMessage);
+
+                error = true;
+            }
+
+
             if (timeFromDate.compareTo(timeToDate) > 0) {
                 FacesMessage facesMessage = new FacesMessage("to date must be after from date");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -370,10 +379,10 @@ public class ItemDetailBean implements Serializable {
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-                FacesMessage facesMessage = new FacesMessage("please provide valid date format dd-MM-yyyy");
-                FacesContext facesContext = FacesContext.getCurrentInstance();
-                facesContext.addMessage("detailForm:timeTo", facesMessage);
-                facesContext.addMessage("detailForm:timeFrom", facesMessage);
+            FacesMessage facesMessage = new FacesMessage("please provide valid date format dd-MM-yyyy");
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage("detailForm:timeTo", facesMessage);
+            facesContext.addMessage("detailForm:timeFrom", facesMessage);
         }
         return "";
     }
@@ -394,14 +403,15 @@ public class ItemDetailBean implements Serializable {
     public void validateDateFrom(FacesContext context, UIComponent component, Object value) {
 
     }
-    
-     public String goToEditItem(int id) {
+
+    public String goToEditItem(int id) {
         return "editItem.xhtml?id=" + id;
     }
-    public String goToPublisher(BigDecimal id){
-        return "Profile.xhtml?id="+ id;
-    } 
-     
+
+    public String goToPublisher(BigDecimal id) {
+        return "Profile.xhtml?id=" + id;
+    }
+
 //    public void validateDateTo(FacesContext context, UIComponent component, Object value){
 //        try {
 //            Date timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse((String) value);
@@ -412,5 +422,4 @@ public class ItemDetailBean implements Serializable {
 //            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-    
 }
