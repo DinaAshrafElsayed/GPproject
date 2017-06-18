@@ -11,6 +11,7 @@ import eg.iti.shareit.model.dto.CityDto;
 import eg.iti.shareit.model.dto.CountryDto;
 import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.model.dto.StateDto;
+import eg.iti.shareit.model.dto.UserDto;
 import eg.iti.shareit.service.AddressService;
 import eg.iti.shareit.service.ItemService;
 import java.io.File;
@@ -87,6 +88,16 @@ public class AdvancedSearchBean implements Serializable {
 //        }
 //    }
 
+    public String nearBySearch(){
+        try {
+            UserDto user = SessionUtil.getUser();
+            setItems(itemService.searchByLocation(user.getAddress()));
+            System.out.println("items " + getItems().size());
+        } catch (ServiceException ex) {
+            Logger.getLogger(AdvancedSearchBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
     public String advancedSearch() {
         try {
             AddressDto addressDto = new AddressDto();
