@@ -370,7 +370,7 @@ public class ItemDetailBean implements Serializable {
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-                FacesMessage facesMessage = new FacesMessage("please provid valid date format dd-MM-yyyy");
+                FacesMessage facesMessage = new FacesMessage("please provide valid date format dd-MM-yyyy");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("detailForm:timeTo", facesMessage);
                 facesContext.addMessage("detailForm:timeFrom", facesMessage);
