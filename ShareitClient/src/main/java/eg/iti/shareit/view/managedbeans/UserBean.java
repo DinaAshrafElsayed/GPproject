@@ -93,7 +93,9 @@ public class UserBean implements Serializable {
     public void getNotificationNumberFromDB() {
         try {
             //Get the notifications of the user
-            notificationNumber = notificationService.getNotificationNumber(SessionUtil.getUser().getId());
+            if (SessionUtil.getUser() != null) {
+                notificationNumber = notificationService.getNotificationNumber(SessionUtil.getUser().getId());
+            }
         } catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -101,8 +103,9 @@ public class UserBean implements Serializable {
 
     public void getItemStatusNum() {
         try {
-
-            ItemNum = itemTrackingService.getItemStatusNumber(SessionUtil.getUser().getId());
+            if (SessionUtil.getUser() != null) {
+                ItemNum = itemTrackingService.getItemStatusNumber(SessionUtil.getUser().getId());
+            }
         } catch (ServiceException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
