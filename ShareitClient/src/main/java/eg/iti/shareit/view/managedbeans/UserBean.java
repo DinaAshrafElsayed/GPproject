@@ -129,7 +129,6 @@ public class UserBean implements Serializable {
         this.genericSearchString = genericSearchString;
     }
 
-    
     /**
      * @return the email
      */
@@ -182,15 +181,19 @@ public class UserBean implements Serializable {
 //    public void setUserDto(UserDto userDto) {
 //        this.userDto = userDto;
 //    }
-   public InputStream getImage(String filename) {
+    public InputStream getImage(String filename) {
         InputStream is;
-        try {
-            is = new FileInputStream(new File(filename));
+        String filePath = System.getProperty("user.home") + "\\shareit\\images\\userProfile\\profile.png";
 
+        try {
+            if (filename != null && !filename.isEmpty()) {
+                is = new FileInputStream(new File(filename));
+            } else {
+                is = new FileInputStream(new File(filePath));
+            }
             return is;
         } catch (FileNotFoundException ex) {
             try {
-                String filePath = System.getProperty("user.home") + "\\shareit\\images\\userProfile\\profile.png";
                 return new FileInputStream(new File(filePath));
             } catch (FileNotFoundException ex1) {
                 return null;

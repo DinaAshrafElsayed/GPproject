@@ -34,9 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_ADDRESS")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "AddressEntity.findAll", query = "SELECT a FROM AddressEntity a"),
-    @NamedQuery(name = "AddressEntity.findById", query = "SELECT a FROM AddressEntity a WHERE a.id = :id")})
 public class AddressEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -46,18 +43,18 @@ public class AddressEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_ADDRESS_SEQ")
-    @SequenceGenerator(name = "T_ADDRESS_SEQ", sequenceName = "T_ADDRESS_SEQ", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "T_ADDRESS_SEQ", sequenceName = "T_ADDRESS_SEQ", initialValue = 1)
     private BigDecimal id;
-    @JoinColumn(name = "CITY", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "CITY", referencedColumnName = "ID")
     private CityEntity city;
-    @JoinColumn(name = "COUNTRY", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "COUNTRY", referencedColumnName = "ID")
     private CountryEntity country;
-    @JoinColumn(name = "STATE", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "STATE", referencedColumnName = "ID")
     private StateEntity state;
-    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<UserEntity> userEntityList;
 
     public AddressEntity() {
@@ -67,11 +64,11 @@ public class AddressEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 

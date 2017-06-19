@@ -35,14 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_CATEGORY")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "CategoryEntity.findAll", query = "SELECT t FROM CategoryEntity t"),
-    @NamedQuery(name = "CategoryEntity.findById", query = "SELECT t FROM CategoryEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "CategoryEntity.findByName", query = "SELECT t FROM CategoryEntity t WHERE t.name = :name"),
-    @NamedQuery(name = "CategoryEntity.findByMaxPoints", query = "SELECT t FROM CategoryEntity t WHERE t.maxPoints = :maxPoints")})
 public class CategoryEntity implements Serializable, GenericEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    @javax.persistence.Transient
     private List<ItemEntity> itemEntityList;
 
     private static final long serialVersionUID = 1L;
@@ -52,7 +47,7 @@ public class CategoryEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_CATEGORY_SEQ")
-    @SequenceGenerator(name = "T_CATEGORY_SEQ", sequenceName = "T_CATEGORY_SEQ", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "T_CATEGORY_SEQ", sequenceName = "T_CATEGORY_SEQ", initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -63,7 +58,7 @@ public class CategoryEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "MAX_POINTS")
     private BigInteger maxPoints;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<ItemEntity> itemList;
 
     public CategoryEntity() {
@@ -79,11 +74,11 @@ public class CategoryEntity implements Serializable, GenericEntity {
         this.maxPoints = maxPoints;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 
@@ -95,11 +90,11 @@ public class CategoryEntity implements Serializable, GenericEntity {
         this.name = name;
     }
 
-    public BigInteger getMaxPoints() {
+    public java.math.BigInteger getMaxPoints() {
         return maxPoints;
     }
 
-    public void setMaxPoints(BigInteger maxPoints) {
+    public void setMaxPoints(java.math.BigInteger maxPoints) {
         this.maxPoints = maxPoints;
     }
 

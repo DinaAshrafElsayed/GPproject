@@ -31,10 +31,8 @@ public class NotificationService {
 
     private static final Logger logger = Logger.getLogger(ActivityService.class.getName());
 
-    @EJB
     private NotificationDao notificationDao;
 
-    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
     public List<NotificationDto> getNotSeenNotifications(UserDto userDto) throws ServiceException {
