@@ -26,7 +26,6 @@ import javax.persistence.RollbackException;
 @Stateless(mappedName = "ItemDaoImpl")
 public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
 
-    @EJB
     ItemDao itemDao;
 
     public ItemDaoImpl() {
@@ -54,13 +53,13 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
     @Override
     public List<ItemEntity> searchItem(String name, int categoryId) throws DatabaseRollbackException {
         Query query;
-        System.out.println("name string "+name);
-         List<String> names = new ArrayList<>();
-         List<String> tags = new ArrayList<>();
+        System.out.println("name string " + name);
+        List<String> names = new ArrayList<>();
+        List<String> tags = new ArrayList<>();
         if (name != null) {
             //extract names and tags
             String[] words = name.split(" ");
-           
+
             for (String word : words) {
                 if (word.charAt(0) == '#') {
                     tags.add(word.substring(1));
@@ -118,7 +117,7 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
         try {
             List<ItemEntity> itemList = query.getResultList();
             if (itemList != null) {
-                System.out.println("item list returned from search "+itemList.size());
+                System.out.println("item list returned from search " + itemList.size());
                 return itemList;
             } else {
                 throw new DatabaseRollbackException("ItemEntities with name <" + name + "> and categoryId <" + categoryId + "> Not Found");
@@ -234,6 +233,18 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
         } catch (PersistenceException e) {
             throw new DatabaseRollbackException(e.getMessage());
         }
+    }
+
+    @Override
+    public boolean deleteItem(ItemEntity item) throws DatabaseRollbackException {
+        try {
+            itemDao.delete(item);
+            System.out.println("in delete item : deleted successfully");
+            return true;
+        }catch (PersistenceException e) {
+            throw new DatabaseRollbackException(e.getMessage());              
+        }
+
     }
 
 }

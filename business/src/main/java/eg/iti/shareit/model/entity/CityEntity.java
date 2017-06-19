@@ -34,10 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_CITY")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "CityEntity.findAll", query = "SELECT t FROM CityEntity t"),
-    @NamedQuery(name = "CityEntity.findById", query = "SELECT t FROM CityEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "CityEntity.findByCity", query = "SELECT t FROM CityEntity t WHERE t.city = :city")})
 public class CityEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -47,14 +43,14 @@ public class CityEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_CITY_SEQ")
-    @SequenceGenerator(name = "T_CITY_SEQ", sequenceName = "T_CITY_SEQ", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "T_CITY_SEQ", sequenceName = "T_CITY_SEQ", initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "CITY")
     private String city;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<AddressEntity> addressList;
 
     public CityEntity() {
@@ -69,11 +65,11 @@ public class CityEntity implements Serializable, GenericEntity {
         this.city = city;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 

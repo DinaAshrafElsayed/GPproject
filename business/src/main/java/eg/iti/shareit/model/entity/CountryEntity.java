@@ -34,10 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_COUNTRY")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "CountryEntity.findAll", query = "SELECT t FROM CountryEntity t"),
-    @NamedQuery(name = "CountryEntity.findById", query = "SELECT t FROM CountryEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "CountryEntity.findByCountry", query = "SELECT t FROM CountryEntity t WHERE t.country = :country")})
 public class CountryEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -47,14 +43,14 @@ public class CountryEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_COUNTRY_SEQ")
-    @SequenceGenerator(name = "T_COUNTRY_SEQ", sequenceName = "T_COUNTRY_SEQ", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "T_COUNTRY_SEQ", sequenceName = "T_COUNTRY_SEQ", initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "COUNTRY")
     private String country;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<AddressEntity> addressList;
 
     public CountryEntity() {
@@ -69,11 +65,11 @@ public class CountryEntity implements Serializable, GenericEntity {
         this.country = country;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 

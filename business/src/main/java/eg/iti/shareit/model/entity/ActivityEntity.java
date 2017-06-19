@@ -42,18 +42,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_ACTIVITY")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "ActivityEntity.findAll", query = "SELECT t FROM ActivityEntity t"),
-    @NamedQuery(name = "ActivityEntity.findById", query = "SELECT t FROM ActivityEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "ActivityEntity.findByMeetingPoint", query = "SELECT t FROM ActivityEntity t WHERE t.meetingPoint = :meetingPoint"),
-    @NamedQuery(name = "ActivityEntity.findByStatus", query = "SELECT t FROM ActivityEntity t WHERE t.status = :status"),
-    @NamedQuery(name = "ActivityEntity.findByTimeFrom", query = "SELECT t FROM ActivityEntity t WHERE t.timeFrom = :timeFrom"),
-    @NamedQuery(name = "ActivityEntity.findByTimeTo", query = "SELECT t FROM ActivityEntity t WHERE t.timeTo = :timeTo"),
-    @NamedQuery(name = "ActivityEntity.findByActivityDeleted", query = "SELECT t FROM ActivityEntity t WHERE t.activityDeleted = :activityDeleted")})
 public class ActivityEntity implements Serializable,
         GenericEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
+    @javax.persistence.Transient
     private List<BorrowStateEntity> borrowStateEntityList;
 
     private static final long serialVersionUID = 1L;
@@ -63,7 +55,7 @@ public class ActivityEntity implements Serializable,
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_ACTIVITY_SEQ")
-    @SequenceGenerator(name = "T_ACTIVITY_SEQ", sequenceName = "T_ACTIVITY_SEQ", allocationSize = 100, initialValue = 1)
+    @SequenceGenerator(name = "T_ACTIVITY_SEQ", sequenceName = "T_ACTIVITY_SEQ", initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -73,28 +65,26 @@ public class ActivityEntity implements Serializable,
     @Basic(optional = false)
     @NotNull
     @Column(name = "TIME_FROM")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date timeFrom;
     @Basic(optional = false)
     @NotNull
     @Column(name = "TIME_TO")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date timeTo;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ACTIVITY_DELETED")
     private short activityDeleted;
-    @JoinColumn(name = "ITEM", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "ITEM", referencedColumnName = "ID")
     private ItemEntity item;
-    @JoinColumn(name = "TO_USER", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "TO_USER", referencedColumnName = "ID")
     private UserEntity toUser;
-    @JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
     private UserEntity fromUser;
-    @JoinColumn(name = "STATUS", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "STATUS", referencedColumnName = "ID")
     private StatusEntity status;
 
     public ActivityEntity() {
@@ -113,11 +103,11 @@ public class ActivityEntity implements Serializable,
         this.activityDeleted = activityDeleted;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 
@@ -129,7 +119,7 @@ public class ActivityEntity implements Serializable,
         this.meetingPoint = meetingPoint;
     }
 
-    public Date getTimeFrom() {
+    public java.util.Date getTimeFrom() {
         return timeFrom;
     }
 
@@ -141,15 +131,15 @@ public class ActivityEntity implements Serializable,
         this.status = status;
     }
 
-    public void setTimeFrom(Date timeFrom) {
+    public void setTimeFrom(java.util.Date timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    public Date getTimeTo() {
+    public java.util.Date getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(Date timeTo) {
+    public void setTimeTo(java.util.Date timeTo) {
         this.timeTo = timeTo;
     }
 

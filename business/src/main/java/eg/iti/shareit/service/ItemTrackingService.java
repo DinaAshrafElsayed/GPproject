@@ -31,9 +31,7 @@ public class ItemTrackingService {
 
     private static final Logger logger = Logger.getLogger(ActivityService.class.getName());
 
-    @EJB
     private BorrowStateDao borrowStateDao;
-    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
     public void handleBorrowingDueDate(UserDto userDto) throws ServiceException {

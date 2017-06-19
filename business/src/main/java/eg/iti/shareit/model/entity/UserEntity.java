@@ -11,18 +11,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -37,26 +31,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_USER")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "UserEntity.findAll", query = "SELECT u FROM UserEntity u"),
-    @NamedQuery(name = "UserEntity.findById", query = "SELECT u FROM UserEntity u WHERE u.id = :id"),
-    @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
-    @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
-    @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT u FROM UserEntity u WHERE u.password = :password"),
-    @NamedQuery(name = "UserEntity.findByImageUrl", query = "SELECT u FROM UserEntity u WHERE u.imageUrl = :imageUrl"),
-    @NamedQuery(name = "UserEntity.findByPoints", query = "SELECT u FROM UserEntity u WHERE u.points = :points")})
 public class UserEntity implements Serializable, GenericEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<ActivityEntity> activityEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<ActivityEntity> activityEntityList1;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<NotificationEntity> notificationFromUserList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<NotificationEntity> notificationToUserList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<ItemEntity> items;
 
     private static final long serialVersionUID = 1L;
@@ -66,7 +52,7 @@ public class UserEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_USER_SEQ")
-    @SequenceGenerator(name = "T_USER_SEQ", sequenceName = "T_USER_SEQ", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "T_USER_SEQ", sequenceName = "T_USER_SEQ", initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -91,11 +77,11 @@ public class UserEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "POINTS")
     private BigInteger points;
-    @JoinColumn(name = "ADDRESS", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "ADDRESS", referencedColumnName = "ID")
     private AddressEntity address;
-    @JoinColumn(name = "GENDER", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "GENDER", referencedColumnName = "ID")
     private GenderEntity gender;
 
     public UserEntity() {
@@ -113,11 +99,11 @@ public class UserEntity implements Serializable, GenericEntity {
         this.points = points;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 
@@ -153,11 +139,11 @@ public class UserEntity implements Serializable, GenericEntity {
         this.imageUrl = imageUrl;
     }
 
-    public BigInteger getPoints() {
+    public java.math.BigInteger getPoints() {
         return points;
     }
 
-    public void setPoints(BigInteger points) {
+    public void setPoints(java.math.BigInteger points) {
         this.points = points;
     }
 

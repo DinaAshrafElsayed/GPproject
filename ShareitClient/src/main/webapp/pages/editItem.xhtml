@@ -19,6 +19,7 @@
         <div id="fb-root"></div>
 
         <h:form enctype="multipart/form-data" prependId="false"> 
+            <p:growl id="growl" showDetail="true" sticky="true"/>
             <div id="all">
 
                 <div id="content">
@@ -31,6 +32,9 @@
                                 <li>
                                     <h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
                                 </li>
+                                <li>
+                                <h:commandLink action="#{itemBean.goToItem(item.id)}" immediate="true"> Item Details</h:commandLink>
+                                </li>
                             </ul>
 
                         </div>
@@ -39,7 +43,9 @@
 
                             <div class="row" id="productMain">
                                 <div class="col-md-12 text-center">
-                                        
+                                        <c:if test="#{relatedItem.imageUrl != ''}">
+                                        <o:graphicImage  height="200px" value="#{itemBean.getImage(itemDetailBean.item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                        </c:if>
                                     </div>
                                 <h1 class="text-center">#{itemEditBean.item.name}</h1>
 
@@ -81,7 +87,9 @@
                                     </div>
                                     
                                     <div class="text-center">
-                                        <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}"><i class="fa fa-user-md"> Update</i></h:commandLink>
+                                        <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}"><i class="fa fa-user-md"> Update</i>
+                                            <f:ajax execute="@all" render="name tags points description growl"/>
+                                        </h:commandLink>
                                         <h:messages />
                                     </div>
                                     <br/>

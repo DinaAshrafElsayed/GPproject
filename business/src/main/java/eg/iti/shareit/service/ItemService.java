@@ -34,14 +34,10 @@ public class ItemService {
 
     private static final Logger logger = Logger.getLogger(ItemService.class.getName());
 
-    @EJB
     private ItemDao itemDao;
-    @EJB
     private ActivityDao activityDao;
-    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
-    @EJB
     private CategoryDao categoryDao;
 
     public List<CategoryDto> getAllCategories() throws ServiceException {
@@ -160,5 +156,19 @@ public class ItemService {
         } catch (DatabaseRollbackException ex) {
             Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void deleteSharedItem(ItemDto itemDto)throws ServiceException{
+    
+        try {
+            System.out.println("____ in service _____________"+itemDto.getName());
+            ItemEntity itemEntity = mappingUtil.getEntity(itemDto, ItemEntity.class);
+              System.out.println("____ in service _____________"+itemEntity.getName());
+            itemDao.deleteItem(itemEntity);
+        
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+           
+        }
+        
     }
 }

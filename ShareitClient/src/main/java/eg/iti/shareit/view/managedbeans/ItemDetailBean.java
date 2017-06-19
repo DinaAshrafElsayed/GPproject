@@ -57,6 +57,12 @@ public class ItemDetailBean implements Serializable {
     private CategoryService categoryService;
 
     @Inject
+    private ItemBean itemBean;
+
+    @Inject
+    private ListItemsBean listItemsBean;
+    
+    @Inject
     private UserBean user;
 
     private int id;
@@ -83,6 +89,25 @@ public class ItemDetailBean implements Serializable {
     private Part file;
     private List<String> hashTags;
 
+    public ListItemsBean getListItemsBean() {
+        return listItemsBean;
+    }
+
+    public void setListItemsBean(ListItemsBean listItemsBean) {
+        this.listItemsBean = listItemsBean;
+    }
+
+    
+    public ItemBean getItemBean() {
+        return itemBean;
+    }
+
+    public void setItemBean(ItemBean itemBean) {
+        this.itemBean = itemBean;
+    }
+
+
+    
     public List<String> getHashTags() {
         return hashTags;
     }
@@ -387,7 +412,7 @@ public class ItemDetailBean implements Serializable {
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            FacesMessage facesMessage = new FacesMessage("please provide valid date format dd-MM-yyyy");
+            FacesMessage facesMessage = new FacesMessage("please provid valid date format dd-MM-yyyy");
             FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.addMessage("detailForm:timeTo", facesMessage);
             facesContext.addMessage("detailForm:timeFrom", facesMessage);
@@ -406,6 +431,20 @@ public class ItemDetailBean implements Serializable {
                 Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public String deleteItem() {
+        try {
+            itemService.deleteSharedItem(item);
+            listItemsBean.getItems().remove(item);
+          //  itemBean.getItems().remove(item);
+            System.out.println("------------------- im delete service "+ itemBean.getItems().size());
+            return "items?faces-redirect=true";
+        } catch (ServiceException ex) {
+            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+
     }
 
     public void validateDateFrom(FacesContext context, UIComponent component, Object value) {

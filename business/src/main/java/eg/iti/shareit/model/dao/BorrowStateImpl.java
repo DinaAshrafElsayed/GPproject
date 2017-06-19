@@ -27,10 +27,8 @@ import javax.persistence.Query;
 @Stateless(mappedName = "BorrowStateImpl")
 public class BorrowStateImpl extends GenericDaoImpl<BorrowStateEntity> implements BorrowStateDao {
 
-    @EJB
     ActivityDao activityDao;
 
-    @EJB
     ItemDao itemDao;
 
     public BorrowStateImpl() {
