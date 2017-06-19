@@ -89,6 +89,63 @@ public class ItemDetailBean implements Serializable {
     private Part file;
     private List<String> hashTags;
 
+    
+    @PostConstruct
+    public void init() {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            if (request.getParameter("id") != null) {
+                id = Integer.parseInt(request.getParameter("id"));
+                UserBean.currentItemId = id;
+            } else {
+                id = UserBean.currentItemId;
+            }
+            
+            for(ItemDto currentItem: listItemsBean.getItems()){
+                if(currentItem.getId().intValue() == id){
+                    item = currentItem;
+                    break;
+                }
+            }
+            if(item == null)
+                item = itemService.getItemById(id);
+            
+            
+            hashTags = Arrays.asList(item.getTags().split(","));
+
+            Date date1 = new Date();
+            Date date2 = item.getPublishDate();
+            long diff = date1.getTime() - date2.getTime();
+            publishDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+
+            if (user.getUserDto() != null) {
+                activity = activityService.getActivityOfMyItem(item.getId().intValue(), user.getUserDto().getId().intValue());
+            }
+            if (activity != null) {
+                isRequested = true;
+                if (activity.getStatus().getId().intValue() == 2) {
+                    message = "Your Request to the item has been accepted";
+                    noRequest = true;
+                }
+                if (activity.getStatus().getId().intValue() == 3) {
+                    message = "Your Request to the item has been declined";
+                    noRequest = true;
+                }
+            }
+
+            if (user.getUserDto() != null && user.getUserDto().getPoints() < item.getPoints()) {
+                message = "You don't have enough points";
+                noRequest = true;
+            }
+
+            relatedItems = itemService.getRelatedItems(item);
+            todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+        } catch (ServiceException ex) {
+            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public ListItemsBean getListItemsBean() {
         return listItemsBean;
     }
@@ -236,52 +293,7 @@ public class ItemDetailBean implements Serializable {
     public ItemDetailBean() {
     }
 
-    @PostConstruct
-    public void init() {
-        try {
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            if (request.getParameter("id") != null) {
-                id = Integer.parseInt(request.getParameter("id"));
-                UserBean.currentItemId = id;
-            } else {
-                id = UserBean.currentItemId;
-            }
-            item = itemService.getItemById(id);
-            hashTags = Arrays.asList(item.getTags().split(","));
-
-            Date date1 = new Date();
-            Date date2 = item.getPublishDate();
-            long diff = date1.getTime() - date2.getTime();
-            publishDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-
-            if (user.getUserDto() != null) {
-                activity = activityService.getActivityOfMyItem(item.getId().intValue(), user.getUserDto().getId().intValue());
-            }
-            if (activity != null) {
-                isRequested = true;
-                if (activity.getStatus().getId().intValue() == 2) {
-                    message = "Your Request to the item has been accepted";
-                    noRequest = true;
-                }
-                if (activity.getStatus().getId().intValue() == 3) {
-                    message = "Your Request to the item has been declined";
-                    noRequest = true;
-                }
-            }
-
-            if (user.getUserDto() != null && user.getUserDto().getPoints() < item.getPoints()) {
-                message = "You don't have enough points";
-                noRequest = true;
-            }
-
-            relatedItems = itemService.getRelatedItems(item);
-            todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-        } catch (ServiceException ex) {
-            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 
     public boolean isNoRequest() {
         return noRequest;
