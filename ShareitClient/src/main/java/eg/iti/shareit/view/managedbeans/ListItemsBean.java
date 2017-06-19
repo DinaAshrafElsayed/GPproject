@@ -49,6 +49,7 @@ public class ListItemsBean {
     }
 
     public List<ItemDto> getItems() {
+        System.out.println("_____ in item bean "+items.size());
         return items;
     }
 

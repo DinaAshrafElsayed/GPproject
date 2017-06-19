@@ -28,11 +28,8 @@ import javax.persistence.Query;
 @Stateless(mappedName = "AddressDaoImpl")
 public class AddressDaoImpl extends GenericDaoImpl<AddressEntity> implements AddressDao {
 
-    @EJB
     CountryDao countryDao;
-    @EJB
     StateDao stateDao;
-    @EJB
     CityDao cityDao;
 
     public AddressDaoImpl() {

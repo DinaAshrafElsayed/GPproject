@@ -24,13 +24,9 @@ public class UserService {
 
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
 
-    @EJB
     private UserDao userDao;
-    @EJB
     private GenderService genderService;
-    @EJB
     private AddressService addressService;
-    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
     public UserDto getUserByEmail(String email) throws ServiceException {

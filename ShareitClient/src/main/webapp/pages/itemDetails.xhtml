@@ -29,6 +29,7 @@
             }(document, 'script', 'facebook-jssdk'));
         </script>
         <o:form includeRequestParams="true" id="detailForm">
+             <p:growl id="growl" showDetail="true" sticky="true"/>
             <div id="all">
 
                 <div id="content">
@@ -165,6 +166,17 @@
 
                                     </p>
                                 </div>
+                                <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
+                                <div class="social">
+                                    <h4>Delete Item</h4>
+                                    <p>
+                                        <h:commandLink class="btn-danger " value="delete" action="#{itemDetailBean.deleteItem()}" style="width: fit-content;">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                              <f:ajax execute="@all" render=" growl"/>
+                                        </h:commandLink>
+                                    </p>
+                                </div>
+                                    </c:if>
                             </div>
 
                             <c:if test="#{itemDetailBean.relatedItems.size() gt 0 }">

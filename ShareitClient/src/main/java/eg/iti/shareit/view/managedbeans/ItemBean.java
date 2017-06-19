@@ -41,7 +41,7 @@ public class ItemBean implements Serializable {
     private ItemService itemService;
     @Inject
     private ListItemsBean listItems;
-    @ManagedProperty(value="#{user}")
+    @ManagedProperty(value = "#{user}")
     private UserBean userBean;
 
     private List<ItemDto> items = new ArrayList<>();
@@ -61,6 +61,8 @@ public class ItemBean implements Serializable {
     }
 
     public List<ItemDto> getItems() {
+        System.out.println("______________ "+items.size());
+         items = listItems.getItems();
         return items;
     }
 
@@ -105,18 +107,19 @@ public class ItemBean implements Serializable {
         this.searchString = null;
         doSearch();
     }
+
     public void doSearchTag(String tagStr) {
         this.categoryId = 0;
-        this.searchString = "#"+tagStr;
+        this.searchString = "#" + tagStr;
         doSearch();
     }
-    
-    public void doSearchGeneric(){
+
+    public void doSearchGeneric() {
         this.categoryId = 0;
 //        searchString = getUserBean().getGenericSearchString();
 //        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 //        searchString = ec.getRequestParameterMap().get("searchFormGlobal:searchValue");
-        System.out.println("search string is "+searchString);
+        System.out.println("search string is " + searchString);
 //        this.searchString 
         doSearch();
     }
@@ -142,13 +145,19 @@ public class ItemBean implements Serializable {
 
     public InputStream getImage(String filename) {
         InputStream is;
+        String filePath = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\item.png";
         try {
-            is = new FileInputStream(new File(filename));
+            if (filename != null && !filename.isEmpty()) {
+                is = new FileInputStream(new File(filename));
 
+            } else {
+                is = new FileInputStream(new File(filePath));
+            }
             return is;
+
         } catch (FileNotFoundException ex) {
             try {
-                String filePath = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\item.png";
+//                String filePath = System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\item.png";
                 return new FileInputStream(new File(filePath));
             } catch (FileNotFoundException ex1) {
                 return null;

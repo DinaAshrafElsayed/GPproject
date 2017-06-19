@@ -28,10 +28,8 @@ public class CategoryService {
 
     private static final Logger logger = Logger.getLogger(CategoryService.class.getName());
 
-    @EJB
     private CategoryDao categoryDao;
 
-    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
     public CategoryDto getCategoryByName(String name) throws ServiceException {
