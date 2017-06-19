@@ -157,4 +157,18 @@ public class ItemService {
             Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void deleteSharedItem(ItemDto itemDto)throws ServiceException{
+    
+        try {
+            System.out.println("____ in service _____________"+itemDto.getName());
+            ItemEntity itemEntity = mappingUtil.getEntity(itemDto, ItemEntity.class);
+              System.out.println("____ in service _____________"+itemEntity.getName());
+            itemDao.deleteItem(itemEntity);
+        
+        } catch (DatabaseRollbackException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+           
+        }
+        
+    }
 }

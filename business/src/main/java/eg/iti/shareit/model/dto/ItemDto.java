@@ -9,6 +9,7 @@ import eg.iti.shareit.common.dto.GenericDto;
 import eg.iti.shareit.model.entity.UserEntity;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -50,6 +51,31 @@ public class ItemDto implements java.io.Serializable, GenericDto {
 
     public BigDecimal getId() {
         return id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ItemDto other = (ItemDto) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
     public ItemDto(String name, String description, int isAvailable, Date publishDate, int points, String imageUrl, String tags, UserDto userDto) {

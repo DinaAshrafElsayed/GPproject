@@ -38,6 +38,12 @@
                             <span class="sr-only">Toggle Advanced search</span>
                             <i class="fa fa-search-plus"></i>
                         </h:commandLink>
+                        <c:if test="#{user.userDto ne null}" >
+                            <h:commandLink action="notifications.xhtml?faces-redirect=true"  class="navbar-toggle" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Notifications">
+                                <span class="hidden-xs">Notification</span>
+                                <i class="fa fa-bell"></i>
+                            </h:commandLink>
+                        </c:if>
 
                     </div>
                 </h:form>
@@ -188,7 +194,13 @@
                                 <i class="fa fa-search"></i>
                             </h:commandLink>
                         </span>
+                        <span class="input-group-btn">
+                            <h:commandLink class="btn btn-primary" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search" action="advancedSearch.xhtml?faces-redirect=true"  >
+                                <i class="fa fa-search-plus"></i>
+                            </h:commandLink>
+                        </span>
                         
+
                     </div>
 
                 </h:form>

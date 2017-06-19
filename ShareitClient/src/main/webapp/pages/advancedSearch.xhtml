@@ -38,11 +38,22 @@ and open the template in the editor.
                     <div class="box">
                         <h1>Advanced Search</h1>
                         <h:form>
-                            <p class="lead">look for nearby products</p>
+                            <p class="lead">look for nearby products
+                                <c:if test="#{user.userDto != null}">
+                                    <h:commandLink class="btn btn-primary" action="#{AdvancedSearch.nearBySearch()}"><i class="fa fa-location-arrow"></i> Search nearby
+                                    </h:commandLink>
+                                </c:if>
+                            </p>
                             <p>now you can search using places</p>
                             <p class="text-muted">If you have any questions, please feel free to <h:commandLink action="Contact_us.xhtml">contact us</h:commandLink>, our customer service center is working for you 24/7.</p>
                         </h:form>
                         <hr/>
+
+                        <h:form>
+                            <div class="text-center">
+
+                            </div>
+                        </h:form>
 
                         <h:form id="form">
                             <div class="form-group">
@@ -74,11 +85,11 @@ and open the template in the editor.
 
                             <div class="text-center">
                                 <h:commandLink class="btn btn-primary" action="#{AdvancedSearch.advancedSearch()}"><i class="fa fa-search"></i> Search
-                                        
+
                                 </h:commandLink>
                             </div>
-
                         </h:form>
+
                         <c:if test="#{AdvancedSearch.items != null}">
                             <!--<div class="row products">-->
                             <h:panelGroup styleClass="row products" id="itemsData">

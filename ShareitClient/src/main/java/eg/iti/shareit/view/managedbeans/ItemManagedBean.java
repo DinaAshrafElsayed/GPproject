@@ -177,7 +177,7 @@ public class ItemManagedBean implements java.io.Serializable {
 
         System.out.println("-------------- in add item");
         int pts = category.getMaxPoints();
-        if (points <= pts) {
+        if (points <= pts && points>0) {
             System.out.println("name is  "+name+" description is "+description);
             System.out.println("points is "+points);
             System.out.println("image url is "+image_url );
@@ -228,4 +228,5 @@ public class ItemManagedBean implements java.io.Serializable {
         points=0;
         tags="";
     }
+ 
 }
