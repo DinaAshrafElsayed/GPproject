@@ -16,6 +16,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -29,6 +31,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "T_NOTIFICATION")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "NotificationEntity.findAll", query = "SELECT n FROM NotificationEntity n"),
+    @NamedQuery(name = "NotificationEntity.findById", query = "SELECT n FROM NotificationEntity n WHERE n.id = :id"),
+    @NamedQuery(name = "NotificationEntity.findByPointsDeducted", query = "SELECT n FROM NotificationEntity n WHERE n.pointsDeducted = :pointsDeducted"),
+    @NamedQuery(name = "NotificationEntity.findByMeetingPoint", query = "SELECT n FROM NotificationEntity n WHERE n.meetingPoint = :meetingPoint"),
+    @NamedQuery(name = "NotificationEntity.findByDays", query = "SELECT n FROM NotificationEntity n WHERE n.days = :days"),
+    @NamedQuery(name = "NotificationEntity.findBySeen", query = "SELECT n FROM NotificationEntity n WHERE n.seen = :seen")})
+
 public class NotificationEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;

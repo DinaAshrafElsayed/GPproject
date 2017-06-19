@@ -34,6 +34,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_CITY")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "CityEntity.findAll", query = "SELECT t FROM CityEntity t"),
+    @NamedQuery(name = "CityEntity.findById", query = "SELECT t FROM CityEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "CityEntity.findByCity", query = "SELECT t FROM CityEntity t WHERE t.city = :city")})
+
 public class CityEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;

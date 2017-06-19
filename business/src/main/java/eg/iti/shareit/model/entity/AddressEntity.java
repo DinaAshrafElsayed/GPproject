@@ -34,6 +34,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_ADDRESS")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "AddressEntity.findAll", query = "SELECT a FROM AddressEntity a"),
+    @NamedQuery(name = "AddressEntity.findById", query = "SELECT a FROM AddressEntity a WHERE a.id = :id")})
+
 public class AddressEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;

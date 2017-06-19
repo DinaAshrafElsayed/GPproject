@@ -223,7 +223,11 @@ public class UserManagedBean implements Serializable {
     public void setAddressService(AddressService addressService) {
         this.addressService = addressService;
     }
-
+    
+    public boolean getCanEdit()
+    {
+        return canEdit;
+    }
     @PostConstruct
     public void init() {
         {

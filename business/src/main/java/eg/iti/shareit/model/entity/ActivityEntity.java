@@ -42,6 +42,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_ACTIVITY")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "ActivityEntity.findAll", query = "SELECT t FROM ActivityEntity t"),
+    @NamedQuery(name = "ActivityEntity.findById", query = "SELECT t FROM ActivityEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "ActivityEntity.findByMeetingPoint", query = "SELECT t FROM ActivityEntity t WHERE t.meetingPoint = :meetingPoint"),
+    @NamedQuery(name = "ActivityEntity.findByStatus", query = "SELECT t FROM ActivityEntity t WHERE t.status = :status"),
+    @NamedQuery(name = "ActivityEntity.findByTimeFrom", query = "SELECT t FROM ActivityEntity t WHERE t.timeFrom = :timeFrom"),
+    @NamedQuery(name = "ActivityEntity.findByTimeTo", query = "SELECT t FROM ActivityEntity t WHERE t.timeTo = :timeTo"),
+    @NamedQuery(name = "ActivityEntity.findByActivityDeleted", query = "SELECT t FROM ActivityEntity t WHERE t.activityDeleted = :activityDeleted")})
+
 public class ActivityEntity implements Serializable,
         GenericEntity {
 
