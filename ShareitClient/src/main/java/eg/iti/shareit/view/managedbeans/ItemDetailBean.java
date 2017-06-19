@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -346,13 +347,21 @@ public class ItemDetailBean implements Serializable {
 
             timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeFrom);
             timeToDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeTo);
-
-//            
             todayDate = new SimpleDateFormat("dd-MM-yyyy").parse(todayString);
-//            
+//
+            Calendar calendarFrom = Calendar.getInstance();
+            calendarFrom.setTime(timeFromDate);
+            
+            Calendar calendarTo = Calendar.getInstance();
+            calendarTo.setTime(timeToDate);
+            
+            Calendar calendarNow = Calendar.getInstance();
+            calendarNow.setTime(todayDate);
+            
+
             boolean error = false;
 
-            if (timeFromDate.compareTo(todayDate) < 0) {
+            if (calendarFrom.compareTo(calendarNow) < 0 ) {
                 FacesMessage facesMessage = new FacesMessage("From date can't be before today");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("detailForm:timeFrom", facesMessage);
@@ -360,8 +369,7 @@ public class ItemDetailBean implements Serializable {
                 error = true;
             }
 
-
-            if (timeFromDate.compareTo(timeToDate) > 0) {
+            if (calendarTo.compareTo(calendarFrom) < 0) {
                 FacesMessage facesMessage = new FacesMessage("to date must be after from date");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("detailForm:timeTo", facesMessage);
