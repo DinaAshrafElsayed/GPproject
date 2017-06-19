@@ -16,10 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -33,13 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "T_NOTIFICATION")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "NotificationEntity.findAll", query = "SELECT n FROM NotificationEntity n"),
-    @NamedQuery(name = "NotificationEntity.findById", query = "SELECT n FROM NotificationEntity n WHERE n.id = :id"),
-    @NamedQuery(name = "NotificationEntity.findByPointsDeducted", query = "SELECT n FROM NotificationEntity n WHERE n.pointsDeducted = :pointsDeducted"),
-    @NamedQuery(name = "NotificationEntity.findByMeetingPoint", query = "SELECT n FROM NotificationEntity n WHERE n.meetingPoint = :meetingPoint"),
-    @NamedQuery(name = "NotificationEntity.findByDays", query = "SELECT n FROM NotificationEntity n WHERE n.days = :days"),
-    @NamedQuery(name = "NotificationEntity.findBySeen", query = "SELECT n FROM NotificationEntity n WHERE n.seen = :seen")})
 public class NotificationEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -49,7 +38,7 @@ public class NotificationEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_NOTIFICATION_SEQ")
-    @SequenceGenerator(name = "T_NOTIFICATION_SEQ", sequenceName = "T_NOTIFICATION_SEQ", allocationSize = 50, initialValue = 1)
+    @SequenceGenerator(name = "T_NOTIFICATION_SEQ", sequenceName = "T_NOTIFICATION_SEQ", initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -68,14 +57,14 @@ public class NotificationEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "SEEN")
     private BigInteger seen;
-    @JoinColumn(name = "ITEM", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "ITEM", referencedColumnName = "ID")
     private ItemEntity item;
-    @JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "FROM_USER", referencedColumnName = "ID")
     private UserEntity fromUser;
-    @JoinColumn(name = "TO_USER", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "TO_USER", referencedColumnName = "ID")
     private UserEntity toUser;
 
     public NotificationEntity() {
@@ -93,19 +82,19 @@ public class NotificationEntity implements Serializable, GenericEntity {
         this.seen = seen;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 
-    public BigInteger getPointsDeducted() {
+    public java.math.BigInteger getPointsDeducted() {
         return pointsDeducted;
     }
 
-    public void setPointsDeducted(BigInteger pointsDeducted) {
+    public void setPointsDeducted(java.math.BigInteger pointsDeducted) {
         this.pointsDeducted = pointsDeducted;
     }
 
@@ -117,19 +106,19 @@ public class NotificationEntity implements Serializable, GenericEntity {
         this.meetingPoint = meetingPoint;
     }
 
-    public BigInteger getDays() {
+    public java.math.BigInteger getDays() {
         return days;
     }
 
-    public void setDays(BigInteger days) {
+    public void setDays(java.math.BigInteger days) {
         this.days = days;
     }
 
-    public BigInteger getSeen() {
+    public java.math.BigInteger getSeen() {
         return seen;
     }
 
-    public void setSeen(BigInteger seen) {
+    public void setSeen(java.math.BigInteger seen) {
         this.seen = seen;
     }
 

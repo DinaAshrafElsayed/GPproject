@@ -6,30 +6,20 @@
 package eg.iti.shareit.model.entity;
 
 import eg.iti.shareit.common.entity.GenericEntity;
-import eg.iti.shareit.model.entity.CategoryEntity;
-import eg.iti.shareit.model.entity.UserEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,22 +32,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_ITEM")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "ItemEntity.findAll", query = "SELECT i FROM ItemEntity i"),
-    @NamedQuery(name = "ItemEntity.findById", query = "SELECT i FROM ItemEntity i WHERE i.id = :id"),
-    @NamedQuery(name = "ItemEntity.findByName", query = "SELECT i FROM ItemEntity i WHERE i.name = :name"),
-    @NamedQuery(name = "ItemEntity.findByDescription", query = "SELECT i FROM ItemEntity i WHERE i.description = :description"),
-    @NamedQuery(name = "ItemEntity.findByIsAvailable", query = "SELECT i FROM ItemEntity i WHERE i.isAvailable = :isAvailable"),
-    @NamedQuery(name = "ItemEntity.findByPublishDate", query = "SELECT i FROM ItemEntity i WHERE i.publishDate = :publishDate"),
-    @NamedQuery(name = "ItemEntity.findByPoints", query = "SELECT i FROM ItemEntity i WHERE i.points = :points"),
-    @NamedQuery(name = "ItemEntity.findByImageUrl", query = "SELECT i FROM ItemEntity i WHERE i.imageUrl = :imageUrl"),
-    @NamedQuery(name = "ItemEntity.findByTags", query = "SELECT i FROM ItemEntity i WHERE i.tags = :tags")})
 public class ItemEntity implements Serializable, GenericEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
+    @javax.persistence.Transient
     private List<ActivityEntity> activityEntityList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
+    @javax.persistence.Transient
     private List<NotificationEntity> notificationEntityList;
 
     private static final long serialVersionUID = 1L;
@@ -67,7 +47,7 @@ public class ItemEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_ITEM_SEQ")
-    @SequenceGenerator(name = "T_ITEM_SEQ", sequenceName = "T_ITEM_SEQ", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "T_ITEM_SEQ", sequenceName = "T_ITEM_SEQ", initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -84,7 +64,6 @@ public class ItemEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "PUBLISH_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date publishDate;
     @Basic(optional = false)
     @NotNull
@@ -100,11 +79,11 @@ public class ItemEntity implements Serializable, GenericEntity {
     @Size(max = 200)
     @Column(name = "TAGS")
     private String tags;
-    @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
     private CategoryEntity category;
-    @JoinColumn(name = "USER_FROM", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "USER_FROM", referencedColumnName = "ID")
     private UserEntity userFrom;
 
     public ItemEntity() {
@@ -124,11 +103,11 @@ public class ItemEntity implements Serializable, GenericEntity {
         this.tags = tags;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 
@@ -156,19 +135,19 @@ public class ItemEntity implements Serializable, GenericEntity {
         this.isAvailable = isAvailable;
     }
 
-    public Date getPublishDate() {
+    public java.util.Date getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Date publishDate) {
+    public void setPublishDate(java.util.Date publishDate) {
         this.publishDate = publishDate;
     }
 
-    public BigInteger getPoints() {
+    public java.math.BigInteger getPoints() {
         return points;
     }
 
-    public void setPoints(BigInteger points) {
+    public void setPoints(java.math.BigInteger points) {
         this.points = points;
     }
 

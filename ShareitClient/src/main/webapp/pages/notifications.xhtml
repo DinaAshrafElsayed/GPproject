@@ -29,6 +29,7 @@
                 </p:column>
                 <p:column headerText="Item">
                     <h:outputText value="#{notification.item.name}" />
+                    <o:graphicImage width="130px" height="100px" value="#{notificationBean.getImage(notification.item.imageUrl)}" dataURI="true" /> 
                 </p:column>
                 <p:column headerText="Meeting Point">
                     <h:outputText value="#{notification.meetingPoint}" />

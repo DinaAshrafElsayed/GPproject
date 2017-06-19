@@ -32,10 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "T_BORROW_STATE")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "BorrowStateEntity.findAll", query = "SELECT b FROM BorrowStateEntity b"),
-    @NamedQuery(name = "BorrowStateEntity.findById", query = "SELECT b FROM BorrowStateEntity b WHERE b.id = :id"),
-    @NamedQuery(name = "BorrowStateEntity.findByIsBack", query = "SELECT b FROM BorrowStateEntity b WHERE b.isBack = :isBack")})
 public class BorrowStateEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -45,14 +41,14 @@ public class BorrowStateEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_BORROW_STATE_SEQ")
-    @SequenceGenerator(name = "T_BORROW_STATE_SEQ", sequenceName = "T_BORROW_STATE_SEQ", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "T_BORROW_STATE_SEQ", sequenceName = "T_BORROW_STATE_SEQ", initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "IS_BACK")
     private BigInteger isBack;
-    @JoinColumn(name = "ACTIVITY", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @javax.persistence.JoinColumn(name = "ACTIVITY", referencedColumnName = "ID")
     private ActivityEntity activity;
 
     public BorrowStateEntity() {
@@ -67,19 +63,19 @@ public class BorrowStateEntity implements Serializable, GenericEntity {
         this.isBack = isBack;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 
-    public BigInteger getIsBack() {
+    public java.math.BigInteger getIsBack() {
         return isBack;
     }
 
-    public void setIsBack(BigInteger isBack) {
+    public void setIsBack(java.math.BigInteger isBack) {
         this.isBack = isBack;
     }
 

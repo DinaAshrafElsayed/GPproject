@@ -10,16 +10,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -34,10 +29,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_STATE")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "StateEntity.findAll", query = "SELECT t FROM StateEntity t"),
-    @NamedQuery(name = "StateEntity.findById", query = "SELECT t FROM StateEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "StateEntity.findByState", query = "SELECT t FROM StateEntity t WHERE t.state = :state")})
 public class StateEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -47,14 +38,14 @@ public class StateEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_STATE_SEQ")
-    @SequenceGenerator(name = "T_STATE_SEQ", sequenceName = "T_STATE_SEQ", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "T_STATE_SEQ", sequenceName = "T_STATE_SEQ", initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "STATE")
     private String state;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "state", fetch = FetchType.LAZY)
+    @javax.persistence.Transient
     private List<AddressEntity> addressList;
 
     public StateEntity() {
@@ -69,11 +60,11 @@ public class StateEntity implements Serializable, GenericEntity {
         this.state = state;
     }
 
-    public BigDecimal getId() {
+    public java.math.BigDecimal getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(java.math.BigDecimal id) {
         this.id = id;
     }
 
