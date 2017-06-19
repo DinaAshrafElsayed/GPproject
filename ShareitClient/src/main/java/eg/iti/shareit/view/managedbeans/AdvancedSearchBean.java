@@ -48,6 +48,7 @@ public class AdvancedSearchBean implements Serializable {
     private CountryDto country;
     private CityDto city;
     private StateDto state;
+    
     private List<ItemDto> items;
    
 

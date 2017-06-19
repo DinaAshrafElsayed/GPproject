@@ -25,7 +25,7 @@ import javax.persistence.RollbackException;
  */
 @Stateless(mappedName = "ItemDaoImpl")
 public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
-
+    @EJB
     ItemDao itemDao;
 
     public ItemDaoImpl() {

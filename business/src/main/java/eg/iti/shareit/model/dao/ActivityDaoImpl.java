@@ -29,10 +29,11 @@ import javax.persistence.Query;
  */
 @Stateless(mappedName = "ActivityDaoImpl")
 public class ActivityDaoImpl extends GenericDaoImpl<ActivityEntity> implements ActivityDao {
-
+    @EJB
     ActivityDao activityDao;
     @Inject
     StatusDao statusDao;
+    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
     public ActivityDaoImpl() {
