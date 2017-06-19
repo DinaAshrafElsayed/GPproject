@@ -60,7 +60,7 @@ public class ItemDetailBean implements Serializable {
 
     @Inject
     private ListItemsBean listItemsBean;
-    
+
     @Inject
     private UserBean user;
 
@@ -96,7 +96,6 @@ public class ItemDetailBean implements Serializable {
         this.listItemsBean = listItemsBean;
     }
 
-    
     public ItemBean getItemBean() {
         return itemBean;
     }
@@ -105,8 +104,6 @@ public class ItemDetailBean implements Serializable {
         this.itemBean = itemBean;
     }
 
-
-    
     public List<String> getHashTags() {
         return hashTags;
     }
@@ -385,7 +382,6 @@ public class ItemDetailBean implements Serializable {
                 error = true;
             }
 
-
             if (timeFromDate.compareTo(timeToDate) > 0) {
                 FacesMessage facesMessage = new FacesMessage("to date must be after from date");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -426,12 +422,20 @@ public class ItemDetailBean implements Serializable {
     }
 
     public String deleteItem() {
+
         try {
-            itemService.deleteSharedItem(item);
-            listItemsBean.getItems().remove(item);
-          //  itemBean.getItems().remove(item);
-            System.out.println("------------------- im delete service "+ itemBean.getItems().size());
-            return "items?faces-redirect=true";
+            if (itemService.isItemAvailable(id)) {
+                itemService.deleteSharedItem(item);
+                listItemsBean.getItems().remove(item);
+                //  itemBean.getItems().remove(item);
+                System.out.println("------------------- im delete service " + itemBean.getItems().size());
+                return "items?faces-redirect=true";
+            }
+            else {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("Error", "you cannot delete the item"));
+                return "";
+           }
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
             return "";
