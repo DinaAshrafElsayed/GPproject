@@ -66,7 +66,7 @@ public class ItemEntity implements Serializable, GenericEntity {
     @Size(min = 1, max = 200)
     @Column(name = "NAME")
     private String name;
-    @Size(max = 200)
+    @Size(max = 1000)
     @Column(name = "DESCRIPTION")
     private String description;
     @Basic(optional = false)
