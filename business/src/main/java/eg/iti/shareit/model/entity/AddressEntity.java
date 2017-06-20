@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "AddressEntity.findAll", query = "SELECT a FROM AddressEntity a"),
     @NamedQuery(name = "AddressEntity.findById", query = "SELECT a FROM AddressEntity a WHERE a.id = :id")})
-
 public class AddressEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -49,16 +48,16 @@ public class AddressEntity implements Serializable, GenericEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_ADDRESS_SEQ")
     @SequenceGenerator(name = "T_ADDRESS_SEQ", sequenceName = "T_ADDRESS_SEQ", initialValue = 1)
     private BigDecimal id;
-    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @javax.persistence.JoinColumn(name = "CITY", referencedColumnName = "ID")
+    @JoinColumn(name = "CITY", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CityEntity city;
-    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @javax.persistence.JoinColumn(name = "COUNTRY", referencedColumnName = "ID")
+    @JoinColumn(name = "COUNTRY", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CountryEntity country;
-    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @javax.persistence.JoinColumn(name = "STATE", referencedColumnName = "ID")
+    @JoinColumn(name = "STATE", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private StateEntity state;
-    @javax.persistence.Transient
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
     private List<UserEntity> userEntityList;
 
     public AddressEntity() {
@@ -68,11 +67,11 @@ public class AddressEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public java.math.BigDecimal getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(java.math.BigDecimal id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 

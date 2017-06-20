@@ -12,11 +12,13 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -32,10 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_STATE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "StateEntity.findAll", query = "SELECT t FROM StateEntity t"),
-    @NamedQuery(name = "StateEntity.findById", query = "SELECT t FROM StateEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "StateEntity.findByState", query = "SELECT t FROM StateEntity t WHERE t.state = :state")})
-
+    @NamedQuery(name = "StateEntity.findAll", query = "SELECT s FROM StateEntity s"),
+    @NamedQuery(name = "StateEntity.findById", query = "SELECT s FROM StateEntity s WHERE s.id = :id"),
+    @NamedQuery(name = "StateEntity.findByState", query = "SELECT s FROM StateEntity s WHERE s.state = :state")})
 public class StateEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +53,8 @@ public class StateEntity implements Serializable, GenericEntity {
     @Size(min = 1, max = 20)
     @Column(name = "STATE")
     private String state;
-    @javax.persistence.Transient
-    private List<AddressEntity> addressList;
+    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY)
+    private List<AddressEntity> addressEntityList;
 
     public StateEntity() {
     }
@@ -67,11 +68,11 @@ public class StateEntity implements Serializable, GenericEntity {
         this.state = state;
     }
 
-    public java.math.BigDecimal getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(java.math.BigDecimal id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
@@ -84,12 +85,12 @@ public class StateEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<AddressEntity> getAddressList() {
-        return addressList;
+    public List<AddressEntity> getAddressEntityList() {
+        return addressEntityList;
     }
 
-    public void setAddressList(List<AddressEntity> addressList) {
-        this.addressList = addressList;
+    public void setAddressEntityList(List<AddressEntity> addressEntityList) {
+        this.addressEntityList = addressEntityList;
     }
 
     @Override
