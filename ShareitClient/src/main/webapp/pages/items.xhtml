@@ -77,12 +77,18 @@
                                     </div>
                                 </div>
 
+ 
+<!--<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+ 
+<p:dialog widgetVar="statusDialog"  modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+    <p:graphicImage library="images" name="AjaxLoader.gif" />
+</p:dialog>-->
                                 <!--<div class="row products">-->
                                 <h:panelGroup styleClass="row products" id="itemsData">
                                     <p:dataGrid var="item" value="#{itemBean.items}" columns="4" layout="grid"
                                                 rows="9" paginator="true" id="item"
                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                rowsPerPageTemplate="3,6,9">
+                                                rowsPerPageTemplate="4,8,12">
                                         <div class="product">
                                             <div class="flip-container">
                                                 <div class="flipper">
