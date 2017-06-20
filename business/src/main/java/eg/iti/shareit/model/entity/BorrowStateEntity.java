@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "BorrowStateEntity.findAll", query = "SELECT b FROM BorrowStateEntity b"),
     @NamedQuery(name = "BorrowStateEntity.findById", query = "SELECT b FROM BorrowStateEntity b WHERE b.id = :id"),
     @NamedQuery(name = "BorrowStateEntity.findByIsBack", query = "SELECT b FROM BorrowStateEntity b WHERE b.isBack = :isBack")})
-
 public class BorrowStateEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +51,8 @@ public class BorrowStateEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "IS_BACK")
     private BigInteger isBack;
-    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @javax.persistence.JoinColumn(name = "ACTIVITY", referencedColumnName = "ID")
+    @JoinColumn(name = "ACTIVITY", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private ActivityEntity activity;
 
     public BorrowStateEntity() {
@@ -68,19 +67,19 @@ public class BorrowStateEntity implements Serializable, GenericEntity {
         this.isBack = isBack;
     }
 
-    public java.math.BigDecimal getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(java.math.BigDecimal id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
-    public java.math.BigInteger getIsBack() {
+    public BigInteger getIsBack() {
         return isBack;
     }
 
-    public void setIsBack(java.math.BigInteger isBack) {
+    public void setIsBack(BigInteger isBack) {
         this.isBack = isBack;
     }
 

@@ -36,15 +36,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_CATEGORY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CategoryEntity.findAll", query = "SELECT t FROM CategoryEntity t"),
-    @NamedQuery(name = "CategoryEntity.findById", query = "SELECT t FROM CategoryEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "CategoryEntity.findByName", query = "SELECT t FROM CategoryEntity t WHERE t.name = :name"),
-    @NamedQuery(name = "CategoryEntity.findByMaxPoints", query = "SELECT t FROM CategoryEntity t WHERE t.maxPoints = :maxPoints")})
-
+    @NamedQuery(name = "CategoryEntity.findAll", query = "SELECT c FROM CategoryEntity c"),
+    @NamedQuery(name = "CategoryEntity.findById", query = "SELECT c FROM CategoryEntity c WHERE c.id = :id"),
+    @NamedQuery(name = "CategoryEntity.findByName", query = "SELECT c FROM CategoryEntity c WHERE c.name = :name"),
+    @NamedQuery(name = "CategoryEntity.findByMaxPoints", query = "SELECT c FROM CategoryEntity c WHERE c.maxPoints = :maxPoints")})
 public class CategoryEntity implements Serializable, GenericEntity {
-
-    @javax.persistence.Transient
-    private List<ItemEntity> itemEntityList;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -64,8 +60,8 @@ public class CategoryEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "MAX_POINTS")
     private BigInteger maxPoints;
-    @javax.persistence.Transient
-    private List<ItemEntity> itemList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.LAZY)
+    private List<ItemEntity> itemEntityList;
 
     public CategoryEntity() {
     }
@@ -80,11 +76,11 @@ public class CategoryEntity implements Serializable, GenericEntity {
         this.maxPoints = maxPoints;
     }
 
-    public java.math.BigDecimal getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(java.math.BigDecimal id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
@@ -96,21 +92,21 @@ public class CategoryEntity implements Serializable, GenericEntity {
         this.name = name;
     }
 
-    public java.math.BigInteger getMaxPoints() {
+    public BigInteger getMaxPoints() {
         return maxPoints;
     }
 
-    public void setMaxPoints(java.math.BigInteger maxPoints) {
+    public void setMaxPoints(BigInteger maxPoints) {
         this.maxPoints = maxPoints;
     }
 
     @XmlTransient
-    public List<ItemEntity> getItemList() {
-        return itemList;
+    public List<ItemEntity> getItemEntityList() {
+        return itemEntityList;
     }
 
-    public void setItemList(List<ItemEntity> itemList) {
-        this.itemList = itemList;
+    public void setItemEntityList(List<ItemEntity> itemEntityList) {
+        this.itemEntityList = itemEntityList;
     }
 
     @Override
@@ -136,15 +132,6 @@ public class CategoryEntity implements Serializable, GenericEntity {
     @Override
     public String toString() {
         return "eg.iti.shareit.model.entity.CategoryEntity[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<ItemEntity> getItemEntityList() {
-        return itemEntityList;
-    }
-
-    public void setItemEntityList(List<ItemEntity> itemEntityList) {
-        this.itemEntityList = itemEntityList;
     }
 
 }
