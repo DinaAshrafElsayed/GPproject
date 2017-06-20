@@ -35,10 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_COUNTRY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CountryEntity.findAll", query = "SELECT t FROM CountryEntity t"),
-    @NamedQuery(name = "CountryEntity.findById", query = "SELECT t FROM CountryEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "CountryEntity.findByCountry", query = "SELECT t FROM CountryEntity t WHERE t.country = :country")})
-
+    @NamedQuery(name = "CountryEntity.findAll", query = "SELECT c FROM CountryEntity c"),
+    @NamedQuery(name = "CountryEntity.findById", query = "SELECT c FROM CountryEntity c WHERE c.id = :id"),
+    @NamedQuery(name = "CountryEntity.findByCountry", query = "SELECT c FROM CountryEntity c WHERE c.country = :country")})
 public class CountryEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -55,8 +54,8 @@ public class CountryEntity implements Serializable, GenericEntity {
     @Size(min = 1, max = 20)
     @Column(name = "COUNTRY")
     private String country;
-    @javax.persistence.Transient
-    private List<AddressEntity> addressList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country", fetch = FetchType.LAZY)
+    private List<AddressEntity> addressEntityList;
 
     public CountryEntity() {
     }
@@ -70,11 +69,11 @@ public class CountryEntity implements Serializable, GenericEntity {
         this.country = country;
     }
 
-    public java.math.BigDecimal getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(java.math.BigDecimal id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
@@ -87,12 +86,12 @@ public class CountryEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<AddressEntity> getAddressList() {
-        return addressList;
+    public List<AddressEntity> getAddressEntityList() {
+        return addressEntityList;
     }
 
-    public void setAddressList(List<AddressEntity> addressList) {
-        this.addressList = addressList;
+    public void setAddressEntityList(List<AddressEntity> addressEntityList) {
+        this.addressEntityList = addressEntityList;
     }
 
     @Override

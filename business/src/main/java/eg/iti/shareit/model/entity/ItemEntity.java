@@ -12,16 +12,22 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -44,14 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ItemEntity.findByPoints", query = "SELECT i FROM ItemEntity i WHERE i.points = :points"),
     @NamedQuery(name = "ItemEntity.findByImageUrl", query = "SELECT i FROM ItemEntity i WHERE i.imageUrl = :imageUrl"),
     @NamedQuery(name = "ItemEntity.findByTags", query = "SELECT i FROM ItemEntity i WHERE i.tags = :tags")})
-
 public class ItemEntity implements Serializable, GenericEntity {
-
-    @javax.persistence.Transient
-    private List<ActivityEntity> activityEntityList;
-
-    @javax.persistence.Transient
-    private List<NotificationEntity> notificationEntityList;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -67,7 +66,7 @@ public class ItemEntity implements Serializable, GenericEntity {
     @Size(min = 1, max = 200)
     @Column(name = "NAME")
     private String name;
-    @Size(max = 200)
+    @Size(max = 1000)
     @Column(name = "DESCRIPTION")
     private String description;
     @Basic(optional = false)
@@ -77,26 +76,29 @@ public class ItemEntity implements Serializable, GenericEntity {
     @Basic(optional = false)
     @NotNull
     @Column(name = "PUBLISH_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date publishDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "POINTS")
     private BigInteger points;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 500)
+    @Size(max = 500)
     @Column(name = "IMAGE_URL")
     private String imageUrl;
     @Basic(optional = false)
     @NotNull
-    @Size(max = 200)
+    @Size(min = 1, max = 200)
     @Column(name = "TAGS")
     private String tags;
-    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @javax.persistence.JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item", fetch = FetchType.LAZY)
+    private List<NotificationEntity> notificationEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item", fetch = FetchType.LAZY)
+    private List<ActivityEntity> activityEntityList;
+    @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CategoryEntity category;
-    @javax.persistence.ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @javax.persistence.JoinColumn(name = "USER_FROM", referencedColumnName = "ID")
+    @JoinColumn(name = "USER_FROM", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UserEntity userFrom;
 
     public ItemEntity() {
@@ -106,21 +108,20 @@ public class ItemEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public ItemEntity(BigDecimal id, String name, short isAvailable, Date publishDate, BigInteger points, String imageUrl, String tags) {
+    public ItemEntity(BigDecimal id, String name, short isAvailable, Date publishDate, BigInteger points, String tags) {
         this.id = id;
         this.name = name;
         this.isAvailable = isAvailable;
         this.publishDate = publishDate;
         this.points = points;
-        this.imageUrl = imageUrl;
         this.tags = tags;
     }
 
-    public java.math.BigDecimal getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(java.math.BigDecimal id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
@@ -148,19 +149,19 @@ public class ItemEntity implements Serializable, GenericEntity {
         this.isAvailable = isAvailable;
     }
 
-    public java.util.Date getPublishDate() {
+    public Date getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(java.util.Date publishDate) {
+    public void setPublishDate(Date publishDate) {
         this.publishDate = publishDate;
     }
 
-    public java.math.BigInteger getPoints() {
+    public BigInteger getPoints() {
         return points;
     }
 
-    public void setPoints(java.math.BigInteger points) {
+    public void setPoints(BigInteger points) {
         this.points = points;
     }
 
@@ -178,6 +179,24 @@ public class ItemEntity implements Serializable, GenericEntity {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    @XmlTransient
+    public List<NotificationEntity> getNotificationEntityList() {
+        return notificationEntityList;
+    }
+
+    public void setNotificationEntityList(List<NotificationEntity> notificationEntityList) {
+        this.notificationEntityList = notificationEntityList;
+    }
+
+    @XmlTransient
+    public List<ActivityEntity> getActivityEntityList() {
+        return activityEntityList;
+    }
+
+    public void setActivityEntityList(List<ActivityEntity> activityEntityList) {
+        this.activityEntityList = activityEntityList;
     }
 
     public CategoryEntity getCategory() {
@@ -218,25 +237,7 @@ public class ItemEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.common.enums.ItemEntity[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<NotificationEntity> getNotificationEntityList() {
-        return notificationEntityList;
-    }
-
-    public void setNotificationEntityList(List<NotificationEntity> notificationEntityList) {
-        this.notificationEntityList = notificationEntityList;
-    }
-
-    @XmlTransient
-    public List<ActivityEntity> getActivityEntityList() {
-        return activityEntityList;
-    }
-
-    public void setActivityEntityList(List<ActivityEntity> activityEntityList) {
-        this.activityEntityList = activityEntityList;
+        return "eg.iti.shareit.model.entity.ItemEntity[ id=" + id + " ]";
     }
 
 }

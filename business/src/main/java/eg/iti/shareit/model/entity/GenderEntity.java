@@ -10,13 +10,16 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -32,10 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_GENDER")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "GenderEntity.findAll", query = "SELECT t FROM GenderEntity t"),
-    @NamedQuery(name = "GenderEntity.findById", query = "SELECT t FROM GenderEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "GenderEntity.findByGender", query = "SELECT t FROM GenderEntity t WHERE t.gender = :gender")})
-
+    @NamedQuery(name = "GenderEntity.findAll", query = "SELECT g FROM GenderEntity g"),
+    @NamedQuery(name = "GenderEntity.findById", query = "SELECT g FROM GenderEntity g WHERE g.id = :id"),
+    @NamedQuery(name = "GenderEntity.findByGender", query = "SELECT g FROM GenderEntity g WHERE g.gender = :gender")})
 public class GenderEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +54,8 @@ public class GenderEntity implements Serializable, GenericEntity {
     @Size(min = 1, max = 20)
     @Column(name = "GENDER")
     private String gender;
-    @javax.persistence.Transient
-    private List<UserEntity> userList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gender", fetch = FetchType.LAZY)
+    private List<UserEntity> userEntityList;
 
     public GenderEntity() {
     }
@@ -67,11 +69,11 @@ public class GenderEntity implements Serializable, GenericEntity {
         this.gender = gender;
     }
 
-    public java.math.BigDecimal getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(java.math.BigDecimal id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
@@ -84,12 +86,12 @@ public class GenderEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<UserEntity> getUserList() {
-        return userList;
+    public List<UserEntity> getUserEntityList() {
+        return userEntityList;
     }
 
-    public void setUserList(List<UserEntity> userList) {
-        this.userList = userList;
+    public void setUserEntityList(List<UserEntity> userEntityList) {
+        this.userEntityList = userEntityList;
     }
 
     @Override
