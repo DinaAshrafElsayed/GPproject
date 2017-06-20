@@ -45,7 +45,7 @@ public class BorrowStateEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_BORROW_STATE_SEQ")
-    @SequenceGenerator(name = "T_BORROW_STATE_SEQ", sequenceName = "T_BORROW_STATE_SEQ", initialValue = 1)
+    @SequenceGenerator(name = "T_BORROW_STATE_SEQ", sequenceName = "T_BORROW_STATE_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull

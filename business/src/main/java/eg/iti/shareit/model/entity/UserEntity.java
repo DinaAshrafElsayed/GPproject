@@ -47,6 +47,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserEntity.findByPoints", query = "SELECT u FROM UserEntity u WHERE u.points = :points")})
 public class UserEntity implements Serializable, GenericEntity {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
+    private List<ActivityEntity> activityEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
+    private List<ActivityEntity> activityEntityList1;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
+    private List<NotificationEntity> notificationFromUserList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
+    private List<NotificationEntity> notificationToUserList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom", fetch = FetchType.LAZY)
+    private List<ItemEntity> items;
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -54,7 +66,7 @@ public class UserEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_USER_SEQ")
-    @SequenceGenerator(name = "T_USER_SEQ", sequenceName = "T_USER_SEQ", initialValue = 1)
+    @SequenceGenerator(name = "T_USER_SEQ", sequenceName = "T_USER_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -79,16 +91,6 @@ public class UserEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "POINTS")
     private BigInteger points;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
-    private List<NotificationEntity> notificationFromUserList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
-    private List<NotificationEntity> notificationToUserList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
-    private List<ActivityEntity> activityEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
-    private List<ActivityEntity> activityEntityList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom", fetch = FetchType.LAZY)
-    private List<ItemEntity> items;
     @JoinColumn(name = "ADDRESS", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private AddressEntity address;
@@ -159,51 +161,6 @@ public class UserEntity implements Serializable, GenericEntity {
         this.points = points;
     }
 
-    @XmlTransient
-    public List<NotificationEntity> getNotificationFromUserList() {
-        return notificationFromUserList;
-    }
-
-    public void setNnotificationFromUserList(List<NotificationEntity> notificationEntityList) {
-        this.notificationFromUserList = notificationEntityList;
-    }
-
-    @XmlTransient
-    public List<NotificationEntity> getNotificationToUserList() {
-        return notificationToUserList;
-    }
-
-    public void setNotificationToUserList(List<NotificationEntity> notificationEntityList1) {
-        this.notificationToUserList = notificationEntityList1;
-    }
-
-    @XmlTransient
-    public List<ActivityEntity> getActivityEntityList() {
-        return activityEntityList;
-    }
-
-    public void setActivityEntityList(List<ActivityEntity> activityEntityList) {
-        this.activityEntityList = activityEntityList;
-    }
-
-    @XmlTransient
-    public List<ActivityEntity> getActivityEntityList1() {
-        return activityEntityList1;
-    }
-
-    public void setActivityEntityList1(List<ActivityEntity> activityEntityList1) {
-        this.activityEntityList1 = activityEntityList1;
-    }
-
-    @XmlTransient
-    public List<ItemEntity> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ItemEntity> itemEntityList) {
-        this.items = items;
-    }
-
     public AddressEntity getAddress() {
         return address;
     }
@@ -243,6 +200,51 @@ public class UserEntity implements Serializable, GenericEntity {
     @Override
     public String toString() {
         return "eg.iti.shareit.model.entity.UserEntity[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<NotificationEntity> getNotificationFromUserList() {
+        return notificationFromUserList;
+    }
+
+    public void setNotificationFromUserList(List<NotificationEntity> notificationFromUserList) {
+        this.notificationFromUserList = notificationFromUserList;
+    }
+
+    @XmlTransient
+    public List<NotificationEntity> getNotificationToUserList() {
+        return notificationToUserList;
+    }
+
+    public void setNotificationToUserList(List<NotificationEntity> notificationToUserList) {
+        this.notificationToUserList = notificationToUserList;
+    }
+
+    @XmlTransient
+    public List<ItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemEntity> items) {
+        this.items = items;
+    }
+
+    @XmlTransient
+    public List<ActivityEntity> getActivityEntityList() {
+        return activityEntityList;
+    }
+
+    public void setActivityEntityList(List<ActivityEntity> activityEntityList) {
+        this.activityEntityList = activityEntityList;
+    }
+
+    @XmlTransient
+    public List<ActivityEntity> getActivityEntityList1() {
+        return activityEntityList1;
+    }
+
+    public void setActivityEntityList1(List<ActivityEntity> activityEntityList1) {
+        this.activityEntityList1 = activityEntityList1;
     }
 
 }
