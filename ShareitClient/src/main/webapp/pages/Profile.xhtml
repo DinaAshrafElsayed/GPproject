@@ -52,25 +52,22 @@
                                     <h3>Profile Details</h3> 
 
                                     <h4>       Username :        <p>#{userManagedBean.username}</p>
-                                           email :    <p>#{userManagedBean.email}</p>
-                                           gender :    <p>#{userManagedBean.gender}</p>
-                                           Country :   
-                                    <p>#{userManagedBean.address.country.country}</p>
+                                        email :    <p>#{userManagedBean.email}</p>
+                                        gender :    <p>#{userManagedBean.gender}</p>
+                                        Country :   
+                                        <p>#{userManagedBean.address.country.country}</p>
 
-                                         City :    
-                                    <p>#{userManagedBean.address.city.city}</p>
-                                     </h4>
+                                        City :    
+                                        <p>#{userManagedBean.address.city.city}</p>
+                                    </h4>
 
-                                    <c:if test="#{userManagedBean.canEdit==true}">
+                                    <c:if test="#{userManagedBean.canEdit == true}">
                                         <h3>Your Current Points</h3>
                                         <p>#{userManagedBean.points}</p>
+                                        <center>
+                                            <h:commandLink action="Edit_Profile.xhtml?faces-redirect=true" class="btn btn-primary navbar-btn" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="notification"><i class="fa fa-pencil-square-o"></i><span class="hidden-sm">Edit Profile</span></h:commandLink>
+                                        </center>
                                     </c:if>
-                                    <center>
-                                    <c:if test="#{userManagedBean.canEdit==true}">
-                                        <a href="Edit_Profile.xhtml" class="btn btn-primary navbar-btn" data-toggle="collapse tooltip" data-placement="bottom" title="notification"><i class="fa fa-pencil-square-o"></i><span class="hidden-sm">Edit Profile</span></a>
-                                    </c:if>
-                                    </center>
-
                                 </div>
 
 
@@ -80,20 +77,6 @@
                         </div>
 
                     </div>
-
-                    <!--                                 <div class="box" id="details">
-                    
-                                                    <h4>Profile Details</h4>
-                                                    <p>#{userManagedBean.userDto.username}</p>
-                                                    <p>#{userManagedBean.userDto.email}</p>
-                                                    <p>#{userManagedBean.userDto.gender.gender}</p>
-                                                    <h4>Your Current Points</h4>
-                                                    <p>#{userManagedBean.userDto.points}</p>
-                                                    <h4>Your Country</h4>
-                                                    <p>#{userManagedBean.userDto.address.country.country}</p>
-                    
-                                                </div>-->
-
 
                 </div>
             </o:form>
