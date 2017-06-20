@@ -35,10 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_CITY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CityEntity.findAll", query = "SELECT t FROM CityEntity t"),
-    @NamedQuery(name = "CityEntity.findById", query = "SELECT t FROM CityEntity t WHERE t.id = :id"),
-    @NamedQuery(name = "CityEntity.findByCity", query = "SELECT t FROM CityEntity t WHERE t.city = :city")})
-
+    @NamedQuery(name = "CityEntity.findAll", query = "SELECT c FROM CityEntity c"),
+    @NamedQuery(name = "CityEntity.findById", query = "SELECT c FROM CityEntity c WHERE c.id = :id"),
+    @NamedQuery(name = "CityEntity.findByCity", query = "SELECT c FROM CityEntity c WHERE c.city = :city")})
 public class CityEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -55,8 +54,8 @@ public class CityEntity implements Serializable, GenericEntity {
     @Size(min = 1, max = 20)
     @Column(name = "CITY")
     private String city;
-    @javax.persistence.Transient
-    private List<AddressEntity> addressList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", fetch = FetchType.LAZY)
+    private List<AddressEntity> addressEntityList;
 
     public CityEntity() {
     }
@@ -70,11 +69,11 @@ public class CityEntity implements Serializable, GenericEntity {
         this.city = city;
     }
 
-    public java.math.BigDecimal getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(java.math.BigDecimal id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
@@ -87,12 +86,12 @@ public class CityEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<AddressEntity> getAddressList() {
-        return addressList;
+    public List<AddressEntity> getAddressEntityList() {
+        return addressEntityList;
     }
 
-    public void setAddressList(List<AddressEntity> addressList) {
-        this.addressList = addressList;
+    public void setAddressEntityList(List<AddressEntity> addressEntityList) {
+        this.addressEntityList = addressEntityList;
     }
 
     @Override

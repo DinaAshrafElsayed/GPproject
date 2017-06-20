@@ -61,8 +61,6 @@ public class ItemBean implements Serializable {
     }
 
     public List<ItemDto> getItems() {
-        System.out.println("______________ "+items.size());
-         items = listItems.getItems();
         return items;
     }
 

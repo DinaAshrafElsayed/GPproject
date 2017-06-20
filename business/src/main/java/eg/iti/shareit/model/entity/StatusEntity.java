@@ -10,13 +10,16 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,7 +38,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StatusEntity.findAll", query = "SELECT s FROM StatusEntity s"),
     @NamedQuery(name = "StatusEntity.findById", query = "SELECT s FROM StatusEntity s WHERE s.id = :id"),
     @NamedQuery(name = "StatusEntity.findByStatus", query = "SELECT s FROM StatusEntity s WHERE s.status = :status")})
-
 public class StatusEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -52,7 +54,7 @@ public class StatusEntity implements Serializable, GenericEntity {
     @Size(min = 1, max = 20)
     @Column(name = "STATUS")
     private String status;
-    @javax.persistence.Transient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "status", fetch = FetchType.LAZY)
     private List<ActivityEntity> activityEntityList;
 
     public StatusEntity() {
@@ -67,11 +69,11 @@ public class StatusEntity implements Serializable, GenericEntity {
         this.status = status;
     }
 
-    public java.math.BigDecimal getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(java.math.BigDecimal id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
