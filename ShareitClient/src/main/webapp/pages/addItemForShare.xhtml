@@ -19,7 +19,7 @@ and open the template in the editor.
 
                 <h:form  enctype="multipart/form-data"  id="addItemForm">
 
-                      <p:growl id="growl" showDetail="true" sticky="true" />
+                    <p:growl id="growl" showDetail="true" life="3000"/>
                     <div class="form-group">
                         <label for="name">Name</label>
 
@@ -53,7 +53,7 @@ and open the template in the editor.
                     </div>
                     <div class="form-group">
                         <label for="image">Item Image</label>
-                        <o:inputFile id="image" value="#{itemManagedBean.file}" class="form-control" accept="image/*,image/PNG,image/JPG" acceptMessage="File extension is unacceptable!" required="true" requiredMessage="this field id required">
+                        <o:inputFile id="image" value="#{itemManagedBean.file}" accept="image/*,image/PNG,image/JPG" acceptMessage="File extension is unacceptable!">
                             <f:ajax listener="#{itemManagedBean.save()}" render="file_m"  />
                         </o:inputFile>
                         <h:message id="file_m" for="image" style="color:red"/>
@@ -62,7 +62,7 @@ and open the template in the editor.
                     <h:commandButton class="btn btn-primary" id="addbtn" value="Add Item" actionListener="#{itemManagedBean.addItem()}">
                           <f:ajax execute="@all" render="name tags points description growl"/>
                     </h:commandButton>
-                    <br/>
+                    <br/><br/>
                 </h:form>
             </div>
         </div>        

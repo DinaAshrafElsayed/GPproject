@@ -60,13 +60,13 @@
                                 <span class="fa fa-chevron-down"></span>
                             </a>
                             <ul class="dropdown-menu" >
-                                <o:form id="formProfile" includeRequestParams="true">
+                                <o:form id="formProfile" includeRequestParams="true" prependId="false">
                                     <c:if test="#{user.userDto!=null}">
                                         <h:commandButton style="visibility: hidden;" action="#{user.getNotificationNumberFromDB()}" id="notificationNumber">
-                                            <f:ajax render="formProfile"/>
+                                            <f:ajax render="notificationNumberCount" />
                                         </h:commandButton>
                                         <h:commandButton style="visibility: hidden;" action="#{user.getItemStatusNum()}" id="itemStatusNumber">
-                                            <f:ajax render="formProfile"/>
+                                            <f:ajax render="itemNumber"/>
                                         </h:commandButton>
                                     </c:if>
                                     <li>
@@ -86,9 +86,7 @@
                                                     <p class="text-left small">#{user.userDto.email}</p>
                                                     <p class="text-left">
 
-
                                                         <h:commandLink action="#{user.goToProfile(user.userDto.id)}" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
-
                                                     </p>
                                                 </div>
 
@@ -100,9 +98,9 @@
                                         padding-bottom: 0px;
                                         padding-top: 0px;"></li>
 
-                                    <h:link class="list-group-item list-group-item"  outcome="notifications.xhtml" style="color: black;" >Notifications <span class="badge pull-right"> #{user.notificationNumber} </span></h:link>
+                                    <h:link class="list-group-item list-group-item"  outcome="notifications.xhtml" style="color: black;" >Notifications  <h:outputLabel class="badge pull-right right"  id="notificationNumberCount">#{user.notificationNumber}</h:outputLabel></h:link>
 
-                                    <h:link class="list-group-item list-group-item"  outcome="itemStatus.xhtml" style="color: black;" >Items Status <span class="badge pull-right">#{user.itemNum}</span></h:link>
+                                    <h:link class="list-group-item list-group-item"  outcome="itemStatus.xhtml" style="color: black;" >Items Status <h:outputLabel class="badge pull-right right"  id="itemNumber">#{user.itemNum}</h:outputLabel></h:link>
 
 
                                     <h:link class="list-group-item list-group-item"  outcome="request.xhtml" style="color: black;" >Requests <span class="fa fa-shopping-cart pull-right"></span></h:link>

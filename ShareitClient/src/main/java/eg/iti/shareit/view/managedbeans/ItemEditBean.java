@@ -29,6 +29,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -48,6 +49,9 @@ public class ItemEditBean implements Serializable {
 
     @EJB
     private CategoryService categoryService;
+    
+    @Inject
+    private ListItemsBean itemsList;
 
     public ItemEditBean() {
     }
@@ -111,6 +115,7 @@ public class ItemEditBean implements Serializable {
             itemService.updateSharedItem(item);
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Successful", "Item is updated Successfully"));
+            itemsList.setItems(itemService.getAllItems());
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -119,4 +124,5 @@ public class ItemEditBean implements Serializable {
     public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
+   
 }

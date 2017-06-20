@@ -32,7 +32,7 @@
                         <div class="col-md-12">
 
                             <ul class="breadcrumb">
-                                <li><a href="#">Home</a>
+                                <li><a href="items.xhtml">Home</a>
                                 </li>
                                 <li>Browse Items</li>
                             </ul>
@@ -77,18 +77,12 @@
                                     </div>
                                 </div>
 
- 
-<!--<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
- 
-<p:dialog widgetVar="statusDialog"  modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-    <p:graphicImage library="images" name="AjaxLoader.gif" />
-</p:dialog>-->
                                 <!--<div class="row products">-->
                                 <h:panelGroup styleClass="row products" id="itemsData">
-                                    <p:dataGrid var="item" value="#{itemBean.items}" columns="4" layout="grid"
-                                                rows="9" paginator="true" id="item"
+                                    <p:dataGrid var="item" value="#{itemBean.items}" columns="3" layout="grid"
+                                                rows="6" paginator="true" id="item"
                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                rowsPerPageTemplate="4,8,12">
+                                                rowsPerPageTemplate="3,6,9">
                                         <div class="product">
                                             <div class="flip-container">
                                                 <div class="flipper">

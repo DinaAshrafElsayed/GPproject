@@ -19,7 +19,7 @@
         <div id="fb-root"></div>
 
         <h:form enctype="multipart/form-data" prependId="false"> 
-            <p:growl id="growl" showDetail="true" sticky="true"/>
+            <p:growl id="growl" showDetail="true" life="3000"/>
             <div id="all">
 
                 <div id="content">
@@ -27,11 +27,10 @@
 
                         <div class="col-md-12">
                             <ul class="breadcrumb">
-                                <li><h:commandLink action="#" immediate="true">Home</h:commandLink>
+                                <li><h:commandLink action="items.xhtml" immediate="true">Home</h:commandLink>
                                 </li>
-                                <li>
-                                    <h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
-                                </li>
+<!--                                <li><h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
+                                </li>-->
                                 <li>
                                 <h:commandLink action="#{itemBean.goToItem(item.id)}" immediate="true"> Item Details</h:commandLink>
                                 </li>
@@ -90,6 +89,7 @@
                                         <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}"><i class="fa fa-user-md"> Update</i>
                                             <f:ajax execute="@all" render="name tags points description growl"/>
                                         </h:commandLink>
+                                       
                                         <h:messages />
                                     </div>
                                     <br/>
