@@ -259,6 +259,7 @@ public class UserManagedBean implements Serializable {
                 gender = user2.getGender().getGender();
                 image_url = user2.getImageUrl();
                 address = user2.getAddress();
+                points = user2.getPoints();
                 country = user2.getAddress().getCountry();
                 city = user2.getAddress().getCity();
                 state = user2.getAddress().getState();
