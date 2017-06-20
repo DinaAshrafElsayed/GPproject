@@ -12,14 +12,14 @@ and open the template in the editor.
                 template="../templates/masterTemplate.xhtml"
                 xmlns:o="http://omnifaces.org/ui"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:p="http://primefaces.org/ui">
+                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <div id="content">
             <div class="container">
 
                 <h:form  enctype="multipart/form-data"  id="addItemForm">
 
-                    <p:growl id="growl" showDetail="true" sticky="true" />
+                      <p:growl id="growl" showDetail="true" sticky="true" />
                     <div class="form-group">
                         <label for="name">Name</label>
 
@@ -36,7 +36,7 @@ and open the template in the editor.
 
                     <div class="form-group">
                         <label for="points">points</label>
-                        <h:inputText value="#{itemManagedBean.points}" id="points" required="true" class="form-control" requiredMessage="number of points is required"/>
+                        <h:inputText value="#{itemManagedBean.points}" pt:type="number" id="points" required="true" class="form-control" requiredMessage="number of points is required"/>
                         <h:message  for="points" style="color:red"/> 
                     </div>
 
@@ -60,7 +60,7 @@ and open the template in the editor.
                     </div>
 
                     <h:commandButton class="btn btn-primary" id="addbtn" value="Add Item" actionListener="#{itemManagedBean.addItem()}">
-                        <f:ajax execute="@all" render="name tags points description growl"/>
+                          <f:ajax execute="@all" render="name tags points description growl"/>
                     </h:commandButton>
                     <br/>
                 </h:form>
