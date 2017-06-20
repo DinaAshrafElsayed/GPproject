@@ -18,7 +18,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class CityService {
+    @EJB
     private CityDao cityDao;
+    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
     
     public CityDto getCity(String city) {

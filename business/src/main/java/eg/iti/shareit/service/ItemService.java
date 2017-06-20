@@ -34,10 +34,14 @@ public class ItemService {
 
     private static final Logger logger = Logger.getLogger(ItemService.class.getName());
 
+    @EJB
     private ItemDao itemDao;
+    @EJB
     private ActivityDao activityDao;
+    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
+    @EJB
     private CategoryDao categoryDao;
 
     public List<CategoryDto> getAllCategories() throws ServiceException {

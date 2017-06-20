@@ -40,13 +40,17 @@ import javax.ejb.Stateless;
 public class ActivityService {
 
     private static final Logger logger = Logger.getLogger(ActivityService.class.getName());
-
+    @EJB
     private ActivityDao activityDao;
+    @EJB
     private ItemDao itemDao;
+    @EJB
     private UserDao userDao;
+    @EJB
     private ItemService itemService;
-
+    @EJB
     private ActivityDaoBTM activityDaoBTM;
+    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
     public List<ActivityDto> getPendingActivities(UserDto userDto) throws ServiceException {

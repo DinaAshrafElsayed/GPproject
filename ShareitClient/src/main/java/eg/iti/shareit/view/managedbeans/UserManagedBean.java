@@ -67,7 +67,7 @@ public class UserManagedBean implements Serializable {
     private Part file;
     private int id;
     private int points;
-    private boolean canEdit;
+    private boolean canEdit = false;
 
     private List<ItemDto> items;
 
@@ -223,7 +223,11 @@ public class UserManagedBean implements Serializable {
     public void setAddressService(AddressService addressService) {
         this.addressService = addressService;
     }
-
+    
+    public boolean getCanEdit()
+    {
+        return canEdit;
+    }
     @PostConstruct
     public void init() {
         {
@@ -238,16 +242,18 @@ public class UserManagedBean implements Serializable {
                 } else {
                     id = UserBean.currentItemId;
                     id = userDto.getId().intValue();
-
+                    System.out.println("the user id is "+id);
                 }
 
                 user2 = userService.findUser(BigDecimal.valueOf((long) id));
                 System.out.println("++--++++++++++++++ user is " + user2.getUsername());
 
                 if (userDto.getEmail().equals(user2.getEmail())) {
-
+                    System.out.println("can edit is true");
                     canEdit = true;
                 }
+                System.out.println("setting data");
+                System.out.println("user 2 is"+user2);
                 username = user2.getUsername();
                 email = user2.getEmail();
                 gender = user2.getGender().getGender();
@@ -257,7 +263,7 @@ public class UserManagedBean implements Serializable {
                 city = user2.getAddress().getCity();
                 state = user2.getAddress().getState();
                 items = user2.getItems();
-
+                if(items != null)
                 System.out.println("the user items size is " + items.size());
             } catch (ServiceException ex) {
                 Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);

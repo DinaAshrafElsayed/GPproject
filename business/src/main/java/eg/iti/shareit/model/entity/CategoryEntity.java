@@ -35,6 +35,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_CATEGORY")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "CategoryEntity.findAll", query = "SELECT t FROM CategoryEntity t"),
+    @NamedQuery(name = "CategoryEntity.findById", query = "SELECT t FROM CategoryEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "CategoryEntity.findByName", query = "SELECT t FROM CategoryEntity t WHERE t.name = :name"),
+    @NamedQuery(name = "CategoryEntity.findByMaxPoints", query = "SELECT t FROM CategoryEntity t WHERE t.maxPoints = :maxPoints")})
+
 public class CategoryEntity implements Serializable, GenericEntity {
 
     @javax.persistence.Transient

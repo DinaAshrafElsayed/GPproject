@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -60,7 +61,7 @@ public class ItemDetailBean implements Serializable {
 
     @Inject
     private ListItemsBean listItemsBean;
-    
+
     @Inject
     private UserBean user;
 
@@ -88,6 +89,63 @@ public class ItemDetailBean implements Serializable {
     private Part file;
     private List<String> hashTags;
 
+    
+    @PostConstruct
+    public void init() {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            if (request.getParameter("id") != null) {
+                id = Integer.parseInt(request.getParameter("id"));
+                UserBean.currentItemId = id;
+            } else {
+                id = UserBean.currentItemId;
+            }
+            
+            for(ItemDto currentItem: listItemsBean.getItems()){
+                if(currentItem.getId().intValue() == id){
+                    item = currentItem;
+                    break;
+                }
+            }
+            if(item == null)
+                item = itemService.getItemById(id);
+            
+            
+            hashTags = Arrays.asList(item.getTags().split(","));
+
+            Date date1 = new Date();
+            Date date2 = item.getPublishDate();
+            long diff = date1.getTime() - date2.getTime();
+            publishDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+
+            if (user.getUserDto() != null) {
+                activity = activityService.getActivityOfMyItem(item.getId().intValue(), user.getUserDto().getId().intValue());
+            }
+            if (activity != null) {
+                isRequested = true;
+                if (activity.getStatus().getId().intValue() == 2) {
+                    message = "Your Request to the item has been accepted";
+                    noRequest = true;
+                }
+                if (activity.getStatus().getId().intValue() == 3) {
+                    message = "Your Request to the item has been declined";
+                    noRequest = true;
+                }
+            }
+
+            if (user.getUserDto() != null && user.getUserDto().getPoints() < item.getPoints()) {
+                message = "You don't have enough points";
+                noRequest = true;
+            }
+
+            relatedItems = itemService.getRelatedItems(item);
+            todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+        } catch (ServiceException ex) {
+            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public ListItemsBean getListItemsBean() {
         return listItemsBean;
     }
@@ -96,7 +154,6 @@ public class ItemDetailBean implements Serializable {
         this.listItemsBean = listItemsBean;
     }
 
-    
     public ItemBean getItemBean() {
         return itemBean;
     }
@@ -105,8 +162,6 @@ public class ItemDetailBean implements Serializable {
         this.itemBean = itemBean;
     }
 
-
-    
     public List<String> getHashTags() {
         return hashTags;
     }
@@ -238,52 +293,7 @@ public class ItemDetailBean implements Serializable {
     public ItemDetailBean() {
     }
 
-    @PostConstruct
-    public void init() {
-        try {
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            if (request.getParameter("id") != null) {
-                id = Integer.parseInt(request.getParameter("id"));
-                UserBean.currentItemId = id;
-            } else {
-                id = UserBean.currentItemId;
-            }
-            item = itemService.getItemById(id);
-            hashTags = Arrays.asList(item.getTags().split(","));
-
-            Date date1 = new Date();
-            Date date2 = item.getPublishDate();
-            long diff = date1.getTime() - date2.getTime();
-            publishDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-
-            if (user.getUserDto() != null) {
-                activity = activityService.getActivityOfMyItem(item.getId().intValue(), user.getUserDto().getId().intValue());
-            }
-            if (activity != null) {
-                isRequested = true;
-                if (activity.getStatus().getId().intValue() == 2) {
-                    message = "Your Request to the item has been accepted";
-                    noRequest = true;
-                }
-                if (activity.getStatus().getId().intValue() == 3) {
-                    message = "Your Request to the item has been declined";
-                    noRequest = true;
-                }
-            }
-
-            if (user.getUserDto() != null && user.getUserDto().getPoints() < item.getPoints()) {
-                message = "You don't have enough points";
-                noRequest = true;
-            }
-
-            relatedItems = itemService.getRelatedItems(item);
-            todayString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-        } catch (ServiceException ex) {
-            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 
     public boolean isNoRequest() {
         return noRequest;
@@ -371,13 +381,21 @@ public class ItemDetailBean implements Serializable {
 
             timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeFrom);
             timeToDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeTo);
-
-//            
             todayDate = new SimpleDateFormat("dd-MM-yyyy").parse(todayString);
-//            
+//
+            Calendar calendarFrom = Calendar.getInstance();
+            calendarFrom.setTime(timeFromDate);
+            
+            Calendar calendarTo = Calendar.getInstance();
+            calendarTo.setTime(timeToDate);
+            
+            Calendar calendarNow = Calendar.getInstance();
+            calendarNow.setTime(todayDate);
+            
+
             boolean error = false;
 
-            if (timeFromDate.compareTo(todayDate) < 0) {
+            if (calendarFrom.compareTo(calendarNow) < 0 ) {
                 FacesMessage facesMessage = new FacesMessage("From date can't be before today");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("detailForm:timeFrom", facesMessage);
@@ -385,8 +403,7 @@ public class ItemDetailBean implements Serializable {
                 error = true;
             }
 
-
-            if (timeFromDate.compareTo(timeToDate) > 0) {
+            if (calendarTo.compareTo(calendarFrom) < 0) {
                 FacesMessage facesMessage = new FacesMessage("to date must be after from date");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("detailForm:timeTo", facesMessage);
@@ -426,12 +443,20 @@ public class ItemDetailBean implements Serializable {
     }
 
     public String deleteItem() {
+
         try {
-            itemService.deleteSharedItem(item);
-            listItemsBean.getItems().remove(item);
-          //  itemBean.getItems().remove(item);
-            System.out.println("------------------- im delete service "+ itemBean.getItems().size());
-            return "items?faces-redirect=true";
+            if (itemService.isItemAvailable(id)) {
+                itemService.deleteSharedItem(item);
+                listItemsBean.getItems().remove(item);
+                //  itemBean.getItems().remove(item);
+                System.out.println("------------------- im delete service " + itemBean.getItems().size());
+                return "items?faces-redirect=true";
+            }
+            else {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage("Error", "you cannot delete the item"));
+                return "";
+           }
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
             return "";

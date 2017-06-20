@@ -23,10 +23,13 @@ import java.util.logging.Logger;
 public class UserService {
 
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
-
+    @EJB
     private UserDao userDao;
+    @EJB
     private GenderService genderService;
+    @EJB
     private AddressService addressService;
+    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
     public UserDto getUserByEmail(String email) throws ServiceException {
@@ -47,9 +50,9 @@ public class UserService {
     public void RegisterUser(UserDto user) throws ServiceException {
         try {
             user.setGender(genderService.getGender(user.getGender().getGender()));
-            System.out.println("addressDto for user is : "+user.getAddress());
+            System.out.println("addressDto for user is : " + user.getAddress());
             AddressDto addressDto = addressService.getAddress(user.getAddress());
-            System.out.println("addressDto is after getting it from database "+addressDto);
+            System.out.println("addressDto is after getting it from database " + addressDto);
             user.setAddress(addressDto);
             UserEntity userEntity = mappingUtil.getEntity(user, UserEntity.class);
             System.out.println("user dto " + user);
@@ -63,20 +66,21 @@ public class UserService {
             throw new ServiceException(e.getMessage());
         }
     }
-    public void updateUser(UserDto user) throws ServiceException{
+
+    public void updateUser(UserDto user) throws ServiceException {
         try {
             user.setGender(genderService.getGender(user.getGender().getGender()));
-            System.out.println("addressDto for user is : "+user.getAddress());
+            System.out.println("addressDto for user is : " + user.getAddress());
             AddressDto addressDto = addressService.getAddress(user.getAddress());
-            System.out.println("addressDto is after getting it from database "+addressDto);
+            System.out.println("addressDto is after getting it from database " + addressDto);
             user.setAddress(addressDto);
             UserEntity userEntity = mappingUtil.getEntity(user, UserEntity.class);
             System.out.println("user dto " + user);
-            boolean added=userDao.updateUser(userEntity);
-            System.out.println("----------------------- Saved "+added);
-            
+            boolean added = userDao.updateUser(userEntity);
+            System.out.println("----------------------- Saved " + added);
+
         } catch (DatabaseRollbackException e) {
-         logger.log(Level.SEVERE, e.getMessage(), e);
+            logger.log(Level.SEVERE, e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -87,7 +91,7 @@ public class UserService {
             if (userEntity != null) {
                 UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
                 //userDto.setAddressDto(mappingUtil.getDto(userEntity.getAddress(), AddressDto.class));
-                System.out.println("userDto is "+userDto);
+                System.out.println("userDto is " + userDto);
                 return userDto;
             }
             return null;
@@ -96,13 +100,14 @@ public class UserService {
             throw new ServiceException(e.getMessage());
         }
     }
-    public UserDto findUser(BigDecimal id) throws ServiceException{
-           try {
+
+    public UserDto findUser(BigDecimal id) throws ServiceException {
+        try {
             UserEntity userEntity = userDao.getUserById(id);
             if (userEntity != null) {
                 UserDto userDto = mappingUtil.getDto(userEntity, UserDto.class);
                 //userDto.setAddressDto(mappingUtil.getDto(userEntity.getAddress(), AddressDto.class));
-                System.out.println("userDto is "+userDto);
+                System.out.println("userDto is " + userDto);
                 return userDto;
             }
             return null;
@@ -110,6 +115,6 @@ public class UserService {
             logger.log(Level.SEVERE, e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
-    
+
     }
 }

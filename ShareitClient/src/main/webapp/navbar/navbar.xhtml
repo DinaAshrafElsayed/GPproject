@@ -122,12 +122,9 @@
             <div class="navbar-collapse collapse" id="navigation">
 
                 <ul class="nav navbar-nav navbar-left">
-                    <li class="active"><h:link outcome="items.xhtml">Home</h:link>
+                    <li class="yamm-fw">
+                        <h:link class="dropdown-toggle" pt:data-hover="dropdown" outcome="items.xhtml">Home</h:link>
                     </li>
-                    <li>
-                        <h:link outcome="items.xhtml">All Items</h:link>
-                    </li>
-
                     <li class="dropdown yamm-fw">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Categories<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -164,8 +161,8 @@
                         </ul>
                     </li>
                     <c:if test="#{user.userDto != null}">
-                        <li>
-                            <h:link outcome="addItemForShare.xhtml">Share Item</h:link>
+                        <li class=" yamm-fw">
+                            <h:link class="dropdown-toggle" pt:data-hover="dropdown" outcome="addItemForShare.xhtml">Share Item</h:link>
                         </li>
                     </c:if>
                 </ul>

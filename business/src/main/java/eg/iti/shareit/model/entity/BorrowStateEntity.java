@@ -32,6 +32,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "T_BORROW_STATE")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "BorrowStateEntity.findAll", query = "SELECT b FROM BorrowStateEntity b"),
+    @NamedQuery(name = "BorrowStateEntity.findById", query = "SELECT b FROM BorrowStateEntity b WHERE b.id = :id"),
+    @NamedQuery(name = "BorrowStateEntity.findByIsBack", query = "SELECT b FROM BorrowStateEntity b WHERE b.isBack = :isBack")})
+
 public class BorrowStateEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
