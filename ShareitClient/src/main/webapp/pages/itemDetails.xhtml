@@ -29,7 +29,8 @@
             }(document, 'script', 'facebook-jssdk'));
         </script>
         <o:form includeRequestParams="true" id="detailForm">
-             <p:growl id="growl" showDetail="true" sticky="true"/>
+            <p:growl id="message" showDetail="true" />
+            <p:growl id="growl" showDetail="true" sticky="true" />
             <div id="all">
 
                 <div id="content">
@@ -167,16 +168,24 @@
                                     </p>
                                 </div>
                                 <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
-                                <div class="social">
-                                    <h4>Delete Item</h4>
-                                    <p>
-                                        <h:commandLink class="btn-danger " value="delete" action="#{itemDetailBean.deleteItem()}" style="width: fit-content;">
-                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                              <f:ajax execute="@all" render=" growl"/>
-                                        </h:commandLink>
-                                    </p>
-                                </div>
-                                    </c:if>
+                                    <div class="social">
+                                        <h4>Delete Item</h4>
+                                        <p>
+                                            <h:commandLink class="btn-danger " value="delete" action="#{itemDetailBean.deleteItem()}" style="width: fit-content;">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                <f:ajax execute="@all" render=" growl"/>
+                                            </h:commandLink>
+                                            <p:commandButton  class="btn-danger" value="Delete Item" actionListener="#{itemDetailBean.deleteItem()}" update="message">
+                                                <p:confirm header="Confirmation" message="Are you sure you want to delete item?" icon="ui-icon-alert" />
+                                            </p:commandButton>
+
+                                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </p:confirmDialog>
+                                        </p>
+                                    </div>
+                                </c:if>
                             </div>
 
                             <c:if test="#{itemDetailBean.relatedItems.size() gt 0 }">
