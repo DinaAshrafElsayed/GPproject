@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,9 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_STATE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "StateEntity.findAll", query = "SELECT s FROM StateEntity s"),
-    @NamedQuery(name = "StateEntity.findById", query = "SELECT s FROM StateEntity s WHERE s.id = :id"),
-    @NamedQuery(name = "StateEntity.findByState", query = "SELECT s FROM StateEntity s WHERE s.state = :state")})
+    @NamedQuery(name = "StateEntity.findAll", query = "SELECT t FROM StateEntity t"),
+    @NamedQuery(name = "StateEntity.findById", query = "SELECT t FROM StateEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "StateEntity.findByState", query = "SELECT t FROM StateEntity t WHERE t.state = :state")})
 public class StateEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -46,15 +47,15 @@ public class StateEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_STATE_SEQ")
-    @SequenceGenerator(name = "T_STATE_SEQ", sequenceName = "T_STATE_SEQ", initialValue = 1)
+    @SequenceGenerator(name = "T_STATE_SEQ", sequenceName = "T_STATE_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "STATE")
     private String state;
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY)
-    private List<AddressEntity> addressEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "state", fetch = FetchType.LAZY)
+    private List<AddressEntity> addressList;
 
     public StateEntity() {
     }
@@ -85,12 +86,12 @@ public class StateEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<AddressEntity> getAddressEntityList() {
-        return addressEntityList;
+    public List<AddressEntity> getAddressList() {
+        return addressList;
     }
 
-    public void setAddressEntityList(List<AddressEntity> addressEntityList) {
-        this.addressEntityList = addressEntityList;
+    public void setAddressList(List<AddressEntity> addressList) {
+        this.addressList = addressList;
     }
 
     @Override

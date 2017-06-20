@@ -12,6 +12,7 @@ import eg.iti.shareit.model.dto.ItemDto;
 import eg.iti.shareit.service.ActivityService;
 import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -27,8 +28,10 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.inject.Inject;
@@ -89,7 +92,6 @@ public class ItemDetailBean implements Serializable {
     private Part file;
     private List<String> hashTags;
 
-    
     @PostConstruct
     public void init() {
         try {
@@ -100,17 +102,17 @@ public class ItemDetailBean implements Serializable {
             } else {
                 id = UserBean.currentItemId;
             }
-            
-            for(ItemDto currentItem: listItemsBean.getItems()){
-                if(currentItem.getId().intValue() == id){
+
+            for (ItemDto currentItem : listItemsBean.getItems()) {
+                if (currentItem.getId().intValue() == id) {
                     item = currentItem;
                     break;
                 }
             }
-            if(item == null)
+            if (item == null) {
                 item = itemService.getItemById(id);
-            
-            
+            }
+
             hashTags = Arrays.asList(item.getTags().split(","));
 
             Date date1 = new Date();
@@ -146,6 +148,7 @@ public class ItemDetailBean implements Serializable {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public ListItemsBean getListItemsBean() {
         return listItemsBean;
     }
@@ -293,8 +296,6 @@ public class ItemDetailBean implements Serializable {
     public ItemDetailBean() {
     }
 
-    
-
     public boolean isNoRequest() {
         return noRequest;
     }
@@ -385,17 +386,16 @@ public class ItemDetailBean implements Serializable {
 //
             Calendar calendarFrom = Calendar.getInstance();
             calendarFrom.setTime(timeFromDate);
-            
+
             Calendar calendarTo = Calendar.getInstance();
             calendarTo.setTime(timeToDate);
-            
+
             Calendar calendarNow = Calendar.getInstance();
             calendarNow.setTime(todayDate);
-            
 
             boolean error = false;
 
-            if (calendarFrom.compareTo(calendarNow) < 0 ) {
+            if (calendarFrom.compareTo(calendarNow) < 0) {
                 FacesMessage facesMessage = new FacesMessage("From date can't be before today");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("detailForm:timeFrom", facesMessage);
@@ -442,7 +442,7 @@ public class ItemDetailBean implements Serializable {
         }
     }
 
-    public String deleteItem() {
+    public void deleteItem() {
 
         try {
             if (itemService.isItemAvailable(id)) {
@@ -450,18 +450,35 @@ public class ItemDetailBean implements Serializable {
                 listItemsBean.getItems().remove(item);
                 //  itemBean.getItems().remove(item);
                 System.out.println("------------------- im delete service " + itemBean.getItems().size());
-                return "items?faces-redirect=true";
+                //   addMessage("Successful", " item  deleted");
+                FacesContext ctx = FacesContext.getCurrentInstance();
+                ExternalContext extContext = ctx.getExternalContext();
+
+                String url1 = extContext.encodeActionURL(ctx.getApplication().getViewHandler().getActionURL(ctx, "/pages/items.xhtml"));
+
+                try {
+                    extContext.redirect(url1);
+                } catch (IOException ioe) {
+                    throw new FacesException(ioe);
+                }
+                  
+            } else {
+//                FacesContext context = FacesContext.getCurrentInstance();
+//                context.addMessage(null, new FacesMessage("Error", "you cannot delete the item"));
+//                return "";
+                addMessage("System Error", "Sorry item cannot be deleted");
+                
             }
-            else {
-                FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage("Error", "you cannot delete the item"));
-                return "";
-           }
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
+           
         }
 
+    }
+
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public void validateDateFrom(FacesContext context, UIComponent component, Object value) {
