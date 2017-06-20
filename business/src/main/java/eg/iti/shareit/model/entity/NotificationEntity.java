@@ -49,7 +49,7 @@ public class NotificationEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_NOTIFICATION_SEQ")
-    @SequenceGenerator(name = "T_NOTIFICATION_SEQ", sequenceName = "T_NOTIFICATION_SEQ", initialValue = 1)
+    @SequenceGenerator(name = "T_NOTIFICATION_SEQ", sequenceName = "T_NOTIFICATION_SEQ", allocationSize = 50, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull

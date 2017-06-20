@@ -1,5 +1,5 @@
 setInterval(function ()
 {
-    document.getElementById('formProfile:notificationNumber').click();
-    document.getElementById('formProfile:itemStatusNumber').click();
-}, 500);
+    document.getElementById('notificationNumber').click();
+    document.getElementById('itemStatusNumber').click();
+}, 1000);
