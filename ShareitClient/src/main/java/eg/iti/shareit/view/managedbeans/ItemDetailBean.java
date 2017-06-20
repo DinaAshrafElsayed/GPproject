@@ -453,15 +453,21 @@ public class ItemDetailBean implements Serializable {
                 return "items?faces-redirect=true";
             }
             else {
-                FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage("Error", "you cannot delete the item"));
-                return "";
-           }
+//                FacesContext context = FacesContext.getCurrentInstance();
+//                context.addMessage(null, new FacesMessage("Error", "you cannot delete the item"));
+//                return "";
+                     addMessage("System Error", "Sorry item cannot be deleted");
+                     return "";
+            }
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         }
 
+    }
+     public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public void validateDateFrom(FacesContext context, UIComponent component, Object value) {
