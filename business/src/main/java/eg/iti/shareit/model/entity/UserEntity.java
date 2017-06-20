@@ -80,15 +80,15 @@ public class UserEntity implements Serializable, GenericEntity {
     @Column(name = "POINTS")
     private BigInteger points;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
-    private List<NotificationEntity> notificationEntityList;
+    private List<NotificationEntity> notificationFromUserList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
-    private List<NotificationEntity> notificationEntityList1;
+    private List<NotificationEntity> notificationToUserList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUser", fetch = FetchType.LAZY)
     private List<ActivityEntity> activityEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUser", fetch = FetchType.LAZY)
     private List<ActivityEntity> activityEntityList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom", fetch = FetchType.LAZY)
-    private List<ItemEntity> itemEntityList;
+    private List<ItemEntity> items;
     @JoinColumn(name = "ADDRESS", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private AddressEntity address;
@@ -160,21 +160,21 @@ public class UserEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<NotificationEntity> getNotificationEntityList() {
-        return notificationEntityList;
+    public List<NotificationEntity> getNotificationFromUserList() {
+        return notificationFromUserList;
     }
 
-    public void setNotificationEntityList(List<NotificationEntity> notificationEntityList) {
-        this.notificationEntityList = notificationEntityList;
+    public void setNnotificationFromUserList(List<NotificationEntity> notificationEntityList) {
+        this.notificationFromUserList = notificationEntityList;
     }
 
     @XmlTransient
-    public List<NotificationEntity> getNotificationEntityList1() {
-        return notificationEntityList1;
+    public List<NotificationEntity> getNotificationToUserList() {
+        return notificationToUserList;
     }
 
-    public void setNotificationEntityList1(List<NotificationEntity> notificationEntityList1) {
-        this.notificationEntityList1 = notificationEntityList1;
+    public void setNotificationToUserList(List<NotificationEntity> notificationEntityList1) {
+        this.notificationToUserList = notificationEntityList1;
     }
 
     @XmlTransient
@@ -196,12 +196,12 @@ public class UserEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<ItemEntity> getItemEntityList() {
-        return itemEntityList;
+    public List<ItemEntity> getItems() {
+        return items;
     }
 
-    public void setItemEntityList(List<ItemEntity> itemEntityList) {
-        this.itemEntityList = itemEntityList;
+    public void setItems(List<ItemEntity> itemEntityList) {
+        this.items = items;
     }
 
     public AddressEntity getAddress() {
