@@ -29,7 +29,7 @@
             }(document, 'script', 'facebook-jssdk'));
         </script>
         <o:form includeRequestParams="true" id="detailForm">
-             <p:growl id="growl" showDetail="true" sticky="true"/>
+            <p:growl id="growl" showDetail="true" life="3000"/>
             <div id="all">
 
                 <div id="content">
@@ -37,11 +37,11 @@
 
                         <div class="col-md-12">
                             <ul class="breadcrumb">
-                                <li><h:commandLink action="#" immediate="true">Home</h:commandLink>
+                                <li><h:commandLink action="items.xhtml" immediate="true">Home</h:commandLink>
                                 </li>
-                                <li>
+<!--                                <li>
                                     <h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
-                                </li>
+                                </li>-->
                                 <li>Item : #{itemDetailBean.item.name} details</li>
                             </ul>
 
@@ -151,9 +151,9 @@
                                 <h:link outcome="#{itemDetailBean.goToPublisher(itemDetailBean.item.userFrom.id)}" styleClass="btn btn-default btn btn-primary">View Publisher</h:link><br/><br/>       
 
                                 <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
-                                    <h:link outcome="#{itemDetailBean.goToEditItem(itemDetailBean.item.id)}" value="Edit" styleClass="btn btn-default" class="btn btn-primary"/>
+                                    <h:link outcome="#{itemDetailBean.goToEditItem(itemDetailBean.item.id)}" value="Edit item" styleClass="btn btn-default" class="btn btn-primary"/>
                                 </c:if>
-
+                                
                                 <hr></hr>
                                 <div class="social">
                                     <h4>Show it to your friends</h4>
@@ -165,18 +165,19 @@
                                         </div>
 
                                     </p>
-                                </div>
-                                <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
+                                    <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
                                 <div class="social">
                                     <h4>Delete Item</h4>
                                     <p>
-                                        <h:commandLink class="btn-danger " value="delete" action="#{itemDetailBean.deleteItem()}" style="width: fit-content;">
+                                        <h:commandLink class="btn-danger " value="Delete item" action="#{itemDetailBean.deleteItem()}" style="width: fit-content;">
                                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                                               <f:ajax execute="@all" render=" growl"/>
                                         </h:commandLink>
                                     </p>
                                 </div>
                                     </c:if>
+                                </div>
+                                
                             </div>
 
                             <c:if test="#{itemDetailBean.relatedItems.size() gt 0 }">
