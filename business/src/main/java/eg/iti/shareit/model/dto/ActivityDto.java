@@ -8,8 +8,8 @@ package eg.iti.shareit.model.dto;
 
 import eg.iti.shareit.common.dto.GenericDto;
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -108,4 +108,5 @@ public class ActivityDto implements java.io.Serializable, GenericDto {
         long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
         return (int) days;
     }
+
 }

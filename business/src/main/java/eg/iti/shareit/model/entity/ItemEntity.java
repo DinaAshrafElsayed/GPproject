@@ -6,6 +6,8 @@
 package eg.iti.shareit.model.entity;
 
 import eg.iti.shareit.common.entity.GenericEntity;
+import eg.iti.shareit.model.entity.CategoryEntity;
+import eg.iti.shareit.model.entity.UserEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -52,6 +54,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ItemEntity.findByTags", query = "SELECT i FROM ItemEntity i WHERE i.tags = :tags")})
 public class ItemEntity implements Serializable, GenericEntity {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
+    private List<ActivityEntity> activityEntityList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
+    private List<NotificationEntity> notificationEntityList;
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -59,7 +67,7 @@ public class ItemEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_ITEM_SEQ")
-    @SequenceGenerator(name = "T_ITEM_SEQ", sequenceName = "T_ITEM_SEQ", initialValue = 1)
+    @SequenceGenerator(name = "T_ITEM_SEQ", sequenceName = "T_ITEM_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -82,18 +90,14 @@ public class ItemEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "POINTS")
     private BigInteger points;
-    @Size(max = 500)
+    @Size(min = 1, max = 500)
     @Column(name = "IMAGE_URL")
     private String imageUrl;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "TAGS")
     private String tags;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item", fetch = FetchType.LAZY)
-    private List<NotificationEntity> notificationEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "item", fetch = FetchType.LAZY)
-    private List<ActivityEntity> activityEntityList;
     @JoinColumn(name = "CATEGORY", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CategoryEntity category;
@@ -108,12 +112,13 @@ public class ItemEntity implements Serializable, GenericEntity {
         this.id = id;
     }
 
-    public ItemEntity(BigDecimal id, String name, short isAvailable, Date publishDate, BigInteger points, String tags) {
+    public ItemEntity(BigDecimal id, String name, short isAvailable, Date publishDate, BigInteger points, String imageUrl, String tags) {
         this.id = id;
         this.name = name;
         this.isAvailable = isAvailable;
         this.publishDate = publishDate;
         this.points = points;
+        this.imageUrl = imageUrl;
         this.tags = tags;
     }
 
@@ -181,24 +186,6 @@ public class ItemEntity implements Serializable, GenericEntity {
         this.tags = tags;
     }
 
-    @XmlTransient
-    public List<NotificationEntity> getNotificationEntityList() {
-        return notificationEntityList;
-    }
-
-    public void setNotificationEntityList(List<NotificationEntity> notificationEntityList) {
-        this.notificationEntityList = notificationEntityList;
-    }
-
-    @XmlTransient
-    public List<ActivityEntity> getActivityEntityList() {
-        return activityEntityList;
-    }
-
-    public void setActivityEntityList(List<ActivityEntity> activityEntityList) {
-        this.activityEntityList = activityEntityList;
-    }
-
     public CategoryEntity getCategory() {
         return category;
     }
@@ -237,7 +224,25 @@ public class ItemEntity implements Serializable, GenericEntity {
 
     @Override
     public String toString() {
-        return "eg.iti.shareit.model.entity.ItemEntity[ id=" + id + " ]";
+        return "eg.iti.shareit.common.enums.ItemEntity[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<NotificationEntity> getNotificationEntityList() {
+        return notificationEntityList;
+    }
+
+    public void setNotificationEntityList(List<NotificationEntity> notificationEntityList) {
+        this.notificationEntityList = notificationEntityList;
+    }
+
+    @XmlTransient
+    public List<ActivityEntity> getActivityEntityList() {
+        return activityEntityList;
+    }
+
+    public void setActivityEntityList(List<ActivityEntity> activityEntityList) {
+        this.activityEntityList = activityEntityList;
     }
 
 }

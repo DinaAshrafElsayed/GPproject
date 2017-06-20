@@ -51,7 +51,7 @@
                         <div class="col-md-12">
 
                             <div class="row" id="productMain">
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div id="mainImage">
                                         <c:if test="#{relatedItem.imageUrl != ''}">
                                             <o:graphicImage  height="200px" value="#{itemBean.getImage(itemDetailBean.item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
@@ -186,7 +186,23 @@
 
                                     </p>
                                 </div>
-                                
+                                <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
+                                    <div class="social">
+                                        <h4>Delete Item</h4>
+                                        <p:commandLink   class="btn  btn-danger" value="delete" style="width: fit-content; border-radius: 0px;"
+                                                         actionListener="#{itemDetailBean.deleteItem()}" update="message">
+                                            <p:confirm header="Confirmation" message="Are you sure you want to delete item?" icon="ui-icon-alert" />
+                                        </p:commandLink>
+
+
+                                        <p:confirmDialog global="true" closeOnEscape="true" >
+                                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+                                        </p:confirmDialog>
+
+
+                                    </div>
+                                </c:if>
                             </div>
 
                             <c:if test="#{itemDetailBean.relatedItems.size() gt 0 }">

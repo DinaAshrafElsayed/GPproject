@@ -35,9 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_CITY")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CityEntity.findAll", query = "SELECT c FROM CityEntity c"),
-    @NamedQuery(name = "CityEntity.findById", query = "SELECT c FROM CityEntity c WHERE c.id = :id"),
-    @NamedQuery(name = "CityEntity.findByCity", query = "SELECT c FROM CityEntity c WHERE c.city = :city")})
+    @NamedQuery(name = "CityEntity.findAll", query = "SELECT t FROM CityEntity t"),
+    @NamedQuery(name = "CityEntity.findById", query = "SELECT t FROM CityEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "CityEntity.findByCity", query = "SELECT t FROM CityEntity t WHERE t.city = :city")})
 public class CityEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class CityEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_CITY_SEQ")
-    @SequenceGenerator(name = "T_CITY_SEQ", sequenceName = "T_CITY_SEQ", initialValue = 1)
+    @SequenceGenerator(name = "T_CITY_SEQ", sequenceName = "T_CITY_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -55,7 +55,7 @@ public class CityEntity implements Serializable, GenericEntity {
     @Column(name = "CITY")
     private String city;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", fetch = FetchType.LAZY)
-    private List<AddressEntity> addressEntityList;
+    private List<AddressEntity> addressList;
 
     public CityEntity() {
     }
@@ -86,12 +86,12 @@ public class CityEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<AddressEntity> getAddressEntityList() {
-        return addressEntityList;
+    public List<AddressEntity> getAddressList() {
+        return addressList;
     }
 
-    public void setAddressEntityList(List<AddressEntity> addressEntityList) {
-        this.addressEntityList = addressEntityList;
+    public void setAddressList(List<AddressEntity> addressList) {
+        this.addressList = addressList;
     }
 
     @Override

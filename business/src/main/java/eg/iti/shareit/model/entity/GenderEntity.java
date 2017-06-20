@@ -35,9 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_GENDER")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "GenderEntity.findAll", query = "SELECT g FROM GenderEntity g"),
-    @NamedQuery(name = "GenderEntity.findById", query = "SELECT g FROM GenderEntity g WHERE g.id = :id"),
-    @NamedQuery(name = "GenderEntity.findByGender", query = "SELECT g FROM GenderEntity g WHERE g.gender = :gender")})
+    @NamedQuery(name = "GenderEntity.findAll", query = "SELECT t FROM GenderEntity t"),
+    @NamedQuery(name = "GenderEntity.findById", query = "SELECT t FROM GenderEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "GenderEntity.findByGender", query = "SELECT t FROM GenderEntity t WHERE t.gender = :gender")})
 public class GenderEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class GenderEntity implements Serializable, GenericEntity {
     @NotNull
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_GENDER_SEQ")
-    @SequenceGenerator(name = "T_GENDER_SEQ", sequenceName = "T_GENDER_SEQ", initialValue = 1)
+    @SequenceGenerator(name = "T_GENDER_SEQ", sequenceName = "T_GENDER_SEQ", allocationSize = 1, initialValue = 1)
     private BigDecimal id;
     @Basic(optional = false)
     @NotNull
@@ -55,7 +55,7 @@ public class GenderEntity implements Serializable, GenericEntity {
     @Column(name = "GENDER")
     private String gender;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gender", fetch = FetchType.LAZY)
-    private List<UserEntity> userEntityList;
+    private List<UserEntity> userList;
 
     public GenderEntity() {
     }
@@ -86,12 +86,12 @@ public class GenderEntity implements Serializable, GenericEntity {
     }
 
     @XmlTransient
-    public List<UserEntity> getUserEntityList() {
-        return userEntityList;
+    public List<UserEntity> getUserList() {
+        return userList;
     }
 
-    public void setUserEntityList(List<UserEntity> userEntityList) {
-        this.userEntityList = userEntityList;
+    public void setUserList(List<UserEntity> userList) {
+        this.userList = userList;
     }
 
     @Override

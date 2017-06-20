@@ -25,7 +25,7 @@ public class NotificationDaoImpl extends GenericDaoImpl<NotificationEntity> impl
 
     @Override
     public List<NotificationEntity> getNotSeenNotifications(UserEntity userEntity) throws DatabaseRollbackException {
-        Query query = getEntityManager().createQuery("Select n From NotificationEntity n where n.toUser =" + userEntity.getId() + " and n.seen=0 ");
+        Query query = getEntityManager().createQuery("Select n From NotificationEntity n where n.fromUser =" + userEntity.getId() + " and n.seen=0 ");
         List<NotificationEntity> notificationEntities = query.getResultList();
         if (notificationEntities != null) {
             return notificationEntities;
@@ -35,7 +35,7 @@ public class NotificationDaoImpl extends GenericDaoImpl<NotificationEntity> impl
 
     @Override
     public List<NotificationEntity> getSeenNotifications(UserEntity userEntity) throws DatabaseRollbackException {
-        Query query = getEntityManager().createQuery("Select n From NotificationEntity n where n.toUser =" + userEntity.getId() + " and n.seen!=0");
+        Query query = getEntityManager().createQuery("Select n From NotificationEntity n where n.fromUser =" + userEntity.getId() + " and n.seen!=0");
         List<NotificationEntity> notificationEntities = query.getResultList();
         if (notificationEntities != null) {
             return notificationEntities;
@@ -57,7 +57,7 @@ public class NotificationDaoImpl extends GenericDaoImpl<NotificationEntity> impl
 
     @Override
     public int getNotificationNumber(BigDecimal userId) throws DatabaseRollbackException {
-        Query query = getEntityManager().createQuery("select COUNT(n.seen) from NotificationEntity n where n.toUser.id=" + userId.intValue() + " and seen=0");
+        Query query = getEntityManager().createQuery("select COUNT(n.seen) from NotificationEntity n where n.fromUser=" + userId.intValue() + " and seen=0");
         long singleResult = (Long) query.getSingleResult();
         return (int) singleResult;
     }

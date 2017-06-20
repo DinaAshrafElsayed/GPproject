@@ -58,6 +58,7 @@ public class UserBean implements Serializable {
     public String login() {
         try {
             UserDto userDto = userService.findUser(email, password);
+            System.out.println("user items in login : "+userDto.getItems().size());
             System.out.println("user dto " + userDto);
             //userDto = userService.findUser(email, password);
             System.out.println("user dto ---------------------- " + getUserDto());
@@ -65,8 +66,6 @@ public class UserBean implements Serializable {
                 //save in session
                 HttpSession session = SessionUtil.getSession();
                 session.setAttribute("userDto", userDto);
-                //Check if the due date is today or after the day
-                itemTrackingService.handleBorrowingDueDate(userDto);
                 getNotificationNumberFromDB();
                 getItemStatusNum();
                 System.out.println("user saved in session");
@@ -106,6 +105,8 @@ public class UserBean implements Serializable {
     public void getItemStatusNum() {
         try {
             if (SessionUtil.getUser() != null) {
+                //Check if the due date is today or after the day
+                itemTrackingService.handleBorrowingDueDate(SessionUtil.getUser());
                 ItemNum = itemTrackingService.getItemStatusNumber(SessionUtil.getUser().getId());
             }
         } catch (ServiceException ex) {
