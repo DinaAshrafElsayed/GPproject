@@ -25,7 +25,7 @@ import javax.persistence.RollbackException;
  */
 @Stateless(mappedName = "ItemDaoImpl")
 public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
-
+    @EJB
     ItemDao itemDao;
 
     public ItemDaoImpl() {
@@ -61,10 +61,12 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
             String[] words = name.split(" ");
 
             for (String word : words) {
-                if (word.charAt(0) == '#') {
-                    tags.add(word.substring(1));
-                } else {
-                    names.add(word);
+                if (word.length() > 0) {
+                    if (word.charAt(0) == '#') {
+                        tags.add(word.substring(1));
+                    } else {
+                        names.add(word);
+                    }
                 }
             }
         }
@@ -241,8 +243,8 @@ public class ItemDaoImpl extends GenericDaoImpl<ItemEntity> implements ItemDao {
             itemDao.delete(item);
             System.out.println("in delete item : deleted successfully");
             return true;
-        }catch (PersistenceException e) {
-            throw new DatabaseRollbackException(e.getMessage());              
+        } catch (PersistenceException e) {
+            throw new DatabaseRollbackException(e.getMessage());
         }
 
     }

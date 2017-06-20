@@ -18,6 +18,7 @@ import javax.ejb.EJB;
 @Stateless(mappedName = "UserDaoImpl")
 public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
 
+    @EJB
     private HashingUtil hashingUtil;
 
     public UserDaoImpl() {

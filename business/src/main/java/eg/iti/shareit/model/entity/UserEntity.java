@@ -17,6 +17,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -31,6 +35,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_USER")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "UserEntity.findAll", query = "SELECT u FROM UserEntity u"),
+    @NamedQuery(name = "UserEntity.findById", query = "SELECT u FROM UserEntity u WHERE u.id = :id"),
+    @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
+    @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
+    @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT u FROM UserEntity u WHERE u.password = :password"),
+    @NamedQuery(name = "UserEntity.findByImageUrl", query = "SELECT u FROM UserEntity u WHERE u.imageUrl = :imageUrl"),
+    @NamedQuery(name = "UserEntity.findByPoints", query = "SELECT u FROM UserEntity u WHERE u.points = :points")})
+
 public class UserEntity implements Serializable, GenericEntity {
 
     @javax.persistence.Transient
@@ -42,7 +55,7 @@ public class UserEntity implements Serializable, GenericEntity {
     private List<NotificationEntity> notificationFromUserList;
     @javax.persistence.Transient
     private List<NotificationEntity> notificationToUserList;
-    @javax.persistence.Transient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom", fetch = FetchType.LAZY)
     private List<ItemEntity> items;
 
     private static final long serialVersionUID = 1L;

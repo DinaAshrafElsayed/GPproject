@@ -92,14 +92,14 @@ public class RegistrationBean implements Serializable {
                 FacesMessage facesMessage = new FacesMessage("Error","This email isn't valid");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("form:email", facesMessage);
-                return null;
+                return "";
             }
         } catch (ServiceException ex) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Error", "Registration didnt complete successfully"));
 
             Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return "";
         }
     }
     public void clearFields()

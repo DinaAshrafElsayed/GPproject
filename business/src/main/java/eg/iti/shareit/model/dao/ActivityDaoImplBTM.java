@@ -49,10 +49,11 @@ public class ActivityDaoImplBTM extends GenericDaoImpl<ActivityEntity> implement
     UserDao userDao;
     @Inject
     ActivityDao activityDao;
+    @EJB
     NotificationDao notificationDao;
     @Inject
     ItemDao itemDao;
-
+    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
 
     @Override

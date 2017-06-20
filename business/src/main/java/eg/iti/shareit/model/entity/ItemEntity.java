@@ -18,6 +18,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -32,6 +34,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_ITEM")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "ItemEntity.findAll", query = "SELECT i FROM ItemEntity i"),
+    @NamedQuery(name = "ItemEntity.findById", query = "SELECT i FROM ItemEntity i WHERE i.id = :id"),
+    @NamedQuery(name = "ItemEntity.findByName", query = "SELECT i FROM ItemEntity i WHERE i.name = :name"),
+    @NamedQuery(name = "ItemEntity.findByDescription", query = "SELECT i FROM ItemEntity i WHERE i.description = :description"),
+    @NamedQuery(name = "ItemEntity.findByIsAvailable", query = "SELECT i FROM ItemEntity i WHERE i.isAvailable = :isAvailable"),
+    @NamedQuery(name = "ItemEntity.findByPublishDate", query = "SELECT i FROM ItemEntity i WHERE i.publishDate = :publishDate"),
+    @NamedQuery(name = "ItemEntity.findByPoints", query = "SELECT i FROM ItemEntity i WHERE i.points = :points"),
+    @NamedQuery(name = "ItemEntity.findByImageUrl", query = "SELECT i FROM ItemEntity i WHERE i.imageUrl = :imageUrl"),
+    @NamedQuery(name = "ItemEntity.findByTags", query = "SELECT i FROM ItemEntity i WHERE i.tags = :tags")})
+
 public class ItemEntity implements Serializable, GenericEntity {
 
     @javax.persistence.Transient

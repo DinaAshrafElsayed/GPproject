@@ -19,7 +19,9 @@ import javax.persistence.EntityManager;
  */
 @Stateless
 public class GenderService {
+    @EJB
     private GenderDao genderDao;
+    @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
     
     public GenderDto getGender(String gender) {

@@ -59,6 +59,7 @@ public class ImageUtil {
                 throw new IOException("Cannot Create the directories");
             }
             System.out.println("image url is "+savingPath+fileName);
+            input.close();
             return (savingPath + fileName);
         } catch (IOException e) {
             Logger.getLogger(ImageUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -74,7 +75,8 @@ public class ImageUtil {
             String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
             String imageUrl = savingPath + fileName;
             System.out.println("Image was overridden ! " + ImageIO.write(resizeImageJpg, extension, new File(imageUrl)));
-
+            originalImage.flush();
+            resizeImageJpg.flush();
         } catch (IOException ex) {
             Logger.getLogger(ImageUtil.class.getName()).log(Level.SEVERE, null, ex);
         }

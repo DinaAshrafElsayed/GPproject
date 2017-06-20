@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -29,6 +31,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "T_STATE")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "StateEntity.findAll", query = "SELECT t FROM StateEntity t"),
+    @NamedQuery(name = "StateEntity.findById", query = "SELECT t FROM StateEntity t WHERE t.id = :id"),
+    @NamedQuery(name = "StateEntity.findByState", query = "SELECT t FROM StateEntity t WHERE t.state = :state")})
+
 public class StateEntity implements Serializable, GenericEntity {
 
     private static final long serialVersionUID = 1L;
