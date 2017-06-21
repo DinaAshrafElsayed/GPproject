@@ -13,17 +13,20 @@ import eg.iti.shareit.model.util.ImageUtil;
 import eg.iti.shareit.model.util.MappingUtil;
 import eg.iti.shareit.service.CategoryService;
 import eg.iti.shareit.service.ItemService;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.Part;
@@ -42,7 +45,7 @@ public class ItemManagedBean implements java.io.Serializable {
     ItemService itemService;
     @EJB(beanName = "MappingUtil")
     private MappingUtil mappingUtil;
-    
+
     @Inject
     private ListItemsBean itemsList;
     private String name;
@@ -179,43 +182,55 @@ public class ItemManagedBean implements java.io.Serializable {
 
         System.out.println("-------------- in add item");
         int pts = category.getMaxPoints();
-        if (points <= pts && points>0) {
-            System.out.println("name is  "+name+" description is "+description);
-            System.out.println("points is "+points);
-            System.out.println("image url is "+image_url );
-            System.out.println("tags are "+tags);
-            System.out.println("user is" +SessionUtil.getUser());
-            ItemDto item = new ItemDto(name, description, 1, new Date(), points, image_url, tags, SessionUtil.getUser());
+        if (points <= pts) {
+            if (points > 0) {
+                System.out.println("name is  " + name + " description is " + description);
+                System.out.println("points is " + points);
+                System.out.println("image url is " + image_url);
+                System.out.println("tags are " + tags);
+                System.out.println("user is" + SessionUtil.getUser());
+                ItemDto item = new ItemDto(name, description, 1, new Date(), points, image_url, tags, SessionUtil.getUser());
 
-            //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
-            //System.out.println("----------------"+catEntity.getName());
-            item.setImageUrl(image_url);
-            item.setCategory(category);
+                //  CategoryEntity catEntity = categoryService.getCategoryEntityFromCategoryDto(category);
+                //System.out.println("----------------"+catEntity.getName());
+                item.setImageUrl(image_url);
+                item.setCategory(category);
 
-            itemService.addItemForShare(item);
-            System.out.println("added !");
-            itemsList.setItems(itemService.getAllItems());
-            System.out.println("after setting all items");
-            UserDto user = (UserDto)SessionUtil.getUser();
-            System.out.println("user list size"+user.getItems().size());
-            user.getItems().add(item);
-            System.out.println("user list size after adding"+user.getItems().size());
-            SessionUtil.getSession().setAttribute("userDto", user);
-            clear();
-            
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Successful", "Item Added Successfully"));
-            
-            //return null;
-            //return "items?faces-redirect=true";
+                itemService.addItemForShare(item);
+                System.out.println("added !");
+                itemsList.setItems(itemService.getAllItems());
+                System.out.println("after setting all items");
+                UserDto user = (UserDto) SessionUtil.getUser();
+                System.out.println("user list size" + user.getItems().size());
+                user.getItems().add(item);
+                System.out.println("user list size after adding" + user.getItems().size());
+                SessionUtil.getSession().setAttribute("userDto", user);
+                clear();
+
+//                FacesContext context = FacesContext.getCurrentInstance();
+//                context.addMessage(null, new FacesMessage("Successful", "Item Added Successfully"));
+                FacesContext ctx = FacesContext.getCurrentInstance();
+                ExternalContext extContext = ctx.getExternalContext();
+                String url1 = extContext.encodeActionURL(ctx.getApplication().getViewHandler().getActionURL(ctx, "/pages/items.xhtml"));
+                try {
+                    extContext.redirect(url1);
+                } catch (IOException ioe) {
+                    throw new FacesException(ioe);
+                }
+            } else {
+                FacesMessage facesMessage = new FacesMessage("Error", " points cannot be less than 1 point ");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("addItemForm:ptsErr", facesMessage);
+
+            }
         } else {
             System.out.println("---------------------------------- error in add item");
-              FacesMessage facesMessage = new FacesMessage("Error","this points exceeded the max no of points allowed ");
-                FacesContext facesContext = FacesContext.getCurrentInstance();
-                 facesContext.addMessage("addItemForm:points", facesMessage);
-          
-            //return null;
+            FacesMessage facesMessage = new FacesMessage("Error", "these points exceeded the max no of points allowed ");
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage("addItemForm:ptsErr", facesMessage);
+
         }
+     
 
     }
 
@@ -223,12 +238,11 @@ public class ItemManagedBean implements java.io.Serializable {
         image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\sharedItems\\");
     }
 
-    public void clear()
-    {
-        name ="";
-        description="";
-        points=0;
-        tags="";
+    public void clear() {
+        name = "";
+        description = "";
+        points = 0;
+        tags = "";
     }
- 
+
 }
