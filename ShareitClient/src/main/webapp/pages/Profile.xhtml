@@ -106,7 +106,7 @@
                                     <div class="text">
                                         <h3><h:link outcome="#{userManagedBean.goToItem(item.id)}">#{item.name}<br></br>#{item.description}</h:link></h3>
 
-                                        <p class="price">#{userManagedBean.userDto.points}</p>
+                                        <p class="price">#{item.points}</p>
                                         <p class="buttons">
                                             <h:link outcome="#{userManagedBean.goToItem(item.id)}" styleClass="btn btn-primary">View details</h:link><br/>
                                         </p>

@@ -32,9 +32,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.FacesException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -276,10 +279,12 @@ public class UserManagedBean implements Serializable {
 
         System.out.println("in save method");
         image_url = ImageUtil.SaveImage(file, System.getProperty("user.home") + "\\shareit\\images\\userProfile\\");
+        System.out.println("++++++ img in save "+image_url);
+        userDto.setImageUrl(image_url);
 
     }
 
-    public String editUser() {
+    public void editUser() {
         System.out.println("------------------------- in edit");
         if (password.equals(confirmPassword)) {
             try {
@@ -294,16 +299,32 @@ public class UserManagedBean implements Serializable {
                 addressDto.setCity(city);
                 userDto.setAddress(addressDto);
                 userDto.setPassword(hashingUtil.getHashedPassword(password));
-                userDto.setImageUrl(image_url);
+                System.out.println("++++++++ img"+image_url);
+               // userDto.setImageUrl(image_url);
                 userService.updateUser(userDto);
                 SessionUtil.getSession().setAttribute("userDto", userDto);
+                 FacesContext ctx = FacesContext.getCurrentInstance();
+                ExternalContext extContext = ctx.getExternalContext();
+                String url1 = extContext.encodeActionURL(ctx.getApplication().getViewHandler().getActionURL(ctx, "/pages/Profile.xhtml?id="+userDto.getId()));
+                try {
+                    extContext.redirect(url1);
+                } catch (IOException ioe) {
+                    throw new FacesException(ioe);
+                }
             } catch (ServiceException ex) {
                 Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
             }
 
         }
-        return "Profile?faces-redirect=true";
+        else {
+          
+            FacesMessage facesMessage = new FacesMessage("Error", "passwords doesnot match ");
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage("form:confirm_password", facesMessage);
+
+        }
+      
     }
 
     public InputStream getImage(String filename) throws FileNotFoundException {
