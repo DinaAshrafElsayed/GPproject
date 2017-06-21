@@ -37,9 +37,9 @@ and open the template in the editor.
 
                     <div class="form-group">
                         <label for="description">description</label>
-                        <h:inputText value="#{itemManagedBean.description}" id="description" required="true" class="form-control" requiredMessage="description is required">
+                        <h:inputTextarea value="#{itemManagedBean.description}" id="description" required="true" class="form-control" requiredMessage="description is required">
                              <f:ajax event="blur" execute="@this" render="descErr"></f:ajax>
-                        </h:inputText>
+                        </h:inputTextarea>
                         <h:message for="description" style="color:red" id="descErr"/> 
                     </div>
 
@@ -69,7 +69,7 @@ and open the template in the editor.
                     </div>
                     <div class="form-group">
                         <label for="image">Item Image</label>
-                        <o:inputFile id="image" value="#{itemManagedBean.file}" accept="image/*,image/PNG,image/JPG" acceptMessage="File extension is unacceptable!">
+                        <o:inputFile id="image" value="#{itemManagedBean.file}" accept="image/*,image/PNG,image/JPG" required="true" requiredMessage="Item Image are required" acceptMessage="File extension is unacceptable!">
                             <f:ajax listener="#{itemManagedBean.save()}" render="file_m"  />
                         </o:inputFile>
                         <h:message id="file_m" for="image" style="color:red"/>
