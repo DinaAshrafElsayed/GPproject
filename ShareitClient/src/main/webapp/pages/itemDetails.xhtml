@@ -40,9 +40,9 @@
                             <ul class="breadcrumb">
                                 <li><h:commandLink action="items.xhtml" immediate="true">Home</h:commandLink>
                                 </li>
-<!--                                <li>
-                                    <h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
-                                </li>-->
+                                <!--                                <li>
+                                                                    <h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
+                                                                </li>-->
                                 <li>Item : #{itemDetailBean.item.name} details</li>
                             </ul>
 
@@ -150,16 +150,34 @@
                                     </p>
                                 </blockquote>
                                 <h:link outcome="#{itemDetailBean.goToPublisher(itemDetailBean.item.userFrom.id)}" styleClass="btn btn-default btn btn-primary">View Publisher</h:link><br/><br/>       
-                             
-                           
-                                <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
-                                    <h:link outcome="#{itemDetailBean.goToEditItem(itemDetailBean.item.id)}" value="Edit Item" styleClass="btn btn-default" class="btn btn-primary">
-                                        <span class="fa fa-plus-circle"></span>
-                                    </h:link>
-                                </c:if>
-                              
-                                 
-                                
+                                <div class="input-group-btn btn-group">
+
+                                    <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
+                                        <h:link outcome="#{itemDetailBean.goToEditItem(itemDetailBean.item.id)}" value="Edit Item" styleClass="btn btn-default" class="btn btn-primary">
+                                            <span class="fa fa-plus-circle"></span>
+                                        </h:link>
+                                    </c:if>
+
+                                    <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
+                                        <div class="social col-lg-3">
+                                            <p:commandLink   class="btn  btn-danger" value="Delete Item" style="width: fit-content; border-radius: 0px;"
+                                                             actionListener="#{itemDetailBean.deleteItem()}" update="message">
+
+                                                <p:confirm header="Confirmation" message="Are you sure you want to delete item?" icon="ui-icon-alert" />
+
+                                            </p:commandLink>
+
+                                           
+                                                <p:confirmDialog global="true" closeOnEscape="true" >
+                                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+                                                </p:confirmDialog>
+                                       
+
+                                        </div>
+                                    </c:if>
+                                </div>
+
                                 <hr></hr>
                                 <div class="social">
                                     <h4>Show it to your friends</h4>
@@ -172,23 +190,7 @@
 
                                     </p>
                                 </div>
-                                <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
-                                    <div class="social">
-                                        <h4>Delete Item</h4>
-                                        <p:commandLink   class="btn  btn-danger" value="Delete Item" style="width: fit-content; border-radius: 0px;"
-                                                         actionListener="#{itemDetailBean.deleteItem()}" update="message">
-                                            <p:confirm header="Confirmation" message="Are you sure you want to delete item?" icon="ui-icon-alert" />
-                                        </p:commandLink>
 
-
-                                        <p:confirmDialog global="true" closeOnEscape="true" >
-                                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
-                                        </p:confirmDialog>
-
-
-                                    </div>
-                                </c:if>
                             </div>
 
                             <c:if test="#{itemDetailBean.relatedItems.size() gt 0 }">

@@ -14,6 +14,7 @@ import eg.iti.shareit.service.ItemService;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,9 +23,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -52,9 +55,21 @@ public class ItemEditBean implements Serializable {
 
     @Inject
     private ListItemsBean itemsList;
+    
+    private int points;
 
     public ItemEditBean() {
     }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+   
 
     public List<CategoryDto> getCategories() {
         return categories;
@@ -96,6 +111,7 @@ public class ItemEditBean implements Serializable {
             int id = Integer.parseInt(request.getParameter("id"));
 
             item = itemService.getItemById(id);
+            points = item.getPoints();
             categories = categoryService.getAllCategories();
 
         } catch (ServiceException ex) {
@@ -112,22 +128,39 @@ public class ItemEditBean implements Serializable {
     public void updateItem() {
         try {
             System.out.println("-------------- in update item method");
-
+            int pnts = item.getCategory().getMaxPoints();
+          item.setPoints(item.getPoints());
+        if (item.getPoints() <= pnts) {
+            if (points > 0) {
             itemService.updateSharedItem(item);
-//            FacesContext context = FacesContext.getCurrentInstance();
+            FacesContext context = FacesContext.getCurrentInstance();
 //            context.addMessage(null, new FacesMessage("Successful", "Item is updated Successfully"));
+       
+            ExternalContext extContext = context.getExternalContext();
+            String url1 = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context, "/pages/itemDetails.xhtml"));
+            extContext.redirect(url1);
             itemsList.setItems(itemService.getAllItems());
-        } catch (ServiceException ex) {
-            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            else
+            {
+                FacesMessage facesMessage = new FacesMessage("Error", " points cannot be less than 1 point ");
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.addMessage("addItemForm:ptsErr", facesMessage);
+            }}
+        else {
+            System.out.println("---------------------------------- error in add item");
+            FacesMessage facesMessage = new FacesMessage("Error", "these points exceeded the max no of points allowed ");
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage("addItemForm:ptsErr", facesMessage);
+
         }
+        } catch (ServiceException | IOException ex) {
+            Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
     public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
-
-    public void updateNotification() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Successful", "Item is updated Successfully"));
-    }
+    
 }
