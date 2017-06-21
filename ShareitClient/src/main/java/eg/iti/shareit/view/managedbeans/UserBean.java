@@ -223,7 +223,7 @@ public class UserBean implements Serializable {
         System.out.println("    ----------- ___ in go to profile " + id);
         if (id != null) {
 
-            return "Profile.xhtml?id=" + id;
+            return "Profile.xhtml?faces-redirect=true&id=" + id;
         } else {
             return "";
         }
