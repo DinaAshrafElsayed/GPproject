@@ -131,7 +131,7 @@ public class ItemEditBean implements Serializable {
             int pnts = item.getCategory().getMaxPoints();
           item.setPoints(item.getPoints());
         if (item.getPoints() <= pnts) {
-            if (points > 0) {
+            if (item.getPoints()  > 0) {
             itemService.updateSharedItem(item);
             FacesContext context = FacesContext.getCurrentInstance();
 //            context.addMessage(null, new FacesMessage("Successful", "Item is updated Successfully"));
@@ -146,8 +146,8 @@ public class ItemEditBean implements Serializable {
                 FacesMessage facesMessage = new FacesMessage("Error", " points cannot be less than 1 point ");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.addMessage("addItemForm:ptsErr", facesMessage);
-            }}
-        else {
+            }
+        }  else {
             System.out.println("---------------------------------- error in add item");
             FacesMessage facesMessage = new FacesMessage("Error", "these points exceeded the max no of points allowed ");
             FacesContext facesContext = FacesContext.getCurrentInstance();
