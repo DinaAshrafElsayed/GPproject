@@ -84,7 +84,7 @@ public class RegistrationBean implements Serializable {
                 System.out.println("in register and supposedly registered!");
                 clearFields();
                 FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage("Successful", "registered Successfully"));
+                context.addMessage("form:success", new FacesMessage("Successful", "registered Successfully"));
                 return "";
             } else {
                 System.out.println("in error part ");

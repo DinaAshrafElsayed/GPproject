@@ -41,21 +41,20 @@ and open the template in the editor.
                         <hr/>
 
                         <h:form enctype="multipart/form-data" id="form">
-                            <p:growl id="growl" showDetail="true" life="3000" />
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true" requiredMessage="this field is required"/>
+                                <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true" requiredMessage="name field is required"/>
                                 <h:message for="form:name" style="color:red"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <h:inputText pt:type="email" class="form-control" id="email" value="#{registerBean.email}" required="true" requiredMessage="this field is required"/>
+                                <h:inputText pt:type="email" class="form-control" id="email" value="#{registerBean.email}" required="true" requiredMessage="email field is required"/>
                                 <h:message for="email" style="color:red"/>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <h:inputSecret class="form-control" id="password" value="#{registerBean.password}" required="true" requiredMessage="this field is required"/>
+                                <h:inputSecret class="form-control" id="password" pt:minlength="6" value="#{registerBean.password}" required="true" requiredMessage="password field is required"/>
                                 <h:message for="password" style="color:red"/>
                             </div>
 
@@ -68,7 +67,7 @@ and open the template in the editor.
                             </div>
                             <div class="form-group">
                                 <label for="Countries" >Country</label>
-                                <h:selectOneMenu id="Countries" value="#{registerBean.country}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
+                                <h:selectOneMenu id="Countries" value="#{registerBean.country}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="country field is required">
                                     <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{registerBean.countries}" var="country" itemValue="#{country}" itemLabel="#{country.country}"  /> 
                                     <f:ajax listener="#{registerBean.onCountryChange(registerBean.country.id)}" render="States Cities"/>
@@ -77,7 +76,7 @@ and open the template in the editor.
                             </div>
                             <div class="form-group">
                                 <label for="States">State</label>
-                                <h:selectOneMenu id="States" value="#{registerBean.state}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
+                                <h:selectOneMenu id="States" value="#{registerBean.state}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="state field is required">
                                     <f:selectItem itemLabel="Select-State" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{registerBean.states}" var="state" itemValue="#{state}" itemLabel="#{state.state}"  />
                                     <f:ajax listener="#{registerBean.onStateChange(registerBean.state.id)}" render="Cities"/>
@@ -86,7 +85,7 @@ and open the template in the editor.
                             </div>
                             <div class="form-group">
                                 <label for="Cities">City</label>
-                                <h:selectOneMenu id="Cities" value="#{registerBean.city}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
+                                <h:selectOneMenu id="Cities" value="#{registerBean.city}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="city field is required">
                                     <f:selectItem itemLabel="Select-City" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{registerBean.cities}" var="city" itemValue="#{city}" itemLabel="#{city.city}"  />
                                 </h:selectOneMenu>
@@ -101,8 +100,12 @@ and open the template in the editor.
                             </div>
                             <div class="text-center">
                                 <h:commandLink class="btn btn-primary" actionListener="#{registerBean.register}"><i class="fa fa-user-md"></i> Register
-                                    <f:ajax execute="@all" render="growl"/>
+                                    <f:ajax execute="@all" render="@all"/>
                                 </h:commandLink>
+                                <br/>
+                                <h:outputText id="success"/>
+                                <br/>
+                                <h:message for="success" style="color:green"/>
                             </div>
                         </h:form>
                     </div>
@@ -114,18 +117,19 @@ and open the template in the editor.
                         <p class="lead">Already our customer?</p>
                         <hr/>
                         <h:form id="loginForm">
-                            <div class="form-group">
+                             <div class="form-group">
                                 <label for="loginEmail">Email</label>
-                                <h:inputText pt:type="email" class="form-control" value="#{user.email}" id="loginEmail" required="true" requiredMessage="this field is required"/>
+                                <h:inputText pt:type="email" class="form-control" value="#{user.email}" id="loginEmail" required="true" requiredMessage="this email is required"/>
                                 <h:message for="loginEmail" style="color:red"/>
                             </div>
                             <div class="form-group">
                                 <label for="loginPassword">Password</label>
-                                <h:inputSecret class="form-control" value="#{user.password}" id="loginPassword" required="true" requiredMessage="this field is required"/>
+                                <h:inputSecret class="form-control" value="#{user.password}" id="loginPassword" required="true" requiredMessage="this password is required"/>
                                 <h:message for="loginPassword" style="color:red"/>
                             </div>
                             <div class="text-center">
-                                <h:commandLink action="#{user.login()}"  class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</h:commandLink>
+                                <h:commandLink action="#{user.login()}"  class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in                                   
+                                </h:commandLink>
                             </div>
                         </h:form>
                     </div>
