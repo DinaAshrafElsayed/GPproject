@@ -40,7 +40,7 @@ import org.primefaces.context.RequestContext;
 public class ItemEditBean implements Serializable {
 
     private ItemDto item;
-    
+
     private Part file;
     private List<CategoryDto> categories = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class ItemEditBean implements Serializable {
 
     @EJB
     private CategoryService categoryService;
-    
+
     @Inject
     private ListItemsBean itemsList;
 
@@ -63,6 +63,7 @@ public class ItemEditBean implements Serializable {
     public void setCategories(List<CategoryDto> categories) {
         this.categories = categories;
     }
+
     public CategoryService getCategoryService() {
         return categoryService;
     }
@@ -96,7 +97,7 @@ public class ItemEditBean implements Serializable {
 
             item = itemService.getItemById(id);
             categories = categoryService.getAllCategories();
-            
+
         } catch (ServiceException ex) {
             Logger.getLogger(ItemEditBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -111,10 +112,10 @@ public class ItemEditBean implements Serializable {
     public void updateItem() {
         try {
             System.out.println("-------------- in update item method");
-            
+
             itemService.updateSharedItem(item);
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Successful", "Item is updated Successfully"));
+//            FacesContext context = FacesContext.getCurrentInstance();
+//            context.addMessage(null, new FacesMessage("Successful", "Item is updated Successfully"));
             itemsList.setItems(itemService.getAllItems());
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,5 +125,9 @@ public class ItemEditBean implements Serializable {
     public InputStream getImage(String filename) throws FileNotFoundException {
         return new FileInputStream(new File(filename));
     }
-   
+
+    public void updateNotification() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Successful", "Item is updated Successfully"));
+    }
 }
