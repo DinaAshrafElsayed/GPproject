@@ -58,8 +58,8 @@ public class UserBean implements Serializable {
     public String login() {
         try {
             UserDto userDto = userService.findUser(email, password);
-            System.out.println("user items in login : "+userDto.getItems().size());
-            System.out.println("user dto " + userDto);
+            //System.out.println("user items in login : "+userDto.getItems().size());
+            //System.out.println("user dto " + userDto);
             //userDto = userService.findUser(email, password);
             System.out.println("user dto ---------------------- " + getUserDto());
             if (userDto != null) {
