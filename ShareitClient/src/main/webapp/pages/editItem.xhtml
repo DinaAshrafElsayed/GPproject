@@ -55,14 +55,14 @@
                                     <h4>Item Details:</h4>
 
                                     <p><label>Name:</label>
-                                        <h:inputText class="form-control" value="#{itemEditBean.item.name}" immediate="true">
+                                        <h:inputText class="form-control" value="#{itemEditBean.item.name}" immediate="true"  required="true" requiredMessage="name is required">
                                                <f:ajax event="blur" execute="@this" render="nameErr"></f:ajax>
                                         </h:inputText>
                                          <h:message for="name" style="color:red" id="nameErr"/> 
                                     </p>
 
                                     <p><label>Description:</label>
-                                        <h:inputTextarea class="form-control" value="#{itemEditBean.item.description}" immediate="true">
+                                        <h:inputTextarea class="form-control" value="#{itemEditBean.item.description}" immediate="true" required="true" requiredMessage="description is required">
                                              <f:ajax event="blur" execute="@this" render="descErr"></f:ajax>
                                         </h:inputTextarea>
                                          <h:message for="name" style="color:red" id="descErr"/> 
@@ -78,7 +78,7 @@
 
                                     <p>
                                         <label>Tags:</label>
-                                        <h:inputText class="form-control" value="#{itemEditBean.item.tags}">
+                                        <h:inputText class="form-control" value="#{itemEditBean.item.tags}" required="true" requiredMessage="tags is required">
                                               <f:ajax event="blur" execute="@this" render="tagsErr"></f:ajax>
                                         </h:inputText>
                                          <h:message for="name" style="color:red" id="tagsErr"/> 
@@ -86,7 +86,7 @@
 
                                     <p>
                                         <label>Number Of Points:</label>
-                                        <h:inputText class="form-control" value="#{itemEditBean.item.points}" pt:type="number" pt:min="0">
+                                        <h:inputText class="form-control" value="#{itemEditBean.item.points}" pt:type="number" pt:min="0" required="true" requiredMessage="points is required">
                                             <f:ajax event="blur" execute="@this" render="ptsErr"></f:ajax>
                                         </h:inputText>
                                         <h:message id="ptsErr" for="points" style="color:red"/>
