@@ -154,7 +154,7 @@ public class ActivityService {
                 activityDto.setStatus(statusDto);
                 activityDto.setTimeTo(timeTo);
                 activityDto.setMeetingPoint(meetingPoint);
-                activityDto.setTimeFrom(new Date());
+                activityDto.setTimeFrom(timeFrom);
 
                 insertActivity(activityDto);
                 return true;

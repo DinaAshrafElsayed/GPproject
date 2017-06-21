@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -126,14 +127,10 @@ public class ItemDetailBean implements Serializable {
             }
             if (activity != null) {
                 isRequested = true;
-                if (activity.getStatus().getId().intValue() == 2) {
-                    message = "Your Request to the item has been accepted";
-                    noRequest = true;
-                }
-                if (activity.getStatus().getId().intValue() == 3) {
-                    message = "Your Request to the item has been declined";
-                    noRequest = true;
-                }
+            }
+            if (item.getIsAvailable() == 0) {
+                message = "Item is not available";
+                noRequest = true;
             }
 
             if (user.getUserDto() != null && user.getUserDto().getPoints() < item.getPoints()) {
@@ -376,13 +373,13 @@ public class ItemDetailBean implements Serializable {
         this.isRequested = isRequested;
     }
 
-    public String requestItem(String timeFrom, String timeTo, String meetingPoint) {
+    public String requestItem() {
         Date timeFromDate, timeToDate, todayDate;
         try {
 
-            timeFromDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeFrom);
-            timeToDate = new SimpleDateFormat("dd-MM-yyyy").parse(timeTo);
-            todayDate = new SimpleDateFormat("dd-MM-yyyy").parse(todayString);
+            timeFromDate = new SimpleDateFormat("yyyy-MM-dd").parse(timeFrom);
+            timeToDate = new SimpleDateFormat("yyyy-MM-dd").parse(timeTo);
+            todayDate = new SimpleDateFormat("yyyy-MM-dd").parse(todayString);
 //
             Calendar calendarFrom = Calendar.getInstance();
             calendarFrom.setTime(timeFromDate);
@@ -461,17 +458,17 @@ public class ItemDetailBean implements Serializable {
                 } catch (IOException ioe) {
                     throw new FacesException(ioe);
                 }
-                  
+
             } else {
 //                FacesContext context = FacesContext.getCurrentInstance();
 //                context.addMessage(null, new FacesMessage("Error", "you cannot delete the item"));
 //                return "";
                 addMessage("System Error", "Sorry item cannot be deleted");
-                
+
             }
         } catch (ServiceException ex) {
             Logger.getLogger(ItemDetailBean.class.getName()).log(Level.SEVERE, null, ex);
-           
+
         }
 
     }
