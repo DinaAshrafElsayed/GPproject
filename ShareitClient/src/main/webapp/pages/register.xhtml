@@ -41,7 +41,6 @@ and open the template in the editor.
                         <hr/>
 
                         <h:form enctype="multipart/form-data" id="form">
-                            <p:growl id="growl" showDetail="true" life="3000" />
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true" requiredMessage="name field is required"/>
@@ -55,7 +54,7 @@ and open the template in the editor.
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <h:inputSecret class="form-control" id="password" value="#{registerBean.password}" required="true" requiredMessage="password field is required"/>
+                                <h:inputSecret class="form-control" id="password" pt:minlength="6" value="#{registerBean.password}" required="true" requiredMessage="password field is required"/>
                                 <h:message for="password" style="color:red"/>
                             </div>
 
@@ -101,8 +100,12 @@ and open the template in the editor.
                             </div>
                             <div class="text-center">
                                 <h:commandLink class="btn btn-primary" actionListener="#{registerBean.register}"><i class="fa fa-user-md"></i> Register
-                                    <f:ajax execute="@all" render="growl"/>
+                                    <f:ajax execute="@all" render="@all"/>
                                 </h:commandLink>
+                                <br/>
+                                <h:outputText id="success"/>
+                                <br/>
+                                <h:message for="success" style="color:green"/>
                             </div>
                         </h:form>
                     </div>
@@ -114,18 +117,19 @@ and open the template in the editor.
                         <p class="lead">Already our customer?</p>
                         <hr/>
                         <h:form id="loginForm">
-                            <div class="form-group">
+                             <div class="form-group">
                                 <label for="loginEmail">Email</label>
-                                <h:inputText pt:type="email" class="form-control" value="#{user.email}" id="loginEmail" required="true" requiredMessage="this field is required"/>
+                                <h:inputText pt:type="email" class="form-control" value="#{user.email}" id="loginEmail" required="true" requiredMessage="this email is required"/>
                                 <h:message for="loginEmail" style="color:red"/>
                             </div>
                             <div class="form-group">
                                 <label for="loginPassword">Password</label>
-                                <h:inputSecret class="form-control" value="#{user.password}" id="loginPassword" required="true" requiredMessage="this field is required"/>
+                                <h:inputSecret class="form-control" value="#{user.password}" id="loginPassword" required="true" requiredMessage="this password is required"/>
                                 <h:message for="loginPassword" style="color:red"/>
                             </div>
                             <div class="text-center">
-                                <h:commandLink action="#{user.login()}"  class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</h:commandLink>
+                                <h:commandLink action="#{user.login()}"  class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in                                   
+                                </h:commandLink>
                             </div>
                         </h:form>
                     </div>
